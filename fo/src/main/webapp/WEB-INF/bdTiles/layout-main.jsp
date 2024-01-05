@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="/guide/css/sorin.css">
     <link rel="stylesheet" href="/guide/css/select2/select2.min.css">
 </head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
             //익스플로러로 접속 시 alert 메시지 노출 후 Edge 브라우저로 전환
             if(/MSIE\d|Trident.*rv:/.test(navigator.userAgent)) {

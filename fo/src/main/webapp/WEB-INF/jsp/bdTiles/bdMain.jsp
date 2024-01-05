@@ -199,78 +199,7 @@
 <script>
 //------------------------------------- 공지사항 최근 게시글 제목 4개 조회-------------------------------------//
 
-    $(function() {
 
-        var showNotice = "${showNotice}"
-        var html = "";
-
-        if (!showNotice == '') {
-
-            <c:forEach var="data" items="${showNotice}">
-
-            html += '<li><a href="javascript:noticeDtls(${data.noticeNo})">${data.noticeSj}</a></li>';
-
-            </c:forEach>
-
-            $(".notice-area ul").empty();
-            $(".notice-area ul").append(html);
-        }
-
-    });
-    
-//------------------------------------- 공지사항 제목 클릭 시 해당 상세페이지로 이동---------------------------------//
-
-    function noticeDtls(noticeNo) {
-
-        var params = {
-            "noticeNo" : noticeNo
-        };
-
-        pageMove('/bid/notice/noticeDtls', JSON.stringify(params),
-                'application/json');
-    }
-
-//------------------------------------- FAQ 최근 질문 4개 조회-------------------------------------------------//
-
-    $(function() {
-
-        var showFaq = "${showFaq}"
-        var html = "";
-
-        if (!showFaq == '') {
-            let i = 0;
-            <c:forEach var="data" items="${showFaq}">
-
-            var pMove = "pageMove('/bid/faq/csfFaqViews?reqNo=" + i
-                    + "', '','')";
-
-            html += '<li><a href="javascript:;" onclick="javascript:'+pMove+'">${data.faqQestn}</a></li>';
-            i++;
-            </c:forEach>
-
-            $(".faq ul").empty();
-            $(".faq ul").append(html);
-        }
-
-    });
-//------------------------------------- 더보기란 클릭 시 공지사항 , FAQ 페이지 이동---------------------------------------//
-    
-    $(function() {
-        $('a[name^="scftab"]').click(function() {
-            let tbb_nm = $(this).attr('name');
-            let url = "";
-
-            if (tbb_nm == 'scftab01') {
-                url = "/bid/faq/csfFaqViews";
-            } else if (tbb_nm == 'scftab02') {
-                url = "/bid/notice/showNoticeList";
-            } else {
-                return;
-            }
-            //tiles body chage method 이용
-            pageMove(url, "", "");
-        });
-    });
 </script>
 
 <!-- 공지사항 & FAQ :: START -->
