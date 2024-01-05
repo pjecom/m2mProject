@@ -3,7 +3,7 @@
 <header id="header" class="inwrap">
 	<!-- logo :: START -->
 	<h1 class="logo">
-		<a href="/bid"> <span class="hidden">SORIN CORPORATION</span> <span
+		<a href="/"> <span class="hidden">SORIN CORPORATION</span> <span
 			class="mark">Online Tender System</span>
 		</a>
 	</h1>

@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class BdMainController {
-	@RequestMapping("/bid")
+	@RequestMapping("/")
     public String bidMain() throws Exception {
         return "bdTiles/bdMain";
 
