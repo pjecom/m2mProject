@@ -6,6 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class BdMainServiceImpl implements BdMainService {
+public class BdMainServiceImpl implements BdMainService {@Override
+	public String getString() {
+		return "abc";
+	}
 
 }
