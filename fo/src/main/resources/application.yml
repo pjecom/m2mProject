@@ -1,3 +1,4 @@
+
 server:
   port: 28085
   servlet:
@@ -15,17 +16,91 @@ server:
 
 logging:
   config: classpath:config/logback/logback.xml
+  level:
+    root: debug
 
 spring:
+  profiles:
+    active: local
+  mvc: 
+    view: 
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+
+  messages:
+    basename: message/message-comm_ko
+    encoding: UTF-8
+
+  datasource:
+    maximum-pool-size: 80
+    max-lifetime: 500000
+    
+# 정적리소스 버저닝/ 캐싱 처리
+  web:
+    resources:
+      chain:
+        strategy:
+          content:
+            enabled: true
+            paths: "/**"
+      cache:
+        cachecontrol:
+          cache-private: true
+          max-age: 100000
+
+---
+# 서버
+server:
+  servlet:
+    jsp:
+      init-parameters:
+        development: true
+spring:
+  profiles: local
+  
+  fo:
+    domain: 127.0.0.1
+    
   datasource:
     jdbc-url: jdbc:sqlserver://192.168.1.18:1433;databaseName=SEC_DEV;encrypt=true;trustServerCertificate=true
     username: m2m
     password: qlqjs123
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-  mvc:
-    view:
-      prefix: /WEB-INF/jsp/
-      suffix: .jsp
-  messages:
-    basename: message/message-comm_ko
-    encoding: UTF-8
+    
+  servlet:
+    multipart:
+      maxFileSize: 5MB
+      maxRequestSize: 5MB
+      fileSizeThreshold: 5MB
+      location: C:\fileUpload\
+      
+
+  nice:
+    domain: http://127.0.0.1:28085
+  
+  sts:
+    api:
+      chkBsnmRegistNo: http://127.0.0.1:28081/api/sts/trd_entrps_mber_info
+
+thread:
+  order:
+    keepAliveSeconds: 30
+    terminationSeconds: 60
+    corePoolSize: 1000
+    maxPoolSize: 1500
+    queueCapacity: 1000
+    threadPrefix: order_
+  limitOrder:
+    keepAliveSeconds: 30
+    terminationSeconds: 60
+    corePoolSize: 1000
+    maxPoolSize: 1500
+    queueCapacity: 1000
+    threadPrefix: limitOrder_
+  limitGroup:
+    keepAliveSeconds: 30
+    terminationSeconds: 60
+    corePoolSize: 100
+    maxPoolSize: 300
+    queueCapacity: 100
+    threadPrefix: limitGroup_

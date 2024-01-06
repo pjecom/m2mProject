@@ -21,7 +21,7 @@
 	<div class="inwrap">
 		<!-- main visual > left :: START -->
 		<div>
-			<p class="banner_st">Sorin.com's Member Exclusive</p>
+			<p class="banner_st">M2M Global's Member Exclusive</p>
 			<h2 class="banner_tt">Online Tender System</h2>
 			<p class="banner_ft">Explore the Wholesome Process from Bidding to Contracting at our Smart Platform.</p>
 			<div class="btn_cont left">

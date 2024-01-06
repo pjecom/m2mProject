@@ -23,6 +23,10 @@
    <definition name="*/*.bdtiles" extends="layoutBd">
        <put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}.jsp" />
    </definition>
+   
+   <definition name="*/*.sample" extends="layoutBd">
+       <put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}.jsp" />
+   </definition>
 
     <definition name="layoutNo" template="/WEB-INF/noTiles/layout-main.jsp">
         <put-attribute name="body" value="" />

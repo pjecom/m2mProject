@@ -18,7 +18,7 @@ import com.m2m.fo.comm.annotation.MaskingInterceptor;
 
 
 @Configuration
-@MapperScan(basePackages = {"com.m2m.fo.*.mapper", "com.m2m.comm.*.mapper"})
+@MapperScan(basePackages = {"com.m2m.fo.*.mapper", "com.m2m.bo.*.mapper", "com.m2m.co.*.mapper", "com.m2m.sample.mapper"})
 public class DatabaseConfig {
 
 	@Bean

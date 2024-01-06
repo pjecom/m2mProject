@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.m2m.sample.mapper.SampleMapper">
+	<select id="getNoticeSj" parameterType="com.m2m.sample.model.SampleVO" resultType="com.m2m.sample.model.SampleVO">
+		 SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+        /* com.m2m.sample.mapper.SampleMapper.getNoticeSj */
+        SELECT 
+		 		NOTICE_SJ
+		FROM dbo.BD_NOTICE_BAS
+		WHERE NOTICE_NO = #{noticeNo}
+	</select>
+</mapper>
