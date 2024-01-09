@@ -17,7 +17,7 @@ public class BdMainController {
 	
 	@RequestMapping("/")
     public String bidMain(ModelMap model) throws Exception {
-        return "boTiles/boMain";
+        return "bdTiles/bdMain";
 
     }
 }
