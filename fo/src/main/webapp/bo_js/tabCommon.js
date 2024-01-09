@@ -7,7 +7,7 @@ sorin.ajax.getSetAllType("/bo/Menu/getSideBarMenu/",'','','',true, function(data
 		var arr2 = new Array();
 		var arr3 = new Array();
 
-		for(var i=0; i<data.menuList.length; i++){
+		for(var i=0; i<data.menuList.length; i++){ 
 
 			if(data.menuList[i].menuLevel == "1"){ //menuLevel1
 				arr1.push(data.menuList[i]);
