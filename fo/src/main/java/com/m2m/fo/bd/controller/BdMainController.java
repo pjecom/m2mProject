@@ -20,23 +20,12 @@ public class BdMainController {
 	@Autowired
 	private BdMainService bdMainService;
 	
-	@Autowired
-	private SampleService sampleService;
 	
 	@RequestMapping("/")
     public String bidMain(ModelMap model) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
+	
 		
-		SampleVO sampleVo = new SampleVO();
-		sampleVo.setNoticeNo(1);
-		SampleVO noticeSj = sampleService.getNoticeSj(sampleVo);
-		
-		log.debug("parkjeongeun");
-		
-		log.info(noticeSj.getNoticeSj());
-		
-		
-        return "boTiles/boMain";
+        return "bdTiles/bdMain";
 
     }
 }
