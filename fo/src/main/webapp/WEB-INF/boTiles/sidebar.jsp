@@ -16,6 +16,18 @@
     <!-- 메뉴 -->
     <ul class="sidebar-menu">
         <!-- [D] 서브메뉴가 있을 때 .has-submenu 추가 -->
+        <li class="has-submenu" id="sidebar_414">
+        	<a class="sidebar-1depth" aria-label="">구매입찰관리</a>
+        	<div class="sidebar-2depth has-submenu" id="sidebar_415">
+        	<a class="has-submenu">입찰 공고 관리</a>
+        	<ul class="sidebar-3depth">
+        	<li id="sidebar_422" value="/bo/bd/selectBidList">입찰 공고 관리</li>
+        	</ul>
+        </div>
+        <div class="sidebar-2depth has-submenu" id="sidebar_418">
+        <a class="has-submenu">입찰 회원 관리</a><ul class="sidebar-3depth">
+        <li id="sidebar_426" value="/bo/bd/selectBidMberList">입찰 회원 관리</li></ul>
+        </div>
     </ul>
 </div>
 </aside>
