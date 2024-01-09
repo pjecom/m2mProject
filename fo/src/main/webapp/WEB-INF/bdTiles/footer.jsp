@@ -1,6 +1,5 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<script type="text/javascript" async src="<c:url value='/js/channelTalkService.js'/>"></script>
 <footer id="footer" class="inwrap">
 	<div class="footer-logos">
 		<span class="footer-logo"><span class="hidden">SORIN CORPORATION</span></span>
