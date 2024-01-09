@@ -4,6 +4,13 @@
        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
 
+	<!-- bomain -->
+   <definition name="layoutBo" template="/WEB-INF/boTiles/layout-main.jsp">
+        <put-attribute name="sidebar" value="/WEB-INF/boTiles/sidebar.jsp" />
+        <put-attribute name="header" value="/WEB-INF/boTiles/header.jsp" />
+		<put-attribute name="body" value="" />
+   </definition>
+   
    <!-- main -->
    <definition name="layout" template="/WEB-INF/bdTiles/layout-main.jsp">
        <put-attribute name="header" value="/WEB-INF/bdTiles/header.jsp" />
@@ -21,23 +28,16 @@
        <put-attribute name="footer" value="/WEB-INF/bdTiles/footer.jsp" />
    </definition>
    
-   <!-- bomain -->
-   <definition name="layoutBo" template="/WEB-INF/boTiles/layout-main.jsp">
-        <put-attribute name="sidebar" value="/WEB-INF/boTiles/sidebar.jsp" />
-        <put-attribute name="header" value="/WEB-INF/boTiles/header.jsp" />
-		<put-attribute name="body" value="" />
-   </definition>
-   
    <definition name="*/*.modal" template="/WEB-INF/boTiles/modal-main.jsp">
 		<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}.jsp" />
 	</definition>
    
    <definition name="*/*.bdtiles" extends="layoutBd">
-       <put-attribute name="body" value="/WEB-INF/jsp/boTiles/{2}.jsp" />
+       <put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}.jsp" />
    </definition>
    
-   <definition name="*/*.boTiles" extends="layoutBo">
-		<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}.jsp" />
+   <definition name="*/*.botiles" extends="layoutBo">
+		<put-attribute name="body" value="/WEB-INF/jsp/boTiles/{2}.jsp" />
 	</definition>
 
     <definition name="layoutNo" template="/WEB-INF/noTiles/layout-main.jsp">

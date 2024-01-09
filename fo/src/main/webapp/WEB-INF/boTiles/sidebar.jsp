@@ -4,7 +4,7 @@
 <div class="sidebar-head">
     <header>
         <a href="/" class="logo">
-            <img src="/images/logo.png" alt="logo" class="logo"/>
+            <img src="/bo_images/logo.png" alt="logo" class="logo"/>
         </a>
         <button type="button" class="hamburger" data-class="closed-sidebar">
             <i class="icon icon-hamburger"></i>
@@ -29,7 +29,7 @@
     }
 </style>
 
-<script src="/js/tabCommon.js"></script>
+<script src="/bo_js/tabCommon.js"></script>
 <script>
 
 </script>
