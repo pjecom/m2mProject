@@ -1000,7 +1000,7 @@
         win.focus();
     }
 
-    function chkLoginStatus(url) {
+    /*function chkLoginStatus(url) {
         var sorinAccount = sorin.account.getUserInfo();
 
         if (sorinAccount != '') {
@@ -1020,9 +1020,9 @@
             });
         }
 
-    }
+    }*/
 
-    function isBuyPossible(btnGbn) {
+    /*function isBuyPossible(btnGbn) {
         var sorinAccount = sorin.account.getUserInfo();
 
         if (sorinAccount != '') {
@@ -1128,7 +1128,7 @@
                 return true;
             });
         }
-    }
+    }*/
 
 
     function isJsonString(str) {
