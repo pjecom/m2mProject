@@ -62,7 +62,7 @@ spring:
     domain: 127.0.0.1
     
   datasource:
-    jdbc-url: jdbc:sqlserver://192.168.1.18:1433;databaseName=SEC_DEV;encrypt=true;trustServerCertificate=true
+db    jdbc-url: jdbc:sqlserver://192.168.1.3:1433;databaseName=SEC_DEV;encrypt=true;trustServerCertificate=true
     username: m2m
     password: qlqjs123
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver

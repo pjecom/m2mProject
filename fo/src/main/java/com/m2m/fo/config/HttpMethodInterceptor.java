@@ -23,6 +23,10 @@ public class HttpMethodInterceptor implements HandlerInterceptor {
 					modelAndView.setViewName(viewName);
 				} else if (viewName.indexOf(".tiles") == -1) {
 					modelAndView.setViewName(viewName + ".tiles");
+				} else if (viewName.indexOf("boTiles") > -1) {
+					modelAndView.setViewName(viewName + ".bdtiles");
+				} else if (viewName.indexOf("/bo") > -1) {
+					modelAndView.setViewName(viewName);
 				} else {
 					modelAndView.setViewName(viewName + ".tiles");
 				}
@@ -31,6 +35,8 @@ public class HttpMethodInterceptor implements HandlerInterceptor {
 					modelAndView.setViewName(viewName + ".tiles");
 				} else if (viewName.indexOf("bdTiles") > -1) {
 					modelAndView.setViewName(viewName + ".bdtiles");
+				} else if (viewName.indexOf("boTiles") > -1) {
+					modelAndView.setViewName(viewName + ".botiles");
 				} else {
 					modelAndView.setViewName(viewName + ".tiles");
 				}
