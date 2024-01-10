@@ -37,7 +37,7 @@
    </definition>
    
    <definition name="*/*.botiles" extends="layoutBo">
-		<put-attribute name="body" value="/WEB-INF/jsp/boTiles/{2}.jsp" />
+		<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}.jsp" />
 	</definition>
 
     <definition name="layoutNo" template="/WEB-INF/noTiles/layout-main.jsp">

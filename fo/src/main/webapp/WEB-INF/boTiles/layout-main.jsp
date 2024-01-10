@@ -32,6 +32,7 @@
 	        <section class="web-container">
 	            <tiles:insertAttribute name="header"/>
 	                <div class="web-tabs">
+	                	<tiles:insertAttribute name="body"/>
 	                </div>
 	        </section>
 	        
