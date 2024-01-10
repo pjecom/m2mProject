@@ -58,6 +58,148 @@
 //          let currentPage = "";       // 현재 페이지 url
 //          let operateFlag = true;     //운영여부
 
+function validationIsEmpty(obj) {
+        return isUndefined(obj) || validtaionIsNull(obj) || obj === '' || obj === 'null'
+                || obj.length === 0;
+}
+
+function isUndefined(obj) {
+        return obj === undefined;
+}
+
+function validtaionIsNull(obj) {
+        return obj === null;
+}
+    
+function postSetAllTypeForPageMove(url, data, dataType, contentType, isAsync, callback) { // contentType을 사용하지 않고 싶을경우 "" 공백으로
+		return comAjaxForPageMove("POST", url, data, dataType, contentType, true, isAsync, callback);
+	}
+	
+function comAjaxForPageMove(_type, _url, _data, _dataType, _contentType, _processData, _isAsync, callback) {
+	if(!validationIsEmpty(_type) && !validationIsEmpty(_url)) {
+		$.ajax({
+				type : _type,
+				url : _url,
+				data : _data,
+				dataType : _dataType,
+				contentType : _contentType,
+				processData : _processData,
+				async: _isAsync,
+				beforeSend: function (xhr) {
+					if (null != _data){
+		            	xhr.setRequestHeader("data",_data);
+					}
+		        },
+				success : function(data) {
+					callback(data);
+					
+				},
+				error : function(request, status, error) {
+					errorException(request);
+				}
+		});
+	}
+}
+
+function pageMove(url, data, contentType, menuActiveIdenty) {
+		if(!validationIsEmpty(menuActiveIdenty)) {
+			$("#header").find('a').removeClass("active");
+			$("#headerMenuOrder" + menuActiveIdenty).addClass("active");
+		}
+
+		currentPage = url; // 현재 페이지 url
+
+		if(pageMoveParams.url != url || pageMoveParams.data != data){
+			if(url == '/main/') {
+				moveToMain();
+			} else {
+				referer.push(JSON.parse(JSON.stringify(pageMoveParams)));
+			}
+
+			pageMoveParams.url = url;
+			pageMoveParams.data = data;
+			pageMoveParams.contentType = contentType;
+			pageMoveParams.menuActiveIdenty = menuActiveIdenty;
+		} else {
+			if(url == '/main/') {
+				moveToMain();
+			}
+		}
+
+		pageMoveAjaxProcess(url, data, contentType);
+}
+
+    //메인으로 갈 때 사용
+function moveToMain() {
+        referer = [];
+
+		trackSorin("/main/", "0902");
+        location.href = "/main/";
+}
+
+function pageMoveAjaxProcess(url, data, contentType) {
+    	postSetAllTypeForPageMove(url, data, 'html', contentType, true, function (returnData) {
+
+    		// 페이지 이동시 원래 페이지에 removeStompSubscriber 메소드가 있으면 웹소켓 구독을 삭제한다.
+    		if (typeof removeStompSubscriber != "undefined") {
+    			removeStompSubscriber();
+    		}
+
+    		$(".body-main").empty();
+    		$(".body-main").append('<div class="container">' + returnData + '</div>');
+    		$(".body-main").append(
+    				`<div class="popup modal alert" id="alertPopup" style="z-index:9999">
+    			    <div class="modal-content w490px">
+    			        <div class="modal-header">
+    			            <h1>알림메세지</h1>
+    			            <div class="modal-close"><button type="button" class="modal-x"><span class="hidden">팝업 닫기</span></button></div>
+    			        </div>
+    			        <div class="max-width">
+    			            <div class="alert-con">alert text</div>
+    			        </div>
+    			        <div class="modal-btns">
+    			            <button type="button" class="btn-blue-big modal-ok">확인</button>
+    			        </div>
+    			    </div>
+    			</div>
+    			<div class="popup modal confirm" id="confirmPopup" style="z-index:9998">
+    				<div class="modal-content w490px">
+    				    <div class="modal-header">
+    				        <h1>알림메세지</h1>
+    				        <div class="modal-close"><button type="button" class="modal-x"><span class="hidden">팝업 닫기</span></button></div>
+    				    </div>
+    				    <div class="max-width">
+    				        <div class="alert-con">confirm text</div>
+    				    </div>
+    			        <div class="modal-btns">
+    			            <button type="button" class="btn-gray-big modal-cancel">취소</button>
+    			            <button type="button" class="btn-blue-big modal-ok">확인</button>
+    			        </div>
+    			    </div>
+    			</div>
+    			<div class="popup modal confirm confirm2" id="confirmPopup2" style="z-index:9997">
+    				<div class="modal-content w490px">
+    				    <div class="modal-header">
+    				        <h1>알림메세지</h1>
+    				        <div class="modal-close"><button type="button" class="modal-x"><span class="hidden">팝업 닫기</span></button></div>
+    				    </div>
+    				    <div class="max-width">
+    				        <div class="alert-con">잘못된 접근 입니다.</div>
+    				    </div><!--// .max-width -->
+    			        <div class="modal-btns">
+    			            <button type="button" class="btn-gray-big modal-cancel">취소</button>
+    			            <button type="button" class="btn-blue-big modal-ok">확인</button>
+    			        </div>
+    			    </div>
+    			</div>`
+    		);
+
+    		$("#ui-datepicker-div").remove(); //layout-main 맨 마지막에 생기는 daterpicker 재시작
+
+    		window.scrollTo(0, 0);
+    	});
+    }
+    
 //메인으로 갈 때 사용
 function moveToBdMain() {
     referer = [];
