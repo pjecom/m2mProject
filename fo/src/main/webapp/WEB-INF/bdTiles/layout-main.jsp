@@ -77,16 +77,14 @@ if('${jsonChartList}') {
     <script src="/js/select2/select2.min.js"></script>
     <!-- script core :: END -->
     <!-- script custom :: START -->
-    <script src="/js/common.js"></script>
-    <script src="/js/sorin.js"></script>
+<!--    <script src="/js/common.js"></script> -->
+<!--    <script src="/js/sorin.js"></script> -->
     <!-- script custom :: END -->
 
         <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script>
-        <script type="text/javascript" src="/js/sorin.js"></script>
         <script type="text/javascript" src="/js/jquery.blockUI.js"></script>
         <script type="text/javascript" src="/js/swiper/6.7.0/swiper.js"></script>
         <script type="text/javascript" src="/js/ui/1.12.1/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="/js/sorinCommon.js"></script>
         <script type="text/javascript" src="/js/common-function.js"></script>
 
 <style>

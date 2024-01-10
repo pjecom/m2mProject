@@ -995,13 +995,13 @@
 .bootstrap-timepicker-widget table td a .glyphicon-chevron-up {
   -webkit-transition: background 0.3s ease-in;
   transition: background 0.3s ease-in;
-  background-image: url("/guide/images/timepicker-up.png");
+  background-image: url("/bo_guide/images/timepicker-up.png");
 }
 
 .bootstrap-timepicker-widget table td a .glyphicon-chevron-down {
   -webkit-transition: background 0.3s ease-in;
   transition: background 0.3s ease-in;
-  background-image: url("/guide/images/timepicker-down.png");
+  background-image: url("/bo_guide/images/timepicker-down.png");
 }
 
 .bootstrap-timepicker-widget table td a:hover {
@@ -1010,11 +1010,11 @@
 }
 
 .bootstrap-timepicker-widget table td a:hover .glyphicon-chevron-up {
-  background-image: url("/guide/images/timepicker-up-hover.png");
+  background-image: url("/bo_guide/images/timepicker-up-hover.png");
 }
 
 .bootstrap-timepicker-widget table td a:hover .glyphicon-chevron-down {
-  background-image: url("/guide/images/timepicker-down-hover.png");
+  background-image: url("/bo_guide/images/timepicker-down-hover.png");
 }
 
 .bootstrap-timepicker-widget table td .glyphicon {
@@ -1127,25 +1127,25 @@
 
 .rg-calendar .rg-cal-header .rg-cal-prev-month {
   top: 11px;
-  background-image: url("/guide/images/calendar-left.png");
+  background-image: url("/bo_guide/images/calendar-left.png");
   background-repeat: no-repeat;
   background-position: center;
 }
 
 .rg-calendar .rg-cal-header .rg-cal-prev-month:hover, .rg-calendar .rg-cal-header .rg-cal-prev-month:focus {
-  background-image: url("/guide/images/calendar-left-hover.png");
+  background-image: url("/bo_guide/images/calendar-left-hover.png");
   background-color: #fff;
 }
 
 .rg-calendar .rg-cal-header .rg-cal-next-month {
   top: 11px;
-  background-image: url("/guide/images/calendar-right.png");
+  background-image: url("/bo_guide/images/calendar-right.png");
   background-repeat: no-repeat;
   background-position: center;
 }
 
 .rg-calendar .rg-cal-header .rg-cal-next-month:hover, .rg-calendar .rg-cal-header .rg-cal-next-month:focus {
-  background-image: url("/guide/images/calendar-right-hover.png");
+  background-image: url("/bo_guide/images/calendar-right-hover.png");
   background-color: #fff;
 }
 
@@ -1214,20 +1214,20 @@
 }
 
 .datepicker .prev {
-  background-image: url("/guide/images/calendar-left.png");
+  background-image: url("/bo_guide/images/calendar-left.png");
 }
 
 .datepicker .prev:hover, .datepicker .prev:focus {
-  background-image: url("/guide/images/calendar-left-hover.png");
+  background-image: url("/bo_guide/images/calendar-left-hover.png");
   background-color: #fff;
 }
 
 .datepicker .next {
-  background-image: url("/guide/images/calendar-right.png");
+  background-image: url("/bo_guide/images/calendar-right.png");
 }
 
 .datepicker .next:hover, .datepicker .next:focus {
-  background-image: url("/guide/images/calendar-right-hover.png");
+  background-image: url("/bo_guide/images/calendar-right-hover.png");
   background-color: #fff;
 }
 
@@ -1904,7 +1904,7 @@
 
 .rg-checkbox:checked:after {
   border-color: #189ad8;
-  background: #24a9e8 url("/guide/images/check_checked.png") center center no-repeat;
+  background: #24a9e8 url("/bo_guide/images/check_checked.png") center center no-repeat;
 }
 
 .rg-root .rg-table td.text-column {
@@ -1950,35 +1950,35 @@
 }
 
 .rg-button-list {
-  background: url("/guide/images/grid/rg-button-list_hover.svg") no-repeat center left;
+  background: url("/bo_guide/images/grid/rg-button-list_hover.svg") no-repeat center left;
 }
 
 .rg-button-list:hover {
-  background: url("/guide/images/grid/rg-button-list_hover_active.svg") no-repeat center left;
+  background: url("/bo_guide/images/grid/rg-button-list_hover_active.svg") no-repeat center left;
 }
 
 .rg-button-list:hover:active {
-  background: url("/guide/images/grid/rg-button-list_hover_active.svg") no-repeat center left;
+  background: url("/bo_guide/images/grid/rg-button-list_hover_active.svg") no-repeat center left;
 }
 
 .rg-button-list:active:hover {
-  background: url("/guide/images/grid/rg-button-list_hover_active.svg") no-repeat center left;
+  background: url("/bo_guide/images/grid/rg-button-list_hover_active.svg") no-repeat center left;
 }
 
 .rg-button-calendar {
-  background: url("/guide/images/grid/rg-button-calendar_hover.svg") no-repeat center left;
+  background: url("/bo_guide/images/grid/rg-button-calendar_hover.svg") no-repeat center left;
 }
 
 .rg-button-calendar:hover {
-  background: url("/guide/images/grid/rg-button-calendar_hover_active.svg") no-repeat center left;
+  background: url("/bo_guide/images/grid/rg-button-calendar_hover_active.svg") no-repeat center left;
 }
 
 .rg-button-calendar:hover:active {
-  background: url("/guide/images/grid/rg-button-calendar_hover_active.svg") no-repeat center left;
+  background: url("/bo_guide/images/grid/rg-button-calendar_hover_active.svg") no-repeat center left;
 }
 
 .rg-button-calendar:active:hover {
-  background: url("/guide/images/grid/rg-button-calendar_hover_active.svg") no-repeat center left;
+  background: url("/bo_guide/images/grid/rg-button-calendar_hover_active.svg") no-repeat center left;
 }
 
 .rg-fixed-row-bar {
@@ -3397,19 +3397,19 @@
 }
 
 .paging #first {
-  background-image: url("/guide/images/lg/paging-first.png");
+  background-image: url("/bo_guide/images/lg/paging-first.png");
 }
 
 .paging #prev {
-  background-image: url("/guide/images/lg/paging-prev.png");
+  background-image: url("/bo_guide/images/lg/paging-prev.png");
 }
 
 .paging #next {
-  background-image: url("/guide/images/lg/paging-next.png");
+  background-image: url("/bo_guide/images/lg/paging-next.png");
 }
 
 .paging #last {
-  background-image: url("/guide/images/lg/paging-last.png");
+  background-image: url("/bo_guide/images/lg/paging-last.png");
 }
 
 .paging #first,
@@ -3619,7 +3619,7 @@
 
 .rg-renderer input[type="checkbox"]:checked::after {
   border-color: #189ad8;
-  background: #24a9e8 url("/guide/images/check_checked.png") center center no-repeat;
+  background: #24a9e8 url("/bo_guide/images/check_checked.png") center center no-repeat;
 }
 
 .rg-renderer input[type="checkbox"]::after {
@@ -3785,13 +3785,13 @@
 
 .SumoSelect > .CaptionCont > label > i,
 .SumoSelect:hover > .CaptionCont > label > i {
-  background-image: url("/guide/images/select.png");
+  background-image: url("/bo_guide/images/select.png");
   opacity: 1;
 }
 
 .SumoSelect:focus > .CaptionCont > label > i,
 .SumoSelect.open > .CaptionCont > label > i {
-  background-image: url("/guide/images/select-active.png");
+  background-image: url("/bo_guide/images/select-active.png");
 }
 
 .SumoSelect > .optWrapper.multiple > .options li.opt span, .SumoSelect .select-all > span {
@@ -3799,12 +3799,12 @@
 }
 
 .SumoSelect > .optWrapper.multiple > .options li.opt span i, .SumoSelect .select-all > span i {
-  background-image: url("/guide/images/multiselect.png");
+  background-image: url("/bo_guide/images/multiselect.png");
 }
 
 .SumoSelect > .optWrapper.multiple > .options li.opt.selected span i, 
 .SumoSelect .select-all.selected > span i{
-  background-image: url("/guide/images/multiselect-active.png");
+  background-image: url("/bo_guide/images/multiselect-active.png");
   background-color: transparent;
 }
 .SumoSelect .select-all.partial > span i {
@@ -4636,7 +4636,7 @@ body {
   right: 1.875rem;
   width: 0.375rem;
   height: 0.5625rem;
-  background-image: url("/guide/images/sidebar-arrow.png");
+  background-image: url("/bo_guide/images/sidebar-arrow.png");
   background-repeat: no-repeat;
   background-size: 0.375rem 0.5625rem;
   text-align: center;
@@ -4803,7 +4803,7 @@ body {
       -ms-flex-align: center;
           align-items: center;
   text-align: center;
-  background-image: url("/guide/images/error/error-bg.png");
+  background-image: url("/bo_guide/images/error/error-bg.png");
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -5039,7 +5039,7 @@ body {
   right: 1.25rem;
   width: 2.625rem;
   height: 2.625rem;
-  background-image: url("/guide/images/btn-pop-close.png");
+  background-image: url("/bo_guide/images/btn-pop-close.png");
   background-size: 1.3125rem 1.3125rem;
   background-repeat: no-repeat;
   background-position: center;
@@ -5852,7 +5852,7 @@ body {
   display: block;
   width: 1.625rem;
   height: 1.625rem;
-  background-image: url("/guide/images/breadcrumb.png");
+  background-image: url("/bo_guide/images/breadcrumb.png");
   background-size: 0.4375rem 0.6875rem;
   background-position: center;
   background-repeat: no-repeat;
@@ -5883,7 +5883,7 @@ body {
   display: block;
   width: 1.625rem;
   height: 1.625rem;
-  background-image: url("/guide/images/breadcrumb.png");
+  background-image: url("/bo_guide/images/breadcrumb.png");
   background-size: 0.4375rem 0.6875rem;
   background-position: center;
   background-repeat: no-repeat;
@@ -5912,7 +5912,7 @@ body {
   width: 0.625rem;
   height: 0.3125rem;
   margin-right: 0.375rem;
-  background-image: url("/guide/images/icon-increase.png");
+  background-image: url("/bo_guide/images/icon-increase.png");
 }
 
 .down {
@@ -5926,7 +5926,7 @@ body {
   width: 0.625rem;
   height: 0.3125rem;
   margin-right: 0.375rem;
-  background-image: url("/guide/images/icon-decrease.png");
+  background-image: url("/bo_guide/images/icon-decrease.png");
 }
 
 .error-box img {
@@ -7491,7 +7491,7 @@ select::-ms-expand {
   border: 1px solid #ddd;
   border: 1px solid #ddd;
   background-color: #fff;
-  background-image: url("/guide/images/select.png");
+  background-image: url("/bo_guide/images/select.png");
   background-repeat: no-repeat;
   background-position: calc(100% - 0.625rem) 50%;
   font-size: 0.75rem;
@@ -7510,7 +7510,7 @@ select::-ms-expand {
 
 .form-select.focus {
   border: 1px solid #24a9e8;
-  background-image: url("/guide/images/select-active.png");
+  background-image: url("/bo_guide/images/select-active.png");
 }
 
 .select-xs {
@@ -7592,31 +7592,31 @@ select::-ms-expand {
 }
 
 .form-checkbox input[type="checkbox"] + label::before {
-  background-image: url("/guide/images/md/check-off.png");
+  background-image: url("/bo_guide/images/md/check-off.png");
   -webkit-transition: background 0.3s ease;
   transition: background 0.3s ease;
 }
 
 .form-radio input[type="radio"] + label::before {
-  background-image: url("/guide/images/md/radio-off.png");
+  background-image: url("/bo_guide/images/md/radio-off.png");
   -webkit-transition: background 0.3s ease;
   transition: background 0.3s ease;
 }
 
 .form-checkbox input[type="checkbox"]:checked + label::before {
-  background-image: url("/guide/images/md/check-on.png");
+  background-image: url("/bo_guide/images/md/check-on.png");
 }
 
 .form-radio input[type="radio"]:checked + label::before {
-  background-image: url("/guide/images/md/radio-on.png");
+  background-image: url("/bo_guide/images/md/radio-on.png");
 }
 
 .form-checkbox input[type="checkbox"]:disabled + label::before {
-  background-image: url("/guide/images/md/check-disabled.png");
+  background-image: url("/bo_guide/images/md/check-disabled.png");
 }
 
 .form-radio input[type="radio"]:disabled + label::before {
-  background-image: url("/guide/images/md/radio-disabled.png");
+  background-image: url("/bo_guide/images/md/radio-disabled.png");
 }
 
 /*
@@ -8299,7 +8299,7 @@ select::-ms-expand {
 .icon-hamburger {
   width: 1.375rem;
   height: 1.1875rem;
-  background-image: url("/guide/images/hamburger.png");
+  background-image: url("/bo_guide/images/hamburger.png");
 }
 
 .icon-required {
@@ -8307,95 +8307,95 @@ select::-ms-expand {
   height: 0.3125rem;
   margin-top: 0.0625rem;
   margin-left: 0.1875rem;
-  background-image: url("/guide/images/required.png");
+  background-image: url("/bo_guide/images/required.png");
   vertical-align: text-top;
 }
 
 .icon-doc {
   width: 0.875rem;
   height: 0.875rem;
-  background-image: url("/guide/images/sm/btn-document.png");
+  background-image: url("/bo_guide/images/sm/btn-document.png");
 }
 
 .icon-change {
   width: 0.75rem;
   height: 0.75rem;
-  background-image: url("/guide/images/btn-change.png");
+  background-image: url("/bo_guide/images/btn-change.png");
 }
 
 .icon-increase {
   width: 0.625rem;
   height: 0.3125rem;
   margin-right: 0.375rem;
-  background-image: url("/guide/images/icon-increase.png");
+  background-image: url("/bo_guide/images/icon-increase.png");
 }
 
 .icon-decrease {
   width: 0.625rem;
   height: 0.3125rem;
   margin-right: 0.375rem;
-  background-image: url("/guide/images/icon-decrease.png");
+  background-image: url("/bo_guide/images/icon-decrease.png");
 }
 
 .icon-title-tooltip {
   width: 1.3125rem;
   height: 1.3125rem;
   margin-left: 0.625rem;
-  background-image: url("/guide/images/title-tooltip.png");
+  background-image: url("/bo_guide/images/title-tooltip.png");
 }
 
 .icon-up {
   width: 0.875rem;
   height: 0.875rem;
-  background-image: url("/guide/images/sm/grid-up.png");
+  background-image: url("/bo_guide/images/sm/grid-up.png");
 }
 
 .icon-down {
   width: 0.875rem;
   height: 0.875rem;
-  background-image: url("/guide/images/sm/grid-down.png");
+  background-image: url("/bo_guide/images/sm/grid-down.png");
 }
 
 .icon-download {
   width: 0.875rem;
   height: 0.875rem;
-  background-image: url("/guide/images/sm/btn-download-active.png");
+  background-image: url("/bo_guide/images/sm/btn-download-active.png");
 }
 
 .icon-preview {
   width: 0.875rem;
   height: 0.875rem;
-  background-image: url("/guide/images/sm/btn-preview-active.png");
+  background-image: url("/bo_guide/images/sm/btn-preview-active.png");
 }
 
 .icon-delete {
   width: 0.875rem;
   height: 0.875rem;
-  background-image: url("/guide/images/sm/btn-close-active.png");
+  background-image: url("/bo_guide/images/sm/btn-close-active.png");
 }
 
 .icon-calendar {
   width: 0.875rem;
   height: 0.875rem;
-  background-image: url("/guide/images/sm/btn-calendar.png");
+  background-image: url("/bo_guide/images/sm/btn-calendar.png");
 }
 
 .icon-time {
   width: 0.875rem;
   height: 0.875rem;
-  background-image: url("/guide/images/sm/btn-time.png");
+  background-image: url("/bo_guide/images/sm/btn-time.png");
 }
 
 .icon-plus {
   width: 0.875rem;
   height: 0.875rem;
-  background-image: url("/guide/images/sm/btn-plus.png");
+  background-image: url("/bo_guide/images/sm/btn-plus.png");
 }
 
 .icon-excel {
   width: 0.875rem;
   height: 0.875rem;
-  background-image: url("/guide/images/sm/btn-excel.png");
+  background-image: url("/bo_guide/images/sm/btn-excel.png");
 }
 
 .icon-check {
@@ -8403,7 +8403,7 @@ select::-ms-expand {
   width: 1.0625rem;
   height: 0.75rem;
   margin-left: 0.625rem;
-  background-image: url("/guide/images/th-check.png");
+  background-image: url("/bo_guide/images/th-check.png");
 }
 
 /* 승인요청업체 상태 아이콘 추가 2021-10-28 */
@@ -8413,49 +8413,49 @@ select::-ms-expand {
   width: 0.875rem;
   height: 0.875rem;
   margin-left: 0.625rem;
-  background-image: url("/guide/images/th-warning.png");
+  background-image: url("/bo_guide/images/th-warning.png");
 }
 
 .btn:disabled .icon-download {
-  background-image: url("/guide/images/sm/btn-download.png");
+  background-image: url("/bo_guide/images/sm/btn-download.png");
 }
 
 .btn:disabled .icon-preview {
-  background-image: url("/guide/images/sm/btn-preview.png");
+  background-image: url("/bo_guide/images/sm/btn-preview.png");
 }
 
 .btn:disabled .icon-delete {
-  background-image: url("/guide/images/sm/btn-close.png");
+  background-image: url("/bo_guide/images/sm/btn-close.png");
 }
 
 .status-error .icon-traffic {
   width: 1.25rem;
   height: 1.25rem;
-  background-image: url("/guide/images/trafficLight-red.png");
+  background-image: url("/bo_guide/images/trafficLight-red.png");
 }
 
 .status-warning .icon-traffic {
   width: 1.25rem;
   height: 1.25rem;
-  background-image: url("/guide/images/trafficLight-orange.png");
+  background-image: url("/bo_guide/images/trafficLight-orange.png");
 }
 
 .status-normal .icon-traffic {
   width: 1.25rem;
   height: 1.25rem;
-  background-image: url("/guide/images/trafficLight-green.png");
+  background-image: url("/bo_guide/images/trafficLight-green.png");
 }
 
 .icon.icon-comment {
   width: 1.125rem;
   height: 1rem;
-  background-image: url("/guide/images/icon-comment.png");
+  background-image: url("/bo_guide/images/icon-comment.png");
 }
 
 .icon.icon-user {
   width: 1rem;
   height: 1rem;
-  background-image: url("/guide/images/icon-user.png");
+  background-image: url("/bo_guide/images/icon-user.png");
 }
 
 th.is-checked .icon-check,
@@ -8467,40 +8467,40 @@ th.is-checked .icon-warning {
   width: 1rem;
   height: 1rem;
   margin-left: 0.375rem;
-  background-image: url("/guide/images/icon-naver.png");
+  background-image: url("/bo_guide/images/icon-naver.png");
 }
 
 .icon-pdf {
   width: 30px;
   height: 30px;
   margin-left: 0.375rem;
-  background-image: url("/guide/images/icon-pdf.png");
+  background-image: url("/bo_guide/images/icon-pdf.png");
 }
 
 .icon-kakao {
   width: 1rem;
   height: 1rem;
   margin-left: 0.375rem;
-  background-image: url("/guide/images/icon_kakao.svg");
+  background-image: url("/bo_guide/images/icon_kakao.svg");
 }
 
 .icon-table-delete {
   width: 1.875rem;
   height: 1.875rem;
-  background-image: url("/guide/images/btn-table-del.png");
+  background-image: url("/bo_guide/images/btn-table-del.png");
   -webkit-transition: background 0.2s ease-in;
   transition: background 0.2s ease-in;
 }
 
 .icon-table-delete:hover {
-  background-image: url("/guide/images/btn-table-del-hover.png");
+  background-image: url("/bo_guide/images/btn-table-del-hover.png");
 }
 
 .icon-tab-close {
   width: 2rem;
   height: 2rem;
   margin-right: -0.75rem;
-  background-image: url("/guide/images/md/tab-close.png");
+  background-image: url("/bo_guide/images/md/tab-close.png");
   background-position: 50% 2px;
 }
 
@@ -8523,7 +8523,7 @@ th.is-checked .icon-warning {
 }
 
 .header-tab.is-active .icon-tab-close {
-  background-image: url("/guide/images/md/tab-close-active.png");
+  background-image: url("/bo_guide/images/md/tab-close-active.png");
 }
 
 /*  
@@ -8834,7 +8834,7 @@ tree js, grid 100% 버전 추가
   width: 1.25rem;
   height: 1.25rem;
   
-  background-image: url("/guide/images/dashboard-button.png");
+  background-image: url("/bo_guide/images/dashboard-button.png");
 }
 .icon-dashboard ~ a {
   font-size:0.6875rem;
@@ -9112,7 +9112,7 @@ tree js, grid 100% 버전 추가
 
 /* 상환 처리 팝업 추가 */
 .modal .btn.btn-refresh {position:relative; top:-1px; height:1.4rem; margin-right:1.5rem;}
-.icon-refresh {width: 0.875rem;height: 0.875rem; background-image: url("/guide/images/sm/btn-refresh.png");}
+.icon-refresh {width: 0.875rem;height: 0.875rem; background-image: url("/bo_guide/images/sm/btn-refresh.png");}
 td.tbl-bg-green {background:#d4ffec}
 .btn-box.btn-box-repay {justify-content:start; margin-top:0.5rem}
 .btn-box.btn-box-repay .btn {font-weight:400; border:1px solid #ddd; background-color: #fff; color: #666;}
@@ -9426,8 +9426,8 @@ td.tbl-bg-green {background:#d4ffec}
 .dashboard2-wrap.tracking .section-top-wrap .dashboard2-card-report .dashboard2-cont dl.text-emphasis dd {color: #FFF493;}
 
 .dashboard2-wrap.tracking .section-top-wrap .dashboard2-card-report .dashboard2-cont dl.access-num span {}
-.dashboard2-wrap.tracking .section-top-wrap .dashboard2-card-report .dashboard2-cont dl.access-num span.not-login {margin-right: 0.7vw; padding-left: 1.354vw; opacity: 0.6; background: url("/guide/images/dbd-icon-not-login.png") no-repeat left center;}
-.dashboard2-wrap.tracking .section-top-wrap .dashboard2-card-report .dashboard2-cont dl.access-num span.login {padding-right: 1.354vw; background: url("/guide/images/dbd-icon-login.png") no-repeat right center;}
+.dashboard2-wrap.tracking .section-top-wrap .dashboard2-card-report .dashboard2-cont dl.access-num span.not-login {margin-right: 0.7vw; padding-left: 1.354vw; opacity: 0.6; background: url("/bo_guide/images/dbd-icon-not-login.png") no-repeat left center;}
+.dashboard2-wrap.tracking .section-top-wrap .dashboard2-card-report .dashboard2-cont dl.access-num span.login {padding-right: 1.354vw; background: url("/bo_guide/images/dbd-icon-login.png") no-repeat right center;}
 
 .dashboard2-wrap.tracking .section-bottom-wrap {height: calc(100vh - 270px); max-height: 810px; min-height: 450px;flex-wrap: wrap; background: transparent; padding: 0;} 
 .dashboard2-wrap.tracking .section-bottom-wrap .dashboard2-tbl {width: 24.014%; height: calc(50% - 10px); padding: 28px 30px !important;}
