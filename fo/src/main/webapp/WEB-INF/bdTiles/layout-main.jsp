@@ -110,7 +110,7 @@ function pageMove(url, data, contentType, menuActiveIdenty) {
 		currentPage = url; // 현재 페이지 url
 
 		if(pageMoveParams.url != url || pageMoveParams.data != data){
-			if(url == '/main/') {
+			if(url == '/') {
 				moveToMain();
 			} else {
 				referer.push(JSON.parse(JSON.stringify(pageMoveParams)));
@@ -121,7 +121,7 @@ function pageMove(url, data, contentType, menuActiveIdenty) {
 			pageMoveParams.contentType = contentType;
 			pageMoveParams.menuActiveIdenty = menuActiveIdenty;
 		} else {
-			if(url == '/main/') {
+			if(url == '/') {
 				moveToMain();
 			}
 		}
