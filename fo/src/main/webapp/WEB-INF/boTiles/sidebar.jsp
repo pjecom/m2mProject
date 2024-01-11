@@ -21,7 +21,7 @@
         	<div class="sidebar-2depth has-submenu" id="sidebar_415">
         	<a class="has-submenu">입찰 공고 관리</a>
         	<ul class="sidebar-3depth">
-        	<li id="sidebar_422" value="/bo/bd/selectBidList">입찰 공고 관리</li>
+        	<li id="sidebar_422" value="/bo">입찰 공고 관리</li>
         	</ul>
         </div>
         <div class="sidebar-2depth has-submenu" id="sidebar_418">
@@ -43,5 +43,126 @@
 
 <script src="/bo_js/tabCommon.js"></script>
 <script>
+// 사이드바 클릭
+$(document).on("click",".sidebar-3depth li",function(){
+    $(".sidebar-3depth li").removeClass("active"); // 3depth 모두 활성화 초기화 20220112 추가
+    $(this).addClass("active"); // 선택한 3depth 활성화 20220112 추가
+    
+    selectSidebar($(this).attr('value'), $(this).text(), $(this).attr('id').split("_")[1]);
+});
+
+// 사이드바 선택
+function selectSidebar(uri, html, id) {
+    var pages = $(".link-to-page");
+    for(var item of pages) {
+        if($(item).html() == html) {
+            $(".header-tab").removeClass('is-active');
+            $(item).parent().addClass('is-active'); // 탭변경
+            changePage(html); // 페이지변경
+            scrollPosition();
+            return;
+        }
+    }
+    $(".header-tab").removeClass('is-active');
+    addPage(uri, html, id); // 페이지추가
+    $('.scroll-x').css('width', '9999px')
+    $(".scroll-x").append('<span class="header-tab is-active"><a href="javascript:;" class="link-to-page">' + html + '</a><button class="icon icon-tab-close"</button><span>'); // 탭추가
+    dynamicMenuWidth();
+    $('.header-tab-set').scrollLeft(9999);
+}
+
+// 페이지 추가
+function addPage(uri, html, id) {
+    $(".web-content").hide();
+    $(".web-tabs").append("<div class='web-content' value='" + html + "'><iframe src='" + uri + "' frameborder='0' class='ifr' id='iframe" + id + "'></iframe></div>");
+}
+
+// 페이지 변경
+function changePage(html) {
+    $(".web-content").hide();
+    var content = $(".web-content");
+    for(var item of content) {
+        if($(item).attr('value') == html) {
+            $(item).show();
+            break;
+        }
+    }
+}
+
+// 페이지 삭제
+function deletePage(html, isActive) {
+    var content = $(".web-content");
+    for(var item of content) {
+        if($(item).attr('value') == html) {
+
+			//닫는 page의 removeStompSubscriber를 불러온다. 필수요소 -> 삭제하지 않는다.
+			let removeIframe = document.getElementById($(item).find("iframe").attr("id"));
+
+			if(!sorin.validation.isEmpty(removeIframe)){
+				let frameContent = removeIframe.contentWindow || removeIframe.contentDocument;
+
+				if(typeof frameContent.removeStompSubscriber != "undefined"){
+					frameContent.removeStompSubscriber();
+				}
+			}
+
+            if(isActive){
+                $(item).prev().length == 0 ? $(item).next().show() : $(item).prev().show();
+            }
+
+            $(item).remove();
+            dynamicMenuWidth();
+            return;
+        }
+    }
+}
+
+// 탭 닫기 (x 클릭)
+$(document).on('click', ".icon-tab-close", function() {
+    if($(this).parent().hasClass('is-active')) {
+        if($(this).parent().prev().length == 0) {
+            $(this).parent().next().addClass('is-active')
+        }
+        else {
+            $(this).parent().prev().addClass('is-active')
+        }
+        $(this).parent().remove();
+        deletePage($(this).prev().html(), true);
+    }
+    else {
+        $(this).parent().remove();
+        deletePage($(this).prev().html(), false);
+    }
+    dynamicMenuWidth();
+    scrollPosition();
+})
+
+// 탭 닫기 (더블 클릭)
+$(document).on('dblclick','.header-tab', function() {
+    if($(this).hasClass('is-active')) {
+        if($(this).prev().length == 0) {
+            $(this).next().addClass('is-active')
+        }
+        else {
+            $(this).prev().addClass('is-active')
+        }
+        deletePage($(this)[0].innerText, true);
+        $(this).remove();
+    }
+    else {
+        deletePage($(this)[0].innerText, false);
+        $(this).remove();
+    }
+    dynamicMenuWidth();
+    scrollPosition();
+})
+
+// 탭 이동
+$(document).on('click', ".link-to-page", function() {
+    $(".link-to-page").parent().removeClass('is-active');
+    $(this).parent().addClass('is-active');
+    changePage($(this).html());
+    scrollPosition();
+})
 
 </script>
