@@ -37,19 +37,11 @@ public class BdMainController {
 
     }
 	
-	@RequestMapping("/bo/detail")
+	@RequestMapping("/bo/bidNotice")
     public String boDetail(ModelMap model) throws Exception {
 	
 		
-        return "boTab/boDetail";
-
-    }
-
-    @RequestMapping("/bo/bidNoticeMng")
-    public String test(ModelMap model) throws Exception {
-
-
-        return "boTab/bidNotice";
+		return "boTab/boNotice";
 
     }
 }

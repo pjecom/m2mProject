@@ -196,7 +196,6 @@
         </div>
 
         <!-- 입찰 공고 등록 모달창 -->
-        <%@ include file="modal/bidCreate.jsp" %>
 
     </div>
 </div>
