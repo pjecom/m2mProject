@@ -35,7 +35,12 @@
     <script type="text/javascript" src="/bo_guide/js/fullcalendar-5.7.0/lib/locales/ko.js"></script><!-- Full calendar(한글) -->
     <script type="text/javascript" src="/bo_guide/js/realgridCustom.js"></script><!-- 퍼블 작성 -->
     <script type="text/javascript" src="/bo_guide/js/common.js"></script><!-- 퍼블 작성 -->
-    
+    <script>
+    	$(function() {
+	    	$("#detailButton").hide();
+	    	$('#detailButton').click();
+		});
+    </script>
 </head>
 
 <body>   
@@ -46,7 +51,7 @@
             <div class="main-content">
                 <div class="inner">
                      <!-- Button trigger modal -->
-                     <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal">입찰 공고 상세</button>
+                     <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" id="detailButton">입찰 공고 상세</button>
                      <!-- Modal -->
                      <!-- [D]모달 위치는 변경 하셔도 됩니다! -->
                      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -263,8 +263,6 @@
         </div>
 
         <!-- 입찰 공고 등록 모달창 -->
-        <!--<%@ include file="../boModal/boBdCreate.jsp" %>-->
-
         <!-- 입창 공고 상세 모달 -->
         
 </div>
