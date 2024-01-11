@@ -262,7 +262,7 @@
         </div>
 
         <!-- 입찰 공고 등록 모달창 -->
-        <%@ include file="modal/bidCreate.jsp" %>
+        <%@ include file="../boModal/boBdCreate.jsp" %>
 
         <!-- 입창 공고 상세 모달 -->
          <div class="modal fade" id="bdNoticeDetailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
