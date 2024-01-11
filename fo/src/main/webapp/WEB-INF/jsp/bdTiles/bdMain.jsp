@@ -89,7 +89,7 @@
                         </div>
                     </div>
                     <!--                               <hr> -->
-                    <a href="javascript:;" onclick="pageMove('bid/bidEtr');" class="btn text ico">
+                    <a href="javascript:;" onclick="pageMove('/signup/signup');" class="btn text ico">
                         <span class="material-symbols-outlined">person</span>
                         <span>Become a member</span>
                     </a>
@@ -301,8 +301,35 @@
 
 <script>
 //------------------------------------- 공지사항 최근 게시글 제목 4개 조회-------------------------------------//
+/* 로그인 버튼 클릭 메서드 */
+    $(".primary_bg").click(function(){
+        //alert("로그인 버튼 작동");
+        console.log("로그인 버튼 작동");
+    });
+    
+    $(".primary_bg").click(function(){
+        var userId = $("#id").val(); // 아이디 입력란의 값을 가져옴
+        var userPassword = $("#password").val(); // 비밀번호 입력란의 값을 가져옴
 
-
+        // 서버로 데이터를 전송하는 AJAX 요청
+        $.ajax({
+            type: 'POST', // POST 요청
+            url: '/login', // 서버의 로그인 처리 URL
+            data: { 
+            		bidMberId: userId, // 아이디
+            		bidMberSecretNo: userPassword // 비밀번호
+            	  },  
+            success: function(response) {
+                // 성공 시 처리
+                console.log('로그인 요청이 성공했습니다.');
+                // 원하는 작업 수행 (예: 페이지 리로드, 리디렉션 등)
+            },
+            error: function(xhr, status, error) {
+                // 실패 시 처리
+                console.error('로그인 요청이 실패했습니다.');
+            }
+        });
+    });
 </script>
 
 <!-- 공지사항 & FAQ :: START -->
