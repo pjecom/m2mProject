@@ -1,5 +1,10 @@
 package com.m2m.fo.bd.mapper;
 
-public interface BdMainMapper {
+import java.util.List;
 
+import com.m2m.fo.bd.model.BdListVO;
+
+public interface BdMainMapper {
+	public List<BdListVO> getBdList(BdListVO vo) throws Exception;
+	public BdListVO  getBdListTotalCnt(BdListVO vo) throws Exception;
 }

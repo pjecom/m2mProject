@@ -2,5 +2,44 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.m2m.fo.bd.mapper.BdMainMapper">
-
+	<select id="getBdList" parameterType="com.m2m.fo.bd.model.BdListVO" resultType="com.m2m.fo.bd.model.BdListVO">
+		 SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+        /* com.m2m.sample.mapper.SampleMapper.getBdList */
+        SELECT 
+             BID_PBLANC_ID --입찰공고번호
+			,METAL_CODE	--금속 코드
+			,BRAND_GROUP_CODE	--브랜드 그룹 코드
+			,BRAND_CODE	--브랜드 코드
+			,ITM_SN	--아이템 순번
+			,(SELECT CODE_DCTWO FROM [SEC_DEV].[dbo].CO_CMMN_CD WHERE MAIN_CODE = 'DSTRCT_LCLSF_CODE'  AND SUB_CODE = BB.DSTRCT_LCLSF_CODE) AS DSTRCT_LCLSF_CODE	--권역 대분류 코드
+			,BDDPR_BEGIN_DT	--투찰 시작 일시
+			,BDDPR_END_DT	--투찰 종료 일시
+			,BID_STTUS_CODE	--입찰 상태 코드
+			,PARTCPTN_ENTRPS_QY	--참여 업체 수량
+			,INTRST_ENTRPS_QY	--관심 업체 수량
+			,DSPY_AT	--전시 여부
+			,PBLANC_CANCL_AT	--공고 취소 여부
+			,OPENG_DT	--개찰 일시
+			,DELETE_AT	--삭제 여부
+			,(SELECT NATION_CODE FROM [SEC_DEV].[dbo].IT_BRAND_INFO_BAS IB WHERE IB.BRAND_CODE = BB.BRAND_CODE ) AS NATION_CODE   --국가코드
+			,(SELECT CODE_DCTWO FROM [SEC_DEV].dbo.IT_BRAND_INFO_BAS IB 
+				INNER JOIN [SEC_DEV].dbo.CO_CMMN_CD CC
+			    ON IB.NATION_CODE= CC.SUB_CODE
+			WHERE IB.BRAND_CODE = BB.BRAND_CODE) AS CODE_DCTWO --국가 이미지
+		FROM dbo.BD_BID_BAS BB
+		where 1=1
+	<if test="bidSttusCode != null and bidSttusCode != ''">
+	    AND BID_STTUS_CODE = #{bidSttusCode}
+	</if>
+	</select>
+	<select id="getBdListTotalCnt" resultType="com.m2m.fo.bd.model.BdListVO">
+		 SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+        /* com.m2m.sample.mapper.SampleMapper.getTotalCnt */
+        SELECT 
+		 	COUNT(*) AS TotalCnt
+			,COUNT(CASE WHEN BID_STTUS_CODE=12 THEN 1 END) AS ExpectCnt
+			,COUNT(CASE WHEN BID_STTUS_CODE=13 THEN 1 END) AS BidingCnt
+			,COUNT(CASE WHEN BID_STTUS_CODE=30 THEN 1 END) AS EndCnt
+		FROM dbo.BD_BID_BAS
+	</select>
 </mapper>
