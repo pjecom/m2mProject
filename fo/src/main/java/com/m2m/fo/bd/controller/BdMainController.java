@@ -44,4 +44,12 @@ public class BdMainController {
         return "boTab/boDetail";
 
     }
+
+    @RequestMapping("/bo/bidNoticeMng")
+    public String test(ModelMap model) throws Exception {
+
+
+        return "boTab/bidNotice";
+
+    }
 }

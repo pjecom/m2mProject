@@ -21,7 +21,7 @@
         <div class="sidebar-2depth has-submenu" id="sidebar_415">
         	<a class="has-submenu">입찰 공고 관리</a>
         	<ul class="sidebar-3depth">
-        		<li id="sidebar_422" value="/bo/detail">입찰 공고 관리</li>
+        		<li id="sidebar_422" value="/bo/bidNoticeMng">입찰 공고 관리</li>
         	</ul>
         </div>
         <div class="sidebar-2depth has-submenu" id="sidebar_418">
