@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.m2m.fo.bd.mapper.BdDetailMapper">
+	
+	<select id="selectDetail" parameterType="com.m2m.fo.bd.model.BdDetailVO" resultType="com.m2m.fo.bd.model.BdDetailVO">
+		 SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+        /* com.m2m.fo.bd.mapper.BdDetailMapper.selectDetail */
+ 		SELECT
+				  BB.BID_PBLANC_ID	/*입찰공고아이디*/
+				, BB.BID_STTUS_CODE	/*입찰상태코드*/
+				, BB.METAL_CODE
+				, (SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'METAL_CODE'  AND SUB_CODE = BB.METAL_CODE) AS METAL_CODE_NM	/*메탈구분*/
+				, (SELECT CODE_DCONE FROM CO_CMMN_CD WHERE MAIN_CODE = 'METAL_CODE'  AND SUB_CODE = BB.METAL_CODE) AS METAL_CODE_EM	/*메탈구분(영어)*/
+				, BB.BRAND_GROUP_CODE
+				, ISNULL((SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'BRAND_GROUP_CODE'  AND SUB_CODE = BB.BRAND_GROUP_CODE),'ANY BRAND') AS BRAND_GROUP_CODE_NM	/*브랜드*/
+				, BB.BRAND_GROUP_CODE
+				, BB.BRAND_CODE
+				, BB.ITM_SN
+				, (SELECT GOODS_NM FROM IT_ITM_INFO_BAS WHERE 1=1 AND BB.ITM_SN = ITM_SN AND DELETE_AT = 'N') AS DSPY_GOODS_NM	/*아이템상품명*/
+				, (SELECT DOC_FILE_REAL_COURS FROM IT_ITM_INFO_BAS IIIB JOIN CO_DOC_BAS CDB ON DOC_NO = IIIB.PC_IMAGE_ONE_SN WHERE IIIB.ITM_SN =BB.ITM_SN) AS PC_IMAGE_ONE_NM
+				, BB.DSTRCT_LCLSF_CODE
+				, (SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'DSTRCT_LCLSF_CODE'  AND SUB_CODE = BB.DSTRCT_LCLSF_CODE) AS DSTRCT_NM	/*권역*/
+				, BB.BID_WT	/*수량*/
+				, BB.PERM_WT_RATE	/*중량허용공차*/
+				, BB.DELY_BEGIN_DE	/*인도기간시작*/
+				, BB.DELY_END_DE	/*인도기간종료*/
+				, BB.PC_APPN_BEGIN_DE	/*가격지정기간시작*/
+				, BB.PC_APPN_END_DE	/*가격지정기간종료*/
+				, BB.PC_APPN_MTH_CODE
+				, (SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'PC_APPN_MTH_CODE' AND SUB_CODE = BB.PC_APPN_MTH_CODE) AS PC_APPN_MTH_CODE_NM /*가격지정방법코드*/				
+				, BB.SETLE_CRNCY_CODE
+				, (SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'SETLE_CRNCY_CODE' AND SUB_CODE = BB.SETLE_CRNCY_CODE) AS SETLE_CRNCY_CODE_NM /*결제통화코드*/				
+				, BB.SETLE_MTH_CODE
+				, (SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'SETLE_MTH_CODE' AND SUB_CODE = BB.SETLE_MTH_CODE) AS SETLE_MTH_CODE_NM /*결제방법코드*/				
+				, BB.SETLE_PD_CODE
+				, (SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'SETLE_PD_CODE' AND SUB_CODE = BB.SETLE_PD_CODE) AS SETLE_PD_CODE_NM/*결제기간코드*/				
+				, BB.ETC_CN	/*기타코멘트*/       
+		FROM BD_BID_BAS BB
+		WHERE 1=1
+			AND BB.BID_PBLANC_ID 			=	#{bidPblancId}
+			AND BB.DSPY_AT 					=	'Y'						/* 전시 여부 */
+			AND BB.PBLANC_CANCL_AT			=	'N'						/* 공고 취소 여부 */
+			AND BB.DELETE_AT 				=	'N'						/* 삭제 여부 */
+	</select>
+	
+	<select id="selectbdDelyCndList" parameterType="com.m2m.fo.bd.model.BdDetailVO" resultType="com.m2m.fo.bd.model.BdDetailVO">
+      SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+      SELECT CODE_DCTWO
+	  FROM CO_CMMN_CD 
+		 WHERE 1=1
+		   AND MAIN_CODE = 'BID_DELY_CND'
+		   AND SUB_CODE != '@'
+		   AND DELETE_AT = 'N'
+           AND CODE_DCONE = #{dstrctLclsfCode}
+		 ORDER BY SUB_CODE 
+    </select>
+
+</mapper>
