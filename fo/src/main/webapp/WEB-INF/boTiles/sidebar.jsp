@@ -51,6 +51,18 @@ $(document).on("click",".sidebar-3depth li",function(){
     selectSidebar($(this).attr('value'), $(this).text(), $(this).attr('id').split("_")[1]);
 });
 
+/* 탭 이벤트 */
+var dynamicMenuWidth = function(){
+    let array = $('.header-tab');
+    let sumElement = 0;
+    for (let i = 0; i < array.length; i++) {
+        sumElement += array[i].getBoundingClientRect().width;
+    }
+    $('.header-tab-set .scroll-x').css({
+        'width': (sumElement) +'px'
+    });
+};
+
 // 사이드바 선택
 function selectSidebar(uri, html, id) {
     var pages = $(".link-to-page");
