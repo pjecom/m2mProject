@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.m2m.fo.login.mapper.LoginMapper">
+	
+	<select id="searchId" parameterType="com.m2m.fo.login.model.LoginVO" resultType="com.m2m.fo.login.model.LoginVO">
+    	/* com.m2m.fo.login.model.LoginMapper.findByUsername */
+    	SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+        SELECT * 
+        FROM BD_ENTRPS_INFO_BAS 
+        WHERE 1=1
+        AND BID_MBER_ID = #{bidMberId}
+       <!--  AND BID_MBER_SECRET_NO = #{bidMberSecretNo} -->
+    </select>
+    
+</mapper>

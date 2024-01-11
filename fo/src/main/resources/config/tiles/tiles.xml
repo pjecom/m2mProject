@@ -11,6 +11,15 @@
 		<put-attribute name="body" value="" />
    </definition>
    
+   <definition name="*/*.botiles" extends="layoutBo">
+		<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}.jsp" />
+	</definition>
+	
+		
+	<definition name="*/*.tabtiles" template="/WEB-INF/boTiles/tab-main.jsp">
+		<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}.jsp" />
+	</definition>
+   
    <!-- main -->
    <definition name="layout" template="/WEB-INF/bdTiles/layout-main.jsp">
        <put-attribute name="header" value="/WEB-INF/bdTiles/header.jsp" />
@@ -35,10 +44,6 @@
    <definition name="*/*.bdtiles" extends="layoutBd">
        <put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}.jsp" />
    </definition>
-   
-   <definition name="*/*.botiles" extends="layoutBo">
-		<put-attribute name="body" value="/WEB-INF/jsp/boTiles/{2}.jsp" />
-	</definition>
 
     <definition name="layoutNo" template="/WEB-INF/noTiles/layout-main.jsp">
         <put-attribute name="body" value="" />
