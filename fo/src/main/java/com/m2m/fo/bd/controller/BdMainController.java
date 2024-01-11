@@ -28,4 +28,20 @@ public class BdMainController {
         return "bdTiles/bdMain";
 
     }
+	
+	@RequestMapping("/bo")
+    public String boMain(ModelMap model) throws Exception {
+	
+		
+        return "boTiles/boMain";
+
+    }
+	
+	@RequestMapping("/bo/detail")
+    public String boDetail(ModelMap model) throws Exception {
+	
+		
+        return "boTab/boDetail";
+
+    }
 }

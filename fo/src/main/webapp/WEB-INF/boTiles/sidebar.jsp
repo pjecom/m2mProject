@@ -17,17 +17,17 @@
     <ul class="sidebar-menu">
         <!-- [D] 서브메뉴가 있을 때 .has-submenu 추가 -->
         <li class="has-submenu" id="sidebar_414">
-        	<a class="sidebar-1depth" aria-label="">구매입찰관리</a>
-        	<div class="sidebar-2depth has-submenu" id="sidebar_415">
+        <a class="sidebar-1depth" aria-label="">구매입찰관리</a>
+        <div class="sidebar-2depth has-submenu" id="sidebar_415">
         	<a class="has-submenu">입찰 공고 관리</a>
         	<ul class="sidebar-3depth">
-        	<li id="sidebar_422" value="/bo">입찰 공고 관리</li>
+        		<li id="sidebar_422" value="/bo/detail">입찰 공고 관리</li>
         	</ul>
         </div>
         <div class="sidebar-2depth has-submenu" id="sidebar_418">
-        <a class="has-submenu">입찰 회원 관리</a><ul class="sidebar-3depth">
-        <li id="sidebar_426" value="/bo/bd/selectBidMberList">입찰 회원 관리</li></ul>
-        </div>
+        	<a class="has-submenu">입찰 회원 관리</a><ul class="sidebar-3depth">
+        	<li id="sidebar_426" value="/bo/bd/selectBidMberList">입찰 회원 관리</li></ul>
+       	</div>
     </ul>
 </div>
 </aside>
@@ -41,7 +41,6 @@
     }
 </style>
 
-<script src="/bo_js/tabCommon.js"></script>
 <script>
 // 사이드바 클릭
 $(document).on("click",".sidebar-3depth li",function(){
@@ -176,5 +175,30 @@ $(document).on('click', ".link-to-page", function() {
     changePage($(this).html());
     scrollPosition();
 })
+
+// 스크롤 위치조정
+function scrollPosition() {
+    var scrollTarget = 0;
+    var tabs = $('.header-tab');
+    for(var item of tabs) {
+        if($(item).hasClass('is-active')) {
+            break;
+        }
+        scrollTarget += item.getBoundingClientRect().width;
+    }
+
+    var leftEnd = $('.header-tab-set').scrollLeft();
+    var rightEnd = $('.header-tab-set').scrollLeft() + $('.header-tab-set').width();
+    if(scrollTarget < leftEnd) { // 탭이 현재시야의 좌측 외부에
+        $('.header-tab-set').scrollLeft(scrollTarget);
+    }
+
+	//null 버그 수정
+	if(!sorin.validation.isEmpty($('.header-tab.is-active')[0])) {
+	    if(scrollTarget + $('.header-tab.is-active')[0].getBoundingClientRect().width > rightEnd) { // 탭이 현재시야의 우측 외부에
+	        $('.header-tab-set').scrollLeft(scrollTarget - $('.header-tab-set')[0].getBoundingClientRect().width + $('.header-tab.is-active')[0].getBoundingClientRect().width);
+	    }
+	}
+}
 
 </script>

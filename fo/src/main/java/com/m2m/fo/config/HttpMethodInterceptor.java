@@ -23,10 +23,10 @@ public class HttpMethodInterceptor implements HandlerInterceptor {
 					modelAndView.setViewName(viewName + ".bdtiles");
 				} else if (viewName.indexOf("/bid") > -1) {
 					modelAndView.setViewName(viewName);
+				} else if (viewName.indexOf("boTab") > -1) {
+					modelAndView.setViewName(viewName + ".tabtiles");
 				} else if (viewName.indexOf(".tiles") == -1) {
 					modelAndView.setViewName(viewName + ".tiles");
-				} else if (viewName.indexOf("/bo") > -1) {
-					modelAndView.setViewName(viewName);
 				} else {
 					modelAndView.setViewName(viewName + ".tiles");
 				}
