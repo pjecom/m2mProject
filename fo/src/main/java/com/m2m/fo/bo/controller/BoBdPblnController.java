@@ -17,12 +17,12 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequestMapping("/boBdPbln")
+@RequestMapping("/bo")
 public class BoBdPblnController {
     @Autowired
     private BoBdPblnService boBdPblnService;
-
-    @RequestMapping(value = "/detail", method = RequestMethod.GET)
+    
+    @RequestMapping(value = "/boBdPblnDtlModal", method = RequestMethod.POST)
     public String bobdPblnMain(ModelMap model) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
 
@@ -39,6 +39,6 @@ public class BoBdPblnController {
             log.warn("Error");
         }
 
-        return "boTab/boBdPblnDtl.modal";
+        return "boModal/boBdPblnDtl";
     }
 }

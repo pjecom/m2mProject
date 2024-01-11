@@ -17,7 +17,7 @@
 	
 	function bdNoticeDetailModalSearch(){
 		debugger;
-		var url = "/bo/boPbln/detail";
+		var url = "/bo/boBdPblnDtlModal";
 		var params = {
 				
 		};
