@@ -25,6 +25,14 @@
 	</definition>
    
    <!-- main -->
+   <definition name="layout" template="/WEB-INF/bdTiles/layout-main.jsp">
+       <put-attribute name="header" value="/WEB-INF/bdTiles/header.jsp" />
+       <put-attribute name="body" value="" />
+       <put-attribute name="footer" value="/WEB-INF/bdTiles/footer.jsp" />
+   </definition>
+   <definition name="*/*.tiles" extends="layout">
+       <put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}.jsp" />
+   </definition>
 
    <!-- bdmain -->
    <definition name="layoutBd" template="/WEB-INF/bdTiles/layout-main.jsp">
