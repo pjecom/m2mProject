@@ -6,9 +6,9 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.ToString;
 
-@Data
 @ToString
 @Getter
+@Data
 public class BoBdPblnVO {
 	private String bidPblancId; // 입찰공고아이디
 	private String bidSttusCode; // 입찰상태코드
@@ -28,6 +28,7 @@ public class BoBdPblnVO {
 	private String dstrctNm; // 권역이름
 	private int bidWt; // 입찰중량
 	private float permWtRate; // 허용중량비율
+	private int minPremiumPc; // 최저프리미엄가
 	
 	private String delyCnd01ApplcAt; //인도조건 01 적용여부 
 	private float delyCnd01StdrAt; //인도조건 01 기준가격 
