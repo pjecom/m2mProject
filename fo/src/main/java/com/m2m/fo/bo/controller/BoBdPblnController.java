@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.m2m.fo.bd.model.BdListVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,6 +22,18 @@ import lombok.extern.slf4j.Slf4j;
 public class BoBdPblnController {
     @Autowired
     private BoBdPblnService boBdPblnService;
+
+    @RequestMapping("/bidNotice")
+    public String boDetail(ModelMap model) throws Exception {
+        Map<String, Object> map = new HashMap<String, Object>();
+        BoBdPblnVO bdListVO = new BoBdPblnVO();
+        List<BoBdPblnVO> list = boBdPblnService.getBoBdPblnList(bdListVO);
+        // BoBdPblnVO bdListCnt = boBdPblnService.getBoBdPblnListTotalCnt(bdListVO);
+        model.addAttribute("bdList", list);
+        // model.addAttribute("bdListCnt", bdListCnt);
+        return "boTab/bdNotice";
+
+    }
     
     @RequestMapping(value = "/boBdPblnDtlModal", method = RequestMethod.POST)
     public String bobdPblnMain(ModelMap model) throws Exception {

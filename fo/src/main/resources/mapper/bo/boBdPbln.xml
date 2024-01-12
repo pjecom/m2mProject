@@ -69,4 +69,43 @@
          AND BB.BID_PBLANC_ID          =   'TEST01-01'                                         /*입찰공고아이디*/
          AND BB.DELETE_AT              =   'N'                                                 /*삭제여부*/
 	</select>
+
+    <select id="getBoBdPblnList" parameterType="com.m2m.fo.bo.model.BoBdPblnVO" resultType="com.m2m.fo.bo.model.BoBdPblnVO">
+        SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+        /* com.m2m.fo.bo.mapper.BoBdPblnMapper.getBoBdPblnList */
+        SELECT
+            BID_PBLANC_ID --입찰공고아이디
+            ,(SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'METAL_CODE' AND SUB_CODE = CAST(BB.METAL_CODE AS INT)) AS METAL_NAME -- 금속 이름
+            ,(SELECT GOODS_NM FROM IT_ITM_INFO_BAS WHERE ITM_SN = CAST(BB.ITM_SN AS INT) AND DELETE_AT = 'N') AS ITM_NM --아이템명
+            ,BRAND_CODE	--브랜드 코드
+            ,(SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'BRAND_GROUP_CODE' AND SUB_CODE = BB.BRAND_GROUP_CODE AND USE_AT = 'Y') AS BRAND_GROUP_CODE_NM -- 브랜드 그룹명
+            ,(SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'DSTRCT_LCLSF_CODE'  AND SUB_CODE = BB.DSTRCT_LCLSF_CODE) AS DSTRCT_LCLSF_CODE --권역 대분류 코드
+            ,BID_WT --수량
+            ,PERM_WT_RATE --중량
+            ,BID_WT --수량
+            ,PERM_WT_RATE --중량
+            ,BDDPR_BEGIN_DT	--투찰 시작 일시
+            ,BDDPR_END_DT	--투찰 종료 일시
+            ,DSPY_AT	--전시 여부
+            ,BB.FRST_REGIST_DT --등록일
+            ,BB.FRST_REGISTER_ID --등록자
+            ,BID_STTUS_CODE	--입찰 상태 코드
+            ,(SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'BID_STTUS_CODE' AND SUB_CODE = BB.BID_STTUS_CODE AND USE_AT = 'Y') AS BID_STTUS
+            ,PARTCPTN_ENTRPS_QY	--참여 업체 수량
+        FROM BD_BID_BAS BB
+        where 1=1
+        <if test="bidSttusCode != null and bidSttusCode != ''">
+            AND BID_STTUS_CODE = #{bidSttusCode}
+        </if>
+    </select>
+    <select id="getBoBdPblnListTotalCnt" resultType="com.m2m.fo.bo.model.BoBdPblnVO">
+        SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+        /* com.m2m.fo.bo.mapper.BoBdPblnMapper.getBoBdPblnListTotalCnt */
+        SELECT
+            COUNT(*) AS TotalCnt
+            ,COUNT(CASE WHEN BID_STTUS_CODE=12 THEN 1 END) AS ExpectCnt
+            ,COUNT(CASE WHEN BID_STTUS_CODE=13 THEN 1 END) AS BidingCnt
+            ,COUNT(CASE WHEN BID_STTUS_CODE=30 THEN 1 END) AS EndCnt
+        FROM BD_BID_BAS
+    </select>
 </mapper>

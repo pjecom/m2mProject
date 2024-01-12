@@ -64,7 +64,7 @@
                             <th scope="row">수량 (톤)<i class="icon icon-required"></i></th>
                             <td>
                                 <select class="form-select select-sm">
-                                    <c:forEach var="count" begin="1" end="10">
+                                    <c:forEach var="count" begin="100" end="2000" step="100">
                                         <option value="${count}">${count}</option>
                                     </c:forEach>
                                 </select>
@@ -72,8 +72,9 @@
                             <th scope="row">중량허용공차(±)<i class="icon icon-required"></i></th>
                             <td>
                                 <select class="form-select select-sm">
-                                    <option value="1">1%</option>
-                                    <option value="10">10%</option>
+                                    <c:forEach var="count" begin="1" end="10">
+                                        <option value="${count}">${count}%</option>
+                                    </c:forEach>
                                 </select>
                             </td>
                         </tr>

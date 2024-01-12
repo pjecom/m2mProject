@@ -3,8 +3,12 @@ package com.m2m.fo.bo.model;
 import java.util.Date;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.ToString;
 
 @Data
+@ToString
+@Getter
 public class BoBdPblnVO {
 	private String bidPblancId; // 입찰공고아이디
 	private String bidSttusCode; // 입찰상태코드
@@ -12,11 +16,13 @@ public class BoBdPblnVO {
 	
 	//공고정보
 	private String metalCode; // 금속코드
+	private String metalName;	//금속 이름
 	private String metalCodeEm; // 메탈구분(영어)
 	private String brandGroupCode; // 브랜드그룹코드
-	private String brandGroupCodeNm; // 브랜드이름
+	private String brandGroupCodeNm; // 브랜드그룹이름
 	private String brandCode; // 브랜드코드	
 	private int itm; // 아이템순번
+	private String	itmNm; //아이템명
 	private String dspyGoodsNm; // 아이템상품명
 	private String dstrctLclsfCode; // 권역대분류코드
 	private String dstrctNm; // 권역이름
@@ -57,7 +63,7 @@ public class BoBdPblnVO {
 	private String bidUpdtCn; // 입찰수정내용
 	private String bidUpdtResn; // 입찰수정사유
 	
-	private int PartcptnEntrpsQy; // 참여업체수량
+	private int partcptnEntrpsQy; // 참여업체수량
 	private int intrstEntrpsQy; // 관심업체수량
 	private String DspyAt; // 전시여부
 	private String PblancCanclAt; // 공고취소여부

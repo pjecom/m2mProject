@@ -172,9 +172,7 @@
                 $(button).addClass("active")
 
                 const url = "/bo/bidNotice"
-                comAjax("POST", url, null, "", "application/json", true, null, (res) => {
-                    console.log(res)
-                })
+                comAjax("POST", url, null, "", "application/json", true, null, () => {})
             }
         </script>
 
@@ -220,7 +218,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <c:if test="${bidList.size() == 0 }">
+                        <c:if test="${bdList.size() == 0 }">
                             <tr>
                                 <td colspan="15" align="center">
                                     <img class="mt-8" src="/bo_images/error/prohibit.png" alt="Nobids"/>
@@ -228,24 +226,29 @@
                                 </td>
                             </tr>
                         </c:if>
-                        <c:if test="${bidList.size() != 0}">
-                            <c:forEach var="vo" items="${bidList}">
-                                <tr onclick="location.href='?'">
+                        <c:if test="${bdList.size() != 0}">
+                            <c:forEach var="vo" items="${bdList}">
+                                <tr onclick="console.log('hihihi >>> ${vo.bidPblancId}')">
+                                    <td>${vo.bidPblancId}</td>
+                                    <td>${vo.metalName}</td>
+                                    <td>${vo.itmNm}</td>
                                     <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>${vo.brandGroupCodeNm}</td>
+                                    <td>${vo.dstrctLclsfCode}</td>
+                                    <td>${vo.bidWt}</td>
+                                    <td>${vo.bddprBeginDt} ~ ${vo.bddprEndDt}</td>
+                                    <td>${vo.dstrctLclsfCode}</td>
+                                    <c:choose>
+                                        <c:when test="${vo.dspyAt eq 'Y'}"><td>활성</td></c:when>
+                                        <c:when test="${vo.dspyAt eq 'N'}"><td>활성</td></c:when>
+                                        <c:otherwise><td></td></c:otherwise>
+                                    </c:choose>
+                                    <fmt:formatDate value="${vo.frstRegistDt}" pattern = "yyyy-MM-dd hh:mm:ss" var = "frstRegistDt"/>
+                                    <td>${frstRegistDt}(${vo.frstRegisterId})</td>
+                                    <td>${vo.bidSttus}</td>
+                                    <td>${vo.dstrctLclsfCode}</td>
+                                    <td>${vo.partcptnEntrpsQy}</td>
+                                    <td>${vo.dstrctLclsfCode}</td>
                                 </tr>
                             </c:forEach>
                         </c:if>

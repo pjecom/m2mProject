@@ -2,6 +2,7 @@ package com.m2m.fo.bo.service;
 
 import java.util.List;
 
+import com.m2m.fo.bd.model.BdListVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,17 @@ public class BoBdPblnServiceImpl implements BoBdPblnService{
 	@Override
 	public List<BoBdPblnVO> boBdPblnDtl(BoBdPblnVO vo) throws Exception {
 		return boBdPblnMapper.boBdPblnDtl(vo);
+	}
+
+	@Override
+	public List<BoBdPblnVO> getBoBdPblnList(BoBdPblnVO vo) throws Exception {
+		List<BoBdPblnVO> list = boBdPblnMapper.getBoBdPblnList(vo);
+		return list;
+	}
+
+	@Override
+	public BoBdPblnVO getBoBdPblnListTotalCnt(BoBdPblnVO vo) throws Exception {
+		return boBdPblnMapper.getBoBdPblnListTotalCnt(vo);
 	}
 
 }
