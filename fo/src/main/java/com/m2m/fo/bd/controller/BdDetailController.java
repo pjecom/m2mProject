@@ -1,25 +1,20 @@
 package com.m2m.fo.bd.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.ui.Model;
-import org.springframework.http.HttpStatus;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.m2m.fo.bd.model.BdBddprVO;
 import com.m2m.fo.bd.model.BdDetailVO;
@@ -63,6 +58,8 @@ public class BdDetailController {
 		List<BdDetailVO> bdDelyCndList = bdDetailService.selectbdDelyCndList(bdDetailVO);
 		log.info("bdDelyCndList >>> ::: {}",bdDelyCndList.size());
 		model.addAttribute("bdDelyCndList", bdDelyCndList);
+		
+		// 입찰
 		
 		//log.info("bdDelyCndList >>> ::: {}",bdDelyCndList.size());
 	
@@ -112,15 +109,28 @@ public class BdDetailController {
 			return new ResponseEntity<>("비밀번호가 틀렸습니다.다시 시도해주세요.", HttpStatus.BAD_REQUEST); 
 		}
     }
-	
+
+    /**
+     * <pre>
+     * 처리내용: 투찰데이터 INSERT(투찰상세 테이블)
+     * </pre>
+     *  @date 2024. 01. 12.
+     * @author SH
+     * @history
+     * ------------------------------------------------
+     * 변경일					작성자				변경내용
+     * ------------------------------------------------
+     * 2024. 01. 12.		SH    			최초작성
+     * ------------------------------------------------
+     **/
     @RequestMapping("/insertBdBddpr")
     @ResponseBody
 	public ResponseEntity<?> insertBdBddpr(@RequestBody BdBddprVO bdBddprVO) throws Exception {
     	Map<String, Object> retVal = new HashMap<String, Object>();
+    	// 테스트데이터
     	bdBddprVO.setFrstRegisterId("test");
     	bdBddprVO.setLastChangerId("test");
     	
-		// 투찰 기간이 지나면 투찰x
     	log.info("bdBddprVO >>> ::: {} ", bdBddprVO);
 
 		try {

@@ -82,6 +82,19 @@ public class BdDetailServiceImpl implements BdDetailService {
 		return bdDetailMapper.passwordCheck(bdDetailVO);
 	}
 
+    /**
+     * <pre>
+     * 처리내용: 투찰데이터 INSERT(투찰상세 테이블)
+     * </pre>
+     *  @date 2024. 01. 12.
+     * @author SH
+     * @history
+     * ------------------------------------------------
+     * 변경일					작성자				변경내용
+     * ------------------------------------------------
+     * 2024. 01. 12.		SH    			최초작성
+     * ------------------------------------------------
+     **/
 	@Override
 	public void insertBdBddpr(BdBddprVO bdBddprVO) {
 		// TODO Auto-generated method stub

@@ -306,11 +306,15 @@
 								 <!-- 비밀번호 확인 팝업 :: START -->
 								<div class="popup modal confirm" id="checkConfirm">
 									<div class="modal-content w490px">
+										<div class="modal-header">
+											<h1>비밀번호 확인</h1>
+										</div>
 										<div class="max-width">
-											<div class="alert-con"><p>정상접수되었습니다.<br>가입 시 등록한 비밀번호를 입력해주세요.<br><br>
+											<div class="alert-con"><p>정상접수되었습니다.<br>내가 참여한 입찰 내역은<br>[마이페이지]<br>확인 가능합니다. 감사합니다.<br>
 										</div><!--// .max-width -->
 										<div class="modal-btns">
-											<button type="button" class="btn-blue-big modal-x" id="passwordCheck" onclick="checkPassword()">확인</button>
+											<button type="button" class="btn-blue-big modal-x" id="" onclick="">확인</button>
+											<button type="button" class="btn-blue-big modal-x" id="" onclick="">마이페이지</button>
 										</div>
 									</div>
 								</div>
@@ -382,7 +386,7 @@
 		}
 	}
 
-	// 팝업 오픈
+	// 비밀번호 확인 팝업 오픈
 	function confirmPopup(){
 		// 입찰 참여동의 여부 체크
 		var agree = $('#agree_all').prop('checked');
@@ -408,9 +412,18 @@
 		}
 	}
 
+	// 정상접수 팝업 오픈
+	function checkPopup(){
+		
+	}
+
 	// 팝업종료
 	function closePopup() {
+		debugger;
 		document.getElementById('bidCancelConfirm').style.display = 'none';
+		cmmPopup('checkConfirm', 'confirm');
+
+		document.getElementById('checkConfirm').style.display = 'block';
 	}
 
 	// =============== 비밀번호 가져오기 ==================
@@ -430,8 +443,8 @@
 				// 비밀번호가 맞을경우
 				if(data.result == "Y"){
 					var params = {
-						"bidEntrpsNo" : "C0013",	// 업체번호(세션값)
-						"bidPblancId" : "${bdDetailVO.bidPblancId}",	// 입찰 공고아이디 delyCndCode
+						"bidEntrpsNo" : "C0026",	// 업체번호(세션값)
+						"bidPblancId" : "${bdDetailVO.bidPblancId}",	// 입찰 공고아이디 
 						"delyCndCode" : $('#shippingAddr').val(),	// 인도조건코드
 						"delyCndStdrPc" : $('#delyCndStdrPc').val(),	// 인도 조건 기준가격
 						"cnvrsPremiumAmount" : $('#cnvrsPremiumAmount').val(),	// 인도 프리미엄 금액
@@ -456,12 +469,11 @@
 							console.log('데이터 정상', data);
 							closePopup();
 							//cmmPopup('bidCancelConfirm', 'confirm');
-							debugger;
-							var params = {
-                				"bidPblancId" : "TEST01-07",
-                				"bidEntrpsNo" : "C0013"
-            				}
-            				pageMove( "/detail/bdDetail", JSON.stringify(params), 'application/json');
+							// var params = {
+                			// 	"bidPblancId" : "${bdDetailVO.bidPblancId}",	// 입찰 공고아이디 
+                			// 	"bidEntrpsNo" : "C0014"
+            				// }
+            				// pageMove( "/detail/bdDetail", JSON.stringify(params), 'application/json');
 							//location.href("/bdTiles/bdDetail");
 
 						},
