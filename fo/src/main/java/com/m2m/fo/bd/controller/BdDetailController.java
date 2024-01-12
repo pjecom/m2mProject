@@ -32,7 +32,7 @@ public class BdDetailController {
 	
     /**
      * <pre>
-     * 처리내용: 디테일 조회(입찰기본 테이블), 인도조건 리스트 조회(공통테이블)
+     * 처리내용: 디테일 조회(입찰기본 테이블), 인도조건 리스트 조회(공통테이블), 투찰세부 조회(투찰상세 테이블)
      * </pre>
      *  @date 2024. 01. 10.
      * @author SH
@@ -46,22 +46,26 @@ public class BdDetailController {
 	@RequestMapping("/bdDetail")
     public String bdDetail(@RequestBody BdDetailVO bdDetailVO, Model model, HttpServletRequest request) throws Exception {
 		
-		log.info("HI");
-		
+		BdDetailVO detailVO = new BdDetailVO();
 		// 상세화면 리스트
-		bdDetailVO = bdDetailService.selectDetail(bdDetailVO);
-
-		log.info("bdDetailVO >>> ::: {}",bdDetailVO);
-		model.addAttribute("bdDetailVO", bdDetailVO);
+		detailVO = bdDetailService.selectDetail(bdDetailVO);
+		log.info("bdDetailVO >>> ::: {}",detailVO);
+		model.addAttribute("bdDetailVO", detailVO);
 		
 		// 인도조건 리스트
-		List<BdDetailVO> bdDelyCndList = bdDetailService.selectbdDelyCndList(bdDetailVO);
+		List<BdDetailVO> bdDelyCndList = bdDetailService.selectbdDelyCndList(detailVO);
 		log.info("bdDelyCndList >>> ::: {}",bdDelyCndList.size());
 		model.addAttribute("bdDelyCndList", bdDelyCndList);
 		
-		// 입찰
-		
-		//log.info("bdDelyCndList >>> ::: {}",bdDelyCndList.size());
+		// 투찰세부 조회
+		BdBddprVO bdBddprVO = new BdBddprVO();
+		bdBddprVO = bdDetailService.selectBddpr(bdDetailVO);
+		log.info("bdBddprVO >>> ::: {}",bdBddprVO);
+		if(bdBddprVO == null) {
+			log.info("값이 존재하지 않습니다.");
+		}else {
+			model.addAttribute("bdBddprVO", bdBddprVO);	
+		}
 	
         return "bdTiles/bdDetail";
 

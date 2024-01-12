@@ -1,5 +1,6 @@
 package com.m2m.fo.bd.service;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,40 @@ public class BdDetailServiceImpl implements BdDetailService {
 
     /**
      * <pre>
+     * 처리내용: 투찰세부 조회(투찰상세 테이블)
+     * </pre>
+     *  @date 2024. 01. 10.
+     * @author SH
+     * @history
+     * ------------------------------------------------
+     * 변경일					작성자				변경내용
+     * ------------------------------------------------
+     * 2024. 01. 10.		SH    			최초작성
+     * ------------------------------------------------
+     **/
+	@Override
+	public BdBddprVO selectBddpr(BdDetailVO bdDetailVO) {
+		// TODO Auto-generated method stub
+		BdBddprVO bdBddprVO = new BdBddprVO();
+		bdBddprVO = bdDetailMapper.selectBddpr(bdDetailVO);
+		
+		if(bdBddprVO == null) {
+			log.info("투찰전 입니다.");
+		}else {
+			// SimpleDateFormat을 사용하여 Date를 String으로 변환
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm"); // 날짜 형식을 지정
+	        String dateString = dateFormat.format(bdBddprVO.getBddprDt());
+			log.info("dateString >>> ::: {}", dateString);	
+			// 포맷날짜 셋팅
+			bdBddprVO.setDateString(dateString);
+			// flag값 설정(투찰상세 조회시 -> )
+			bdBddprVO.setBddprFlag("Y");
+		}
+
+		return bdBddprVO;
+	}
+    /**
+     * <pre>
      * 처리내용: 비밀번호 확인(업체정보기본 테이블)
      * </pre>
      *  @date 2024. 01. 11.
@@ -84,7 +119,7 @@ public class BdDetailServiceImpl implements BdDetailService {
 
     /**
      * <pre>
-     * 처리내용: 투찰데이터 INSERT(투찰상세 테이블)
+     * 처리내용: 투찰데이터 INSERT(투찰상세 테이블), 참여기업 +1(입찰기본 테이블)
      * </pre>
      *  @date 2024. 01. 12.
      * @author SH
@@ -99,6 +134,23 @@ public class BdDetailServiceImpl implements BdDetailService {
 	public void insertBdBddpr(BdBddprVO bdBddprVO) {
 		// TODO Auto-generated method stub
 		bdDetailMapper.insertBdBddpr(bdBddprVO);
+		
+		// 참여기업 수 조회
+		int partEntQy = bdDetailMapper.selectPartEntQy(bdBddprVO);
+		log.info("partEntQy >>> ::: {}", partEntQy);
+		
+		partEntQy++;
+		log.info("partEntQy >>> ::: {}", partEntQy);
+		bdBddprVO.setPartEntQy(partEntQy);
+		
+		bdDetailMapper.updatePartEntQy(bdBddprVO);
+		
 	}
 
 }
+
+
+
+
+
+

@@ -44,7 +44,7 @@
 				<div class="section prod-detail-wrap bid">
 					<div class="inwrap">
 			            <!-- ITEM TITLE :: START  -->
-			            <h2 class="h2-new">공고 상세 정보</h2>
+			            <h2 class="h2-new">공고 상세 정보${bdBddprVO.dateString} ${bdBddprVO.bddprFlag} ${bdBddprVO.delyCndCodeNm}</h2>
 			            <!-- ITEM TITLE :: END  -->	            
 			            <!-- ITEM DETAIL AREA :: START -->
 						<ul class="list t2">
@@ -200,41 +200,71 @@
 										<!-- ###################### END 마감(내가 참여하지 않은 마감건) ######################-->
 										<!-- ###################### START 투찰중(투찰 최종가격) ######################-->
 										<c:if test="${bdDetailVO.bidSttusCode eq '13'}">
-											<tr class="bid-condition">
-												<!-- ###################### START 인도조건 SELECT박스 ######################-->
-												<th class="fc-red" rowspan="2" scope="row">인도 조건</th>
-												<td colspan="2">
-													<div class="tb-select">
-														<label for="shippingAddr">검색조건</label>
-														<select name="shippingAddr" id="shippingAddr">
-															<option>옵션</option>
-															<c:forEach var="item" items="${bdDelyCndList}">
-																<option value="${item.codeDcone}">${item.codeDctwo}</option>
-															</c:forEach>
-														</select>
-													</div>
-												</td>
-												<!-- ###################### END 인도조건 SELECT박스 ######################-->												
-												<td colspan="1"><input class="input-lg" type="number" name="" id="delyCndStdrPc" onchange='Change()' value="100" placeholder=""></td>
-											</tr>
-											<tr class="bid-condition bid-condition2">
-												<td class="right-narrow" colspan="2">
-													<div class="input-btn-wrap">
-														<div class="r-info">+전환 프리미엄가</div>
-													</div>
-												</td>
-												<td colspan="1"><input class="input-lg" type="number" name="" id="cnvrsPremiumAmount" onchange='Change()' value="100" placeholder=""></td>                                
-											</tr>			                            
-											<tr>
-												<th class="fc-red" rowspan="2" scope="row">프리미엄 가격(USD/MT)</th>
-												<td class="bg-orange1" colspan="2">투찰 프리미엄 가격</td>
-												<td class="bg-orange2" colspan="1">투찰 최종 가격</td>
-											</tr>		
-											<tr>
-												<td class="center" colspan="2">
-													<input class="input-md" type="number" name="premium" id="bddprPremiumPc" onchange='Change()' value="100" placeholder="">/MT</td>
-												<td class="center" colspan="1" id="result" pattern="#,###,###"><span>300</span> 원</td>                                  
-											</tr>
+											<!-- 입찰전과 입찰후의 값이 다름 -> flag 값을 이용해서 분기처리 -->
+											<c:if test="${bdBddprVO.bddprFlag eq 'Y'}">
+												<tr class="bid-condition">
+													<th class="fc-red" rowspan="2" scope="row">인도 조건</th>
+													<td colspan="2">
+														<div class="tb-select">
+															<div class="read">${bdBddprVO.delyCndCodeNm}</div>
+														</div>
+													</td>									
+													<td colspan="1"><input class="input-lg" type="number" name="" id="delyCndStdrPc" value="${bdBddprVO.delyCndStdrPc}"></td>
+												</tr>
+												<tr class="bid-condition bid-condition2 read">
+													<td class="right-narrow" colspan="2">
+														<div class="input-btn-wrap">
+															<div class="r-info">+전환 프리미엄가</div>
+														</div>
+													</td>
+													<td colspan="1"><input class="input-lg" type="number" name="" id="cnvrsPremiumAmount" value="${bdBddprVO.cnvrsPremiumAmount}"></td>                                
+												</tr>			                            
+												<tr>
+													<th class="fc-red" rowspan="2" scope="row">프리미엄 가격(USD/MT)</th>
+													<td class="bg-orange1" colspan="2">투찰 프리미엄 가격</td>
+													<td class="bg-orange2" colspan="1">투찰 최종 가격</td>
+												</tr>		
+												<tr>
+													<td class="center read" colspan="2">
+														<input class="input-md" type="number" name="premium" id="bddprPremiumPc" value="${bdBddprVO.bddprPremiumPc}">/MT</td>
+													<td class="center" colspan="1" id="result"><span></span> 원</td>                                  
+												</tr>
+											</c:if>	
+											<c:if test="${bdBddprVO.bddprFlag ne 'Y'}">
+												<tr class="bid-condition">
+													<th class="fc-red" rowspan="2" scope="row">인도 조건</th>
+													<td colspan="2">
+														<div class="tb-select">
+															<label for="shippingAddr">검색조건</label>
+															<select name="shippingAddr" id="shippingAddr">
+																<option>옵션</option>
+																<c:forEach var="item" items="${bdDelyCndList}">
+																	<option value="${item.codeDcone}">${item.codeDctwo}</option>
+																</c:forEach>
+															</select>
+														</div>
+													</td>
+													<td colspan="1"><input class="input-lg" type="number" name="" id="delyCndStdrPc" onchange='Change()' value="100" placeholder=""></td>
+												</tr>
+												<tr class="bid-condition bid-condition2">
+													<td class="right-narrow" colspan="2">
+														<div class="input-btn-wrap">
+															<div class="r-info">+전환 프리미엄가</div>
+														</div>
+													</td>
+													<td colspan="1"><input class="input-lg" type="number" name="" id="cnvrsPremiumAmount" onchange='Change()' value="100" placeholder=""></td>                                
+												</tr>			                            
+												<tr>
+													<th class="fc-red" rowspan="2" scope="row">프리미엄 가격(USD/MT)</th>
+													<td class="bg-orange1" colspan="2">투찰 프리미엄 가격</td>
+													<td class="bg-orange2" colspan="1">투찰 최종 가격</td>
+												</tr>		
+												<tr>
+													<td class="center" colspan="2">
+														<input class="input-md" type="number" name="premium" id="bddprPremiumPc" onchange='Change()' value="100" placeholder="">/MT</td>
+													<td class="center" colspan="1" id="result" pattern="#,###,###"><span>300</span> 원</td>                                  
+												</tr>
+											</c:if>
 										</c:if>
 										<!-- ###################### END 투찰중(투찰 최종가격) ######################-->
 			                            <tr>
@@ -284,38 +314,47 @@
 			                    </table>
 			                    <div class="btn-wrap">
 			                        <button type="button" class="btn-gray-big btn-list" onclick="pageMove('/');">공고 목록가기</button>
-									<button type="button" id="bidStr" class="btn-blue-big" onclick="confirmPopup()">투찰하기</button>
+									<c:choose> 
+										<c:when test="${bdBddprVO.bddprFlag eq 'Y'}">
+											<button type="button" id="bidStr" class="btn-blue-big" onclick="confirmPopup()">마이페이지</button>
+											<button type="button" id="bidStr" class="btn-blue-big" onclick="confirmPopup()">투찰취소</button>
+										</c:when>
+										<c:otherwise>
+											<button type="button" id="bidStr" class="btn-blue-big" onclick="confirmPopup()">투찰하기</button>
+										</c:otherwise>
+									</c:choose>
 			                    </div>
-								 <!-- 비밀번호 확인 팝업 :: START -->
+								 <!-- 비밀번호 확인 팝업, 투찰접수건 확인 팝업 :: START -->
 								<div class="popup modal confirm" id="bidCancelConfirm">
 									<div class="modal-content w490px">
-										<div class="modal-header">
-											<h1>비밀번호 확인</h1>
-											<div class="modal-close"><button type="button" class="modal-x"><span class="hidden">Close Popup</span></button></div>
-										</div>
-										<div class="max-width">
-											<div class="alert-con"><p>최종인증을 진행합니다.<br>가입 시 등록한 비밀번호를 입력해주세요.<br><br>
-											<input class="full" type="password" name="password" id="password" placeholder="비밀번호를 입력해주세요.">
-										</div><!--// .max-width -->
-										<div class="modal-btns">
-											<button type="button" class="btn-blue-big modal-x" id="passwordCheck" onclick="checkPassword()">확인</button>
+										<div id="modal1">
+											<div class="modal-header">
+												<h1>비밀번호 확인</h1>
+												<div class="modal-close"><button type="button" class="modal-x"><span class="hidden">Close Popup</span></button></div>
+											</div>
+											<div class="max-width">
+												<div class="alert-con"><p>최종인증을 진행합니다.<br>가입 시 등록한 비밀번호를 입력해주세요.<br><br>
+												<input class="full" type="password" name="password" id="password" placeholder="비밀번호를 입력해주세요.">
+											</div><!--// .max-width -->
+											<div class="modal-btns">
+												<button type="button" class="btn-blue-big" id="passwordCheck" onclick="checkPassword()">확인</button>
+											</div>
 										</div>
 									</div>
-								</div>
-								 <!-- 비밀번호 확인 팝업 :: END -->
-								 <!-- 비밀번호 확인 팝업 :: START -->
-								<div class="popup modal confirm" id="checkConfirm">
-									<div class="modal-content w490px">
-										<div class="modal-header">
-											<h1>비밀번호 확인</h1>
-										</div>
+									<div id="modal2" style="display:none">
 										<div class="max-width">
 											<div class="alert-con"><p>정상접수되었습니다.<br>내가 참여한 입찰 내역은<br>[마이페이지]<br>확인 가능합니다. 감사합니다.<br>
 										</div><!--// .max-width -->
 										<div class="modal-btns">
-											<button type="button" class="btn-blue-big modal-x" id="" onclick="">확인</button>
-											<button type="button" class="btn-blue-big modal-x" id="" onclick="">마이페이지</button>
+											<button type="button" class="btn-blue-big" onclick="reloadPage()">확인</button>
+											<button type="button" class="btn-blue-big" id="" onclick="">마이페이지</button>
 										</div>
+									</div>
+								</div>
+								 <!-- 비밀번호 확인 팝업, 투찰접수건 확인 팝업 :: END -->
+								<div class="popup modal confirm" id="checkConfirm">
+									<div class="modal-content w490px">
+										
 									</div>
 								</div>
 								 <!-- 비밀번호 확인 팝업 :: END -->
@@ -340,37 +379,36 @@
 	<script src="/guide/js/sorin-ma.js"></script><!-- main js -->
 	<!-- script custom :: END -->
 	<script type="text/javascript"> 
-	
-function modalOpenFocus() {
-    const focusableElements = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
-    const modal = document.querySelector('.modal.active');
-	const firstFocusableElement = modal.querySelectorAll(focusableElements)[0];
-    const focusableContent = modal.querySelectorAll(focusableElements);
-    const lastFocusableElement = focusableContent[focusableContent.length - 1];
 
+	// =============== 모달오픈 ==================
+	function modalOpenFocus() {
+		const focusableElements = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+		const modal = document.querySelector('.modal.active');
+		const firstFocusableElement = modal.querySelectorAll(focusableElements)[0];
+		const focusableContent = modal.querySelectorAll(focusableElements);
+		const lastFocusableElement = focusableContent[focusableContent.length - 1];
 
+		document.addEventListener('keydown', function(e) {
+			let isTabPressed = e.key === 'Tab' || e.keycode === 9;
 
-    document.addEventListener('keydown', function(e) {
-        let isTabPressed = e.key === 'Tab' || e.keycode === 9;
+			if (!isTabPressed) {
+				return;
+			}
 
-        if (!isTabPressed) {
-            return;
-        }
-
-        if (e.shiftKey) {
-            if (document.activeElement === firstFocusableElement) {
-                lastFocusableElement.focus();
-                e.preventDefault();
-            }
-        } else {
-            if (document.activeElement === lastFocusableElement) {
-                firstFocusableElement.focus();
-                e.preventDefault();
-            }
-        }
-    });
-    firstFocusableElement.focus();
-}
+			if (e.shiftKey) {
+				if (document.activeElement === firstFocusableElement) {
+					lastFocusableElement.focus();
+					e.preventDefault();
+				}
+			} else {
+				if (document.activeElement === lastFocusableElement) {
+					firstFocusableElement.focus();
+					e.preventDefault();
+				}
+			}
+		});
+		firstFocusableElement.focus();
+	}
 
 	function modalCloseFocus() {
     	const modalCount = $('.modal.active').length;
@@ -379,6 +417,7 @@ function modalOpenFocus() {
 		}
 	}
 	$(document).off('click', '.modal-x').on('click', '.modal-x', function(e) {
+		debugger;
     	e.preventDefault();
     	$(this).closest('.popup').removeClass('active');
 		modalCloseFocus();
@@ -386,8 +425,6 @@ function modalOpenFocus() {
 		$('body,html').css({'overflow':'inherit'});   // 팝업 비활성화시 스크롤
 	});
 	
-	
-
 	// =============== 투찰최종가격 ==================
 	function Change()  { 
 		 const nDelyCndStdrPc = document.getElementById('delyCndStdrPc').value;
@@ -417,7 +454,6 @@ function modalOpenFocus() {
 
 	// =============== 팝업창 ==================
 	
-
 	// 비밀번호 확인 팝업 오픈
 	function confirmPopup(){
 		// 입찰 참여동의 여부 체크
@@ -445,8 +481,21 @@ function modalOpenFocus() {
 	}
 
 	// 정상접수 팝업 오픈
-	function checkPopup(){
-		
+	function reloadPage(){
+		var params = {
+			"bidPblancId" : "${bdDetailVO.bidPblancId}",	// 입찰 공고아이디 
+			"bidEntrpsNo" : "C0055"
+		}
+		pageMove( "/detail/bdDetail", JSON.stringify(params), 'application/json');
+	}
+
+	// 모달 변경
+	function changeModal(){
+		// #modal1을 숨김
+		$('#modal1').hide();
+
+		// #modal2를 표시
+		$('#modal2').show();
 	}
 
 	// =============== 비밀번호 가져오기 ==================
@@ -466,7 +515,7 @@ function modalOpenFocus() {
 				// 비밀번호가 맞을경우
 				if(data.result == "Y"){
 					var params = {
-						"bidEntrpsNo" : "C0040",	// 업체번호(세션값)
+						"bidEntrpsNo" : "C0055",	// 업체번호(세션값)
 						"bidPblancId" : "${bdDetailVO.bidPblancId}",	// 입찰 공고아이디 
 						"delyCndCode" : $('#shippingAddr').val(),	// 인도조건코드
 						"delyCndStdrPc" : $('#delyCndStdrPc').val(),	// 인도 조건 기준가격
@@ -490,13 +539,9 @@ function modalOpenFocus() {
 						dataType: 'json', 
 						success: function(data) {
 							console.log('데이터 정상', data);
-							cmmPopup('checkConfirm', 'confirm');
+							changeModal();
 							//cmmPopup('bidCancelConfirm', 'confirm');
-							// var params = {
-                			// 	"bidPblancId" : "${bdDetailVO.bidPblancId}",	// 입찰 공고아이디 
-                			// 	"bidEntrpsNo" : "C0014"
-            				// }
-            				// pageMove( "/detail/bdDetail", JSON.stringify(params), 'application/json');
+							
 							//location.href("/bdTiles/bdDetail");
 
 						},

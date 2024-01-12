@@ -13,10 +13,14 @@ public interface BdDetailService {
 
 	/*인도조건 리스트 조회*/
 	public List<BdDetailVO> selectbdDelyCndList(BdDetailVO bdDetailVO);
+	
+	/*투찰세부 조회*/
+	public BdBddprVO selectBddpr(BdDetailVO bdDetailVO);
 
 	/*비밀번호 확인*/
 	public String passwordCheck(BdDetailVO bdDetailVO);
 
 	/*투찰상세 insert*/
 	public void insertBdBddpr(BdBddprVO bdBddprVO);
+
 }

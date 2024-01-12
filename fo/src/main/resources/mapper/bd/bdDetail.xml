@@ -4,8 +4,8 @@
 <mapper namespace="com.m2m.fo.bd.mapper.BdDetailMapper">
 	
 	<select id="selectDetail" parameterType="com.m2m.fo.bd.model.BdDetailVO" resultType="com.m2m.fo.bd.model.BdDetailVO">
+	  /* com.m2m.fo.bd.mapper.BdDetailMapper.selectDetail */
 		 SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
-        /* com.m2m.fo.bd.mapper.BdDetailMapper.selectDetail */
  		SELECT
 				  BB.BID_PBLANC_ID	/*입찰공고아이디*/
 				, BB.BID_STTUS_CODE	/*입찰상태코드*/
@@ -45,8 +45,8 @@
 	</select>
 	
 	<select id="selectbdDelyCndList" parameterType="com.m2m.fo.bd.model.BdDetailVO" resultType="com.m2m.fo.bd.model.BdDetailVO">
+	  /* com.m2m.fo.bd.mapper.BdDetailMapper.selectbdDelyCndList */
       SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
-      /* com.m2m.fo.bd.mapper.BdDetailMapper.selectbdDelyCndList */
       	SELECT 
 			CODE_DCONE,
 			CODE_DCTWO
@@ -59,9 +59,35 @@
 		 ORDER BY SUB_CODE 
     </select>
     
+    <select id="selectBddpr" parameterType="com.m2m.fo.bd.model.BdDetailVO" resultType="com.m2m.fo.bd.model.BdBddprVO">
+	  /* com.m2m.fo.bd.mapper.BdDetailMapper.selectBddpr */
+		 SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+		SELECT
+			 BID_ENTRPS_NO	/*입찰업체 번호*/
+			,BID_PBLANC_ID	/*입찰공고 아이디*/
+			,BDDPR_DT	/*투찰일시*/
+			,DELY_CND_STDR_PC	/*인도조건 기준가격*/
+			,CNVRS_PREMIUM_AMOUNT	/*전환 프리미엄 금액*/
+			,BDDPR_PREMIUM_PC	/*투찰 프리미엄 가격*/
+			,( SELECT CODE_DCTWO
+			   FROM CO_CMMN_CD CCC
+			   WHERE 1=1
+			   AND CCC.MAIN_CODE = 'BID_DELY_CND'
+			   AND CCC.SUB_CODE != '@'
+			   AND CCC.DELETE_AT = 'N'
+			   AND CCC.CODE_DCONE = BBD.DELY_CND_CODE ) AS DELY_CND_CODE_NM
+		FROM	
+			BD_BDDPR_DTL BBD
+		WHERE 1=1
+		AND BID_ENTRPS_NO = #{bidEntrpsNo}
+		AND BID_PBLANC_ID = #{bidPblancId}
+		AND CANCL_AT = 'N'	/*취소여부*/
+		AND DELETE_AT = 'N' /*삭제여부*/
+	</select>
+    
     <select id="passwordCheck" parameterType="com.m2m.fo.bd.model.BdDetailVO" resultType="String">
+	  /* com.m2m.fo.bd.mapper.BdDetailMapper.passwordCheck */
       SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
-      /* com.m2m.fo.bd.mapper.BdDetailMapper.passwordCheck */
       	SELECT 
 			BID_ENTRPS_NO
 		FROM BD_ENTRPS_INFO_BAS
@@ -71,8 +97,8 @@
     </select>
     
     <insert id="insertBdBddpr" parameterType="com.m2m.fo.bd.model.BdBddprVO" >
-	  SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 	  /* com.m2m.fo.bd.mapper.BdDetailMapper.insertBdBddpr */
+	  SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 		INSERT INTO BD_BDDPR_DTL                            /* 입찰 공고 등록 기본           	*/
 		     ( 
 		       BID_ENTRPS_NO									   /* 입찰 업체 번호               		*/
@@ -105,7 +131,7 @@
 		     , #{bddprPremiumPc}                                                                     
 		     , #{bddprWt}                                                                      
 		     , #{partcptnAgreAt}                                                                      
-		     , CONVERT(CHAR(8), GETDATE(), 112)       
+		     , CONVERT(CHAR(23), GETDATE(), 21)       
 		     , #{bddprNrmltAt}	
 		     , #{scsbidAt}
 		     , #{canclAt}																				
@@ -118,5 +144,25 @@
              , #{pcAppnEndDe}                                                           
 		     ) 
 	</insert>
-
+	
+	<select id="selectPartEntQy" parameterType="com.m2m.fo.bd.model.BdBddprVO" resultType="int">
+	  /* com.m2m.fo.bd.mapper.BdDetailMapper.selectPartEntQy */
+      SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+		SELECT 
+			PARTCPTN_ENTRPS_QY	/*참여업체수량*/
+		FROM 
+			BD_BID_BAS
+		WHERE 1=1
+		AND BID_PBLANC_ID = #{bidPblancId}
+    </select>
+    
+	<update id="updatePartEntQy" parameterType="com.m2m.fo.bd.model.BdBddprVO">
+		/* com.m2m.fo.bd.mapper.BdDetailMapper.updatePartEntQy */
+		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+		UPDATE BD_BID_BAS
+		SET
+			PARTCPTN_ENTRPS_QY = #{partEntQy}
+		WHERE 1=1
+		AND BID_PBLANC_ID = #{bidPblancId}
+	</update>
 </mapper>
