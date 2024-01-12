@@ -267,7 +267,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="btns" value="${vo.bidSttusCode}" onclick="detailpagemove()">
+                        <div class="btns" value="${vo.bidSttusCode}" id="moveList">
                             <c:choose>
                                 <c:when test="${vo.bidSttusCode == 13}">
                                     <div class="btn-bid-blue">투찰중</div>
@@ -302,6 +302,17 @@
 <script>
 //------------------------------------- 공지사항 최근 게시글 제목 4개 조회-------------------------------------//
 /* 로그인 버튼 클릭 메서드 */
+    $(function() {
+        $("#moveList").click(function() { // 목록가기 버튼 클릭 이벤트
+            //alert("HI");
+            var params = {
+                "bidPblancId" : "TEST01-07",
+                "bidEntrpsNo" : "A0001"
+            }
+            pageMove( "/detail/bdDetail", JSON.stringify(params), 'application/json');
+        });
+    });
+
     $(".primary_bg").click(function(){
         //alert("로그인 버튼 작동");
         console.log("로그인 버튼 작동");

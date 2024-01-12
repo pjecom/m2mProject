@@ -60,10 +60,11 @@ public class BdDetailVO {
 	private Date frstRegistDt;                   //최초등록일시
 	private String lastChangerId;                //최종변경자ID
 	private Date lastChangeDt;                   //최종변경일시
+	private String codeDcone;					 //공통코드(코드1)
 	private String codeDctwo;					 //공통코드(코드2) 
 	
-	// 투찰 상세
-	private String bidEntrpsNo;					 // 입찰업체번호
-	private String bidMberSecretNo;				 // 입찰회원비밀번호
+	// 업체정보 기본
+	private String bidEntrpsNo;					 //입찰업체번호
+	private String bidMberSecretNo;				 //입찰회원비밀번호
 	
 }

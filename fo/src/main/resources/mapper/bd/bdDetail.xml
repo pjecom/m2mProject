@@ -46,8 +46,11 @@
 	
 	<select id="selectbdDelyCndList" parameterType="com.m2m.fo.bd.model.BdDetailVO" resultType="com.m2m.fo.bd.model.BdDetailVO">
       SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
-      SELECT CODE_DCTWO
-	  FROM CO_CMMN_CD 
+      /* com.m2m.fo.bd.mapper.BdDetailMapper.selectbdDelyCndList */
+      	SELECT 
+			CODE_DCONE,
+			CODE_DCTWO
+	 	 FROM CO_CMMN_CD 
 		 WHERE 1=1
 		   AND MAIN_CODE = 'BID_DELY_CND'
 		   AND SUB_CODE != '@'
@@ -55,5 +58,65 @@
            AND CODE_DCONE = #{dstrctLclsfCode}
 		 ORDER BY SUB_CODE 
     </select>
+    
+    <select id="passwordCheck" parameterType="com.m2m.fo.bd.model.BdDetailVO" resultType="String">
+      SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+      /* com.m2m.fo.bd.mapper.BdDetailMapper.passwordCheck */
+      	SELECT 
+			BID_ENTRPS_NO
+		FROM BD_ENTRPS_INFO_BAS
+		WHERE 1=1
+		AND BID_ENTRPS_NO = #{bidEntrpsNo}
+		AND BID_MBER_SECRET_NO = #{bidMberSecretNo}
+    </select>
+    
+    <insert id="insertBdBddpr" parameterType="com.m2m.fo.bd.model.BdBddprVO" >
+	  SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+	  /* com.m2m.fo.bd.mapper.BdDetailMapper.insertBdBddpr */
+		INSERT INTO BD_BDDPR_DTL                            /* 입찰 공고 등록 기본           	*/
+		     ( 
+		       BID_ENTRPS_NO									   /* 입찰 업체 번호               		*/
+		     , BID_PBLANC_ID                                        /* 입찰 공고 아이디              	*/
+		     , DELY_CND_CODE                                      /* 인도 조건 코드               	*/
+		     , DELY_CND_STDR_PC                                  /* 인도 조건 기준 가격           	*/
+		     , CNVRS_PREMIUM_AMOUNT                        /* 전환 프리미엄 금액            	*/  
+		     , BDDPR_PREMIUM_PC                                 /* 투찰 프리미엄 가격            	*/
+		     , BDDPR_WT                                            	/* 투찰 중량                   		*/
+		     , PARTCPTN_AGRE_AT                                  /* 참여 동의 여부               	*/
+			 , BDDPR_DT                                           	/* 투찰 일시                   		*/
+			 , BDDPR_NRMLT_AT                                    /* 투찰 정상 여부               	*/
+			 , SCSBID_AT                                           	/* 낙찰 여부                   		*/
+			 , CANCL_AT                                     	   		/* 취소 여부                   		*/
+			 , DELETE_AT                            			   		/* 삭제 여부                    		*/
+			 , FRST_REGISTER_ID                                    	/* 최초 등록자 아이디            	*/
+			 , FRST_REGIST_DT                                      	/* 최초 등록 일시                	*/
+			 , LAST_CHANGER_ID                                    /* 최종 변경자 아이디          	*/
+			 , LAST_CHANGE_DT                                     /* 최종 변경 일시                	*/                               
+             , PC_APPN_BEGIN_DE
+             , PC_APPN_END_DE                                           
+		     )
+		VALUES
+		     (
+		       #{bidEntrpsNo}                                                                                  
+		     , #{bidPblancId}
+		     , #{delyCndCode}                                                                    
+		     , #{delyCndStdrPc}                                                                    
+		     , #{cnvrsPremiumAmount}                                                                    
+		     , #{bddprPremiumPc}                                                                     
+		     , #{bddprWt}                                                                      
+		     , #{partcptnAgreAt}                                                                      
+		     , CONVERT(CHAR(8), GETDATE(), 112)       
+		     , #{bddprNrmltAt}	
+		     , #{scsbidAt}
+		     , #{canclAt}																				
+		     , #{deleteAt}                                                                                    
+		     , #{frstRegisterId}                                                                
+		     , GETDATE()                                                                                  
+		     , #{lastChangerId}                                               
+		     , GETDATE()           
+             , #{pcAppnBeginDe}
+             , #{pcAppnEndDe}                                                           
+		     ) 
+	</insert>
 
 </mapper>

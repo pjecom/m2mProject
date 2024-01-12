@@ -209,7 +209,7 @@
 														<select name="shippingAddr" id="shippingAddr">
 															<option>옵션</option>
 															<c:forEach var="item" items="${bdDelyCndList}">
-																<option value="${item.codeDctwo}">${item.codeDctwo}</option>
+																<option value="${item.codeDcone}">${item.codeDctwo}</option>
 															</c:forEach>
 														</select>
 													</div>
@@ -303,6 +303,18 @@
 									</div>
 								</div>
 								 <!-- 비밀번호 확인 팝업 :: END -->
+								 <!-- 비밀번호 확인 팝업 :: START -->
+								<div class="popup modal confirm" id="checkConfirm">
+									<div class="modal-content w490px">
+										<div class="max-width">
+											<div class="alert-con"><p>정상접수되었습니다.<br>가입 시 등록한 비밀번호를 입력해주세요.<br><br>
+										</div><!--// .max-width -->
+										<div class="modal-btns">
+											<button type="button" class="btn-blue-big modal-x" id="passwordCheck" onclick="checkPassword()">확인</button>
+										</div>
+									</div>
+								</div>
+								 <!-- 비밀번호 확인 팝업 :: END -->
 			                </div>
 			                <!-- 투찰 정보 입력 TABLE :: END -->
 			            </ul>			            
@@ -314,11 +326,6 @@
 			<!-- container :: END -->
 		</div>	
 		<!-- body-main :: END -->
-
-		<!-- 23.10.16 | footer include :: START -->
-		<div class="footer bid"></div>
-        <script type="text/javascript"> $(".footer.bid").load("/guide/html/bid/include/footer.html");</script>
-        <!-- // 23.10.16 | footer include :: END -->
 
     </div>
     <!-- wrapper :: END -->
@@ -408,21 +415,61 @@
 
 	// =============== 비밀번호 가져오기 ==================
 	function checkPassword(){
-		alert("HI");
 		var params = {
-			"bidEntrpsNo" : "aaa", // 입찰 업체 번호
+			"bidEntrpsNo" : "C0001", // 입찰 업체 번호
 			"bidMberSecretNo" : $('#password').val() // 입찰 회원 비밀 번호
 		}
 
 		$.ajax({
-			url: '/detail/insertBddpr', // 실제 컨트롤러의 URL로 변경해야 함
-			method: 'POST', // 요청 메서드 (GET, POST 등)
-			contentType: 'application/json', // 전송할 데이터의 타입
-			data: JSON.stringify(params), // 파라미터를 JSON 문자열로 변환하여 전송
-			dataType: 'json', // 응답 데이터의 타입
+			url: '/detail/passwordCheck',
+			method: 'POST', 
+			contentType: 'application/json', 
+			data: JSON.stringify(params), 
+			dataType: 'json', 
 			success: function(data) {
-				// 성공적으로 응답을 받았을 때의 처리
-				console.log('서버 응답:', data);
+				// 비밀번호가 맞을경우
+				if(data.result == "Y"){
+					var params = {
+						"bidEntrpsNo" : "C0009",	// 업체번호(세션값)
+						"bidPblancId" : "${bdDetailVO.bidPblancId}",	// 입찰 공고아이디 delyCndCode
+						"delyCndCode" : $('#shippingAddr').val(),	// 인도조건코드
+						"delyCndStdrPc" : $('#delyCndStdrPc').val(),	// 인도 조건 기준가격
+						"cnvrsPremiumAmount" : $('#cnvrsPremiumAmount').val(),	// 인도 프리미엄 금액
+						"bddprPremiumPc" : $('#bddprPremiumPc').val(),	// 인도 프리미엄 가격
+						"bddprWt" : "${bdDetailVO.bidWt}",	// 투찰 중량
+						"partcptnAgreAt" : $('#agree_all').prop('checked') ? 'Y' : 'N',	// 참여 동의 여부
+						"bddprNrmltAt" : "Y",	// 투찰 정상여부
+						"scsbidAt" : "N",	// 낙찰여부
+						"canclAt" : "N",	// 취소여부
+						"deleteAt" : "N",	// 삭제여부
+						"pcAppnBeginDe" : "${bdDetailVO.pcAppnBeginDe}",	//가격지정시작일자
+						"pcAppnEndDe" : "${bdDetailVO.pcAppnEndDe}"	//가격지정종료일자
+					}	
+
+					$.ajax({
+						url: '/detail/insertBdBddpr', 
+						method: 'POST', 
+						contentType: 'application/json', 
+						data: JSON.stringify(params), 
+						dataType: 'json', 
+						success: function(data) {
+							console.log('데이터 정상', data);
+							closePopup();
+							//cmmPopup('bidCancelConfirm', 'confirm');
+							location.reload();
+							//location.href("/bdTiles/bdDetail");
+
+						},
+						error: function(error) {
+							// 에러 발생 시의 처리
+							console.error('서버 요청 중 에러 발생:', error);
+						}
+					});
+					
+				// 비밀번호가 틀릴경우	
+				}else{
+					alert("비밀번호를 다시 입력해주세요");
+				}
 			},
 			error: function(error) {
 				// 에러 발생 시의 처리
