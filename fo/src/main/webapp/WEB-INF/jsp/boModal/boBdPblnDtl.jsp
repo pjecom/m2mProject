@@ -37,8 +37,7 @@
     <script type="text/javascript" src="/bo_guide/js/common.js"></script><!-- 퍼블 작성 -->
     <script>
     	$(function() {
-	    	$("#detailButton").hide();
-	    	$('#detailButton').click();
+    	
 		});
     </script>
 </head>
@@ -51,13 +50,7 @@
             <div class="main-content">
                 <div class="inner">
                      <!-- Button trigger modal -->
-                     <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" id="detailButton">입찰 공고 상세</button>
-                     <!-- Modal -->
-                     <!-- [D]모달 위치는 변경 하셔도 됩니다! -->
-                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-full" role="document">
-                             <div class="modal-content">
-                                 <div class="modal-header">
+                     <div class="modal-header">
                                      <h5 class="modal-title" id="exampleModalLabel">입찰 공고 상세&nbsp;&nbsp;&gt;&nbsp;PRIMARY AL INGOT P1020&nbsp;&nbsp;&nbsp;&nbsp;<span style="background-color: black; color: white; font-weight:normal;">&nbsp;&nbsp; 입찰공고번호 BID20221128-2 &nbsp;&nbsp;</span></h5>
                                      
                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -390,6 +383,12 @@
                                          <button type="button" class="btn" data-dismiss="modal">취소</button>
                                      </div> -->
                                  </div>
+                     <!-- Modal -->
+                     <!-- [D]모달 위치는 변경 하셔도 됩니다! -->
+                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-full" role="document">
+                             <div class="modal-content">
+                                 
                              </div>
                          </div>
                      </div>                    

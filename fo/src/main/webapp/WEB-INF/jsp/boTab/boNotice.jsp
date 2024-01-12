@@ -7,7 +7,6 @@
 <script>
 	$(function() {
 	   $("#moveList").click(function() { // 목록가기 버튼 클릭 이벤트
-		debugger;
 		var params = {
 		         "bidPblancId" : "TEST01-07",
 		}
@@ -16,7 +15,6 @@
 	});
 	
 	function bdNoticeDetailModalSearch(){
-		debugger;
 		var url = "/bo/boBdPblnDtlModal";
 		var params = {
 				
