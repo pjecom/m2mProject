@@ -213,6 +213,23 @@ var jsonChartList = {};
 if('${jsonChartList}') {
     jsonChartList = JSON.parse('${jsonChartList}')
 }
+
+function cmmPopup(dataTarget, dataPopup, msg){
+		let dataId = '#' + dataTarget;
+		if (dataPopup == 'modal') { // 일반 modal
+			$(dataId).addClass('active');
+		} else if (dataPopup == 'bottomsheet') { // 주문 modal
+			$(dataId).addClass('active');
+		} else if (dataPopup == 'alert') { // alert modal
+			$(dataId).find('.alert-con').text(msg);
+			$(dataId).addClass('active');
+			//$('#sorinModalAlert .alert-con').text(msg);
+		} else if (dataPopup == 'confirm') { // confirm modal
+			$(dataId).find('.alert-con').text(msg);
+			$(dataId).addClass('active');
+			$('#sorinModalConfirm .alert-con').text(msg);
+		}
+	}
 </script>
 
 <!-- script core :: START -->

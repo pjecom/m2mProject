@@ -291,7 +291,7 @@
 									<div class="modal-content w490px">
 										<div class="modal-header">
 											<h1>비밀번호 확인</h1>
-											<div class="modal-close"><button type="button" class="modal-x" onclick="closePopup()"><span class="hidden">Close Popup</span></button></div>
+											<div class="modal-close"><button type="button" class="modal-x"><span class="hidden">Close Popup</span></button></div>
 										</div>
 										<div class="max-width">
 											<div class="alert-con"><p>최종인증을 진행합니다.<br>가입 시 등록한 비밀번호를 입력해주세요.<br><br>
@@ -340,6 +340,53 @@
 	<script src="/guide/js/sorin-ma.js"></script><!-- main js -->
 	<!-- script custom :: END -->
 	<script type="text/javascript"> 
+	
+function modalOpenFocus() {
+    const focusableElements = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+    const modal = document.querySelector('.modal.active');
+	const firstFocusableElement = modal.querySelectorAll(focusableElements)[0];
+    const focusableContent = modal.querySelectorAll(focusableElements);
+    const lastFocusableElement = focusableContent[focusableContent.length - 1];
+
+
+
+    document.addEventListener('keydown', function(e) {
+        let isTabPressed = e.key === 'Tab' || e.keycode === 9;
+
+        if (!isTabPressed) {
+            return;
+        }
+
+        if (e.shiftKey) {
+            if (document.activeElement === firstFocusableElement) {
+                lastFocusableElement.focus();
+                e.preventDefault();
+            }
+        } else {
+            if (document.activeElement === lastFocusableElement) {
+                firstFocusableElement.focus();
+                e.preventDefault();
+            }
+        }
+    });
+    firstFocusableElement.focus();
+}
+
+	function modalCloseFocus() {
+    	const modalCount = $('.modal.active').length;
+		if (modalCount !== 0) {
+			modalOpenFocus();
+		}
+	}
+	$(document).off('click', '.modal-x').on('click', '.modal-x', function(e) {
+    	e.preventDefault();
+    	$(this).closest('.popup').removeClass('active');
+		modalCloseFocus();
+
+		$('body,html').css({'overflow':'inherit'});   // 팝업 비활성화시 스크롤
+	});
+	
+	
 
 	// =============== 투찰최종가격 ==================
 	function Change()  { 
@@ -369,22 +416,7 @@
 	}
 
 	// =============== 팝업창 ==================
-	function cmmPopup(dataTarget, dataPopup, msg){
-		let dataId = '#' + dataTarget;
-		if (dataPopup == 'modal') { // 일반 modal
-			$(dataId).addClass('active');
-		} else if (dataPopup == 'bottomsheet') { // 주문 modal
-			$(dataId).addClass('active');
-		} else if (dataPopup == 'alert') { // alert modal
-			$(dataId).find('.alert-con').text(msg);
-			$(dataId).addClass('active');
-			//$('#sorinModalAlert .alert-con').text(msg);
-		} else if (dataPopup == 'confirm') { // confirm modal
-			$(dataId).find('.alert-con').text(msg);
-			$(dataId).addClass('active');
-			$('#sorinModalConfirm .alert-con').text(msg);
-		}
-	}
+	
 
 	// 비밀번호 확인 팝업 오픈
 	function confirmPopup(){
@@ -417,15 +449,6 @@
 		
 	}
 
-	// 팝업종료
-	function closePopup() {
-		debugger;
-		document.getElementById('bidCancelConfirm').style.display = 'none';
-		cmmPopup('checkConfirm', 'confirm');
-
-		document.getElementById('checkConfirm').style.display = 'block';
-	}
-
 	// =============== 비밀번호 가져오기 ==================
 	function checkPassword(){
 		var params = {
@@ -443,7 +466,7 @@
 				// 비밀번호가 맞을경우
 				if(data.result == "Y"){
 					var params = {
-						"bidEntrpsNo" : "C0026",	// 업체번호(세션값)
+						"bidEntrpsNo" : "C0040",	// 업체번호(세션값)
 						"bidPblancId" : "${bdDetailVO.bidPblancId}",	// 입찰 공고아이디 
 						"delyCndCode" : $('#shippingAddr').val(),	// 인도조건코드
 						"delyCndStdrPc" : $('#delyCndStdrPc').val(),	// 인도 조건 기준가격
@@ -467,7 +490,7 @@
 						dataType: 'json', 
 						success: function(data) {
 							console.log('데이터 정상', data);
-							closePopup();
+							cmmPopup('checkConfirm', 'confirm');
 							//cmmPopup('bidCancelConfirm', 'confirm');
 							// var params = {
                 			// 	"bidPblancId" : "${bdDetailVO.bidPblancId}",	// 입찰 공고아이디 
