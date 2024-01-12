@@ -283,7 +283,7 @@
 			                        </tbody>
 			                    </table>
 			                    <div class="btn-wrap">
-			                        <button type="button" class="btn-gray-big btn-list" onclick="location.href='/guide/html/bid/SOREC-SB-BID-001-2.html'">공고 목록가기</button>
+			                        <button type="button" class="btn-gray-big btn-list" onclick="pageMove('/');">공고 목록가기</button>
 									<button type="button" id="bidStr" class="btn-blue-big" onclick="confirmPopup()">투찰하기</button>
 			                    </div>
 								 <!-- 비밀번호 확인 팝업 :: START -->

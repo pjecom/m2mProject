@@ -39,6 +39,10 @@
     	$(function() {
     	
 		});
+		
+		function modalClose() {
+			$('#bdNoticeDetailModal').modal('hide');
+		}
     </script>
 </head>
 
@@ -53,7 +57,7 @@
                      <div class="modal-header">
                                      <h5 class="modal-title" id="exampleModalLabel">입찰 공고 상세&nbsp;&nbsp;&gt;&nbsp;PRIMARY AL INGOT P1020&nbsp;&nbsp;&nbsp;&nbsp;<span style="background-color: black; color: white; font-weight:normal;">&nbsp;&nbsp; 입찰공고번호 BID20221128-2 &nbsp;&nbsp;</span></h5>
                                      
-                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="modalClose()">
                                      <span aria-hidden="true">&times;</span>
                                      </button>
                                  </div>

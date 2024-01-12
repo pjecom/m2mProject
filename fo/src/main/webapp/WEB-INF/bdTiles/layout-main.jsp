@@ -133,8 +133,7 @@ function pageMove(url, data, contentType, menuActiveIdenty) {
 function moveToMain() {
         referer = [];
 
-		trackSorin("/main/", "0902");
-        location.href = "/main/";
+        location.href = "/";
 }
 
 function pageMoveAjaxProcess(url, data, contentType) {
@@ -144,6 +143,9 @@ function pageMoveAjaxProcess(url, data, contentType) {
     		if (typeof removeStompSubscriber != "undefined") {
     			removeStompSubscriber();
     		}
+    		
+    		 // Footer 초기화
+        	$(".footer").hide();
 
     		$(".body-main").empty();
     		$(".body-main").append('<div class="container">' + returnData + '</div>');
