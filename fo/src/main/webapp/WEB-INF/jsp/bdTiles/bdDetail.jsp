@@ -430,7 +430,7 @@
 				// 비밀번호가 맞을경우
 				if(data.result == "Y"){
 					var params = {
-						"bidEntrpsNo" : "C0009",	// 업체번호(세션값)
+						"bidEntrpsNo" : "C0013",	// 업체번호(세션값)
 						"bidPblancId" : "${bdDetailVO.bidPblancId}",	// 입찰 공고아이디 delyCndCode
 						"delyCndCode" : $('#shippingAddr').val(),	// 인도조건코드
 						"delyCndStdrPc" : $('#delyCndStdrPc').val(),	// 인도 조건 기준가격
@@ -456,7 +456,12 @@
 							console.log('데이터 정상', data);
 							closePopup();
 							//cmmPopup('bidCancelConfirm', 'confirm');
-							location.reload();
+							debugger;
+							var params = {
+                				"bidPblancId" : "TEST01-07",
+                				"bidEntrpsNo" : "C0013"
+            				}
+            				pageMove( "/detail/bdDetail", JSON.stringify(params), 'application/json');
 							//location.href("/bdTiles/bdDetail");
 
 						},
