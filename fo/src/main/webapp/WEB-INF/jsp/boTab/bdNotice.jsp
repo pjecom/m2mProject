@@ -208,7 +208,6 @@
                             <th scope="row" rowspan="2">활성여부</th>
                             <th scope="row" rowspan="2">등록일(등록자)</th>
                             <th scope="row" rowspan="2">상태</th>
-                            <th scope="row" rowspan="2">단계</th>
                             <th scope="row" rowspan="2">투찰기업</th>
                             <th scope="row" rowspan="2">최저프리미엄가</th>
                         </tr>
@@ -232,23 +231,22 @@
                                     <td>${vo.bidPblancId}</td>
                                     <td>${vo.metalName}</td>
                                     <td>${vo.itmNm}</td>
-                                    <td></td>
+                                    <td>${vo.brandCode}</td>
                                     <td>${vo.brandGroupCodeNm}</td>
                                     <td>${vo.dstrctLclsfCode}</td>
                                     <td>${vo.bidWt}</td>
+                                    <td>${vo.permWtRate}</td>
                                     <td>${vo.bddprBeginDt} ~ ${vo.bddprEndDt}</td>
-                                    <td>${vo.dstrctLclsfCode}</td>
                                     <c:choose>
                                         <c:when test="${vo.dspyAt eq 'Y'}"><td>활성</td></c:when>
-                                        <c:when test="${vo.dspyAt eq 'N'}"><td>활성</td></c:when>
+                                        <c:when test="${vo.dspyAt eq 'N'}"><td>비활성</td></c:when>
                                         <c:otherwise><td></td></c:otherwise>
                                     </c:choose>
                                     <fmt:formatDate value="${vo.frstRegistDt}" pattern = "yyyy-MM-dd hh:mm:ss" var = "frstRegistDt"/>
                                     <td>${frstRegistDt}(${vo.frstRegisterId})</td>
                                     <td>${vo.bidSttus}</td>
-                                    <td>${vo.dstrctLclsfCode}</td>
                                     <td>${vo.partcptnEntrpsQy}</td>
-                                    <td>${vo.dstrctLclsfCode}</td>
+                                    <td>${vo.minPremiumPc}</td>
                                 </tr>
                             </c:forEach>
                         </c:if>
@@ -263,9 +261,9 @@
             </div>
         </div>
 
-        <!-- 입찰 공고 등록 모달창 -->
+        <!-- 입찰 공고 등록 모달 -->
         <!-- 입창 공고 상세 모달 -->
-        
+
 </div>
 
 <div class="modal fade" id="bdNoticeDetailModal" tabindex="-1" role="dialog" data-keyboard="false"  aria-labelledby="bdNoticeDetailModallLabel" aria-hidden="true">
