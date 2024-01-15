@@ -39,8 +39,8 @@
 			<%--$("#mypage").click(function() {
 
 			});--%>
-            
-			<c:choose>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+
+			<c:choose>                                                                                                                                                                 
                 <c:when test="${bdLoginStatusMap.loginYn =='Y'}">
                     <a href="javascript:;"  onclick="pageMove('/bid/bddpr/selectBddprList');">
                         <span class="bold userName">서린상사</span>'s Bid Status
@@ -106,11 +106,11 @@
 <div class="section prod-list-wrap bid">
 	<div class="inwrap">
 		<!-- ITEM TITLE :: START  -->
-		<h2 class="h2-new">metalCodeNm</h2>
+		<h2 class="h2-new">알루미늄</h2>
 		<!-- ITEM TITLE :: END  -->
 		<!-- FILTER AREA :: START -->
+        <form name="searchFrm">
 		<div class="filter_area">
-            <form name="searchFrm">
 			<div class="opt">
 				<label for="">Search Keyword</label> <select id="filter" name="filter" onchange="selectBdMainInfoList(-1);"
 					class="filter">
@@ -118,37 +118,37 @@
 					<option value="02">마감일</option>
 				</select>
 			</div>
-			<div class="cal">
+			<div class="cal" onchange="selectBdMainInfoList(-1);">
 				<div class="datepicker-wrap">
 					<input type="text"
 						class="datepicker from center validate[required,custom[date]]"
-						id="searchDateFrom" desc="날짜" placeholder="From"
+						id="searchDateFrom" desc="날짜" placeholder="시작 일자"
 						style="font-size: 1.4rem !important;" readonly>
 				</div>
 				<div class="tilde">~</div>
 				<div class="datepicker-wrap">
 					<input type="text"
 						class="datepicker to center validate[required,custom[date]]"
-						id="searchDateTo" desc="날짜" placeholder="To"
+						id="searchDateTo" desc="날짜" placeholder="종료 일자"
 						style="font-size: 1.4rem !important;" readonly>
 				</div>
 			</div>
             <div class="input-button-wrap btn-period">
                 <label class="radio-btn active" id="all">
-                    <input type="radio" name="bdPeriod" value="0"><span>All</span>
+                    <input type="radio" name="bdPeriod" value="0"><span>전체</span>
                 </label>
                 <label class="radio-btn" id="oneMonth">
-                    <input type="radio" name="bdPeriod" value="1" ><span>1M</span>
+                    <input type="radio" name="bdPeriod" value="1" ><span>1개월</span>
                 </label>
                 <label class="radio-btn" id="threeMonth">
-                    <input type="radio" name="bdPeriod" value="3" ><span>3M</span>
+                    <input type="radio" name="bdPeriod" value="3" ><span>3개월</span>
                 </label>
                 <label class="radio-btn" id="sixMonth">
-                    <input type="radio" name="bdPeriod" value="6"><span>6M</span>
+                    <input type="radio" name="bdPeriod" value="6"><span>6개월</span>
                 </label>
             </div>
-            </form>
 		</div>
+        </form>
 		<!-- main visual > right :: END -->
 		<!-- FILTER AREA :: END -->
 		<!-- TAB BUTTON :: START :: todo: 탭기능 example 추가 -->
@@ -174,26 +174,26 @@
 				</h2>
 				<div class="opt_group">
 					<div class="opt_item">
-						<label for="">Brand</label> <select name="brand" id="brand" onchange="selectBdMainInfoList(-1);"
+						<label for="">브랜드</label> <select name="brand" id="brand" onchange="selectBdMainInfoList(-1);"
 							class="brand">
-							<option value="00">Brand(all)</option>
-							<option value="01">Good-Western</option>
-							<option value="02">Non-Western</option>
+							<option value="00">브랜드(전체)</option>
+							<option value="01">서구산</option>
+							<option value="02">비서구산</option>
 						</select>
 					</div>
 					<div class="opt_item">
 						<label for="">권역</label> <select name="area" id="area" onchange="selectBdMainInfoList(-1);"
 							class="area">
-							<option value="00">District(all)</option>
-							<option value="01">Incheon</option>
-							<option value="02">Busan</option>
+							<option value="00">권역(전체)</option>
+							<option value="01">인천</option>
+							<option value="02">부산</option>
 						</select>
 					</div>
 				</div>
 			</div>
 			<ul class="list t2" id="BdList">
                 <c:if test="${empty bdList}">
-                    <span>값이없는데요</span>
+                    <span>데이터가 존재하지 않습니다.</span>
                 </c:if>
                 <c:forEach items="${bdList}" var="vo">
                 <!-- [case1] 입찰예정 -->
@@ -207,16 +207,21 @@
                                 <h3 class="pd-bid-no">${vo.bidPblancId}</h3>
                                 <div class="pd-wrap">
                                     <div class="pd-brand">
-                                        <div class="pd-label">${vo.metalCode}</div>
+                                        <div class="pd-label">${vo.metalCodeNma}</div>
                                         <div class="brand-nation">
                                             <c:if test="${empty vo.nationCode}">
                                                 <img src="https://sorincorp.blob.core.windows.net/secs/odflag/flag_mcht_default.png">
                                             </c:if>
                                             <c:if test="${not empty vo.nationCode}">
-                                                <img src="${vo.nationCode}">
+                                                <img src="${vo.nationUrl}">
                                             </c:if>
                                         </div>
-                                        ${vo.brandNm}
+                                        <c:if test="${empty vo.brandCode}">
+                                            브랜드 무관
+                                        </c:if>
+                                        <c:if test="${not empty vo.brandCode}">
+                                            ${vo.brandCode}
+                                        </c:if>
                                     </div>
                                     <div class="pd-like">
                                         <ul class="company">
@@ -237,9 +242,9 @@
                                 </div>
 
                                 <div class="pd-name">
-                                    <span class="item">${vo.itmSn}</span>
+                                    <span class="item">${vo.brandNm}</span>
                                     <span class="wrhous">출고권역 - ${vo.dstrctLclsfCode}</span>
-                                    <span class="brand-group">${vo.brandNm}</span>
+                                    <span class="brand-group">${vo.brandGroupCodeNm}</span>
                                 </div>
                                 <div class="pd-period">
                                     <span class="qty">수량 ${vo.totalCnt} <span class="highlight">100MT</span></span>	
@@ -284,7 +289,8 @@
 
 <script> 
 $(function() {
-	
+
+    // =============== DATEPICKER ==================
 	$("#searchDateFrom").datepicker({
 		dateFormat: 'yy-mm-dd' //달력 날짜 형태
 		,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
@@ -292,7 +298,7 @@ $(function() {
 		,changeYear: true //option값 년 선택 가능
 		,changeMonth: true //option값  월 선택 가능
 		,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시
-		,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
+		,buttonImage: "/images/calendar.png" //버튼 이미지 경로
 		,buttonImageOnly: true //버튼 이미지만 깔끔하게 보이게함
 		,buttonText: "선택" //버튼 호버 텍스트
 		,yearSuffix: "년" //달력의 년도 부분 뒤 텍스트
@@ -311,7 +317,7 @@ $(function() {
 		,changeYear: true //option값 년 선택 가능
 		,changeMonth: true //option값  월 선택 가능
 		,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시
-		,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
+		,buttonImage: "/images/calendar.png" //버튼 이미지 경로
 		,buttonImageOnly: true //버튼 이미지만 깔끔하게 보이게함
 		,buttonText: "선택" //버튼 호버 텍스트
 		,yearSuffix: "년" //달력의 년도 부분 뒤 텍스트
@@ -394,14 +400,14 @@ var params = {
 					html += '			<div class="cart-item-wrap type4">';
 				}
 				html += '				<figure class="figure figure1">';
-				html += '					<img src=' + result.mainBdList[i].pcImageOneNm +' alt="알루미늄" class="w">';
+				html += '					<img src="/images/my/al_sum.jpg" alt="알루미늄" class="w">';
 				html += '				</figure>';
 				html += '				<div class="figure-con">';
 				html += '					<div class="pd-brand-info">';
 				html += '	    				<h3 class="pd-bid-no">' + result.mainBdList[i].bidPblancId + '</h3>';
 				html += '	    				<div class="pd-wrap">';
 				html += '	        				<div class="pd-brand">';
-				html += '	             				<div class="pd-label">' + result.mainBdList[i].metalCodeNm + '</div>';
+				html += '	             				<div class="pd-label">' + result.mainBdList[i].metalCodeNma + '</div>';
 				html += '	            				<div class="brand-nation">';
 				html += '									<img src="'+result.mainBdList[i].nationUrl+'" alt="">';
 				html += '	            				</div>';
@@ -420,8 +426,8 @@ var params = {
 				html += '						</div>';
 				
 				html += '						<div class="pd-name" style="pointer-events : none;">';
-				html += '	    					<span class="item">' + result.mainBdList[i].dspyGoodsNm + '</span> ';
-				html += '	     					<span class="wrhous">출고권역 - ' + result.mainBdList[i].dstrctNm + '</span>';
+				html += '	    					<span class="item">' + result.mainBdList[i].brandNm + '</span> ';
+				html += '	     					<span class="wrhous">출고권역 - ' + result.mainBdList[i].dstrctLclsfCode + '</span>';
 				html += '	    					<span class="brand-group">' + result.mainBdList[i].brandGroupCodeNm + '</span>';
 				html += '	 					</div>';
 				html += '	 					<div class="pd-period">';
@@ -483,9 +489,14 @@ var params = {
 		$("#selectTotalCnt").empty();
 		$('#selectTotalCnt').append($('li[class^="item on"]')[0].children[0].innerHTML);
 	});
-	
-}
-
+        
+    }
+    $(document).on( 'click', "a[name='selectBid']", function(event) {
+        var params = {
+            "bidPblancId" : this.id,
+        }
+        pageMove( "/detail/bdDetail", JSON.stringify(params), 'application/json');
+    });
 
     $(".btn-period > .radio-btn").click(function() {
             $('.btn-period > .radio-btn').removeClass('active');
@@ -510,8 +521,6 @@ var params = {
 
     function getFormerDate(num1, num2) {
         var today = new Date();
-        console.log("num1: "+num1);
-        console.log("num2: "+num2);
         
         var searchDateFromDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - num1);
         var searchDateToDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - num2);

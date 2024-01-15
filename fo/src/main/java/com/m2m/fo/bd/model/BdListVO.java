@@ -13,10 +13,11 @@ public class BdListVO {
 	private String	metalCodeNm;                  //금속 코드명
 	private String	metalCodeNma;                 //금속 구분
 	private String	brandGroupCode;               //브랜드 그룹 코드
+	private String	brandGroupCodeNm;             //브랜드 그룹 코드명
 	private String	brandCode;                    //브랜드 코드
 	private String	brandNm;                      //브랜드 명
 	private String	nationCode;                   //국가 코드
-	private String	nationImg;                    //국가 코드 이미지
+	private String	nationUrl;                    //국가 코드 이미지
 	private String	itmSn;                        //아이템 순번
 	private String	dstrctLclsfCode;              //권역 대분류 코드
 	private String	bddprBeginDt;                 //투찰 시작 일시
@@ -43,8 +44,10 @@ public class BdListVO {
 	
 	
 	//update
-	private String startDt;
-	private String endDt;
-	private String searchOption;
-	private String frstRegistDt; // 테스트 
+	private String startDt;                       //조회기준:시작날짜
+	private String endDt;                         //조회기준:종료날짜
+	private String brand;                         //정렬기준:브랜드   00전체 01서구산 02비서구산
+	private String area;                          //정렬기준:권역    00전체 01인천 02부산
+	private String searchOption;                  //조회기준:날짜기준 01공고일,02마감일 
+	private String frstRegistDt;                  //날짜데이터:테스트데이터
 }
