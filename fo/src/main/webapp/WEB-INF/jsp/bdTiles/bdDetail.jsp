@@ -124,9 +124,16 @@
 										</c:choose>
 										<!-- ###################### END 입찰상태코드(디폴트값:마감으로 셋팅) ######################-->
  									</div>
-		                        	<p class="bid-d-day abs-info"> <!-- <p class="bid-d-day pre abs-info"> -->
-		                        		투찰 시작까지 <span class="time">- 3일 3시간 20분 36초</span>
-		                        	</p>
+		                        	<c:if test="${bdDetailVO.bidSttusCode eq '12'}">
+										<p class="bid-d-day abs-info"> <!-- <p class="bid-d-day pre abs-info"> -->
+											투찰 시작까지 <span class="time" id="timeDe${bdDetailVO.bidPblancId}"></span>
+										</p>
+									</c:if>
+									<c:if test="${bdDetailVO.bidSttusCode eq '13'}">
+										<p class="bid-d-day abs-info"> <!-- <p class="bid-d-day pre abs-info"> -->
+											투찰 마감까지 <span class="time"  style="color: #1D5FD0;" id="timeDe${bdDetailVO.bidPblancId}"></span>
+										</p>
+									</c:if>
 			                    </div>
 			                </li>
 			                <!-- item 1 입찰예정 :: END -->
@@ -486,6 +493,46 @@
 	<script src="/guide/js/sorin-ma.js"></script><!-- main js -->
 	<!-- script custom :: END -->
 	<script type="text/javascript"> 
+	
+	$(function() {
+    	fmtDate(${bdDetailVO.bddprBeginDt}, ${bdDetailVO.bddprEndDt});
+    });
+    
+    //날짜 format
+	function datefmt(date){
+		return date.substring(0,4) + '-' +date.substring(4,6)+ '-' +date.substring(6,8)+ ' ' +date.substring(8,10)+ ':' +date.substring(10,12)+ ':' +date.substring(12,14);
+	}
+	
+    function fmtDate(startDate,endDate){
+		debugger;
+		
+		startDate = startDate.toString();
+		endDate = endDate.toString();
+		
+		setInterval(function(){
+			
+			//입찰 공고 시작일
+			startFmtDate = new Date(datefmt(startDate));
+			//입찰 공고 마감일
+			endFmtDate = new Date(datefmt(endDate));
+			//현재시간
+			var nowDate = new Date();
+			
+			if(${bdDetailVO.bidSttusCode} =="12" && startFmtDate >= nowDate){
+				$("#timeDe${bdDetailVO.bidPblancId}").html(" - " + Math.floor((startFmtDate-nowDate)/(1000*24*60*60)) 
+						+"일 "+Math.floor(((startFmtDate-nowDate)% (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+						+"시 "+Math.floor(((startFmtDate-nowDate) % (1000 * 60 * 60)) / (1000 * 60))
+						+"분 "+Math.floor(((startFmtDate-nowDate) % (1000 *60)) / 1000) + "초");
+			}else if(${bdDetailVO.bidSttusCode} =="13" && endFmtDate >= nowDate){
+				$("#timeDe${bdDetailVO.bidPblancId}").html(" - " + Math.floor((endFmtDate-nowDate)/(1000*24*60*60)) 
+						+"일 "+Math.floor(((endFmtDate-nowDate)% (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+						+"시 "+Math.floor(((endFmtDate-nowDate) % (1000 * 60 * 60)) / (1000 * 60))
+						+"분 "+Math.floor(((endFmtDate-nowDate) % (1000 *60)) / 1000) + "초");
+			}else{
+				$("#timeDe${bdDetailVO.bidPblancId}").html("");
+			}
+		},1000); //1초마다 
+	}
 
 	// =============== 모달오픈 ==================
 	function modalOpenFocus() {

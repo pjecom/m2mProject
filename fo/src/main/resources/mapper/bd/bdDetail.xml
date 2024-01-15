@@ -36,6 +36,8 @@
 				, BB.SETLE_PD_CODE
 				, (SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'SETLE_PD_CODE' AND SUB_CODE = BB.SETLE_PD_CODE) AS SETLE_PD_CODE_NM/*결제기간코드*/				
 				, BB.ETC_CN	/*기타코멘트*/       
+				, BB.BDDPR_BEGIN_DT		/*투찰시작일시*/
+				, BB.BDDPR_END_DT		/*투찰종료일시*/
 		FROM BD_BID_BAS BB
 		WHERE 1=1
 			AND BB.BID_PBLANC_ID 			=	#{bidPblancId}
