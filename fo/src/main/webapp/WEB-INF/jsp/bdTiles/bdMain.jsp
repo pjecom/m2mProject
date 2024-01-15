@@ -569,6 +569,7 @@ var params = {
             	  },  
             success: function(response) {
                 // 성공 시 처리
+                sessionStorage.setItem("bidEntrpsNo", response.member.bidEntrpsNo);
                 console.log('로그인 요청이 성공했습니다.');
                 // 원하는 작업 수행 (예: 페이지 리로드, 리디렉션 등)
             },

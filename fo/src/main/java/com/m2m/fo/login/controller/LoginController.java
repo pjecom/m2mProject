@@ -2,11 +2,13 @@ package com.m2m.fo.login.controller;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
-import javax.servlet.http.HttpServletRequest;
+fhrmimport javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,16 +29,15 @@ public class LoginController {
     private LoginService loginService;
     
     @PostMapping("/login")
-    public String loginV3(@Valid @ModelAttribute LoginVO loginVO, BindingResult bindingResult, RedirectAttributes rttr, HttpServletRequest request) {
+    public ResponseEntity<?> loginV3(@Valid @ModelAttribute LoginVO loginVO, BindingResult bindingResult, RedirectAttributes rttr, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
-            return "redirect:/";
+
         }
         LoginVO lvo = loginService.memberLogin(loginVO);
 
         if (lvo == null) {
             System.out.println("실패!!!!!");
         	
-            return "redirect:/";
         }
         System.out.println("성공!!!!!");
         HttpSession session = request.getSession();
@@ -44,10 +45,11 @@ public class LoginController {
         session.setMaxInactiveInterval(1200);
         
      	// 로그인 여부를 Model에 추가
-        rttr.addAttribute("loginStatus", true);
         
-        
-        return "redirect:/";
+        Map<String,Object> map = new HashMap<String, Object>();
+		map.put("result", "inActive");
+		map.put("member", lvo);
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
     
     /* 로그아웃 */
