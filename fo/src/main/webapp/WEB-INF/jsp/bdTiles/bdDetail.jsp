@@ -44,7 +44,7 @@
 				<div class="section prod-detail-wrap bid">
 					<div class="inwrap">
 			            <!-- ITEM TITLE :: START  -->
-			            <h2 class="h2-new">공고 상세 정보 ${bdBddprVO.bddprFlag} ${bdBddprVO.delyCndCodeNm}</h2>
+			            <h2 class="h2-new">공고 상세 정보</h2>
 			            <!-- ITEM TITLE :: END  -->	            
 			            <!-- ITEM DETAIL AREA :: START -->
 						<ul class="list t2">
@@ -231,7 +231,7 @@
 												<tr>
 													<td class="center read" colspan="2">
 														<input class="input-md readonly" type="text" name="premium" id="bddprPremiumPc" value="${bdBddprVO.bddprPremiumPc}" readonly>/MT</td>
-													<td class="center" colspan="1" id="result"><span></span> 원</td>                                  
+													<td class="center" colspan="1" id="result" ><span></span>${bdBddprVO.bddprTotalPc} 원</td>                                  
 												</tr>
 											</c:if>	
 											<!-- ###################### END 입찰 후(Flag값 'Y') ######################-->
@@ -452,8 +452,8 @@
 												</label>
 											</div>
 											<div class="modal-btns">
-												<button type="button" class="btn-blue-big" onclick="reloadPage()">확인</button>
-												<button type="button" class="btn-blue-big" id="" onclick="">마이페이지</button>
+												<button type="button" class="btn-blue-big" onclick="closePopup()">닫기</button>
+												<button type="button" class="btn-blue-big" onclick="nextPopup()">투찰 취소</button>
 											</div>
 										</div>	
 									</div>								
@@ -591,7 +591,7 @@
 	function reloadPage(){
 		var params = {
 			"bidPblancId" : "${bdDetailVO.bidPblancId}",	// 입찰 공고아이디 
-			"bidEntrpsNo" : "C0061"
+			"bidEntrpsNo" : "${bdDetailVO.bidEntrpsNo}"
 		}
 		pageMove( "/detail/bdDetail", JSON.stringify(params), 'application/json');
 	}
@@ -610,6 +610,22 @@
 		document.getElementById('bidCancelConfirm').style.display = 'none';
 	}
 
+	// 투찰 취소합니다 버튼 클릭시
+	function nextPopup(){
+
+		var agree = $('#agree_cancl').prop('checked');
+		var value = agree ? 'Y' : 'N';
+
+		// 입찰 참여 동의 여부 validation 체크
+		if(value == 'Y'){
+			$('#modal1').show(data);
+			$('#modal2').hide();
+			$('#modal3').hide();
+		}else{
+			alert("확인 후 취소합니다 체크박스를 체크해 주세요.");
+		}
+	}
+
 	// 비밀번호 확인 팝업 오픈
 	function canclPopup(){
 		document.getElementById('bidCancelConfirm').style.display = 'block';
@@ -623,7 +639,7 @@
 	// =============== 비밀번호 가져오기 ==================
 	function checkPassword(){
 		var params = {
-			"bidEntrpsNo" : "C0001", // 입찰 업체 번호
+			"bidEntrpsNo" : "${bdDetailVO.bidEntrpsNo}", // 입찰 업체 번호
 			"bidMberSecretNo" : $('#password').val() // 입찰 회원 비밀 번호
 		}
 
@@ -637,7 +653,7 @@
 				// 비밀번호가 맞을경우
 				if(data.result == "Y"){
 					var params = {
-						"bidEntrpsNo" : "C0061",	// 업체번호(세션값)
+						"bidEntrpsNo" : "${bdDetailVO.bidEntrpsNo}",	// 업체번호(세션값)
 						"bidPblancId" : "${bdDetailVO.bidPblancId}",	// 입찰 공고아이디 
 						"delyCndCode" : $('#shippingAddr').val(),	// 인도조건코드
 						"delyCndStdrPc" : $('#delyCndStdrPc').val(),	// 인도 조건 기준가격

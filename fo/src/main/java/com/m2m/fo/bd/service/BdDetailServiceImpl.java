@@ -3,6 +3,7 @@ package com.m2m.fo.bd.service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,7 +118,20 @@ public class BdDetailServiceImpl implements BdDetailService {
 
 	        }
 			log.info("dateString >>> ::: {}", dateString);
-	
+			
+			int delyCndStdrPc = bdBddprVO.getDelyCndStdrPc();
+			int cnvrsPremiumAmount = bdBddprVO.getCnvrsPremiumAmount();
+			int bddprPremiumPc = bdBddprVO.getBddprPremiumPc();
+			
+			int bddprTotalPc = delyCndStdrPc + cnvrsPremiumAmount + bddprPremiumPc;
+			
+			// 숫자 포맷 지정
+	        DecimalFormat decimalFormat = new DecimalFormat("#,###");	       
+			String formattedBddprTotalPc = decimalFormat.format(bddprTotalPc);
+			log.info("formattedBddprTotalPc >>> ::: {}", formattedBddprTotalPc);
+			
+			//투찰최종가격 셋팅
+			bdBddprVO.setBddprTotalPc(formattedBddprTotalPc);
 			// 포맷날짜 셋팅
 			bdBddprVO.setDateString(dateString);
 			// flag값 설정(투찰상세 조회시 -> )

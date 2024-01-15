@@ -33,5 +33,6 @@ public class BdBddprVO {
 	private String pcAppnEndDe;					 //가격지정종료일자
 	private int partEntQy;						 //참여업체수량
 	private String bddprFlag;					 //플래그값(투찰상세 조회시)
+	private String bddprTotalPc;				 //투찰최종가격
 	
 }

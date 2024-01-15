@@ -63,6 +63,10 @@ public class BdDetailController {
 		// 상세화면 리스트
 		detailVO = bdDetailService.selectDetail(bdDetailVO);
 		log.info("bdDetailVO >>> ::: {}",detailVO);
+		
+		//vo에 업체번호 주입
+		detailVO.setBidEntrpsNo(bidEntrpsNo);
+		
 		model.addAttribute("bdDetailVO", detailVO);
 		
 		// 인도조건 리스트
@@ -112,12 +116,20 @@ public class BdDetailController {
      **/
 	@PostMapping("/passwordCheck")
     @ResponseBody
-	public ResponseEntity<?> passwordCheck(@RequestBody BdDetailVO bdDetailVO) throws Exception {   	
+	public ResponseEntity<?> passwordCheck(@RequestBody BdDetailVO bdDetailVO, HttpServletRequest request) throws Exception {   	
 		Map<String, Object> retVal = new HashMap<String, Object>();
 		
     	log.info("getBidMberSecretNo >>> ::: {}",bdDetailVO.getBidMberSecretNo());
 		try {
-			
+			//업체번호 세션값 들고옴
+			HttpSession session = request.getSession();
+			LoginVO loginInfo = (LoginVO) session.getAttribute("member");
+	        String bidEntrpsNo = loginInfo.getBidEntrpsNo();
+	        log.info("bidEntrpsNo >>> ::: {}",bidEntrpsNo);
+	        
+	        //vo에 업체번호 주입
+	        bdDetailVO.setBidEntrpsNo(bidEntrpsNo);
+	        
 			String checkPw = "";
 	    	// Flag 설정 -> 해당 비밀번호에 해당하는 회원이 있을경우 "Y" 아닐경우 "N"로 리턴
 	    	String checkFlag = "N";
