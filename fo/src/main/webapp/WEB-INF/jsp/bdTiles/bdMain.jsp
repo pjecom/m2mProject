@@ -122,14 +122,14 @@
 				<div class="datepicker-wrap">
 					<input type="text"
 						class="datepicker from center validate[required,custom[date]]"
-						id="datepicker1" desc="날짜" placeholder="From"
+						id="searchDateFrom" desc="날짜" placeholder="From"
 						style="font-size: 1.4rem !important;" readonly>
 				</div>
 				<div class="tilde">~</div>
 				<div class="datepicker-wrap">
 					<input type="text"
 						class="datepicker to center validate[required,custom[date]]"
-						id="datepicker2" desc="날짜" placeholder="To"
+						id="searchDateTo" desc="날짜" placeholder="To"
 						style="font-size: 1.4rem !important;" readonly>
 				</div>
 			</div>
@@ -137,13 +137,13 @@
                 <label class="radio-btn active" id="all">
                     <input type="radio" name="bdPeriod" value="0"><span>All</span>
                 </label>
-                <label class="radio-btn" id="oneMonth" onclick="getFormerDate(30,0);">
+                <label class="radio-btn" id="oneMonth">
                     <input type="radio" name="bdPeriod" value="1" ><span>1M</span>
                 </label>
-                <label class="radio-btn" id="threeMonth" onclick="getFormerDate(90,0);">
+                <label class="radio-btn" id="threeMonth">
                     <input type="radio" name="bdPeriod" value="3" ><span>3M</span>
                 </label>
-                <label class="radio-btn" id="sixMonth" onclick="getFormerDate(180,0);">
+                <label class="radio-btn" id="sixMonth">
                     <input type="radio" name="bdPeriod" value="6"><span>6M</span>
                 </label>
             </div>
@@ -284,6 +284,7 @@
 
 <script> 
 $(function() {
+	
 	$("#searchDateFrom").datepicker({
 		dateFormat: 'yy-mm-dd' //달력 날짜 형태
 		,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
@@ -351,24 +352,17 @@ $(function() {
     $(".btn-period > .radio-btn").click(function() {
             $('.btn-period > .radio-btn').removeClass('active');
             $(this).addClass('active');
-            $("#datepicker1, #datepicker2").datepicker({
-                format: "yyyy-mm-dd",
-                keyboardNavigation: false,
-                forceParse: false,
-                autoclose: true,
-                todayHighlight: true,
-                language:"ko"
-            });
+
             switch($(this).attr('id')) {
                 case 'all':
-                    $("#datepicker1").datepicker("setDate", '');
-                    $("#datepicker2").datepicker("setDate", '');
+                    $("#searchDateFrom").datepicker("setDate", '');
+                    $("#searchDateTo").datepicker("setDate", '');
                     break;
                 case 'oneMonth':
-                    getFormerDate(30,0);
+                	getFormerDate(30,0);
                     break;
                 case 'threeMonth':
-                    getFormerDate(60,0);
+                    getFormerDate(90,0);
                     break;
                 case 'sixMonth':
                     getFormerDate(180,0);
@@ -378,10 +372,14 @@ $(function() {
 
     function getFormerDate(num1, num2) {
         var today = new Date();
-        console.log("num1"+num1);
-        console.log("num2"+num2);
-        $("#datepicker1").datepicker("setDate", new Date(today.getFullYear(), today.getMonth(), today.getDate() - num1).toLocaleDateString());
-        $("#datepicker2").datepicker("setDate", new Date(today.getFullYear(), today.getMonth(), today.getDate() - num2).toLocaleDateString());
+        console.log("num1: "+num1);
+        console.log("num2: "+num2);
+        
+        var searchDateFromDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - num1);
+        var searchDateToDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - num2);
+	
+        $("#searchDateFrom").datepicker("setDate", searchDateFromDate);
+        $("#searchDateTo").datepicker("setDate", searchDateToDate);
     }
 
     $(".item").click(function(){
