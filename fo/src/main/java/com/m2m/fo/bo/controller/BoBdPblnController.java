@@ -1,13 +1,15 @@
 package com.m2m.fo.bo.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import com.m2m.fo.bd.model.BdListVO;
+import com.m2m.fo.comm.model.CoCommCdVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -23,13 +25,22 @@ public class BoBdPblnController {
     @Autowired
     private BoBdPblnService boBdPblnService;
 
-    @RequestMapping("/bidNotice")
-    public String boDetail(ModelMap model) throws Exception {
+    @RequestMapping(value ="/bidNotice")
+    public String boDetail(@RequestBody(required = false) BoBdPblnVO vo, ModelMap model) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
-        BoBdPblnVO bdListVO = new BoBdPblnVO();
-        List<BoBdPblnVO> list = boBdPblnService.getBoBdPblnList(bdListVO);
+        List<String> showBidSttusList = Arrays.asList("11", "12", "13", "30", "33");
+
+        List<BoBdPblnVO> list = boBdPblnService.getBoBdPblnList(vo);
+        List<CoCommCdVO> bidSttusList = boBdPblnService.getbidSttusList("BID_STTUS_CODE");
         // BoBdPblnVO bdListCnt = boBdPblnService.getBoBdPblnListTotalCnt(bdListVO);
+
+        bidSttusList = bidSttusList.stream()
+                .filter(bslVo -> showBidSttusList.contains(bslVo.getSubCode()))
+                .sorted(Comparator.comparing(bslVo -> bslVo.getSubCode().equals("11")))
+                .collect(Collectors.toList());
+
         model.addAttribute("bdList", list);
+        model.addAttribute("bidSttusList", bidSttusList);
         // model.addAttribute("bdListCnt", bdListCnt);
         return "boTab/bdNotice";
 
@@ -38,6 +49,7 @@ public class BoBdPblnController {
     @RequestMapping(value = "/boBdPblnDtlModal", method = RequestMethod.POST)
     public String bobdPblnMain(ModelMap model) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
+
 
         BoBdPblnVO boBdPblnVO = new BoBdPblnVO();
 		/* boBdPblnVO.setBidPblancId("TEST01-01"); */

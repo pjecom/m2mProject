@@ -113,4 +113,17 @@
             ,COUNT(CASE WHEN BID_STTUS_CODE=30 THEN 1 END) AS EndCnt
         FROM BD_BID_BAS
     </select>
+    <select id="getbidSttusList" parameterType="String" resultType="com.m2m.fo.comm.model.CoCommCdVO">
+        SELECT
+            MAIN_CODE
+            ,SUB_CODE
+            ,CODE_NM
+            ,CODE_DCTWO
+        FROM CO_CMMN_CD
+        WHERE
+            MAIN_CODE = #{mainCode}
+            AND USE_AT = 'Y'
+            AND DELETE_AT = 'N'
+        ORDER BY CODE_ORDR ASC
+    </select>
 </mapper>

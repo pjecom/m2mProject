@@ -4,7 +4,29 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+
 <script>
+    let tempBdBidBas = {}
+    let bdBidBas = {
+        bidSttusCode: '',
+        bidPblancId: '',
+        bddprBeginDt: '',
+        bddprEndDt: ''
+    }
+
+    // bdBidBas.bidSttusCode 값 변경 감지
+    Object.defineProperty(bdBidBas, 'bidSttusCode', {
+        get: function() {
+            return this._bidSttusCode;
+        },
+        set: function(newValue) {
+            this._bidSttusCode = newValue;
+
+            $(".bid-sttus-tab").removeClass("active")
+            $("#bid-sttus-tab-" + newValue).addClass("active")
+        }
+    });
+
 	$(function() {
 	   $("#moveList").click(function() { // 목록가기 버튼 클릭 이벤트
 		var params = {
@@ -13,11 +35,11 @@
 	      pageMove( "/boPbln/detail", JSON.stringify(params), 'application/json');
 	   });
 	});
-	
+
 	function bdNoticeDetailModalSearch(){
 		var url = "/bo/boBdPblnDtlModal";
 		var params = {
-				
+
 		};
 		postSetDataTypeBo(url, JSON.stringify(params), "html", true, function(result) {
             if(!sorin.validation.isNull(result)) {
@@ -27,10 +49,25 @@
             }
         });
 	}
-</script>
 
-<script>
-    const bdBidBas = {}
+    // 입찰 공고 목록 axios 요청
+    function getBidNoticeList() {
+        const url = "/bo/bidNotice"
+
+        postSetDataTypeBo(url, JSON.stringify(bdBidBas), "html", true, (res) => {
+            updateTable($(res).find("#realgrid tbody").html())
+        })
+    }
+
+    // 입찰 공고 목록 테이블 데이터 변경
+    function updateTable(htmlContent) {
+        // Find the table body element
+        const tbody = $("#realgrid tbody");
+
+        // Replace the content of the table body with the new HTML
+        tbody.html('');
+        tbody.html(htmlContent);
+    }
 </script>
 
 <div class="main-content">
@@ -66,29 +103,20 @@
             </section>
         </div>
 
-        <div class="search-control mt-24">
+        <div class="search-control mt-24 bid-notice-search-form">
             <div class="form-set">
                 <span class="label">상태</span>
-                <select class="form-select">
-                    <option value="전체">전체</option>
-                    <option value="공고대기">공고대기</option>
-                    <option value="입찰예정">입찰예정</option>
-                    <option value="투찰 중">투찰 중</option>
-                    <option value="심사 중">심사 중</option>
-                    <option value="낙찰">낙찰</option>
-                    <option value="유찰">유찰</option>
+                <select class="form-select" id="bid-sub-code">
+                    <option value="">전체</option>
+                    <c:forEach var="vo" items="${bidSttusList}">
+                        <option value="${vo.subCode}">${vo.codeDctwo}</option>
+                    </c:forEach>
                 </select>
             </div>
 
             <div class="form-set">
-                <span class="label">검색구분</span>
-                <select class="form-select">
-                    <option value="전체">전체</option>
-                    <option value="입찰공고번호">입찰공고번호</option>
-                    <option value="회사명">회사명</option>
-                    <option value="사업자번호">사업자번호</option>
-                    <option value="ID">ID</option>
-                </select>
+                <span class="label">입찰 공고 번호</span>
+                <input type="text" class="input" id="bid-pblanc-id">
             </div>
 
             <div class="form-set form-expand">
@@ -121,6 +149,7 @@
                     <script>
                         // 날짜 자동 선택
                         function getFormerDate(num1, num2, button) {
+                            debugger;
                             $(".set-date-picker").removeClass("active")
                             $(button).addClass("active")
 
@@ -143,36 +172,41 @@
 
             <div class="search-btn">
                 <div class="btn-box">
-                    <button type="button" class="btn btn-blue">검색</button>
+                    <button type="button" class="btn btn-blue" onclick="searchBidNotice()">검색</button>
                     <button type="button" class="btn btn-blue">검색이전</button>
                 </div>
             </div>
+
+            <script>
+                function searchBidNotice() {
+                    $(".bid-notice-search-form").each(function() {
+                        console.log($(this).find("#bid-sub-code").val())
+                        console.log($(this).find("#bid-pblanc-id").val())
+                        console.log($(this).find("#bddpr-begin-dt").val())
+                        console.log($(this).find("#bddpr-end-dt").val())
+
+                    })
+                }
+            </script>
 
         </div>
 
         <div class="table-control">
             <div class="form-set">
                 <div class="tab-button">
-                    <a class="btn set-bid-sttus active" onclick="setBidSttus(0, this)">전체</a>
-                    <a class="btn set-bid-sttus" onclick="setBidSttus(12, this)">입찰예정</a>
-                    <a class="btn set-bid-sttus" onclick="setBidSttus(13, this)">투찰 중</a>
-                    <a class="btn set-bid-sttus" onclick="setBidSttus(30, this)">마감</a>
-                    <a class="btn set-bid-sttus" onclick="setBidSttus(33, this)">공고취소</a>
-                    <a class="btn set-bid-sttus" onclick="setBidSttus(11, this)">공고대기</a>
+                    <a class="btn bid-sttus-tab active" id="bid-sttus-tab-" onclick="setBidSttus('')">전체</a>
+                    <c:forEach var="vo" items="${bidSttusList}">
+                        <a class="btn bid-sttus-tab" id="bid-sttus-tab-${vo.subCode}" onclick="setBidSttus(${vo.subCode})">${vo.codeDctwo}</a>
+                    </c:forEach>
                 </div>
-            </div>
-            <div class="btn-box">
-                <button type="button" class="btn btn-green has-icon" onclick="bdNoticeDetailModalSearch()" data-toggle="modal" data-target="#exampleModal" ><i class="icon icon-excel">엑셀</i></button>
             </div>
         </div>
 
         <script type="text/javascript">
-            function setBidSttus(code, button) {
-                $(".set-bid-sttus").removeClass("active")
-                $(button).addClass("active")
+            function setBidSttus(code) {
+                bdBidBas.bidSttusCode = code
 
-                const url = "/bo/bidNotice"
-                comAjax("POST", url, null, "", "application/json", true, null, () => {})
+                getBidNoticeList()
             }
         </script>
 

@@ -6,8 +6,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.ToString;
 
-@ToString
-@Getter
 @Data
 public class BoBdPblnVO {
 	private String bidPblancId; // 입찰공고아이디

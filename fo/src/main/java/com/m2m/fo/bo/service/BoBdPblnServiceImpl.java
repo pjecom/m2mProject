@@ -3,6 +3,7 @@ package com.m2m.fo.bo.service;
 import java.util.List;
 
 import com.m2m.fo.bd.model.BdListVO;
+import com.m2m.fo.comm.model.CoCommCdVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,5 +35,10 @@ public class BoBdPblnServiceImpl implements BoBdPblnService{
 		return boBdPblnMapper.getBoBdPblnListTotalCnt(vo);
 	}
 
+	@Override
+	public List<CoCommCdVO> getbidSttusList(String mainCode) {
+		List<CoCommCdVO> list = boBdPblnMapper.getbidSttusList(mainCode);
+		return list;
+	}
 }
 
