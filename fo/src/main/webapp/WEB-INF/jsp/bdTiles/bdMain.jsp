@@ -564,6 +564,7 @@ var params = {
             success: function(response) {
                 // 성공 시 처리
                 sessionStorage.setItem("bidEntrpsNo", response.member.bidEntrpsNo);
+                sessionStorage.setItem("bidMberId", response.member.bidMberId);
                 console.log('로그인 요청이 성공했습니다.');
             },
             error: function(xhr, status, error) {
