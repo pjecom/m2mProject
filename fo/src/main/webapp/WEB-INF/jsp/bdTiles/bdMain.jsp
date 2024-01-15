@@ -11,7 +11,9 @@
 }
 </style>
 <!-- script core :: START -->
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="/guide/js/select2/select2.min.js"></script>
 <script type="text/javaScript">
 
@@ -99,41 +101,21 @@
 	</div>
 </div>
 <!-- main visual :: END -->
-<script>
 
-    //{"bidSttusCode": 12};
-    function selectBdMainInfoList(data) {
-        var param = {
-            "bidSttusCode" :"param"
-        }
-        $.ajax({
-            url: "/selectBdMainInfoList",
-            type: "post",
-            data: JSON.stringify(param),
-            dataType : "json",
-            contentType: "application/json",
-            success: function(data) {
-                alert(data);
-            },
-            error: function(errorThrown) {
-                alert(errorThrown.statusText);
-            }
-        });
-    }
-</script>
 <!-- section #1 구매입찰 공고 LIST :: START -->
 <div class="section prod-list-wrap bid">
 	<div class="inwrap">
 		<!-- ITEM TITLE :: START  -->
-		<h2 class="h2-new">일단이게메인?</h2>
+		<h2 class="h2-new">metalCodeNm</h2>
 		<!-- ITEM TITLE :: END  -->
 		<!-- FILTER AREA :: START -->
 		<div class="filter_area">
+            <form name="searchFrm">
 			<div class="opt">
 				<label for="">Search Keyword</label> <select id="filter" name="filter" onchange="selectBdMainInfoList(-1);"
 					class="filter">
-					<option value="01">Post Date</option>
-					<option value="02">Close Date</option>
+					<option value="01">공고일</option>
+					<option value="02">마감일</option>
 				</select>
 			</div>
 			<div class="cal">
@@ -151,20 +133,21 @@
 						style="font-size: 1.4rem !important;" readonly>
 				</div>
 			</div>
-			<div class="input-button-wrap">
-				<label class="radio-btn active" id="periodBtn1"> 
-					<input type="radio" name="bdPeriod" value="0"><span>All</span>
-				</label> 
-				<label class="radio-btn" id="periodBtn2"> 
-					<input type="radio" name="bdPeriod" value="1"><span>1M</span>
-				</label> 
-				<label class="radio-btn" id="periodBtn3"> 
-					<input type="radio" name="bdPeriod" value="3"><span>3M</span>
-				</label> 
-				<label class="radio-btn" id="periodBtn4"> 
-					<input type="radio" name="bdPeriod" value="6"><span>6M</span>
-				</label>
-			</div>
+            <div class="input-button-wrap btn-period">
+                <label class="radio-btn active" id="all">
+                    <input type="radio" name="bdPeriod" value="0"><span>All</span>
+                </label>
+                <label class="radio-btn" id="oneMonth" onclick="getFormerDate(30,0);">
+                    <input type="radio" name="bdPeriod" value="1" ><span>1M</span>
+                </label>
+                <label class="radio-btn" id="threeMonth" onclick="getFormerDate(90,0);">
+                    <input type="radio" name="bdPeriod" value="3" ><span>3M</span>
+                </label>
+                <label class="radio-btn" id="sixMonth" onclick="getFormerDate(180,0);">
+                    <input type="radio" name="bdPeriod" value="6"><span>6M</span>
+                </label>
+            </div>
+            </form>
 		</div>
 		<!-- main visual > right :: END -->
 		<!-- FILTER AREA :: END -->
@@ -179,8 +162,8 @@
 			<li class="item" data-tab="tab-3"  value="13"  onclick="selectBdMainInfoList(13);">
 				<a href="javascript:;">투찰중 (<span id="bidingCnt">${bdListCnt.bidingCnt}</span>)</a>
 			</li>
-			<li class="item" data-tab="tab-5" value="31"  onclick="selectBdMainInfoList(30);">
-				<a href="javascript:;">마감이요~ (<span id="endCnt">${bdListCnt.endCnt}</span>) </a>
+			<li class="item" data-tab="tab-5" value="30"  onclick="selectBdMainInfoList(30);">
+				<a href="javascript:;">마감 (<span id="endCnt">${bdListCnt.endCnt}</span>) </a>
 			</li>
 		</ul>
 		<!-- TAB BUTTON :: END -->
@@ -226,14 +209,14 @@
                                     <div class="pd-brand">
                                         <div class="pd-label">${vo.metalCode}</div>
                                         <div class="brand-nation">
-                                            <c:if test="${empty vo.codeDctwo}">
+                                            <c:if test="${empty vo.nationCode}">
                                                 <img src="https://sorincorp.blob.core.windows.net/secs/odflag/flag_mcht_default.png">
                                             </c:if>
-                                            <c:if test="${not empty vo.codeDctwo}">
-                                                <img src="${vo.codeDctwo}">
+                                            <c:if test="${not empty vo.nationCode}">
+                                                <img src="${vo.nationCode}">
                                             </c:if>
                                         </div>
-                                        ${vo.brandGroupCode}
+                                        ${vo.brandNm}
                                     </div>
                                     <div class="pd-like">
                                         <ul class="company">
@@ -267,7 +250,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="btns" value="${vo.bidSttusCode}" id="moveList">
+                        <div class="btns moveList" id="moveList" value="${vo.bidPblancId}">
                             <c:choose>
                                 <c:when test="${vo.bidSttusCode == 13}">
                                     <div class="btn-bid-blue">투찰중</div>
@@ -299,15 +282,118 @@
 
 <!-- 공지사항 & FAQ :: START -->
 
-<script>
+<script> 
+$(function() {
+	$("#searchDateFrom").datepicker({
+		dateFormat: 'yy-mm-dd' //달력 날짜 형태
+		,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+		,showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
+		,changeYear: true //option값 년 선택 가능
+		,changeMonth: true //option값  월 선택 가능
+		,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시
+		,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
+		,buttonImageOnly: true //버튼 이미지만 깔끔하게 보이게함
+		,buttonText: "선택" //버튼 호버 텍스트
+		,yearSuffix: "년" //달력의 년도 부분 뒤 텍스트
+		,monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 텍스트
+		,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip
+		,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 텍스트
+		,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 Tooltip
+		,minDate: "-5Y" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+		,maxDate: "+5y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)
+	});
+	
+	$("#searchDateTo").datepicker({
+		dateFormat: 'yy-mm-dd' //달력 날짜 형태
+		,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+		,showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
+		,changeYear: true //option값 년 선택 가능
+		,changeMonth: true //option값  월 선택 가능
+		,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시
+		,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
+		,buttonImageOnly: true //버튼 이미지만 깔끔하게 보이게함
+		,buttonText: "선택" //버튼 호버 텍스트
+		,yearSuffix: "년" //달력의 년도 부분 뒤 텍스트
+		,monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 텍스트
+		,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip
+		,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 텍스트
+		,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 Tooltip
+		,minDate: "-5Y" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+		,maxDate: "+5y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)
+	});
+});
+
+
+    function selectBdMainInfoList(data) {
+        var bidSttusCode = data;
+        var param = {
+            "searchOption" :  $("#filter").val()
+            ,"startDt" : $("#searchDateFrom").val() // 공고일
+            ,"endDt" : $("#searchDateTo").val() // 마감일
+            ,"bidSttusCode" : bidSttusCode // 입찰 상태
+        }
+        $.ajax({
+            url: "/selectBdMainInfoList",
+            type: "post",
+            data: JSON.stringify(param),
+            dataType : "json",
+            contentType: "application/json",
+            success: function(data) {
+                alert(data);
+            },
+            error: function(errorThrown) {
+                alert(errorThrown.statusText);
+            }
+        });
+        
+    }
+
+    $(".btn-period > .radio-btn").click(function() {
+        debugger;
+            $('.btn-period > .radio-btn').removeClass('active');
+            $(this).addClass('active');
+
+            switch($(this).attr('id')) {
+                case 'all':
+                    $("#searchDateFrom").datepicker("setDate", '');
+                    $("#searchDateTo").datepicker("setDate", '');
+                    break;
+                case 'oneMonth':
+                    getFormerDate(30,0);
+                    break;
+                case 'threeMonth':
+                    getFormerDate(60,0);
+                    break;
+                case 'sixMonth':
+                    getFormerDate(180,0);
+                    break;
+            }
+        });
+
+    function getFormerDate(num1, num2) {
+        var today = new Date();
+        console.log("num1"+num1);
+        console.log("num2"+num2);
+        $("#searchDateFrom").datepicker("setDate", new Date(today.getFullYear(), today.getMonth(), today.getDate() - num1).toLocaleDateString());
+        $("#searchDateTo").datepicker("setDate", new Date(today.getFullYear(), today.getMonth(), today.getDate() - num2).toLocaleDateString());
+    }
+
+    $(".item").click(function(){
+        var bdPeriod = $(this).attr('value');
+        //$(".item").val();
+        $(".item").removeClass("on");
+        $(this).addClass("on");
+        console.log("입찰상태"+bdPeriod);
+    });
+    
 //------------------------------------- 공지사항 최근 게시글 제목 4개 조회-------------------------------------//
 /* 로그인 버튼 클릭 메서드 */
     $(function() {
-        $("#moveList").click(function() { // 목록가기 버튼 클릭 이벤트
-            //alert("HI");
+        $(".moveList").click(function() { // 목록가기 버튼 클릭 이벤트
+            var moveList = $(this).attr('value');
+            alert(moveList);
             var params = {
-                "bidPblancId" : "TEST01-07",
-                "bidEntrpsNo" : "A0001"
+                "bidPblancId" : moveList
             }
             pageMove( "/detail/bdDetail", JSON.stringify(params), 'application/json');
         });
