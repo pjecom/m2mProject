@@ -122,14 +122,14 @@
 				<div class="datepicker-wrap">
 					<input type="text"
 						class="datepicker from center validate[required,custom[date]]"
-						id="searchDateFrom" desc="날짜" placeholder="From"
+						id="datepicker1" desc="날짜" placeholder="From"
 						style="font-size: 1.4rem !important;" readonly>
 				</div>
 				<div class="tilde">~</div>
 				<div class="datepicker-wrap">
 					<input type="text"
 						class="datepicker to center validate[required,custom[date]]"
-						id="searchDateTo" desc="날짜" placeholder="To"
+						id="datepicker2" desc="날짜" placeholder="To"
 						style="font-size: 1.4rem !important;" readonly>
 				</div>
 			</div>
@@ -349,14 +349,20 @@ $(function() {
     }
 
     $(".btn-period > .radio-btn").click(function() {
-        debugger;
             $('.btn-period > .radio-btn').removeClass('active');
             $(this).addClass('active');
-
+            $("#datepicker1, #datepicker2").datepicker({
+                format: "yyyy-mm-dd",
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true,
+                todayHighlight: true,
+                language:"ko"
+            });
             switch($(this).attr('id')) {
                 case 'all':
-                    $("#searchDateFrom").datepicker("setDate", '');
-                    $("#searchDateTo").datepicker("setDate", '');
+                    $("#datepicker1").datepicker("setDate", '');
+                    $("#datepicker2").datepicker("setDate", '');
                     break;
                 case 'oneMonth':
                     getFormerDate(30,0);
@@ -374,8 +380,8 @@ $(function() {
         var today = new Date();
         console.log("num1"+num1);
         console.log("num2"+num2);
-        $("#searchDateFrom").datepicker("setDate", new Date(today.getFullYear(), today.getMonth(), today.getDate() - num1).toLocaleDateString());
-        $("#searchDateTo").datepicker("setDate", new Date(today.getFullYear(), today.getMonth(), today.getDate() - num2).toLocaleDateString());
+        $("#datepicker1").datepicker("setDate", new Date(today.getFullYear(), today.getMonth(), today.getDate() - num1).toLocaleDateString());
+        $("#datepicker2").datepicker("setDate", new Date(today.getFullYear(), today.getMonth(), today.getDate() - num2).toLocaleDateString());
     }
 
     $(".item").click(function(){
