@@ -2,7 +2,10 @@ package com.m2m.fo.login.controller;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
-fhrmimport javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
