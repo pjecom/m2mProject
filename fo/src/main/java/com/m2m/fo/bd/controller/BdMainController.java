@@ -22,6 +22,7 @@ import com.m2m.fo.bd.service.BdMainService;
 import com.m2m.fo.sample.model.SampleVO;
 import com.m2m.fo.sample.service.SampleService;
 
+import io.swagger.models.Model;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -68,6 +69,32 @@ public class BdMainController {
         return "boTiles/boMain";
 
     }
+	
+	@RequestMapping("/selectBdMainInfoAjaxList")
+	public ResponseEntity<?> selectBdMainInfoAjaxList(@RequestBody BdListVO bdBidVO, Model model) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			List<BdListVO> mainBdList = bdMainService.getBdList(bdBidVO);
+
+			int totalCnt = 0;
+			int expectCnt = 0;
+			int bidingCnt = 0;
+			int endCnt = 0;
+			//입찰예정,투찰중,(마감,서류접수중,서류심사중,유찰)
+
+			map.put("mainBdList", mainBdList);
+			map.put("totalCnt", totalCnt);
+			map.put("expectCnt", expectCnt);
+			map.put("bidingCnt", bidingCnt);
+			map.put("endCnt", endCnt);
+
+			return new ResponseEntity<>(map, HttpStatus.OK);
+
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
 
 
 }

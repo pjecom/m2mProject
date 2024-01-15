@@ -255,7 +255,7 @@
                                 <c:when test="${vo.bidSttusCode == 13}">
                                     <div class="btn-bid-blue">투찰중</div>
                                     <span class="bid-d-day pre abs-info"> 
-                                        투찰 마감까지 <span class="time">- 3일 3시간 20분 36초</span>
+                                        투찰 마감까지 <span class="time" id=time${vo.bidPblancId}></span>
                                     </span>
                                 </c:when>
                                 <c:when test="${vo.bidSttusCode == 30}">
@@ -322,32 +322,170 @@ $(function() {
 		,minDate: "-5Y" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
 		,maxDate: "+5y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)
 	});
+
+	selectBdMainInfoList();
+	
+	
 });
 
+function dateviewfmt(date){
+	return date.substring(2,4) + '.' +date.substring(4,6)+ '.' +date.substring(6,8)+ ' ' +date.substring(8,10)+ ':' +date.substring(10,12)+ ':' +date.substring(12,14);
+}
 
-    function selectBdMainInfoList(data) {
-        var bidSttusCode = data;
-        var param = {
-            "searchOption" :  $("#filter").val()
-            ,"startDt" : $("#searchDateFrom").val() // 공고일
-            ,"endDt" : $("#searchDateTo").val() // 마감일
-            ,"bidSttusCode" : bidSttusCode // 입찰 상태
-        }
-        $.ajax({
-            url: "/selectBdMainInfoList",
-            type: "post",
-            data: JSON.stringify(param),
-            dataType : "json",
-            contentType: "application/json",
-            success: function(data) {
-                alert(data);
-            },
-            error: function(errorThrown) {
-                alert(errorThrown.statusText);
-            }
-        });
-        
-    }
+//날짜 format
+function datefmt(date){
+	return date.substring(0,4) + '.' +date.substring(4,6)+ '.' +date.substring(6,8)+ ' ' +date.substring(8,10)+ ':' +date.substring(10,12)+ ':' +date.substring(12,14);
+}
+
+function fmtDate(startDate,endDate,id,bidStatusCode){
+	//초기 설정 
+	setTimeout(function(){$("#"+id).html(" ");} , 0);
+	
+	setInterval(function(){
+		//현재시간
+		var nowDate = new Date();
+		
+		//입찰 공고 시작일
+		startFmtDate = new Date(datefmt(startDate));
+		//입찰 공고 마감일
+		endFmtDate = new Date(datefmt(endDate));
+		
+		if(bidStatusCode =="12" && startFmtDate >= nowDate){
+			$("#"+id).html(" - " + Math.floor((startFmtDate-nowDate)/(1000*24*60*60)) 
+					+"일 "+Math.floor(((startFmtDate-nowDate)% (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+					+"시 "+Math.floor(((startFmtDate-nowDate) % (1000 * 60 * 60)) / (1000 * 60))
+					+"분 "+Math.floor(((startFmtDate-nowDate) % (1000 *60)) / 1000) + "초");
+		}else if(bidStatusCode =="13" && endFmtDate >= nowDate){
+			$("#"+id).html(" - " + Math.floor((endFmtDate-nowDate)/(1000*24*60*60)) 
+					+"일 "+Math.floor(((endFmtDate-nowDate)% (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+					+"시 "+Math.floor(((endFmtDate-nowDate) % (1000 * 60 * 60)) / (1000 * 60))
+					+"분 "+Math.floor(((endFmtDate-nowDate) % (1000 *60)) / 1000) + "초");
+		}
+		else{
+			$("#"+id).html("");    
+		}
+	},1000); //1초마다 
+}
+	
+function selectBdMainInfoList(bidSttusCode) {
+var params = {
+			"bidSttusCode" : bidSttusCode,
+			"filter" : $('#filter').val(),
+			"brand" : $('#brand').val(),
+			"area" : $('#area').val(),
+			"searchDateFrom" : $('#searchDateFrom').val().replaceAll("-", ""),
+			"searchDateTo" : $('#searchDateTo').val().replaceAll("-", ""),
+			"bidEntrpsNo" : ""
+		}
+
+		postSetDataType( "/selectBdMainInfoAjaxList", JSON.stringify(params), "", true, function(result) {
+			$('.totalCnt').html(result.totalCnt);
+			$('#bidingCnt').html(result.bidingCnt);
+			$('#expectCnt').html(result.expectCnt);
+			$('#endCnt').html(result.endCnt);
+	
+			$("#BdList").empty();
+			var html = '';
+			for (let i = 0; i < result.mainBdList.length; i++) {
+				html += '		<li>';
+				if (result.mainBdList[i].bidSttusCode == "31" || result.mainBdList[i].bidSttusCode == "22" || result.mainBdList[i].bidSttusCode == "23" || result.mainBdList[i].bidSttusCode == "32" ) {
+					html += '			<div class="cart-item-wrap type4 finish">';
+				}else{
+					html += '			<div class="cart-item-wrap type4">';
+				}
+				html += '				<figure class="figure figure1">';
+				html += '					<img src=' + result.mainBdList[i].pcImageOneNm +' alt="알루미늄" class="w">';
+				html += '				</figure>';
+				html += '				<div class="figure-con">';
+				html += '					<div class="pd-brand-info">';
+				html += '	    				<h3 class="pd-bid-no">' + result.mainBdList[i].bidPblancId + '</h3>';
+				html += '	    				<div class="pd-wrap">';
+				html += '	        				<div class="pd-brand">';
+				html += '	             				<div class="pd-label">' + result.mainBdList[i].metalCodeNm + '</div>';
+				html += '	            				<div class="brand-nation">';
+				html += '									<img src="'+result.mainBdList[i].nationUrl+'" alt="">';
+				html += '	            				</div>';
+				html += '	        					' + result.mainBdList[i].brandCode + '';
+				html += '	    					</div>';
+				html += '	    					<div class="pd-like">';
+				html += '	            				<ul class="company">';
+				html += '	             	   				<li> <span>' + result.mainBdList[i].partcptnEntrpsQy + '</span><span>참여기업</span></li>';
+				html += '	                				<li> <span><span id="intrstEntrpsQy">' + result.mainBdList[i].intrstEntrpsQy + '</span><span>관심기업</span></li>';
+				html += '	            				</ul>';
+			
+					html += '<a href="javascript:void(0);" class="ico like" data-bid-pblanc-id="' + result.mainBdList[i].bidPblancId + '"> ';
+					html += '	<span class="material-symbols-outlined">favorite</span> <span>관심추가</span>';
+					html += '</a>';
+				html += '	    					</div>';
+				html += '						</div>';
+				
+				html += '						<div class="pd-name" style="pointer-events : none;">';
+				html += '	    					<span class="item">' + result.mainBdList[i].dspyGoodsNm + '</span> ';
+				html += '	     					<span class="wrhous">출고권역 - ' + result.mainBdList[i].dstrctNm + '</span>';
+				html += '	    					<span class="brand-group">' + result.mainBdList[i].brandGroupCodeNm + '</span>';
+				html += '	 					</div>';
+				html += '	 					<div class="pd-period">';
+				html += '	    					<span class="qty">수량 <span class="highlight">' + result.mainBdList[i].bidWt+ 'MT</span></span>';
+				html += '	     					<span class="date">투찰기간<span class="highlight">';
+				html += '	    						 ' + dateviewfmt(result.mainBdList[i].bddprBeginDt); + '';
+				html += '								~';
+				html += '								 ' + dateviewfmt(result.mainBdList[i].bddprEndDt) + '';
+				html += '							</span></span>';
+				if (result.mainBdList[i].bidSttusCode == "12" || result.mainBdList[i].bidSttusCode == "13" ) {
+				html += '							<span class="t-info">개찰결과 : 투찰 기한 마감과 동시에 발표함</span>';
+				}
+				html += '						</div>';
+				html += '					</div>';
+				html += '				</div>';
+				if (result.mainBdList[i].bidSttusCode == "12") {
+				html += '				<div class="btns">';
+					html += '				<a href="javascript:;"  name="selectBid" id ="'+result.mainBdList[i].bidPblancId+'"  class="btn-bid-stroke">입찰예정</a>';
+					html += '			</div>';
+					html += '	    	<span class="bid-d-day abs-info">투찰시작까지<span class="time" id=time'+result.mainBdList[i].bidPblancId+'>'+fmtDate(result.mainBdList[i].bddprBeginDt, result.mainBdList[i].bddprEndDt, "time"+result.mainBdList[i].bidPblancId, result.mainBdList[i].bidSttusCode);+'</span>';
+					html += '			</span>';
+				} else if (result.mainBdList[i].bidSttusCode == "13") {
+				html += '				<div class="btns">';
+					html += '				<a href="javascript:;" name="selectBid" id ="'+result.mainBdList[i].bidPblancId+'"  class="btn-blue-blue">투찰중</a>';
+					html += '			</div>';
+					html += '			<span class="bid-d-day pre abs-info">투찰마감까지<span class="time" style="color: #1D5FD0;" id=time'+result.mainBdList[i].bidPblancId+'>'+fmtDate(result.mainBdList[i].bddprBeginDt, result.mainBdList[i].bddprEndDt, "time"+result.mainBdList[i].bidPblancId, result.mainBdList[i].bidSttusCode);+'</span>';
+					html += '			</span>';
+				} else if (result.mainBdList[i].bidSttusCode == "31" || result.mainBdList[i].bidSttusCode == "22" || result.mainBdList[i].bidSttusCode == "23" || result.mainBdList[i].bidSttusCode == "32" ) {
+				html += '				<div class="btns">';
+					html += '				<a href="javascript:;" name="selectBid" id ="'+result.mainBdList[i].bidPblancId+'"  class="btn-bid-black">Closed</a>';
+					html += '			</div>';
+					if(result.mainBdList[i].bidSttusCode == "32"){
+						html += '		<span class="t-info abs-info">Aborted</span>';
+					}else{
+						html += '		<span class="t-info abs-info">Offers Opened</span>';
+					}
+				} else if (result.mainBdList[i].bidSttusCode == "21") {
+	                html += '               <div class="btns">';
+	                    html += '               <a href="javascript:alert(\'Opening of Offers.\');" id ="'+result.mainBdList[i].bidPblancId+'"  class="btn-blue-blue">Opening Offers</a>';
+	                    html += '           </div>';
+	                    html += '      <span class="t-info abs-info">Bid Closed</span>';
+	                   // html += '           <span class="bid-d-day pre abs-info"> 투찰 마감까지<sapn class="time" style="color: #1D5FD0;" id=time'+result.mainBdList[i].bidPblancId+'>'+fmtDate(result.mainBdList[i].bddprBeginDt, result.mainBdList[i].bddprEndDt, "time"+result.mainBdList[i].bidPblancId, result.mainBdList[i].bidSttusCode);+'</span>';
+	                    html += '           </span>';
+	                }
+				html += '			</div>';
+				html += '		</li>';
+	
+		}
+		$("#BdList").append(html);
+		if(result.mainBdList.length==0){
+			$("#BdList").append( '</div>'
+											+'<div class="no-data empty-content">Could not find any matches.</div>'
+										+'</div>');
+			
+		}
+		$(".ico.like").click(intrstBtnClickHandler);
+		
+		//클릭된 공고 별 숫자가져오기		
+		$("#selectTotalCnt").empty();
+		$('#selectTotalCnt').append($('li[class^="item on"]')[0].children[0].innerHTML);
+	});
+	
+}
+
 
     $(".btn-period > .radio-btn").click(function() {
             $('.btn-period > .radio-btn').removeClass('active');

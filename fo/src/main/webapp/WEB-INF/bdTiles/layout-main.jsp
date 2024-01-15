@@ -201,6 +201,30 @@ function pageMoveAjaxProcess(url, data, contentType) {
     		window.scrollTo(0, 0);
     	});
     }
+
+function postSetDataType(url, data, dataType, isAsync, callback) { // dataType을 사용하지 않고 싶을경우 "" 공백으로
+	return comAjax("POST", url, data, dataType, "application/json", true, isAsync, callback);
+}
+
+function comAjax(_type, _url, _data, _dataType, _contentType, _processData, _isAsync, callback) {
+	if(!validationIsEmpty(_type) && !validationIsEmpty(_url)) {
+		$.ajax({
+				type : _type,
+				url : _url,
+				data : _data,
+				dataType : _dataType,
+				contentType : _contentType,
+				processData : _processData,
+				async: _isAsync,
+				success : function(data) {
+					callback(data);
+				},
+				error : function(request, status, error) {
+					errorException(request);
+				}
+		});
+	}
+}
     
 //메인으로 갈 때 사용
 function moveToBdMain() {
