@@ -1,7 +1,5 @@
 package com.m2m.fo.login.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,13 +32,13 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseEntity<?> loginV3(@Valid @ModelAttribute LoginVO loginVO, BindingResult bindingResult, RedirectAttributes rttr, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
-
+        	return ResponseEntity.badRequest().body("Validation error");
         }
         LoginVO lvo = loginService.memberLogin(loginVO);
 
         if (lvo == null) {
             System.out.println("실패!!!!!");
-        	
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
         }
         System.out.println("성공!!!!!");
         HttpSession session = request.getSession();

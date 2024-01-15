@@ -74,9 +74,9 @@
                 </c:when>
                 <c:otherwise>
                     <p>Welcome to Sorin.com</p>
-                    <input type="text" title="아이디" placeholder="Enter your ID" id="id" name="id" class="validate[required]" desc="아이디" onkeyup="enterkey(this)">
-                    <input type="password" title="비밀번호" placeholder="Enter your password" id="password" name="password" class="validate[required]" desc="비밀번호" onkeyup="enterkey(this)">
-                    <button type="button" class="btn primary_bg" onclick="authNumValidation()">Login</button>
+                    <input type="text" title="아이디" placeholder="Enter your ID" id="id" name="id" class="validate[required]" desc="아이디">
+                    <input type="password" title="비밀번호" placeholder="Enter your password" id="password" name="password" class="validate[required]" desc="비밀번호">
+                    <button type="button" class="btn primary_bg">Login</button>
                     <div class="sub_area">
                         <div class="checkbox-container" >
                             <label class="checkbox-label" for="save_id">
@@ -548,13 +548,7 @@ var params = {
             }
             pageMove( "/detail/bdDetail", JSON.stringify(params), 'application/json');
         });
-    });
-
-    $(".primary_bg").click(function(){
-        //alert("로그인 버튼 작동");
-        console.log("로그인 버튼 작동");
-    });
-    
+    });    
     $(".primary_bg").click(function(){
         var userId = $("#id").val(); // 아이디 입력란의 값을 가져옴
         var userPassword = $("#password").val(); // 비밀번호 입력란의 값을 가져옴
@@ -571,7 +565,6 @@ var params = {
                 // 성공 시 처리
                 sessionStorage.setItem("bidEntrpsNo", response.member.bidEntrpsNo);
                 console.log('로그인 요청이 성공했습니다.');
-                // 원하는 작업 수행 (예: 페이지 리로드, 리디렉션 등)
             },
             error: function(xhr, status, error) {
                 // 실패 시 처리
