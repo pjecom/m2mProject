@@ -35,13 +35,9 @@
              FROM dbo.BD_BID_BAS BB                                                                                                                     /* 입찰기본 */
         WHERE 1=1
              <if test="bidSttusCode != null and bidSttusCode != ''">
-                AND BID_STTUS_CODE = #{bidSttusCode}                                                                                                    /* 입찰 상태 코드 */
+             AND BID_STTUS_CODE = #{bidSttusCode}                                                                                                       /* 입찰 상태 코드 */
             </if>
-            <if test ="searchOption == '01''">
-				AND CONVERT(int,CONVERT(char(8),FRST_REGIST_DT,112)) between ${startDt} and ${endDt}                                                    /* 공고(마감) 날짜 */
-			</if>
-			
-            <if test ="searchOption == '01''">
+            <if test="startDt != null and startDt != '' and endDt != null and endDt != ''">
             AND CONVERT(int,CONVERT(char(8),FRST_REGIST_DT,112)) between ${startDt} and ${endDt}                                                        /* 공고(마감) 날짜 */
             </if>
     </select>
