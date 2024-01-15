@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.m2m.fo.bd.model.BdBddprVO;
 import com.m2m.fo.bd.model.BdDetailVO;
+import com.m2m.fo.bd.model.bdUpdateVO;
 
 public interface BdDetailMapper {
 
@@ -12,6 +13,8 @@ public interface BdDetailMapper {
 	public List<BdDetailVO> selectbdDelyCndList(BdDetailVO bdDetailVO);
 	
 	public BdBddprVO selectBddpr(BdDetailVO bdDetailVO);
+	
+	public List<bdUpdateVO> selectBdUpdtList(BdDetailVO bdDetailVO);
 
 	public String passwordCheck(BdDetailVO bdDetailVO);
 
@@ -20,5 +23,6 @@ public interface BdDetailMapper {
 	public int selectPartEntQy(BdBddprVO bdBddprVO);
 
 	public void updatePartEntQy(BdBddprVO bdBddprVO);
+
 	
 }

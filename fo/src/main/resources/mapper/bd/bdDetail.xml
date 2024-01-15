@@ -76,14 +76,31 @@
 			   AND CCC.SUB_CODE != '@'
 			   AND CCC.DELETE_AT = 'N'
 			   AND CCC.CODE_DCONE = BBD.DELY_CND_CODE ) AS DELY_CND_CODE_NM
+			,CASE WHEN CANCL_AT = 'Y' THEN CANCL_DT
+				ELSE '-' 
+			  END AS CANCL_DT	/*투찰취소일시*/
 		FROM	
 			BD_BDDPR_DTL BBD
 		WHERE 1=1
 		AND BID_ENTRPS_NO = #{bidEntrpsNo}
 		AND BID_PBLANC_ID = #{bidPblancId}
-		AND CANCL_AT = 'N'	/*취소여부*/
 		AND DELETE_AT = 'N' /*삭제여부*/
 	</select>
+	
+	<select id="selectBdUpdtList" parameterType="com.m2m.fo.bd.model.BdDetailVO" resultType="com.m2m.fo.bd.model.bdUpdateVO">
+		 SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+        /* com.m2m.fo.bd.mapper.BdDetailMapper.selectBdUpdtList */
+		SELECT
+				  BUH.BID_UPDT_HST_SN	/*입찰 수정이력 순번*/
+				, BUH.BID_PBLANC_ID	/*입찰공고아이디*/
+				, BUH.BID_UPDT_CN	/*입찰 수정 내용*/
+				, BUH.BID_UPDT_RESN	/*입찰 수정 사유*/
+				, BUH.FRST_REGIST_DT	/*최초등록일시*/
+		 FROM BD_BID_UPDT_HST BUH 
+		WHERE 1=1
+		  AND BUH.BID_PBLANC_ID  		= #{bidPblancId}
+		ORDER BY FRST_REGIST_DT 
+	</select>	
     
     <select id="passwordCheck" parameterType="com.m2m.fo.bd.model.BdDetailVO" resultType="String">
 	  /* com.m2m.fo.bd.mapper.BdDetailMapper.passwordCheck */

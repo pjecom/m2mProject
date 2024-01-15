@@ -44,7 +44,7 @@
 				<div class="section prod-detail-wrap bid">
 					<div class="inwrap">
 			            <!-- ITEM TITLE :: START  -->
-			            <h2 class="h2-new">공고 상세 정보${bdBddprVO.dateString} ${bdBddprVO.bddprFlag} ${bdBddprVO.delyCndCodeNm}</h2>
+			            <h2 class="h2-new">공고 상세 정보 ${bdBddprVO.bddprFlag} ${bdBddprVO.delyCndCodeNm}</h2>
 			            <!-- ITEM TITLE :: END  -->	            
 			            <!-- ITEM DETAIL AREA :: START -->
 						<ul class="list t2">
@@ -200,16 +200,20 @@
 										<!-- ###################### END 마감(내가 참여하지 않은 마감건) ######################-->
 										<!-- ###################### START 투찰중(투찰 최종가격) ######################-->
 										<c:if test="${bdDetailVO.bidSttusCode eq '13'}">
-											<!-- 입찰전과 입찰후의 값이 다름 -> flag 값을 이용해서 분기처리 -->
+											<!-- ###################### START 입찰 후(Flag값 'Y') ######################-->
 											<c:if test="${bdBddprVO.bddprFlag eq 'Y'}">
 												<tr class="bid-condition">
 													<th class="fc-red" rowspan="2" scope="row">인도 조건</th>
 													<td colspan="2">
-														<div class="tb-select">
-															<div class="read">${bdBddprVO.delyCndCodeNm}</div>
+														<div class="tb-select readonly">
+															<label for="shippingAddr">검색조건</label>
+															<select name="shippingAddr" id="shippingAddr" disabled>
+																<option>${bdBddprVO.delyCndCodeNm}</option>
+															</select>
+															<!--<div class="read">${bdBddprVO.delyCndCodeNm}</div>-->
 														</div>
 													</td>									
-													<td colspan="1"><input class="input-lg" type="number" name="" id="delyCndStdrPc" value="${bdBddprVO.delyCndStdrPc}"></td>
+													<td colspan="1"><input class="input-lg readonly" type="text" name="" id="delyCndStdrPc" value="${bdBddprVO.delyCndStdrPc}" readonly></td>
 												</tr>
 												<tr class="bid-condition bid-condition2 read">
 													<td class="right-narrow" colspan="2">
@@ -217,7 +221,7 @@
 															<div class="r-info">+전환 프리미엄가</div>
 														</div>
 													</td>
-													<td colspan="1"><input class="input-lg" type="number" name="" id="cnvrsPremiumAmount" value="${bdBddprVO.cnvrsPremiumAmount}"></td>                                
+													<td colspan="1"><input class="input-lg readonly" type="text" name="" id="cnvrsPremiumAmount" value="${bdBddprVO.cnvrsPremiumAmount}" readonly></td>                                
 												</tr>			                            
 												<tr>
 													<th class="fc-red" rowspan="2" scope="row">프리미엄 가격(USD/MT)</th>
@@ -226,10 +230,12 @@
 												</tr>		
 												<tr>
 													<td class="center read" colspan="2">
-														<input class="input-md" type="number" name="premium" id="bddprPremiumPc" value="${bdBddprVO.bddprPremiumPc}">/MT</td>
+														<input class="input-md readonly" type="text" name="premium" id="bddprPremiumPc" value="${bdBddprVO.bddprPremiumPc}" readonly>/MT</td>
 													<td class="center" colspan="1" id="result"><span></span> 원</td>                                  
 												</tr>
 											</c:if>	
+											<!-- ###################### END 입찰 후(Flag값 'Y') ######################-->
+											<!-- ###################### START 입찰 전(Flag값 'N') ######################-->
 											<c:if test="${bdBddprVO.bddprFlag ne 'Y'}">
 												<tr class="bid-condition">
 													<th class="fc-red" rowspan="2" scope="row">인도 조건</th>
@@ -265,6 +271,7 @@
 													<td class="center" colspan="1" id="result" pattern="#,###,###"><span>300</span> 원</td>                                  
 												</tr>
 											</c:if>
+											<!-- ###################### END 입찰 후(Flag값 'N') ######################-->
 										</c:if>
 										<!-- ###################### END 투찰중(투찰 최종가격) ######################-->
 			                            <tr>
@@ -302,22 +309,99 @@
 			                                <th scope="row">입찰 참여 동의</th>
 			                                <td colspan="3">
 			                                    <div class="checkbox-container">
-			                                        <label class="checkbox-label" for="agree_all">
-			                                            <input type="checkbox" name="agree_all" id="agree_all" value="">
-			                                            <span class="checkbox-custom rectangular"></span>
-			                                        </label>
+													<!--입찰전-->
+													<c:if test = "${bdBddprVO.bddprFlag ne 'Y'}">
+														<label class="checkbox-label" for="agree_all">
+															<input type="checkbox" name="agree_all" id="agree_all" value="">
+															<span class="checkbox-custom rectangular"></span>
+														</label>
+													</c:if>
+													<!--입찰후-->
+													<c:if test = "${bdBddprVO.bddprFlag eq 'Y'}">
+														<label class="checkbox-label" for="agree_all">
+															<input type="checkbox" name="agree_all" id="agree_all" value="" checked disabled>
+															<span class="checkbox-custom rectangular"></span>
+														</label>
+													</c:if>
 			                                        <div class="input-title">상기&nbsp;내용에&nbsp;입찰&nbsp;동의합니다.</div>
 			                                    </div>   
 			                                </td>
 			                            </tr>	
 			                        </tbody>
 			                    </table>
+								<!-- ###################### START 송신상태 ######################-->
+								<c:if test="${bdDetailVO.bidSttusCode eq '13' && bdBddprVO.bddprFlag eq 'Y'}">
+									<div class="hgroup">
+										<h2 class="h3">송신 상태</h2>
+									</div>
+									<table class="tbl-v t3 th-left">
+										<caption>송신 상태 정보 - 송신결과, 투찰접수일시 제공</caption>
+										<colgroup>
+											<col style="width:20rem;">
+											<col>
+											<col style="width:20rem;">
+											<col>
+										</colgroup>
+										<tbody>
+											<tr>
+												<th scope="row">송신결과</th>
+												<td colspan="3">정상</td>
+											</tr>
+											<tr>
+												<th scope="row">투찰접수일시</th>
+												<td colspan="3">${bdBddprVO.dateString}</td>
+											</tr>
+											<tr>
+												<th scope="row">투찰취소일시</th>
+												<td colspan="3">${bdBddprVO.dateCancelString}</td>
+											</tr>
+										</tbody>
+									</table>
+								</c:if>
+								<!-- ###################### END 송신상태 ######################--> 
+								<!-- ###################### START 수정사항 ######################--> 
+			                    <div class="section fixes-wrap">
+			                        <div class="tbl-list-summary">
+			                            수정 사항
+			                        </div>
+									<c:choose>
+										<c:when test="${fn:length(bdBidUpdtList) > 0}">
+											<ul id="reviseUl" class="list t2">
+												<c:forEach var="list" items="${bdBidUpdtList}">
+													<li>
+														<div class="balance-manage-result">
+															<div class="date" id="serverDate">${list.frstDateString}</div>
+															<div class="figure-con">
+																<p class="pd-name">${list.bidUpdtCn}</p>
+																<p class="pd-order"><span>${list.bidUpdtResn}</span></p>
+															</div>
+														</div>
+													</li>
+												</c:forEach>
+											</ul>
+										</c:when>
+										<c:otherwise>
+											<ul id="reviseUl" class="list t2">
+												<li>
+													<div class="balance-manage-result">
+														<div class="figure-con">
+															<p class="pd-order">
+																<span>수정된 내용이 없습니다.</span>
+															</p>
+														</div>
+													</div>
+												</li>
+											</ul>
+										</c:otherwise>
+									</c:choose>
+			                    </div>
+			                    <!-- ###################### END 수정사항 ######################--> 												
 			                    <div class="btn-wrap">
 			                        <button type="button" class="btn-gray-big btn-list" onclick="pageMove('/');">공고 목록가기</button>
 									<c:choose> 
 										<c:when test="${bdBddprVO.bddprFlag eq 'Y'}">
-											<button type="button" id="bidStr" class="btn-blue-big" onclick="confirmPopup()">마이페이지</button>
-											<button type="button" id="bidStr" class="btn-blue-big" onclick="confirmPopup()">투찰취소</button>
+											<button type="button" id="bidStr" class="btn-blue-big" >마이페이지</button>
+											<button type="button" id="bidStr" class="btn-blue-big" onclick="canclPopup()">투찰취소</button>
 										</c:when>
 										<c:otherwise>
 											<button type="button" id="bidStr" class="btn-blue-big" onclick="confirmPopup()">투찰하기</button>
@@ -330,26 +414,49 @@
 										<div id="modal1">
 											<div class="modal-header">
 												<h1>비밀번호 확인</h1>
-												<div class="modal-close"><button type="button" class="modal-x"><span class="hidden">Close Popup</span></button></div>
+												<div class="modal-close"><button type="button" class="modal-x" onclick="closePopup()"><span class="hidden" >Close Popup</span></button></div>
 											</div>
 											<div class="max-width">
 												<div class="alert-con"><p>최종인증을 진행합니다.<br>가입 시 등록한 비밀번호를 입력해주세요.<br><br>
-												<input class="full" type="password" name="password" id="password" placeholder="비밀번호를 입력해주세요.">
-											</div><!--// .max-width -->
+													<input class="full" type="password" name="password" id="password" placeholder="비밀번호를 입력해주세요.">
+												</div><!--// .max-width -->
+											</div>
 											<div class="modal-btns">
 												<button type="button" class="btn-blue-big" id="passwordCheck" onclick="checkPassword()">확인</button>
 											</div>
 										</div>
-									</div>
-									<div id="modal2" style="display:none">
-										<div class="max-width">
-											<div class="alert-con"><p>정상접수되었습니다.<br>내가 참여한 입찰 내역은<br>[마이페이지]<br>확인 가능합니다. 감사합니다.<br>
-										</div><!--// .max-width -->
-										<div class="modal-btns">
-											<button type="button" class="btn-blue-big" onclick="reloadPage()">확인</button>
-											<button type="button" class="btn-blue-big" id="" onclick="">마이페이지</button>
+										<div id="modal2" style="display:none">
+											<div class="max-width">
+												<div class="alert-con">
+													<p>정상접수되었습니다.<br>내가 참여한 입찰 내역은<br>[마이페이지]<br>확인 가능합니다. 감사합니다.<br>
+												</div><!--// .max-width -->
+											</div>
+											<div class="modal-btns">
+												<button type="button" class="btn-blue-big" onclick="reloadPage()">확인</button>
+												<button type="button" class="btn-blue-big" id="" onclick="">마이페이지</button>
+											</div>
 										</div>
-									</div>
+										<div id="modal3" style="display:none">
+											<div class="modal-header">
+												<h1>알림</h1>
+												<div class="modal-close"><button type="button" class="modal-x" onclick="closePopup()"><span class="hidden" >Close Popup</span></button></div>
+											</div>
+											<div class="max-width">
+												<div class="alert-con">
+													<p>해당공고는 투찰 접수 된 상태입니다.<br>취소 시, 입찰 정보가 사라지며<br>동일 입찰 건은 재 입찰이 불가능합니다.<br>취소하시겠습니까?<br>	
+												</div><!--// .max-width -->
+												<label class="checkbox-label" for="agree_cancl" style="font-size:12px; width:150px">
+													<input type="checkbox" name="agree_cancl" id="agree_cancl" value="">
+													<span class="checkbox-custom rectangular"></span>
+													<div class="">rrr 확인 후 취소합니다.</div>
+												</label>
+											</div>
+											<div class="modal-btns">
+												<button type="button" class="btn-blue-big" onclick="reloadPage()">확인</button>
+												<button type="button" class="btn-blue-big" id="" onclick="">마이페이지</button>
+											</div>
+										</div>	
+									</div>								
 								</div>
 								 <!-- 비밀번호 확인 팝업, 투찰접수건 확인 팝업 :: END -->
 								<div class="popup modal confirm" id="checkConfirm">
@@ -417,7 +524,7 @@
 		}
 	}
 	$(document).off('click', '.modal-x').on('click', '.modal-x', function(e) {
-		debugger;
+		//debugger;
     	e.preventDefault();
     	$(this).closest('.popup').removeClass('active');
 		modalCloseFocus();
@@ -484,7 +591,7 @@
 	function reloadPage(){
 		var params = {
 			"bidPblancId" : "${bdDetailVO.bidPblancId}",	// 입찰 공고아이디 
-			"bidEntrpsNo" : "C0055"
+			"bidEntrpsNo" : "C0061"
 		}
 		pageMove( "/detail/bdDetail", JSON.stringify(params), 'application/json');
 	}
@@ -497,6 +604,21 @@
 		// #modal2를 표시
 		$('#modal2').show();
 	}
+
+	// 팝업 닫기
+	function closePopup(){
+		document.getElementById('bidCancelConfirm').style.display = 'none';
+	}
+
+	// 비밀번호 확인 팝업 오픈
+	function canclPopup(){
+		document.getElementById('bidCancelConfirm').style.display = 'block';
+		$("#agree_cancl").prop("checked", false);  // 체크박스 초기화
+		cmmPopup('bidCancelConfirm', 'confirm');
+		$('#modal1').hide();
+		$('#modal2').hide();
+		$('#modal3').show();
+	}	
 
 	// =============== 비밀번호 가져오기 ==================
 	function checkPassword(){
@@ -515,7 +637,7 @@
 				// 비밀번호가 맞을경우
 				if(data.result == "Y"){
 					var params = {
-						"bidEntrpsNo" : "C0055",	// 업체번호(세션값)
+						"bidEntrpsNo" : "C0061",	// 업체번호(세션값)
 						"bidPblancId" : "${bdDetailVO.bidPblancId}",	// 입찰 공고아이디 
 						"delyCndCode" : $('#shippingAddr').val(),	// 인도조건코드
 						"delyCndStdrPc" : $('#delyCndStdrPc').val(),	// 인도 조건 기준가격

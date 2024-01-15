@@ -22,6 +22,8 @@ public class BdBddprVO {
 	private String bddprNrmltAt;				 //투찰정상여부
 	private String scsbidAt;					 //낙찰여부
 	private String canclAt;						 //취소여부
+	private String canclDt;						 //취소날짜
+	private String dateCancelString;			 //취소날짜(포맷값)
 	private String deleteAt;					 //삭제여부
 	private String frstRegisterId;				 //최초등록자아이디
 	private Date frstRegistDt;					 //최초등록일시
