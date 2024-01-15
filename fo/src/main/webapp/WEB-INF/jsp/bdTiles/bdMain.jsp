@@ -451,7 +451,7 @@ var params = {
 					html += '			</span>';
 				} else if (result.mainBdList[i].bidSttusCode == "31" || result.mainBdList[i].bidSttusCode == "22" || result.mainBdList[i].bidSttusCode == "23" || result.mainBdList[i].bidSttusCode == "32" ) {
 				html += '				<div class="btns">';
-					html += '				<a href="javascript:;" name="selectBid" id ="'+result.mainBdList[i].bidPblancId+'"  class="btn-bid-black">Closed</a>';
+					html += '				<a href="javascript:;" name="selectBid" id ="'+result.mainBdList[i].bidPblancId+'"  class="btn-bid-black">마감</a>';
 					html += '			</div>';
 					if(result.mainBdList[i].bidSttusCode == "32"){
 						html += '		<span class="t-info abs-info">Aborted</span>';
