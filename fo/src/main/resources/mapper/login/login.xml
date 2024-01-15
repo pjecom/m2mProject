@@ -4,7 +4,7 @@
 <mapper namespace="com.m2m.fo.login.mapper.LoginMapper">
 	
 	<select id="searchId" parameterType="com.m2m.fo.login.model.LoginVO" resultType="com.m2m.fo.login.model.LoginVO">
-    	/* com.m2m.fo.login.model.LoginMapper.findByUsername */
+    	/* com.m2m.fo.login.model.LoginMapper.searchId */
     	SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
         SELECT * 
         FROM BD_ENTRPS_INFO_BAS 
