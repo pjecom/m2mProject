@@ -24,7 +24,5 @@ public interface BdDetailMapper {
 
 	public void updatePartEntQy(BdBddprVO bdBddprVO);
 
-	public void updateBdBddpr(BdBddprVO bdBddprVO);
-
 	
 }

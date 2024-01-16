@@ -84,7 +84,6 @@ public class BdDetailServiceImpl implements BdDetailService {
 	@Override
 	public BdBddprVO selectBddpr(BdDetailVO bdDetailVO) {
 		// TODO Auto-generated method stub
-		String dateCancelFlag = "N";
 		BdBddprVO bdBddprVO = new BdBddprVO();
 		bdBddprVO = bdDetailMapper.selectBddpr(bdDetailVO);
 		
@@ -103,20 +102,16 @@ public class BdDetailServiceImpl implements BdDetailService {
 	        }else {
 	        	//SimpleDateFormat dateCancleFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss"); // 날짜 형식을 지정
 	        	String date = bdBddprVO.getCanclDt();
-	        	SimpleDateFormat stringToDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        	SimpleDateFormat stringToDate = new SimpleDateFormat("yyyy-MM-dd HH");
 	            try {
 	            	Date canclDt = stringToDate.parse(date);
-	            	SimpleDateFormat dateToString = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+	            	SimpleDateFormat dateToString = new SimpleDateFormat("yyyy.MM.dd HH");
 	                String dateCancelString = dateToString.format(canclDt);
 	                 
 	                log.info("dateCancleString >>> ::: {}", dateCancelString);
 	                 
 	     			// 포맷날짜 셋팅
 	     			bdBddprVO.setDateCancelString(dateCancelString);
-	     			// 플래그값 설정
-	     			dateCancelFlag = "Y";
-	     			log.info("dateCancelFlag >>> ::: {}", dateCancelFlag);
-	     			bdBddprVO.setDateCancelFlag(dateCancelFlag);
 	            } catch (ParseException e) {
 	                System.err.println("Error parsing date: " + e.getMessage());
 	            }
@@ -238,26 +233,6 @@ public class BdDetailServiceImpl implements BdDetailService {
 		bdBddprVO.setPartEntQy(partEntQy);
 		
 		bdDetailMapper.updatePartEntQy(bdBddprVO);
-		
-	}
-	
-    /**
-     * <pre>
-     * 처리내용: 투찰취소 update(투찰상세 테이블)
-     * </pre>
-     *  @date 2024. 01. 12.
-     * @author SH
-     * @history
-     * ------------------------------------------------
-     * 변경일					작성자				변경내용
-     * ------------------------------------------------
-     * 2024. 01. 12.		SH    			최초작성
-     * ------------------------------------------------
-     **/
-	@Override
-	public void updateBdBddpr(BdBddprVO bdBddprVO) {
-		// TODO Auto-generated method stub
-		bdDetailMapper.updateBdBddpr(bdBddprVO);
 		
 	}
 

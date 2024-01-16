@@ -27,7 +27,4 @@ public interface BdDetailService {
 	/*투찰상세 insert*/
 	public void insertBdBddpr(BdBddprVO bdBddprVO);
 
-	/*투찰취소 update*/
-	public void updateBdBddpr(BdBddprVO bdBddprVO);
-
 }

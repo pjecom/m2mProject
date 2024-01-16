@@ -189,19 +189,4 @@
 		WHERE 1=1
 		AND BID_PBLANC_ID = #{bidPblancId}
 	</update>
-	
-	<update id="updateBdBddpr" parameterType="com.m2m.fo.bd.model.BdBddprVO">
-		/* com.m2m.fo.bd.mapper.BdDetailMapper.updatePartEntQy */
-		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
-		UPDATE BD_BDDPR_DTL 
-		SET 
-			 CANCL_AT = 'Y'
-			,CANCL_DT = CONVERT(CHAR(23), GETDATE(), 21)
-			,LAST_CHANGER_ID = #{lastChangerId}
-			,LAST_CHANGE_DT = GETDATE()
-		WHERE 1=1
-		AND BID_ENTRPS_NO = #{bidEntrpsNo}
-		AND BID_PBLANC_ID = #{bidPblancId}
-	</update>
-	
 </mapper>

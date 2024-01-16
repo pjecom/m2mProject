@@ -494,7 +494,6 @@ var params = {
     $(document).on( 'click', "a[name='selectBid']", function(event) {
         var params = {
             "bidPblancId" : this.id,
-            "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo")
         }
         pageMove( "/detail/bdDetail", JSON.stringify(params), 'application/json');
     });
@@ -541,7 +540,14 @@ var params = {
 //------------------------------------- 공지사항 최근 게시글 제목 4개 조회-------------------------------------//
 /* 로그인 버튼 클릭 메서드 */
     $(function() {
-
+        $(".moveList").click(function() { // 목록가기 버튼 클릭 이벤트
+            var moveList = $(this).attr('value');
+            alert(moveList);
+            var params = {
+                "bidPblancId" : moveList
+            }
+            pageMove( "/detail/bdDetail", JSON.stringify(params), 'application/json');
+        });
     });    
     $(".primary_bg").click(function(){
         var userId = $("#id").val(); // 아이디 입력란의 값을 가져옴
