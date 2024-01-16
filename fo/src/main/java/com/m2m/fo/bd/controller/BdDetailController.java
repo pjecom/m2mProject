@@ -127,11 +127,12 @@ public class BdDetailController {
 	    	String checkFlag = "N";
 	    	
 	    	checkPw = bdDetailService.passwordCheck(bdDetailVO); 
-	    	if(checkPw == null || checkPw == "") {
+	    	if(checkPw == "N" || checkPw == null || checkPw == "") {
 	    		checkFlag = "N";
 	    	}else {
 	    		checkFlag = "Y";
 	    	}
+	    	
 	    	log.info("checkFlag >>> ::: {}",checkFlag);
 	    	
 	    	retVal.put("result", checkFlag);

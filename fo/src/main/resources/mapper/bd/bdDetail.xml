@@ -206,4 +206,14 @@
 		AND BID_PBLANC_ID = #{bidPblancId}
 	</update>
 	
+	<select id="getHashedPasswordFromDB" parameterType="com.m2m.fo.bd.model.BdDetailVO" resultType="String">
+	    <!-- com.m2m.fo.bd.mapper.BdDetailMapper.getHashedPasswordFromDB -->
+	    SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+	    SELECT 
+	        BID_MBER_SECRET_NO
+	    FROM BD_ENTRPS_INFO_BAS
+	    WHERE 1=1
+	        AND BID_ENTRPS_NO = #{bidEntrpsNo}
+	</select>
+	
 </mapper>

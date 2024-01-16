@@ -1,19 +1,19 @@
 package com.m2m.fo.bd.service;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.text.DecimalFormat;
-import java.text.ParseException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.m2m.fo.bd.mapper.BdDetailMapper;
 import com.m2m.fo.bd.model.BdBddprVO;
 import com.m2m.fo.bd.model.BdDetailVO;
 import com.m2m.fo.bd.model.bdUpdateVO;
-import com.m2m.fo.sample.mapper.SampleMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -216,8 +216,20 @@ public class BdDetailServiceImpl implements BdDetailService {
      **/
 	@Override
 	public String passwordCheck(BdDetailVO bdDetailVO) {
-		// TODO Auto-generated method stub
-		return bdDetailMapper.passwordCheck(bdDetailVO);
+	    // 사용자가 입력한 비밀번호
+	    String userEnteredPassword = bdDetailVO.getBidMberSecretNo();
+
+	    // DB에 저장된 암호화된 비밀번호 가져오기
+	    String hashedPasswordFromDB = bdDetailMapper.getHashedPasswordFromDB(bdDetailVO.getBidEntrpsNo());
+
+	    if (hashedPasswordFromDB != null) {
+	        // 입력된 비밀번호와 DB의 암호화된 비밀번호 비교
+	        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	        if (passwordEncoder.matches(userEnteredPassword, hashedPasswordFromDB)) {
+	            return "Y"; // 비밀번호 일치
+	        }
+	    }
+	    return "N"; // 비밀번호 불일치
 	}
 
     /**
