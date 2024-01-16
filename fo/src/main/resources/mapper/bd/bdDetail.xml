@@ -39,6 +39,8 @@
 				, BB.BDDPR_BEGIN_DT		/*투찰시작일시*/
 				, BB.BDDPR_END_DT		/*투찰종료일시*/
 				, CCC.CODE_DCTWO AS NATION_URL
+				, BB.PARTCPTN_ENTRPS_QY /*참여업체수량*/
+				, BB.INTRST_ENTRPS_QY	/*관심업체수량*/
 		FROM BD_BID_BAS BB
 		LEFT OUTER JOIN IT_BRAND_INFO_BAS IBIB
 		ON BB.BRAND_CODE = IBIB.BRAND_CODE
@@ -189,4 +191,19 @@
 		WHERE 1=1
 		AND BID_PBLANC_ID = #{bidPblancId}
 	</update>
+	
+	<update id="updateBdBddpr" parameterType="com.m2m.fo.bd.model.BdBddprVO">
+		/* com.m2m.fo.bd.mapper.BdDetailMapper.updatePartEntQy */
+		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+		UPDATE BD_BDDPR_DTL 
+		SET 
+			 CANCL_AT = 'Y'
+			,CANCL_DT = CONVERT(CHAR(23), GETDATE(), 21)
+			,LAST_CHANGER_ID = #{lastChangerId}
+			,LAST_CHANGE_DT = GETDATE()
+		WHERE 1=1
+		AND BID_ENTRPS_NO = #{bidEntrpsNo}
+		AND BID_PBLANC_ID = #{bidPblancId}
+	</update>
+	
 </mapper>
