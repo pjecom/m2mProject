@@ -567,6 +567,8 @@ var params = {
                 	alert('로그인 거절');
                 } else if (response.result === "pending") {
                 	alert('승인 대기 중');
+                } else{
+                	alert('잘못된 계정입니다.');
                 }
             },
             error: function(xhr, status, error) {
@@ -574,6 +576,7 @@ var params = {
             }
         });
     });
+    
 </script>
 
 <!-- 공지사항 & FAQ :: START -->
