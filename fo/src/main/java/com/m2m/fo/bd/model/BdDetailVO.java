@@ -64,6 +64,7 @@ public class BdDetailVO {
 	private String codeDctwo;					 //공통코드(코드2) 
 	private String nationUrl;					 //국가코드
 	
+	
 	// 업체정보 기본
 	private String bidEntrpsNo;					 //입찰업체번호
 	private String bidMberSecretNo;				 //입찰회원비밀번호

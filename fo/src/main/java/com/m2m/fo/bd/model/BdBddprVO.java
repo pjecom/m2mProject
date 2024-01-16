@@ -17,7 +17,7 @@ public class BdBddprVO {
 	private int bddprPremiumPc;					 //인도프리미엄 가격
 	private int bddprWt;						 //투찰중량
 	private String partcptnAgreAt;				 //참여동의여부
-	private Date bddprDt;						 //투찰일시
+	private String bddprDt;						 //투찰일시
 	private String dateString;					 //투찰일시(포맷값)
 	private String bddprNrmltAt;				 //투찰정상여부
 	private String scsbidAt;					 //낙찰여부
@@ -34,5 +34,8 @@ public class BdBddprVO {
 	private int partEntQy;						 //참여업체수량
 	private String bddprFlag;					 //플래그값(투찰상세 조회시)
 	private String bddprTotalPc;				 //투찰최종가격
+	private String bidMberId;					 //회원아이디
+	private String DateCancelFlag;				 //투찰회원조회 플래그값 (Y-취소된 투찰)
+
 	
 }

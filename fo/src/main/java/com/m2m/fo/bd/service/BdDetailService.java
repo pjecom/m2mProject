@@ -1,5 +1,6 @@
 package com.m2m.fo.bd.service;
 
+import java.text.ParseException;
 import java.util.List;
 
 import com.m2m.fo.bd.model.BdBddprVO;
@@ -16,7 +17,7 @@ public interface BdDetailService {
 	public List<BdDetailVO> selectbdDelyCndList(BdDetailVO bdDetailVO);
 	
 	/*투찰세부 조회*/
-	public BdBddprVO selectBddpr(BdDetailVO bdDetailVO);
+	public BdBddprVO selectBddpr(BdDetailVO bdDetailVO) throws ParseException;
 	
 	/*입찰 수정 내용조회*/
 	public List<bdUpdateVO> selectBdUpdtList(BdDetailVO bdDetailVO);
@@ -26,5 +27,10 @@ public interface BdDetailService {
 
 	/*투찰상세 insert*/
 	public void insertBdBddpr(BdBddprVO bdBddprVO);
+	
+	/*투찰취소 update*/
+	public void updateBdBddpr(BdBddprVO bdBddprVO);
+
+
 
 }

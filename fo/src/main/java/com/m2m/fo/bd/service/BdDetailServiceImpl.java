@@ -46,7 +46,33 @@ public class BdDetailServiceImpl implements BdDetailService {
 	@Override
 	public BdDetailVO selectDetail(BdDetailVO bdDetailVO) {
 		
-		return bdDetailMapper.selectDetail(bdDetailVO);
+		BdDetailVO bdDetail = bdDetailMapper.selectDetail(bdDetailVO);
+		
+		bdDetail.getBddprBeginDt();
+		
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+
+        // 변환할 문자열 형식
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+
+		try {
+			Date beginDate = inputFormat.parse(bdDetail.getBddprBeginDt());
+			String bddprBeginDt = outputFormat.format(beginDate);
+			
+			//투찰시작일시 셋팅
+			bdDetail.setBddprBeginDt(bddprBeginDt);
+			
+			Date endDate = inputFormat.parse(bdDetail.getBddprEndDt());
+			String bddprEndDt = outputFormat.format(endDate);
+			
+			//투찰종료일시 셋팅
+			bdDetail.setBddprEndDt(bddprEndDt);
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		return bdDetail;
 	}
 	
     /**
@@ -74,6 +100,7 @@ public class BdDetailServiceImpl implements BdDetailService {
      * </pre>
      *  @date 2024. 01. 10.
      * @author SH
+     * @throws ParseException 
      * @history
      * ------------------------------------------------
      * 변경일					작성자				변경내용
@@ -82,8 +109,9 @@ public class BdDetailServiceImpl implements BdDetailService {
      * ------------------------------------------------
      **/
 	@Override
-	public BdBddprVO selectBddpr(BdDetailVO bdDetailVO) {
+	public BdBddprVO selectBddpr(BdDetailVO bdDetailVO) throws ParseException {
 		// TODO Auto-generated method stub
+		String dateCancelFlag = "N";
 		BdBddprVO bdBddprVO = new BdBddprVO();
 		bdBddprVO = bdDetailMapper.selectBddpr(bdDetailVO);
 		
@@ -91,8 +119,15 @@ public class BdDetailServiceImpl implements BdDetailService {
 			log.info("투찰전 입니다.");
 		}else {
 			// SimpleDateFormat을 사용하여 Date를 String으로 변환
-	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm"); // 날짜 형식을 지정
-	        String dateString = dateFormat.format(bdBddprVO.getBddprDt());
+			// 현재 문자열 형식
+	        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+
+	        // 변환할 문자열 형식
+	        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+
+	        Date date = inputFormat.parse(bdBddprVO.getBddprDt());
+	        
+	        String formattedDate = outputFormat.format(date);
 	        
 	        log.info("bdBddprVO.getCanclDt() >>> ::: {}", bdBddprVO.getCanclDt());
 	        
@@ -101,23 +136,28 @@ public class BdDetailServiceImpl implements BdDetailService {
 	        	bdBddprVO.setDateCancelString(bdBddprVO.getCanclDt());
 	        }else {
 	        	//SimpleDateFormat dateCancleFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss"); // 날짜 형식을 지정
-	        	String date = bdBddprVO.getCanclDt();
-	        	SimpleDateFormat stringToDate = new SimpleDateFormat("yyyy-MM-dd HH");
+	        	
+	        	SimpleDateFormat inputFormatCancle = new SimpleDateFormat("yyyyMMddHHmmss");
 	            try {
-	            	Date canclDt = stringToDate.parse(date);
-	            	SimpleDateFormat dateToString = new SimpleDateFormat("yyyy.MM.dd HH");
-	                String dateCancelString = dateToString.format(canclDt);
+	            	SimpleDateFormat outputFormatCancle = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+	            	
+	            	Date dateCancle = inputFormat.parse(bdBddprVO.getCanclDt());
+	            	String formattedDateCancle = outputFormat.format(dateCancle);
 	                 
-	                log.info("dateCancleString >>> ::: {}", dateCancelString);
+	                log.info("dateCancleString >>> ::: {}", formattedDateCancle);
 	                 
 	     			// 포맷날짜 셋팅
-	     			bdBddprVO.setDateCancelString(dateCancelString);
+	     			bdBddprVO.setDateCancelString(formattedDateCancle);
+	     			// 플래그값 설정
+	     			dateCancelFlag = "Y";
+	     			log.info("dateCancelFlag >>> ::: {}", dateCancelFlag);
+	     			bdBddprVO.setDateCancelFlag(dateCancelFlag);
 	            } catch (ParseException e) {
 	                System.err.println("Error parsing date: " + e.getMessage());
 	            }
 
 	        }
-			log.info("dateString >>> ::: {}", dateString);
+			log.info("dateString >>> ::: {}", formattedDate);
 			
 			int delyCndStdrPc = bdBddprVO.getDelyCndStdrPc();
 			int cnvrsPremiumAmount = bdBddprVO.getCnvrsPremiumAmount();
@@ -133,7 +173,7 @@ public class BdDetailServiceImpl implements BdDetailService {
 			//투찰최종가격 셋팅
 			bdBddprVO.setBddprTotalPc(formattedBddprTotalPc);
 			// 포맷날짜 셋팅
-			bdBddprVO.setDateString(dateString);
+			bdBddprVO.setDateString(formattedDate);
 			// flag값 설정(투찰상세 조회시 -> )
 			bdBddprVO.setBddprFlag("Y");
 
@@ -169,7 +209,7 @@ public class BdDetailServiceImpl implements BdDetailService {
 	        	SimpleDateFormat stringToDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	            try {
 	            	Date frstDt = stringToDate.parse(date);
-	            	SimpleDateFormat dateToString = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+	            	SimpleDateFormat dateToString = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 	                String frstDateString = dateToString.format(frstDt);
 	                 
 	                log.info("frstDateString >>> ::: {}", frstDateString);
@@ -233,6 +273,26 @@ public class BdDetailServiceImpl implements BdDetailService {
 		bdBddprVO.setPartEntQy(partEntQy);
 		
 		bdDetailMapper.updatePartEntQy(bdBddprVO);
+		
+	}
+	
+    /**
+     * <pre>
+     * 처리내용: 투찰취소 update(투찰상세 테이블)
+     * </pre>
+     *  @date 2024. 01. 12.
+     * @author SH
+     * @history
+     * ------------------------------------------------
+     * 변경일					작성자				변경내용
+     * ------------------------------------------------
+     * 2024. 01. 12.		SH    			최초작성
+     * ------------------------------------------------
+     **/
+	@Override
+	public void updateBdBddpr(BdBddprVO bdBddprVO) {
+		// TODO Auto-generated method stub
+		bdDetailMapper.updateBdBddpr(bdBddprVO);
 		
 	}
 

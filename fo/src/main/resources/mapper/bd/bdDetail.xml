@@ -157,7 +157,7 @@
 		     , #{bddprPremiumPc}                                                                     
 		     , #{bddprWt}                                                                      
 		     , #{partcptnAgreAt}                                                                      
-		     , CONVERT(CHAR(23), GETDATE(), 21)       
+		     , CONVERT(NVARCHAR(14), GETDATE(), 112) + REPLACE(CONVERT(NVARCHAR(8), GETDATE(), 108), ':', '')     
 		     , #{bddprNrmltAt}	
 		     , #{scsbidAt}
 		     , #{canclAt}																				
@@ -198,7 +198,7 @@
 		UPDATE BD_BDDPR_DTL 
 		SET 
 			 CANCL_AT = 'Y'
-			,CANCL_DT = CONVERT(CHAR(23), GETDATE(), 21)
+			,CANCL_DT = CONVERT(NVARCHAR(14), GETDATE(), 112) + REPLACE(CONVERT(NVARCHAR(8), GETDATE(), 108), ':', '')
 			,LAST_CHANGER_ID = #{lastChangerId}
 			,LAST_CHANGE_DT = GETDATE()
 		WHERE 1=1

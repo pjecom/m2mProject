@@ -89,7 +89,7 @@
 			                                </div>
 			                                <div class="pd-period">
 			                                    <span class="qty">수량 <span class="highlight"><fmt:formatNumber value="${bdDetailVO.bidWt}" pattern="#,###"/>MT</span></span>	
-			                                    <span class="date">투찰기간 <span class="highlight">22.10.20 11:00:00 ~ 22.10.30 18:00:00</span></span> 
+			                                    <span class="date">투찰기간 <span class="highlight">${bdDetailVO.bddprBeginDt} ~ ${bdDetailVO.bddprEndDt}</span></span> 
 			                                	<span class="t-info">개찰결과 : 투찰 기한 마감과 동시에 발표함</span>
 			                                </div>
 			                            </div>
@@ -683,6 +683,10 @@
 
 	// 비밀번호 확인 팝업 오픈
 	function canclPopup(){
+		//현재시간
+		//var nowDate = new Date();
+		//var canclDate  = 
+
 		document.getElementById('bidCancelConfirm').style.display = 'block';
 		$("#agree_cancl").prop("checked", false);  // 체크박스 초기화
 
