@@ -37,11 +37,8 @@ public class LoginController {
 
         LoginVO lvo = loginService.memberLogin(loginVO);
 
-        if (lvo == null || lvo.getBidMberSttusCode() == null || lvo.getBidConfmDetailSttusCode() == null || lvo.getBidConfmSttusCode() == null) {
+        if (lvo == null) {
             System.out.println("실패!!!!!");
-            Map<String, Object> map = new HashMap<>();
-            map.put("result", "failed");
-            map.put("message", "로그인 실패");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
         }
         // 로그인 성공 또는 실패에 따른 추가 조건
