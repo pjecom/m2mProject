@@ -555,15 +555,15 @@ var params = {
                     sessionStorage.setItem("bidMberId", response.member.bidMberId);
                     sessionStorage.setItem("entrpsNm", response.member.entrpsNm);
                     location.href = "/";
-                    alert('로그인 성공');
+                    alert('로그인되었습니다.');
                 } else if (response.result === "blocked") {
                 	alert('차단 상태입니다.');
                 } else if (response.result === "denied") {
                 	alert('로그인 거절');
                 } else if (response.result === "pending") {
-                	alert('승인 대기 중');
-                } else{
-                	alert('잘못된 계정입니다.');
+                	alert('관리자 승인 대기상태입니다.\n 승인 후 로그인 가능합니다. \n 고객센터에 문의해주세요.');
+                } else if(response.result === "failed"){
+                	alert('계정 정보를 확인해주세요');
                 }
             },
             error: function(xhr, status, error) {

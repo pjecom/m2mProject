@@ -34,15 +34,16 @@ public class LoginController {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body("Validation error");
         }
-
+        
         LoginVO lvo = loginService.memberLogin(loginVO);
-
-        if (lvo == null) {
+        
+        if (lvo == null || lvo.getBidMberSttusCode() == null || lvo.getBidConfmDetailSttusCode() == null || lvo.getBidConfmSttusCode() == null) {
             System.out.println("실패!!!!!");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
-        }
-        // 로그인 성공 또는 실패에 따른 추가 조건
-        if ("01".equals(lvo.getBidMberSttusCode()) && "03".equals(lvo.getBidConfmSttusCode())) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("result", "failed");
+            map.put("message", "로그인 실패");
+            return new ResponseEntity<>(map, HttpStatus.OK);
+        } else if ("01".equals(lvo.getBidMberSttusCode()) && "03".equals(lvo.getBidConfmSttusCode())) { // 로그인 성공 또는 실패에 따른 추가 조건
             //System.out.println("로그인 성공!!!!!"); 
             HttpSession session = request.getSession();
             session.setAttribute("member", lvo);
