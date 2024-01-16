@@ -100,6 +100,7 @@
 		</div>
 	</div>
 </div>
+
 <!-- main visual :: END -->
 
 <!-- section #1 구매입찰 공고 LIST :: START -->
@@ -494,6 +495,7 @@ var params = {
     $(document).on( 'click', "a[name='selectBid']", function(event) {
         var params = {
             "bidPblancId" : this.id,
+            "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo")
         }
         pageMove( "/detail/bdDetail", JSON.stringify(params), 'application/json');
     });
@@ -540,14 +542,7 @@ var params = {
 //------------------------------------- 공지사항 최근 게시글 제목 4개 조회-------------------------------------//
 /* 로그인 버튼 클릭 메서드 */
     $(function() {
-        $(".moveList").click(function() { // 목록가기 버튼 클릭 이벤트
-            var moveList = $(this).attr('value');
-            alert(moveList);
-            var params = {
-                "bidPblancId" : moveList
-            }
-            pageMove( "/detail/bdDetail", JSON.stringify(params), 'application/json');
-        });
+
     });    
     $(".primary_bg").click(function(){
         var userId = $("#id").val(); // 아이디 입력란의 값을 가져옴
@@ -555,21 +550,27 @@ var params = {
 
         // 서버로 데이터를 전송하는 AJAX 요청
         $.ajax({
-            type: 'POST', // POST 요청
-            url: '/login', // 서버의 로그인 처리 URL
+            type: 'POST',
+            url: '/login',
             data: { 
-            		bidMberId: userId, // 아이디
-            		bidMberSecretNo: userPassword // 비밀번호
-            	  },  
+                bidMberId: userId,
+                bidMberSecretNo: userPassword
+            },
             success: function(response) {
-                // 성공 시 처리
-                sessionStorage.setItem("bidEntrpsNo", response.member.bidEntrpsNo);
-                sessionStorage.setItem("bidMberId", response.member.bidMberId);
-                console.log('로그인 요청이 성공했습니다.');
+                if (response.result === "success") {
+                    sessionStorage.setItem("bidEntrpsNo", response.member.bidEntrpsNo);
+                    sessionStorage.setItem("bidMberId", response.member.bidMberId);
+                    alert('로그인 성공');
+                } else if (response.result === "blocked") {
+                	alert('차단 상태입니다.');
+                } else if (response.result === "denied") {
+                	alert('로그인 거절');
+                } else if (response.result === "pending") {
+                	alert('승인 대기 중');
+                }
             },
             error: function(xhr, status, error) {
-                // 실패 시 처리
-                console.error('로그인 요청이 실패했습니다.');
+                console.log('로그인 요청이 실패했습니다.');
             }
         });
     });
