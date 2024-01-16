@@ -2,13 +2,14 @@ package com.m2m.fo.bo.service;
 
 import java.util.List;
 
-import com.m2m.fo.bd.model.BdListVO;
-import com.m2m.fo.comm.model.CoCommCdVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.m2m.fo.bo.mapper.BoBdPblnMapper;
+import com.m2m.fo.bo.model.BoBdBddprVO;
+import com.m2m.fo.bo.model.BoBdPblnUpdtVO;
 import com.m2m.fo.bo.model.BoBdPblnVO;
+import com.m2m.fo.comm.model.CoCommCdVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,10 +21,19 @@ public class BoBdPblnServiceImpl implements BoBdPblnService{
 	private BoBdPblnMapper boBdPblnMapper;
 
 	@Override
-	public List<BoBdPblnVO> boBdPblnDtl(BoBdPblnVO vo) throws Exception {
-		return boBdPblnMapper.boBdPblnDtl(vo);
+	public List<BoBdPblnVO> getBoBdPblnDtl(BoBdPblnVO vo) throws Exception {
+		return boBdPblnMapper.getBoBdPblnDtl(vo);
 	}
-
+	
+	@Override
+	public List<BoBdPblnUpdtVO> getBobdUpdateHistroy(BoBdPblnVO vo) throws Exception {
+		return boBdPblnMapper.getBobdUpdateHistroy(vo);
+	}
+	
+	@Override
+	public List<BoBdBddprVO> getBdEntrpsList(BoBdPblnVO vo) throws Exception {
+		return boBdPblnMapper.getBdEntrpsList(vo);
+	}
 	@Override
 	public List<BoBdPblnVO> getBoBdPblnList(BoBdPblnVO vo) throws Exception {
 		List<BoBdPblnVO> list = boBdPblnMapper.getBoBdPblnList(vo);

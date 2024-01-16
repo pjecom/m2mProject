@@ -45,7 +45,38 @@
             if(!sorin.validation.isNull(result)) {
            	 $("#bdNoticeDetailModal .modal2").html('');
            	 $("#bdNoticeDetailModal .modal2").html(result);
-           	  $('#bdNoticeDetailModal').modal('show');
+           	 $('#bdNoticeDetailModal').modal('show');
+            }
+        });
+	} 
+    function redirectToDetailPage(bidPblancId, clickedElement) {
+    	
+        console.log("클릭한 행의 bidPblancId:", bidPblancId);
+    	
+        var detailPageUrl = "/bo/boBdPblnDtlModal";
+        var params = {
+            "bidPblancId": bidPblancId
+        };
+
+        $.ajax({
+            type: "POST",
+            url: detailPageUrl,
+            data: JSON.stringify(params),
+            contentType: "application/json",
+            dataType: "html",
+            success: function(result) {
+                if (!sorin.validation.isNull(result)) {
+                    $("#bdNoticeDetailModal .modal2").html(result);
+                    $('#bdNoticeDetailModal').modal('show');
+                    
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error("Error: " + textStatus, errorThrown);
+            },
+            complete: function() {
+                // 클릭 이벤트 후에 언더라인 제거
+            	$(clickedElement).find("td:first-child").css("text-decoration", "none");
             }
         });
 	}
@@ -58,6 +89,27 @@
             updateTable($(res).find("#realgrid tbody").html())
         })
     }
+	function bdNoticeDetailModalSearch() {
+	    var url = "/bo/boBdPblnDtlModal";
+	    var params = {}; // 필요한 경우 데이터를 추가
+
+	    $.ajax({
+	        type: "POST",
+	        url: url,
+	        data: JSON.stringify(params),
+	        contentType: "application/json",
+	        dataType: "html",
+	        success: function(result) {
+	            if (!sorin.validation.isNull(result)) {
+	                $("#bdNoticeDetailModal .modal2").html(result);
+	                $('#bdNoticeDetailModal').modal('show');
+	            }
+	        },
+	        error: function(jqXHR, textStatus, errorThrown) {
+	            console.error("Error: " + textStatus, errorThrown);
+	        }
+	    });
+	}
 
     // 입찰 공고 목록 테이블 데이터 변경
     function updateTable(htmlContent) {
@@ -149,7 +201,6 @@
                     <script>
                         // 날짜 자동 선택
                         function getFormerDate(num1, num2, button) {
-                            debugger;
                             $(".set-date-picker").removeClass("active")
                             $(button).addClass("active")
 
@@ -261,7 +312,7 @@
                         </c:if>
                         <c:if test="${bdList.size() != 0}">
                             <c:forEach var="vo" items="${bdList}">
-                                <tr onclick="console.log('hihihi >>> ${vo.bidPblancId}')">
+                                <tr onclick="redirectToDetailPage('${vo.bidPblancId}')">
                                     <td>${vo.bidPblancId}</td>
                                     <td>${vo.metalName}</td>
                                     <td>${vo.itmNm}</td>

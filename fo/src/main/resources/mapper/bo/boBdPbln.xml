@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "C:\m2m_project\workspace\mybatis-3-mapper.dtd">
 
 <mapper namespace="com.m2m.fo.bo.mapper.BoBdPblnMapper">
-	<select id="boBdPblnDtl" parameterType="com.m2m.fo.bo.model.BoBdPblnVO" resultType="com.m2m.fo.bo.model.BoBdPblnVO">
+	<select id="getBoBdPblnDtl" parameterType="com.m2m.fo.bo.model.BoBdPblnVO" resultType="com.m2m.fo.bo.model.BoBdPblnVO">
 		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
         	/* com.m2m.fo.bo.mapper.BoBdPblnMapper.boBdPblnDtl */
         SELECT
@@ -58,23 +58,68 @@
             , BB.BDDPR_BEGIN_DT                                                                /*투찰시작일시*/
             , BB.BDDPR_END_DT                                                                  /*투찰종료일시*/
             , BB.BDDPR_CANCL_LMTT_DE                                                           /*투찰취소제한일자*/            
-            , BUHS.BID_UPDT_CN                                                                 /*입찰수정내용*/
-            , BUHS.BID_UPDT_RESN                                                               /*입찰수정사유*/
+            <!-- , BUHS.BID_UPDT_CN                                                                 /*입찰수정내용*/ -->
+            <!-- , BUHS.BID_UPDT_RESN                                                               /*입찰수정사유*/ -->
             , BB.DSPY_AT                                                                       /*전시여부*/
       FROM BD_BID_BAS AS BB 
-      INNER JOIN BD_BID_UPDT_HST AS BUHS                                
+      <!-- INNER JOIN BD_BID_UPDT_HST AS BUHS                                
       ON BB.BID_PBLANC_ID = BUHS.BID_PBLANC_ID
+ -->      
+      
       WHERE 1=1
-    <!--      AND BB.BID_PBLANC_ID          =   #{bidPblancId}                                      /*입찰공고아이디*/ -->
-         AND BB.BID_PBLANC_ID          =   'TEST01-01'                                         /*입찰공고아이디*/
-         AND BB.DELETE_AT              =   'N'                                                 /*삭제여부*/
+         AND BB.BID_PBLANC_ID          =   #{bidPblancId}                                      /*입찰공고아이디*/                                               /*삭제여부*/
+	</select>
+	<select id="getBobdUpdateHistroy" parameterType="com.m2m.fo.bo.model.BoBdPblnVO" resultType="com.m2m.fo.bo.model.BoBdPblnUpdtVO">
+        SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+        /* com.m2m.fo.bo.mapper.BoBdPblnMapper.getBobdUpdateHistroy */
+        SELECT
+              BID_UPDT_HST_SN                                                               /*입찰수정이력순번*/
+            , BID_PBLANC_ID                                                                 /*입찰공고아이디*/
+            , BID_UPDT_CN                                                                   /*입찰수정내용*/
+            , BID_UPDT_RESN                                                                 /*입찰수정사유*/
+            , FRST_REGISTER_ID                                                              /*최초등록자아이디*/
+            , FRST_REGIST_DT                                                                /*최초등록일시*/
+            , LAST_CHANGER_ID                                                               /*최종변경자아이디*/
+            , LAST_CHANGE_DT                                                                /*최종변경일시*/
+        FROM BD_BID_UPDT_HST 
+        WHERE 1=1 
+           AND BID_PBLANC_ID          =   #{bidPblancId}                                 /*입찰공고아이디*/
+	</select>
+	<select id="getBdEntrpsList" parameterType="com.m2m.fo.bo.model.BoBdPblnVO" resultType="com.m2m.fo.bo.model.BoBdBddprVO">
+		SELECT 
+		    BID_ENTRPS_NO                                                            /*입찰 업체 번호*/
+		    ,BID_PBLANC_ID                                                            /*입찰 공고 아이디*/
+		    ,DELY_CND_CODE                                                            /*인도 조건 코드*/
+		    ,DELY_CND_STDR_PC                                                            /*인도 조건 기준 가격*/
+		    ,CNVRS_PREMIUM_AMOUNT                                                            /*전환 프리미엄 금액*/
+		    ,BDDPR_PREMIUM_PC                                                            /*투찰 프리미엄 가격*/
+		    ,BDDPR_WT                                                            /*투찰 중량*/
+		    ,PARTCPTN_AGRE_AT                                                            /*참여 동의 여부*/
+		    ,BDDPR_DT                                                            /*투찰 일시*/
+		    ,BDDPR_NRMLT_AT                                                            /*투찰 정상 여부*/
+		    ,OPENG_RANK                                                            /*개찰 순위*/
+		    ,OPENG_DT                                                            /*개찰 일시*/
+		    ,SCSBID_AT                                                            /*낙찰 여부*/
+		    ,SCSBID_DT                                                            /*낙찰 일시*/
+		    ,CANCL_AT                                                            /*취소 여부*/
+		    ,CANCL_DT                                                            /*취소 일시*/
+		    ,CANCL_RESN                                                            /*취소 사유*/
+		    ,DELETE_AT                                                            /*삭제 여부*/
+		    ,DELETE_DT                                                            /*삭제 일시*/
+		    ,FRST_REGISTER_ID                                                            /*최초 등록자 아이디*/
+		    ,FRST_REGIST_DT                                                            /*최초 등록 일시*/
+		    ,LAST_CHANGER_ID                                                            /*최종 변경자 아이디*/
+		    ,LAST_CHANGE_DT                                                            /*최종 변경 일시*/
+		FROM BD_BDDPR_DTL
+			WHERE 1=1 
+           AND BID_PBLANC_ID          =   #{bidPblancId}                                 /*입찰공고아이디*/
 	</select>
 
     <select id="getBoBdPblnList" parameterType="com.m2m.fo.bo.model.BoBdPblnVO" resultType="com.m2m.fo.bo.model.BoBdPblnVO">
         SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
         /* com.m2m.fo.bo.mapper.BoBdPblnMapper.getBoBdPblnList */
         SELECT
-        BB.BID_PBLANC_ID --입찰공고아이디
+            BID_PBLANC_ID --입찰공고아이디
             ,(SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'METAL_CODE' AND SUB_CODE = CAST(BB.METAL_CODE AS INT)) AS METAL_NAME -- 금속 이름
             ,(SELECT GOODS_NM FROM IT_ITM_INFO_BAS WHERE ITM_SN = CAST(BB.ITM_SN AS INT) AND DELETE_AT = 'N') AS ITM_NM --아이템명
             ,BRAND_CODE	--브랜드 코드

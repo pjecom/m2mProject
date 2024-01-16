@@ -1,20 +1,24 @@
 package com.m2m.fo.bo.controller;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.m2m.fo.bd.model.BdListVO;
-import com.m2m.fo.comm.model.CoCommCdVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.m2m.fo.bo.model.BoBdBddprVO;
+import com.m2m.fo.bo.model.BoBdPblnUpdtVO;
 import com.m2m.fo.bo.model.BoBdPblnVO;
 import com.m2m.fo.bo.service.BoBdPblnService;
+import com.m2m.fo.comm.model.CoCommCdVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,14 +51,38 @@ public class BoBdPblnController {
     }
     
     @RequestMapping(value = "/boBdPblnDtlModal", method = RequestMethod.POST)
-    public String bobdPblnMain(ModelMap model) throws Exception {
+    public String bobdPblnMain(@RequestBody BoBdPblnVO boBdPblnVO, ModelMap model) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
 
+        List<BoBdPblnVO> boBdPblnDtls = boBdPblnService.getBoBdPblnDtl(boBdPblnVO);
 
-        BoBdPblnVO boBdPblnVO = new BoBdPblnVO();
-		/* boBdPblnVO.setBidPblancId("TEST01-01"); */
+        // 결과가 최소한 하나 이상인지 확인
+        if (boBdPblnDtls != null && !boBdPblnDtls.isEmpty()) {
+            //입찰상세
+        	BoBdPblnVO boBdPblnDtl = boBdPblnDtls.get(0);
+            model.addAttribute("boBdPblnDtl", boBdPblnDtl);
+            
+            //수정이력
+            List<BoBdPblnUpdtVO> bobdUpdateHistroy = boBdPblnService.getBobdUpdateHistroy(boBdPblnVO);            
+            model.addAttribute("bobdUpdateHistroy", bobdUpdateHistroy);
+            
+            //투찰기업리스트 
+			 List<BoBdBddprVO> bdEntrpsList = boBdPblnService.getBdEntrpsList(boBdPblnVO);
+			 model.addAttribute("bdEntrpsList", bdEntrpsList);
 
-        List<BoBdPblnVO> boBdPblnDtls = boBdPblnService.boBdPblnDtl(boBdPblnVO);
+        } else {
+            log.warn("Error");
+        }
+
+        return "boModal/boBdPblnDtl";
+    }
+    // 아래는 추가한 Class
+    // Update History는 수정 사항이 아니기 때문에 넣지 않았음
+    @RequestMapping(value = "/boBdPblnDtlModify", method = RequestMethod.POST)
+    public String bobdPblnDtlModify(@RequestBody BoBdPblnVO boBdPblnVO, ModelMap model) throws Exception {
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        List<BoBdPblnVO> boBdPblnDtls = boBdPblnService.getBoBdPblnDtl(boBdPblnVO);
 
         // 결과가 최소한 하나 이상인지 확인
         if (boBdPblnDtls != null && !boBdPblnDtls.isEmpty()) {
@@ -64,6 +92,6 @@ public class BoBdPblnController {
             log.warn("Error");
         }
 
-        return "boModal/boBdPblnDtl";
+        return "boModal/boBdModify";	// 이 부분 jsp 추가 후 수정해야 됨
     }
 }
