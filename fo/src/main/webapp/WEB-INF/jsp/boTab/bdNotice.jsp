@@ -355,4 +355,5 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-full"" role="document">
         <div class="modal-content modal2">
         </div>
-    </div>
+</div>
+
