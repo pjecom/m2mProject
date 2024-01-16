@@ -35,15 +35,18 @@ public class BdMainController {
 	
 	
 	@RequestMapping("/")
-    public String bidMain1(ModelMap model) throws Exception {
+    public String bidMain1(ModelMap model, HttpServletRequest request) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
 
         
         BdListVO bdListVO = new BdListVO();
         List<BdListVO> list = bdMainService.getBdList(bdListVO);
         BdListVO bdListCnt = bdMainService.getBdListTotalCnt(bdListVO);
+        HttpSession session = request.getSession();
+        LoginVO member = (LoginVO) session.getAttribute("member");
         model.addAttribute("bdList", list);
         model.addAttribute("bdListCnt", bdListCnt);
+        model.addAttribute("member", member);
         return "bdTiles/bdMain";
 
     }

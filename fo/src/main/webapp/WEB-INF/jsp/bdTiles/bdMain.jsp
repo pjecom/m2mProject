@@ -34,7 +34,7 @@
 		<!-- main visual > left :: END -->
 		<!-- main visual > right :: START -->
 			<c:choose>                                                                                                                                                                 
-                <c:when test="${response.member.entrpsNm !=''}">
+                <c:when test="${member.entrpsNm != null}">
                     <div class="login_container log_on">
                         <a href="javascript:;"  class="btn_nav" onclick="pageMove('/bid/bddpr/selectBddprList');"><span class="bold">세션이름</span>님 입찰현황</a>
                         <div class="dashboard">
@@ -554,6 +554,7 @@ var params = {
                     sessionStorage.setItem("bidEntrpsNo", response.member.bidEntrpsNo);
                     sessionStorage.setItem("bidMberId", response.member.bidMberId);
                     sessionStorage.setItem("entrpsNm", response.member.entrpsNm);
+                    location.href = "/";
                     alert('로그인 성공');
                 } else if (response.result === "blocked") {
                 	alert('차단 상태입니다.');

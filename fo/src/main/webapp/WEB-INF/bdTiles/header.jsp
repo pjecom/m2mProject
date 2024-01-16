@@ -31,6 +31,7 @@ $("#btnLogout").click(function(){
                 // 성공적으로 로그아웃되었을 때 처리
                 alert('로그아웃 되었습니다.');
                 // 추가적인 로직이 필요하다면 여기에 작성
+                location.href = "/";
             } else {
                 // 로그아웃 실패 시 처리
                 alert('로그아웃 실패');
