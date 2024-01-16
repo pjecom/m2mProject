@@ -564,13 +564,10 @@ var params = {
                     sessionStorage.setItem("bidMberId", response.member.bidMberId);
                     sessionStorage.setItem("entrpsNm", response.member.entrpsNm);
                     location.href = "/";
-                    alert('로그인되었습니다.');
                 } else if (response.result === "blocked") {
-                	alert('차단 상태입니다.');
-                } else if (response.result === "denied") {
-                	alert('로그인 거절');
+                	alert('투찰 취소 3회 초과로 로그인이 차단되었습니다.\n고객센터로 문의해주세요');
                 } else if (response.result === "pending") {
-                	alert('관리자 승인 대기상태입니다.\n 승인 후 로그인 가능합니다. \n 고객센터에 문의해주세요.');
+                	alert('관리자 승인 대기상태입니다.\n승인 후 로그인 가능합니다.');
                 } else if(response.result === "failed"){
                 	alert('계정 정보를 확인해주세요');
                 }

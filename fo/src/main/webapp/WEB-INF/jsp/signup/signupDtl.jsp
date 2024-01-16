@@ -200,7 +200,7 @@
 						<p>입찰 관련 정보가 전달됩니다. 정확하게 입력해주세요.</p>	
 					</div>
 	                <div class="btn-wrap singup-btn-wrap mt40">
-	                    <button type="button" class="btn-lgray-big" id="btnCancl" onclick="pageMove('/signup/signup');">이전</button>
+	                    <button type="button" class="btn-lgray-big" id="btnCancl" onclick="pageMove('/');">이전</button>
 	                    <button type="button" class="btn-blue-big" id="btnSubmit">가입승인 요청하기</button>
 	                </div>
 	            </div>            
@@ -271,7 +271,7 @@ $(function() {
         }
         
 	//암호확인
-		$("#bidMberSecretNo, #pwChk").off().on({
+/* 		$("#bidMberSecretNo, #pwChk").off().on({
             //비밀번호 foucs 헬퍼텍스트 hide
             focus: function() {
                 if ($(this).attr("id") === "bidMberSecretNo") {
@@ -307,7 +307,7 @@ $(function() {
                     }
                 }
             }
-        });
+        }); */
 	//사업자등록번호
 		$("#bsnmRegistNo, #vrscBsnmRegistNo").keyup(function(){
 	        var value = this.value.replace(/\D/g, ''); // 숫자 이외의 문자 제거
@@ -383,7 +383,6 @@ $(function() {
 	
 	//가입승인요청
 	$("#btnSubmit").click(function() {
-		debugger;
 		//기본정보
 		if(checkIdFlag == true && checkEmailFlag == true){
 		    var bidMberId = $("#bidMberId").val();											//id
@@ -439,6 +438,7 @@ $(function() {
 		        data: JSON.stringify(signupData),
 		        success: function(data) {
 		            console.log(data);
+		            pageMove("/signup/signupCmp");
 		        },
 		        error: function(jqXHR, textStatus, errorThrown) {
 		            console.error("AJAX 오류: " + textStatus, errorThrown);

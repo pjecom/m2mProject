@@ -61,12 +61,6 @@ public class LoginController {
             map.put("result", "blocked");
             map.put("message", "차단 상태입니다.");
             return new ResponseEntity<>(map, HttpStatus.OK);
-        } else if ("02".equals(lvo.getBidConfmSttusCode())) { // 거절 상태 bidConfmSttusCode = 02
-            //System.out.println("로그인이 거절되었습니다.");
-            Map<String, Object> map = new HashMap<>();
-            map.put("result", "denied");
-            map.put("message", "로그인이 거절되었습니다.");
-            return new ResponseEntity<>(map, HttpStatus.OK);
         } else { // 대기 상태
             //System.out.println("대기상태 입니다.");
             Map<String, Object> map = new HashMap<>();

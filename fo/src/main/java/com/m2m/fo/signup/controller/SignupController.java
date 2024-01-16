@@ -55,4 +55,11 @@ public class SignupController {
 		return new ResponseEntity<>(returnMap, HttpStatus.OK);
 	}
 	
+	//회원가입 완료 이동
+	@RequestMapping(value = "/signupCmp")
+	public String signupCmp( ModelMap model) throws Exception {
+		
+		return "signup/signupCmp";
+	}
+	
 }
