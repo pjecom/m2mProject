@@ -33,46 +33,40 @@
 		</div>
 		<!-- main visual > left :: END -->
 		<!-- main visual > right :: START -->
-		<div
-			class="login_container <c:if test='${bdLoginStatusMap.loginYn == "Y"}'>log_on</c:if>"
-			id="formId1">
-			<%--$("#mypage").click(function() {
-
-			});--%>
-
 			<c:choose>                                                                                                                                                                 
-                <c:when test="${bdLoginStatusMap.loginYn =='Y'}">
-                    <a href="javascript:;"  onclick="pageMove('/bid/bddpr/selectBddprList');">
-                        <span class="bold userName">서린상사</span>'s Bid Status
-                    </a>
-                    <div class="dashboard">
-                        <div class="item mypage" >
-                            <a href="javascript:;" onclick="pageMove('/bid/bddpr/selectBddprList');" >
-                                <h4>Bidding</h4>
-                                <p class="bid bddprCnt">00</p>
-                            </a>
+                <c:when test="${response.member.entrpsNm !=''}">
+                    <div class="login_container log_on">
+                        <a href="javascript:;"  class="btn_nav" onclick="pageMove('/bid/bddpr/selectBddprList');"><span class="bold">세션이름</span>님 입찰현황</a>
+                        <div class="dashboard">
+                                <div class="item mypage">
+                                    <a href="javascript:;" onclick="pageMove('/bid/bddpr/selectBddprList');" >
+                                        <h4>투찰건</h4>
+                                        <p class="bid bddprCnt">00</p>						   	 	
+                                    </a>
+                                </div>
+                                <div class="item mypage">
+                                    <a href="javascript:;" onclick="pageMove('/bid/bddpr/selectBddprList?tab=2');" > 
+                                        <h4>낙찰건</h4>
+                                        <p class="lose defeatCnt">00</p>
+                                </a> 	
+                                </div>		
+                                <div class="item mypage">
+                                    <a href="javascript:;" onclick="pageMove('/bid/bddpr/selectBddprList?tab=3');" >						   	 
+                                        <h4>패찰건</h4>
+                                        <p class="lose defeatCnt">00</p>
+                                </a> 								   	 	
+                                </div>		
+                                <div class="item">
+                                    <a href="javascript:;" onclick="pageMove('/bid/intrst/selectIntrstPblanc');">
+                                        <h4>관심건</h4>
+                                        <p id="intrstBidCnt" class="keep intrstBidCnt">00</p>
+                                    </a> 								   	 	
+                                </div>							   	 						   	 					   	 
                         </div>
-                        <div class="item mypage">
-                            <a href="javascript:;" onclick="pageMove('/bid/bddpr/selectBddprList?tab=2');" >
-                                <h4>Approved</h4>
-                                <p class="win scsbidCnt">00</p>
-                            </a>
-                        </div>
-                        <div class="item mypage">
-                            <a href="javascript:;" onclick="pageMove('/bid/bddpr/selectBddprList?tab=3');" >
-                                <h4>Rejected</h4>
-                                <p class="lose defeatCnt">00</p>
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="javascript:;" onclick="pageMove('/bid/intrst/selectIntrstPblanc');">
-                                <h4>Favorites</h4>
-                                <p id="intrstBidCnt" class="keep intrstBidCnt">00</p>
-                            </a>
-                        </div>
-                    </div>
+                    </div>	
                 </c:when>
                 <c:otherwise>
+                <div class="login_container" id="formId1">
                     <p>Welcome to Sorin.com</p>
                     <input type="text" title="아이디" placeholder="Enter your ID" id="id" name="id" class="validate[required]" desc="아이디">
                     <input type="password" title="비밀번호" placeholder="Enter your password" id="password" name="password" class="validate[required]" desc="비밀번호">
@@ -95,12 +89,11 @@
                         <span class="material-symbols-outlined">person</span>
                         <span>Become a member</span>
                     </a>
+                </div>
                 </c:otherwise>
             </c:choose>
-		</div>
-	</div>
+    </div>
 </div>
-
 <!-- main visual :: END -->
 
 <!-- section #1 구매입찰 공고 LIST :: START -->
@@ -163,7 +156,7 @@
 			<li class="item" data-tab="tab-3"  value="13"  onclick="selectBdMainInfoList(13);">
 				<a href="javascript:;">투찰중 (<span id="bidingCnt">${bdListCnt.bidingCnt}</span>)</a>
 			</li>
-			<li class="item" data-tab="tab-5" value="30"  onclick="selectBdMainInfoList(30);">
+			<li class="item" data-tab="tab-5" value="30"  onclick="selectBdMainInfoList(30,31,23,24);">
 				<a href="javascript:;">마감 (<span id="endCnt">${bdListCnt.endCnt}</span>) </a>
 			</li>
 		</ul>
@@ -560,6 +553,7 @@ var params = {
                 if (response.result === "success") {
                     sessionStorage.setItem("bidEntrpsNo", response.member.bidEntrpsNo);
                     sessionStorage.setItem("bidMberId", response.member.bidMberId);
+                    sessionStorage.setItem("entrpsNm", response.member.entrpsNm);
                     alert('로그인 성공');
                 } else if (response.result === "blocked") {
                 	alert('차단 상태입니다.');

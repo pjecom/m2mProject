@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.m2m.fo.bd.model.BdDetailVO;
 import com.m2m.fo.bd.model.BdListVO;
 import com.m2m.fo.bd.service.BdMainService;
+import com.m2m.fo.login.model.LoginVO;
 import com.m2m.fo.sample.model.SampleVO;
 import com.m2m.fo.sample.service.SampleService;
 
@@ -35,6 +37,8 @@ public class BdMainController {
 	@RequestMapping("/")
     public String bidMain1(ModelMap model) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
+
+        
         BdListVO bdListVO = new BdListVO();
         List<BdListVO> list = bdMainService.getBdList(bdListVO);
         BdListVO bdListCnt = bdMainService.getBdListTotalCnt(bdListVO);
@@ -42,24 +46,6 @@ public class BdMainController {
         model.addAttribute("bdListCnt", bdListCnt);
         return "bdTiles/bdMain";
 
-    }
-	
-	@PostMapping("/selectBdMainInfoList")
-    @ResponseBody
-	public ResponseEntity<?> selectBdMainInfoList(@RequestBody BdListVO bdListVO, HttpServletRequest request) throws Exception {   	
-        Map<String, Object> retVal = new HashMap<String, Object>();
-		
-        log.info("getBidMberSecretNo >>> ::: {}",bdListVO.getBidPblancId());
-        try {
-            
-           List<BdListVO> list = bdMainService.getBdList(bdListVO); 
-           log.info("checkFlag >>> ::: {}",list);
-           request.setAttribute("list", list);
-           return new ResponseEntity<>(list, HttpStatus.OK);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return new ResponseEntity<>("에러에러!", HttpStatus.BAD_REQUEST); 
-            }
     }
 	
 	@RequestMapping("/bo")
@@ -73,20 +59,22 @@ public class BdMainController {
 	@RequestMapping("/selectBdMainInfoAjaxList")
 	public ResponseEntity<?> selectBdMainInfoAjaxList(@RequestBody BdListVO bdBidVO, Model model) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
+		
+		String gg = bdBidVO.getBrand();
 		try {
 			List<BdListVO> mainBdList = bdMainService.getBdList(bdBidVO);
-
-			int totalCnt = 0;
-			int expectCnt = 0;
-			int bidingCnt = 0;
-			int endCnt = 0;
+	        BdListVO bdListCnt = bdMainService.getBdListTotalCnt(bdBidVO);
+//			int totalCnt = 0;
+//			int expectCnt = 0;
+//			int bidingCnt = 0;
+//			int endCnt = 0;
 			//입찰예정,투찰중,(마감,서류접수중,서류심사중,유찰)
 
 			map.put("mainBdList", mainBdList);
-			map.put("totalCnt", totalCnt);
-			map.put("expectCnt", expectCnt);
-			map.put("bidingCnt", bidingCnt);
-			map.put("endCnt", endCnt);
+			map.put("totalCnt", bdListCnt.getTotalCnt());
+			map.put("expectCnt", bdListCnt.getExpectCnt());
+			map.put("bidingCnt", bdListCnt.getBidingCnt());
+			map.put("endCnt", bdListCnt.getEndCnt());
 
 			return new ResponseEntity<>(map, HttpStatus.OK);
 

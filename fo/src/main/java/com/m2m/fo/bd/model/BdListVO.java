@@ -34,7 +34,7 @@ public class BdListVO {
 	private String	itmPrdlstEng;                 //아이템 품목 영문
 	private String	goodsNm;                      //상품 명
 	private String	dspyGoodsNm;                  //전시 상품 명
-
+	private int bidWt;                            //수량
 
 	// 업체정보 기본
 	private int totalCnt;                         //입찰 전체 목록
@@ -50,4 +50,12 @@ public class BdListVO {
 	private String area;                          //정렬기준:권역    00전체 01인천 02부산
 	private String searchOption;                  //조회기준:날짜기준 01공고일,02마감일 
 	private String frstRegistDt;                  //날짜데이터:테스트데이터
+	private String searchDateFrom;
+	private String searchDateTo;
+	private int page;
+	private int perPageNum;
+	private int rowStart;
+	private int rowEnd;
+	private int bgno;
+	private String sort;
 }
