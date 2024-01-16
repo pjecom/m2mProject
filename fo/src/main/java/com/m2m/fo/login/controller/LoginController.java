@@ -32,35 +32,62 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseEntity<?> loginV3(@Valid @ModelAttribute LoginVO loginVO, BindingResult bindingResult, RedirectAttributes rttr, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
-        	return ResponseEntity.badRequest().body("Validation error");
+            return ResponseEntity.badRequest().body("Validation error");
         }
+
         LoginVO lvo = loginService.memberLogin(loginVO);
 
-        if (lvo == null) {
+        if (lvo == null || lvo.getBidMberSttusCode() == null || lvo.getBidConfmDetailSttusCode() == null || lvo.getBidConfmSttusCode() == null) {
             System.out.println("실패!!!!!");
+            Map<String, Object> map = new HashMap<>();
+            map.put("result", "failed");
+            map.put("message", "로그인 실패");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
         }
-        System.out.println("성공!!!!!");
-        HttpSession session = request.getSession();
-        session.setAttribute("member", lvo);
-        session.setMaxInactiveInterval(1200);
-        
-     	// 로그인 여부를 Model에 추가
-        
-        Map<String,Object> map = new HashMap<String, Object>();
-		map.put("result", "inActive");
-		map.put("member", lvo);
-        return new ResponseEntity<>(map, HttpStatus.OK);
+        // 로그인 성공 또는 실패에 따른 추가 조건
+        if ("01".equals(lvo.getBidMberSttusCode()) && "03".equals(lvo.getBidConfmSttusCode())) {
+            //System.out.println("로그인 성공!!!!!"); 
+            HttpSession session = request.getSession();
+            session.setAttribute("member", lvo);
+            session.setMaxInactiveInterval(1200);
+
+            // 로그인 여부를 Model에 추가
+            Map<String, Object> map = new HashMap<>();
+            map.put("result", "success");
+            map.put("message", "정상 로그인 성공");
+            map.put("member", lvo);
+            return new ResponseEntity<>(map, HttpStatus.OK);
+        } else if ("02".equals(lvo.getBidMberSttusCode())) { // 차단 상태 bidMberSttusCode = 02
+            //System.out.println("차단 상태입니다.");
+            Map<String, Object> map = new HashMap<>();
+            map.put("result", "blocked");
+            map.put("message", "차단 상태입니다.");
+            return new ResponseEntity<>(map, HttpStatus.OK);
+        } else if ("02".equals(lvo.getBidConfmSttusCode())) { // 거절 상태 bidConfmSttusCode = 02
+            //System.out.println("로그인이 거절되었습니다.");
+            Map<String, Object> map = new HashMap<>();
+            map.put("result", "denied");
+            map.put("message", "로그인이 거절되었습니다.");
+            return new ResponseEntity<>(map, HttpStatus.OK);
+        } else { // 대기 상태
+            //System.out.println("대기상태 입니다.");
+            Map<String, Object> map = new HashMap<>();
+            map.put("result", "pending");
+            map.put("message", "대기상태 입니다.");
+            return new ResponseEntity<>(map, HttpStatus.OK);
+        }
     }
     
     /* 로그아웃 */
     @RequestMapping(value="/logout", method=RequestMethod.POST)
-    public String loginPOST(HttpServletRequest request) {
+    public ResponseEntity<?> loginPOST(HttpServletRequest request) {
     	HttpSession session = request.getSession(false);
     	if(session != null) {
     		session.invalidate();
     	}
-    	return "redirect:/";
+    	Map<String, Object> map = new HashMap<>();
+        map.put("result", "success");
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
     
 }
