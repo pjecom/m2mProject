@@ -330,7 +330,7 @@ $(function() {
 
 function moveMyPage() {
     var params = {
-		         "bidEntrpsNo" : "C0002",
+		         "bidEntrpsNo" : "C0007",
                  "bidSttusCode" : '31',
                  "scsbidAt" : 'N'
 		}

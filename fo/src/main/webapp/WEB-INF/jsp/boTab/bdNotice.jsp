@@ -86,6 +86,7 @@
         const url = "/bo/bidNotice"
 
         postSetDataTypeBo(url, JSON.stringify(bdBidBas), "html", true, (res) => {
+        debugger;
             updateTable($(res).find("#realgrid tbody").html())
         })
     }

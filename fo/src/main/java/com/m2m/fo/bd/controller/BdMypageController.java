@@ -34,13 +34,20 @@ public class BdMypageController {
     private BoBdPblnService boBdPblnService;
 
 	
-	@RequestMapping(value = "/bdMypage", method = RequestMethod.POST)
+	@RequestMapping(value = "/bdMypage")
     public String mypageList(@RequestBody(required = false) BdListVO bdListVO , ModelMap model, HttpServletRequest request) throws Exception {
         List<BdListVO> list = bdMainService.mypageList(bdListVO);
         HttpSession session = request.getSession();
         LoginVO member = (LoginVO) session.getAttribute("member");
         model.addAttribute("bdList", list);
         model.addAttribute("member", member);
+        return "bdTiles/bdMypage";
+    }
+	
+	@RequestMapping(value = "/bdMypageAjax", method = RequestMethod.POST)
+    public String mypageAjaxList(@RequestBody(required = false) BdListVO bdListVO , ModelMap model, HttpServletRequest request) throws Exception {
+		List<BdListVO> list = bdMainService.mypageList(bdListVO);
+		model.addAttribute("bdList", list);
         return "bdTiles/bdMypage";
     }
 	

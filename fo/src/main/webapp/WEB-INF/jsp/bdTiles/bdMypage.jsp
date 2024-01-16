@@ -360,24 +360,24 @@
 	// 입찰 공고 목록 axios 요청
 	function getMyPageList(bidSttusCode, scsbidAt) {
 		debugger;
-        const url = "/bdMypage"
+        const url = "/bdMypageAjax"
 
 		var params = {
-		         "bidEntrpsNo" : "C0002",
+		         "bidEntrpsNo" : "C0007",
                  "bidSttusCode" : bidSttusCode,
                  "scsbidAt" : scsbidAt
 		}
 
 
 		$.ajax({
-						url: '/bdMypage', 
+						url: url, 
 						method: 'POST', 
 						contentType: 'application/json', 
 						data: JSON.stringify(params), 
-						dataType: 'json', 
-						success: function(data) {
-							console.log('데이터 정상', data);
-
+						dataType: 'html', 
+						success: function(res) {
+							//console.log('데이터 정상', data);
+							updateTable($(res).find("#myPageData").html());
 						},
 						error: function(error) {
 							// 에러 발생 시의 처리
@@ -393,7 +393,7 @@
 
 	function updateTable(htmlContent) {
         // Find the table body element
-        const tbody = $("#mypageData");
+        const tbody = $("#myPageData");
 
         // Replace the content of the table body with the new HTML
         tbody.html('');
