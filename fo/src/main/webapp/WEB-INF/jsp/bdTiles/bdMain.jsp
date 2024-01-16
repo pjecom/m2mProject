@@ -36,7 +36,7 @@
 			<c:choose>                                                                                                                                                                 
                 <c:when test="${member.entrpsNm != null}">
                     <div class="login_container log_on">
-                        <a href="javascript:;"  class="btn_nav" onclick="pageMove('/bid/bddpr/selectBddprList');"><span class="bold">세션이름</span>님 입찰현황</a>
+                        <a href="javascript:;"  class="btn_nav" onclick="moveMyPage()"><span class="bold">${member.entrpsNm}</span>님 입찰현황</a>
                         <div class="dashboard">
                                 <div class="item mypage">
                                     <a href="javascript:;" onclick="pageMove('/bid/bddpr/selectBddprList');" >
@@ -327,6 +327,15 @@ $(function() {
 	
 	
 });
+
+function moveMyPage() {
+    var params = {
+		         "bidEntrpsNo" : "C0002",
+                 "bidSttusCode" : '31',
+                 "scsbidAt" : 'N'
+		}
+    pageMove( "/bdMypage", JSON.stringify(params), 'application/json');
+}
 
 function dateviewfmt(date){
 	return date.substring(2,4) + '.' +date.substring(4,6)+ '.' +date.substring(6,8)+ ' ' +date.substring(8,10)+ ':' +date.substring(10,12)+ ':' +date.substring(12,14);
