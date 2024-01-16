@@ -46,33 +46,7 @@ public class BdDetailServiceImpl implements BdDetailService {
 	@Override
 	public BdDetailVO selectDetail(BdDetailVO bdDetailVO) {
 		
-		BdDetailVO bdDetail = bdDetailMapper.selectDetail(bdDetailVO);
-		
-		bdDetail.getBddprBeginDt();
-		
-        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-
-        // 변환할 문자열 형식
-        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
-
-		try {
-			Date beginDate = inputFormat.parse(bdDetail.getBddprBeginDt());
-			String bddprBeginDt = outputFormat.format(beginDate);
-			
-			//투찰시작일시 셋팅
-			bdDetail.setBddprBeginDt(bddprBeginDt);
-			
-			Date endDate = inputFormat.parse(bdDetail.getBddprEndDt());
-			String bddprEndDt = outputFormat.format(endDate);
-			
-			//투찰종료일시 셋팅
-			bdDetail.setBddprEndDt(bddprEndDt);
-			
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-		return bdDetail;
+		return bdDetailMapper.selectDetail(bdDetailVO);
 	}
 	
     /**
