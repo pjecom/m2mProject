@@ -94,4 +94,10 @@ public class BoBdPblnController {
 
         return "boModal/boBdModify";	// 이 부분 jsp 추가 후 수정해야 됨
     }
+    
+    @RequestMapping(value = "/boBdPblnUpdateModal", method = RequestMethod.POST)
+    public String boBdPblnUpdateModal(@RequestBody BoBdPblnVO boBdPblnVO, ModelMap model) throws Exception {
+
+        return "boModal/boBdPblnUpt";
+    }
 }

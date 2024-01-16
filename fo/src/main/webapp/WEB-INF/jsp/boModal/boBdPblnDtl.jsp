@@ -57,21 +57,32 @@
 <script type="text/javascript" src="/bo_guide/js/common.js"></script>
 <!-- 퍼블 작성 -->
 <script>
+	$(function() {
+		//공고 업데이트
+		$("#updateBtn").click(function(event){
+			event.preventDefault();
+			//$('#bdNoticeDetailModal').modal('hide');
+			var url = "/bo/boBdPblnUpdateModal";
+       		var params = {
+            	"bidPblancId" : "${boBdPblnDtl.bidPblancId}",
+            	"popupSe"     : "update"
+        	};
+         
+        	postSetDataTypeBo(url, JSON.stringify(params), "html", true, function(result) {
+        		if(!sorin.validation.isNull(result)) {
+        			$("#bdNoticeUpdateModal .modal2").html('');
+        			$("#bdNoticeUpdateModal .modal2").html(result);
+        			$('#bdNoticeUpdateModal').modal();
+        		}
+    		});
+    	});
+	});
+		
 	function modalClose() {
 		$('#bdNoticeDetailModal').modal('hide');
 	}
 	
 	var bidPblancId = "${boBdPblnDtl.bidPblancId}"; // 여기에 현재 선택된 행의 bidPblancId 값을 가져오는 로직을 추가해야 합니다.
-	
-	$(".btn-box .btn_modify").click(function() {
-	
-        var clickedElement = this;
-        
-        console.log("Button_modify Pushed");
-
-        // 모달 창 열기 함수 호출
-        redirectToModifyPage(bidPblancId, clickedElement);
-    });
 	
 	function redirectToModifyPage(bidPblancId, clickedElement) {
     	
@@ -104,7 +115,7 @@
             }
         });
     }
-}
+
 </script>
 </head>
 
@@ -418,7 +429,7 @@
 							<c:choose>
 								<c:when
 									test="${boBdPblnDtl.bidSttusCode eq '11' or boBdPblnDtl.bidSttusCode eq '12' or boBdPblnDtl.bidSttusCode eq '13'}">
-									<button type="button" class="btn_modify">공고 수정</button>
+									<button type="button" class="btn_modify" id="updateBtn">공고 수정</button>
 									<button type="button" class="btn">공고 취소</button>
 								</c:when>
 								<c:when
@@ -501,6 +512,11 @@
 					</div>
 					<!-- Modal -->
 					<!-- [D]모달 위치는 변경 하셔도 됩니다! -->
+					<div class="modal fade" id="bdNoticeUpdateModal" tabindex="-1" role="dialog" data-keyboard="false"  aria-labelledby="bdNoticeDetailModallLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-full"" role="document">
+        <div class="modal-content modal2">
+        </div>
+</div>
 					<div class="modal fade" id="exampleModal" tabindex="-1"
 						role="dialog" aria-labelledby="exampleModalLabel"
 						aria-hidden="true">
