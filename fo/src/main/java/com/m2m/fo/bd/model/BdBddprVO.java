@@ -34,5 +34,7 @@ public class BdBddprVO {
 	private int partEntQy;						 //참여업체수량
 	private String bddprFlag;					 //플래그값(투찰상세 조회시)
 	private String bddprTotalPc;				 //투찰최종가격
+	private String bidMberId;					 //회원아이디
+	private String DateCancelFlag;				 //투찰회원조회 플래그값 (Y-취소된 투찰)
 	
 }

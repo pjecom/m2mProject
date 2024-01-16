@@ -62,6 +62,7 @@ public class BdDetailVO {
 	private Date lastChangeDt;                   //최종변경일시
 	private String codeDcone;					 //공통코드(코드1)
 	private String codeDctwo;					 //공통코드(코드2) 
+	private String nationUrl;					 //국가코드
 	
 	// 업체정보 기본
 	private String bidEntrpsNo;					 //입찰업체번호

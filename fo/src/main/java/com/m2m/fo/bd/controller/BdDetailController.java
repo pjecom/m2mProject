@@ -49,15 +49,10 @@ public class BdDetailController {
      **/
 	@RequestMapping("/bdDetail")
     public String bdDetail(@RequestBody BdDetailVO bdDetailVO, Model model, HttpServletRequest request) throws Exception {
-		
-		//업체번호 세션값 들고옴
-		HttpSession session = request.getSession();
-		LoginVO loginInfo = (LoginVO) session.getAttribute("member");
-        String bidEntrpsNo = loginInfo.getBidEntrpsNo();
-        log.info("bidEntrpsNo >>> ::: {}",bidEntrpsNo);
-        
+		 
         // vo에 업체번호 주입
-        bdDetailVO.setBidEntrpsNo(bidEntrpsNo);
+        bdDetailVO.setBidEntrpsNo(bdDetailVO.getBidEntrpsNo());
+        log.info("bdDetailVO.getBidEntrpsNo() >>> ::: {}",bdDetailVO.getBidEntrpsNo());
 		
 		BdDetailVO detailVO = new BdDetailVO();
 		// 상세화면 리스트
@@ -65,7 +60,9 @@ public class BdDetailController {
 		log.info("bdDetailVO >>> ::: {}",detailVO);
 		
 		//vo에 업체번호 주입
-		detailVO.setBidEntrpsNo(bidEntrpsNo);
+		detailVO.setBidEntrpsNo(bdDetailVO.getBidEntrpsNo());
+		
+		log.info("detailVO.getBidEntrpsNo() >>> ::: {}",detailVO.getBidEntrpsNo());
 		
 		model.addAttribute("bdDetailVO", detailVO);
 		
@@ -121,14 +118,9 @@ public class BdDetailController {
 		
     	log.info("getBidMberSecretNo >>> ::: {}",bdDetailVO.getBidMberSecretNo());
 		try {
-			//업체번호 세션값 들고옴
-			HttpSession session = request.getSession();
-			LoginVO loginInfo = (LoginVO) session.getAttribute("member");
-	        String bidEntrpsNo = loginInfo.getBidEntrpsNo();
-	        log.info("bidEntrpsNo >>> ::: {}",bidEntrpsNo);
-	        
+
 	        //vo에 업체번호 주입
-	        bdDetailVO.setBidEntrpsNo(bidEntrpsNo);
+	        bdDetailVO.setBidEntrpsNo(bdDetailVO.getBidEntrpsNo());
 	        
 			String checkPw = "";
 	    	// Flag 설정 -> 해당 비밀번호에 해당하는 회원이 있을경우 "Y" 아닐경우 "N"로 리턴
@@ -170,14 +162,53 @@ public class BdDetailController {
 	public ResponseEntity<?> insertBdBddpr(@RequestBody BdBddprVO bdBddprVO) throws Exception {
     	Map<String, Object> retVal = new HashMap<String, Object>();
     	// 테스트데이터
-    	bdBddprVO.setFrstRegisterId("test");
-    	bdBddprVO.setLastChangerId("test");
+    	bdBddprVO.setFrstRegisterId(bdBddprVO.getBidMberId());
+    	bdBddprVO.setLastChangerId(bdBddprVO.getBidMberId());
     	
     	log.info("bdBddprVO >>> ::: {} ", bdBddprVO);
 
 		try {
 			//투찰 insert
 			bdDetailService.insertBdBddpr(bdBddprVO);
+			retVal.put("result", "success");
+			
+			//넣은데이터 조회
+			//bdBddprVO = bdDetailService.selectBdBddpr(bdBddprVO);
+			
+			return new ResponseEntity<>(retVal, HttpStatus.OK); // ajax success 데이터 전달
+		 
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error(e.getMessage());
+			return new ResponseEntity<>("insertBdBddpr 오류.", HttpStatus.BAD_REQUEST);
+		}
+	}
+    
+    /**
+     * <pre>
+     * 처리내용: 투찰취소 update(투찰상세 테이블)
+     * </pre>
+     *  @date 2024. 01. 12.
+     * @author SH
+     * @history
+     * ------------------------------------------------
+     * 변경일					작성자				변경내용
+     * ------------------------------------------------
+     * 2024. 01. 12.		SH    			최초작성
+     * ------------------------------------------------
+     **/
+    @RequestMapping("/updateBdBddpr")
+    @ResponseBody
+	public ResponseEntity<?> updateBdBddpr(@RequestBody BdBddprVO bdBddprVO) throws Exception {
+    	Map<String, Object> retVal = new HashMap<String, Object>();
+    	// 테스트데이터
+    	bdBddprVO.setLastChangerId(bdBddprVO.getBidMberId());
+    	
+    	log.info("bdBddprVO.getBidMberId() >>> ::: {} ", bdBddprVO.getBidMberId());
+
+		try {
+			//투찰취소
+			bdDetailService.updateBdBddpr(bdBddprVO);
 			retVal.put("result", "success");
 			
 			//넣은데이터 조회
