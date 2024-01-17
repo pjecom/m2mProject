@@ -35,13 +35,13 @@ public class BoBdPblnVO extends BoCoCommCdVO {
 	private int minPremiumPc; // 최저프리미엄가
 	
 	private String delyCnd01ApplcAt; //인도조건 01 적용여부 
-	private float delyCnd01StdrAt; //인도조건 01 기준가격 
+	private float delyCnd01StdrPc; //인도조건 01 기준가격
 	private float delyCnd01premiumPc; //인도조건 01프리미엄가격 
 	private String delyCnd02ApplcAt; //인도조건 02 적용여부 
-	private float delyCnd02StdrAt; //인도조건 02 기준가격 
+	private float delyCnd02StdrPc; //인도조건 02 기준가격
 	private float delyCnd02premiumPc; //인도조건 02프리미엄가격 
 	private String delyCnd03ApplcAt; //인도조건 03 적용여부 
-	private float delyCnd03StdrAt; //인도조건 03 기준가격 
+	private float delyCnd03StdrPc; //인도조건 03 기준가격
 	private float delyCnd03premiumPc; //인도조건 03프리미엄가격
 	private String delyBeginDe; // 인도시작일자
 	private String delyEndDe; // 인도종료일자
@@ -50,7 +50,6 @@ public class BoBdPblnVO extends BoCoCommCdVO {
 	//가격지정
 	private String pcAppnBeginDe; // 가격지정시작일자
 	private String pcAppnEndDe; // 가격지정종료일자
-	
 	private String pcAppnMthCode; // 가격지정방법코드
 	private String pcAppnMthCodeNm; // 가격지정방법
 	private String pcAppnMthNm; // 가격지정방법
