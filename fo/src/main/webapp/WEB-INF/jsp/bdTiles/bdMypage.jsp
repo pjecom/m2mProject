@@ -163,7 +163,7 @@
 								</ul>
 							</div>
 
-							<div id="tab-2" class="tab-content on">
+							<div id="tab-2" class="tab-content">
 				                <div class="custom_radio">
 				                </div>
 				                <ul class="list t2 myPageData">
@@ -222,7 +222,7 @@
 								</c:forEach>
 								</ul>
 							</div>
-							<div id="tab-3" class="tab-content on">
+							<div id="tab-3" class="tab-content">
 				                <div class="custom_radio">
 				                </div>
 				                <ul class="list t2 myPageData">
@@ -281,7 +281,7 @@
 								</c:forEach>
 								</ul>
 							</div>
-							<div id="tab-4" class="tab-content on">
+							<div id="tab-4" class="tab-content">
 				                <div class="custom_radio">
 				                </div>
 				                <ul class="list t2 myPageData">
@@ -509,6 +509,9 @@
 	<script src="/guide/js/sorin-ma.js"></script><!-- main js -->
 	<!-- script custom :: END -->
 	<script type="text/javascript">
+		$(function() {
+			getMyPageList1('13', '');
+		})
 		function setBidSttus(code) {
 			bdBidBas.bidSttusCode = code
 
@@ -569,7 +572,6 @@
         // })
     }
 	function getMyPageList2(bidSttusCode, scsbidAt) {
-		debugger;
         const url = "/bdMypageAjax"
 
 		var params = {
