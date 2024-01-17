@@ -64,9 +64,6 @@
             ,COUNT(CASE WHEN BID_STTUS_CODE=31 THEN 1 END) AS EndCnt                 /* 입찰상태:마감 */
         FROM dbo.BD_BID_BAS                                                          /* 입찰 기본 */
         WHERE 1=1
-             <if test="bidSttusCode != null and bidSttusCode != '' and bidSttusCode != '-1'">
-              AND BID_STTUS_CODE = #{bidSttusCode}                                                                                                      /* 입찰 상태 코드 */
-             </if>
              <if test="brand != null and brand != '' and brand != '00'">
               AND BRAND_GROUP_CODE = #{brand}                                                                                                           /* 브랜드   00전체 01서구산 02비서구산 */
              </if>

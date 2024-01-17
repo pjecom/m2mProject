@@ -52,25 +52,6 @@ public class BdMypageController {
 		model.addAttribute("bdList", list);
         return "bdTiles/bdMypage";
     }
-	
-    @RequestMapping(value ="/bdMypage2")
-    public String boDetail(@RequestBody(required = false) BdListVO bdListVO, ModelMap model) throws Exception {
-        Map<String, Object> map = new HashMap<String, Object>();
-        List<String> showBidSttusList = Arrays.asList("11", "12", "13", "30", "33");
-
-		List<BdListVO> list = bdMainService.mypageList(bdListVO);
-        List<CoCommCdVO> bidSttusList = boBdPblnService.getbidSttusList("BID_STTUS_CODE");
-        
-        bidSttusList = bidSttusList.stream()
-                .filter(bslVo -> showBidSttusList.contains(bslVo.getSubCode()))
-                .sorted(Comparator.comparing(bslVo -> bslVo.getSubCode().equals("11")))
-                .collect(Collectors.toList());
-
-        model.addAttribute("bdList", list);
-        model.addAttribute("bidSttusList", bidSttusList);
-        return "boTab/bdMypage";
-
-    }
     
 
 
