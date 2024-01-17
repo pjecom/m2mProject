@@ -134,7 +134,10 @@
             }
         });
     }
-
+/* 	function dateviewfmt(date){
+	    return date.substring(2,4) + '.' +date.substring(4,6)+ '.' +date.substring(6,8)+ ' ' +date.substring(8,10)+ ':' +date.substring(10,12)+ ':' +date.substring(12,14);
+	}
+ */
 </script>
 </head>
 
@@ -181,8 +184,16 @@
 										<td>상태</td>
 										<td>${boBdPblnDtl.bidSttus}</td>
 										<th>시작 ~ 마감</th>
-										<td colspan="3">${boBdPblnDtl.bddprBeginDt}~
-											${boBdPblnDtl.bddprEndDt}<br>(<span class="color-blue">3일 5시간 0분 0초</span> 남음)
+										<td colspan="3">
+											<!-- 입찰시작일 -->
+											<fmt:parseDate value="${boBdPblnDtl.bddprBeginDt}" var="bddprBeginDt" pattern="yyyyMMddHHmmss"/>
+											<fmt:formatDate value="${bddprBeginDt}" var="formattedBeginDt" pattern="yyyy.MM.dd HH:mm:ss"/>
+											<!-- 입찰종료일 -->
+											<fmt:parseDate value="${boBdPblnDtl.bddprEndDt}" var="bddprEndDt" pattern="yyyyMMddHHmmss"/>
+											<fmt:formatDate value="${bddprEndDt}" var="formattedBndDt" pattern="yyyy.MM.dd HH:mm:ss"/>
+											${formattedBeginDt}~ ${formattedBndDt}											
+											<br>(
+											<span class="color-blue">3일 5시간 0분 0초</span> 남음)
 										</td>
 										<th>활성여부</th>
 										<td>
@@ -293,7 +304,15 @@
 									<tr>
 										<th scope="row" rowspan="2">인도기한<i
 											class="icon icon-required"></i></th>
-										<td colspan="3">2022.08.01 ~ 2022.08.10</td>
+										<td colspan="3">
+											<!-- 인도시작일 -->
+ 											<fmt:parseDate value="${boBdPblnDtl.delyBeginDe}" var="delyBeginDe" pattern="yyyyMMdd"/>
+											<fmt:formatDate value="${delyBeginDe}" var="formattedBeginDe" pattern="yyyy.MM.dd"/>
+											<!-- 인도종료일 -->
+											<fmt:parseDate value="${boBdPblnDtl.delyEndDe}" var="delyEndDe" pattern="yyyyMMdd"/>
+											<fmt:formatDate value="${delyEndDe}" var="formattedBndDe" pattern="yyyy.MM.dd"/>
+												${formattedBeginDe}~${formattedBndDe}
+										</td>
 									</tr>
 									<tr>
 										<td colspan="3"><b>ⓘ</b> 인도조건에서 제출한 인도지에 화물이 최종 입고된 기준으로
@@ -314,8 +333,13 @@
 								<tbody>
 									<tr>
 										<th scope="row">가격지정기간<i class="icon icon-required"></i></th>
-										<td>${boBdPblnDtl.pcAppnBeginDe}~
-											${boBdPblnDtl.pcAppnEndDe}</td>
+											<!-- 가격지정시작일 -->
+											<fmt:parseDate value="${boBdPblnDtl.pcAppnBeginDe}" var="pcAppnBeginDe" pattern="yyyyMMdd"/>
+											<fmt:formatDate value="${pcAppnBeginDe}" var="formattedBeginDe" pattern="yyyy.MM.dd"/>
+											<!-- 가격지정종료일 -->
+											<fmt:parseDate value="${boBdPblnDtl.pcAppnEndDe}" var="pcAppnEndDe" pattern="yyyyMMdd"/>
+											<fmt:formatDate value="${pcAppnEndDe}" var="formattedBndDe" pattern="yyyy.MM.dd"/>
+												<td>${formattedBeginDe}~ ${formattedBndDe}</td>
 										<th scope="row">가격지정방법<i class="icon icon-required"></i></th>
 										<td>${boBdPblnDtl.pcAppnMthCodeNm}</td>
 									</tr>
@@ -344,10 +368,17 @@
 								<tbody>
 									<tr>
 										<th scope="row">투찰 시작일<i class="icon icon-required"></i></th>
-										<td>${boBdPblnDtl.bddprBeginDt}</td>
-
+										<td colspan="3">
+											<fmt:parseDate value="${boBdPblnDtl.bddprBeginDt}" var="bddprBeginDt" pattern="yyyyMMddHHmmss"/>
+											<fmt:formatDate value="${bddprBeginDt}" var="formattedBeginDe" pattern="yyyy.MM.dd. HH:mm:ss"/>
+												${formattedBeginDe} 
+										</td>
 										<th scope="row">투찰 마감일<i class="icon icon-required"></i></th>
-										<td colspan="3">${boBdPblnDtl.bddprEndDt}</td>
+										<td colspan="3">
+											<fmt:parseDate value="${boBdPblnDtl.bddprEndDt}" var="bddprEndDt" pattern="yyyyMMddHHmmss"/>
+											<fmt:formatDate value="${bddprEndDt}" var="formattedEndDe" pattern="yyyy.MM.dd. HH:mm:ss"/>
+											${formattedEndDe} 
+										</td>
 									</tr>
 									<tr>
 										<th scope="row">투찰 취소기한<i class="icon icon-required"></i>
@@ -358,9 +389,13 @@
 												</span>
 											</div>
 										</th>
-										<td colspan="5">${boBdPblnDtl.bddprCanclLmttDe}</td>
+										<td colspan="7">
+											<fmt:parseDate value="${boBdPblnDtl.bddprCanclLmttDe}" var="bddprCanclLmttDe" pattern="yyyyMMddHHmmss"/>
+											<fmt:formatDate value="${bddprCanclLmttDe}" var="formattedLmttDe" pattern="yyyy.MM.dd HH:mm:ss"/>
+											${formattedLmttDe}
+										</td>
 										<!-- <td colspan="3">													
-                                                    </td> -->
+                                        </td> -->
 									</tr>
 								</tbody>
 							</table>
@@ -462,17 +497,19 @@
 										<tr>
 											<td>${item.opengRank}</td>
 											<td>${item.entrpsNm}</td>
-											<td>${item.bddprDt}</td>
+												<fmt:parseDate value="${item.bddprDt}" var="bddprDt" pattern="yyyyMMddHHmmss"/>
+												<fmt:formatDate value="${bddprDt}" var="formattedprDt" pattern="yyyy.MM.dd. HH:mm:ss"/>
+											<td>${formattedprDt}</td>
 											<td>인도조건</td>
 											<td>${item.bddprPremiumPc}</td>
 											<td>${boBdPblnDtl.bidSttus}</td>
 											<c:choose> 
-											 <c:when test="${boBdPblnDtl.bidSttusCode eq '30'}">
-											 <td>유찰</td>
-											 </c:when>
-											 <c:otherwise>
-											 <td>-</td>
-											 </c:otherwise>
+												<c:when test="${boBdPblnDtl.bidSttusCode eq '30'}">
+													<td>유찰</td>
+												</c:when>
+												<c:otherwise>
+													<td>-</td>
+												</c:otherwise>
 											</c:choose>
 										</tr>
 									</c:forEach>

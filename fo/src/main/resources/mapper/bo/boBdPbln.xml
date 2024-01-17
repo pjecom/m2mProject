@@ -230,10 +230,7 @@
 		    METAL_CODE                   = #{metalCode}                /*메탈코드*/
 		   ,BRAND_CODE                   = #{brandCode}                /*브랜드코드*/
 		   ,BRAND_GROUP_CODE             = #{brandGroupCode}           /*브랜드그룹코드*/
-		   ,GOODS_NM                     = (SELECT IIIB.GOODS_NM
-		                                    FROM IT_ITM_INFO_BAS IIIB 
-		                                    WHERE IIIB.ITM_SN = #{itmSn}
-		                                     AND DELETE_AT = 'N')      /*아이템상품명*/
+		   ,ITM_SN                       = #{itmSn}                    /*아이템순번*/
 		   ,DSTRCT_LCLSF_CODE            = #{dstrctLclsfCode}          /*권역대분류코드*/
 		   ,BID_WT                       = #{bidWt}                    /*수량*/
 		   ,PERM_WT_RATE                 = #{permWtRate}               /*중량허용공차*/
@@ -246,6 +243,9 @@
 		   ,BDDPR_BEGIN_DT               = #{bddprBeginDt}             /*투찰시작일시*/
 		   ,BDDPR_END_DT                 = #{bddprEndDt}               /*투찰종료일시*/
 		   ,BDDPR_CANCL_LMTT_DE          = #{bddprCanclLmttDe}         /*투찰취소제한일자*/
+		   ,LAST_CHANGER_ID              = #{lastChangerId}            /*최종변경자아이디*/
+           ,LAST_CHANGE_DT               = GETDATE()                   /*최종변경일시*/
+		   
 		WHERE BID_PBLANC_ID = #{bidPblancId} 
 	</update>
 </mapper>

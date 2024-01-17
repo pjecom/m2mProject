@@ -66,7 +66,7 @@
                                             <tr>
                                               <th scope="row">메탈 구분<i class="icon icon-required"  ></i></th>
                                                  <td>
-                                                   <select class="form-select select-sm" id="selectMetalCode">
+                                                   <select class="form-select select-sm" id="metalCode">
                                                        <c:forEach var="item" items="${boCommCdList}">
                                                             <c:if test="${item.mainCode eq 'METAL_CODE'}">
                                                             	<option value="${item.subCode}" ${item.subCode eq boBdPblnDtl.metalCode ? 'selected' : ''}>${item.codeDcone}</option>
@@ -77,14 +77,14 @@
                                               <th scope="row">브랜드<i class="icon icon-required" ></i></th>
                                                     <td>
                                                         <div class="form-set">
-                                                            <select class="form-select select-sm" id="selectBrandGroupCode">
+                                                            <select class="form-select select-sm" id="brandGroupCode">
                                                              <c:forEach var="item" items="${boCommCdList}">
                                                                <c:if test="${item.mainCode eq 'BRAND_GROUP_CODE'}">
                                                                  <option value="${item.subCode}"${item.subCode eq boBdPblnDtl.brandGroupCode ? 'selected' : ''}>${item.codeDctwo}</option>
                                                                </c:if>                                                   
                                                              </c:forEach>
                                                             </select>
-                                                            <<select class="form-select select-sm" id="selectBrandCode">
+                                                            <<select class="form-select select-sm" id="brandCode">
                                                              <c:forEach var="item" items="${boBdBrandGrpList}">
                                                                <option value="${item.brandCode}">${item.brandNm}</option>                                                    
                                                              </c:forEach>
@@ -103,7 +103,7 @@
                                                     </td>
                                                     <th scope="row">권역</th>
                                                     <td>
-                                                         <select class="form-select select-sm" id="selectDstrctLclsfCode">
+                                                         <select class="form-select select-sm" id="dstrctLclsfCode">
                                                             <c:forEach var="item" items="${boCommCdList}">
                                                               <c:if test="${item.mainCode eq 'DSTRCT_LCLSF_CODE'}">
                                                                 <option value="${item.subCode}"${item.subCode eq boBdPblnDtl.dstrctLclsfCode ? 'selected' : ''}>${item.codeDctwo}</option>
@@ -113,14 +113,14 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <th scope="row">수량 (톤)<i class="icon icon-required" id="selectBidWt"></i></th>
+                                                    <th scope="row">수량 (톤)<i class="icon icon-required" id="bidWt"></i></th>
                                                     <td>
                                                         <select class="form-select select-sm">
                                                             <option value="100">100</option>
                                                             <option value="200">200</option>
                                                         </select>
                                                     </td>
-                                                    <th scope="row">중량허용공차(±)<i class="icon icon-required" id="selectPermWtRate"></i></th>
+                                                    <th scope="row">중량허용공차(±)<i class="icon icon-required" id="permWtRate"></i></th>
                                                     <td>
                                                         <select class="form-select select-sm">
                                                             <option value="1">1%</option>
@@ -206,16 +206,22 @@
 															<div class="form-period-box">
 																<!-- [D] 월 선택 경우 .form-month 추가 -->
 																<!-- [D] 날짜 선택 경우 .form-date 추가 -->
-																<div class="input-group date form-date"> 
-																	<input type="text" class="input" id="selectDelyBeginDeDatepicker" />
-																	<label for="delyBeginDeDatepicker" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
+																<div class="input-group date form-date" id="delyBeginDate">
+																<!-- 인도시작일 -->
+ 																<fmt:parseDate value="${boBdPblnDtl.delyBeginDe}" var="delyBeginDe" pattern="yyyyMMdd"/>
+																<fmt:formatDate value="${delyBeginDe}" var="formattedBeginDe" pattern="yyyy-MM-dd"/> 
+																	<input type="text" class="input" value="${formattedBeginDe}"/>
+																	<label for="delyBeginDate" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
 																</div>
 																<span>~</span>
 																<!-- [D] 월 선택 경우 .form-month 추가 -->
 																<!-- [D] 날짜 선택 경우 .form-date 추가 -->
-																<div class="input-group date form-date"> 
-																	<input type="text" class="input" id="selectDelyEndDeDatepicker" />
-																	<label for="delyEndDeDatepicker" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
+																<div class="input-group date form-date" id="delyEndDeDate">
+																<!-- 인도종료일 -->
+																<fmt:parseDate value="${boBdPblnDtl.delyEndDe}" var="delyEndDe" pattern="yyyyMMdd"/>
+																<fmt:formatDate value="${delyEndDe}" var="formattedBndDe" pattern="yyyy-MM-dd"/>
+																	<input type="text" class="input" value="${formattedBndDe}"/>
+																	<label for="delyEndDeDate" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
 																</div>
 															</div>
 														</div>
@@ -246,24 +252,29 @@
 															<div class="form-period-box">
 																<!-- [D] 월 선택 경우 .form-month 추가 -->
 																<!-- [D] 날짜 선택 경우 .form-date 추가 -->
-																<div class="input-group date form-date" id="selectPcAppnBegindatepicker"> 
-																	<input type="text" class="input"  value="${boBdPblnDtl.pcAppnBeginDe}"/>
-																	
-																	<label for="pcAppnBegindatepicker" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
+																<div class="input-group date form-date" id="pcAppnBegindate"> 
+																<!-- 가격지정시작일 -->
+																<fmt:parseDate value="${boBdPblnDtl.pcAppnBeginDe}" var="pcAppnBeginDe" pattern="yyyyMMdd"/>
+																<fmt:formatDate value="${pcAppnBeginDe}" var="formattedBeginDe" pattern="yyyy-MM-dd"/>
+																	<input type="text" class="input"  value="${formattedBeginDe}"/>
+																	<label for="pcAppnBegindate" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
 																</div>
 																<span>~</span>
 																<!-- [D] 월 선택 경우 .form-month 추가 -->
 																<!-- [D] 날짜 선택 경우 .form-date 추가 -->
-																<div class="input-group date form-date" id="selectPcAppnEnddatepicker"> 
-																	<input type="text" class="input"  value="${boBdPblnDtl.pcAppnEndDe}"/>
-																	<label for="pcAppnEnddatepicker" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
+																<div class="input-group date form-date" id="pcAppnEnddate">
+																<!-- 가격지정종료일 -->
+																<fmt:parseDate value="${boBdPblnDtl.pcAppnEndDe}" var="pcAppnEndDe" pattern="yyyyMMdd"/>
+																<fmt:formatDate value="${pcAppnEndDe}" var="formattedBndDe" pattern="yyyy-MM-dd"/> 
+																	<input type="text" class="input"  value="${formattedBndDe}"/>
+																	<label for="pcAppnEnddate" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
 																</div>
 															</div>
 														</div>
                                                     </td>
                                                     <th scope="row">가격지정방법<i class="icon icon-required"></i></th>
                                                     <td>
-                                                        <select class="form-select" id="selectPcAppnMthCode">
+                                                        <select class="form-select" id="pcAppnMthCode">
                                                             <c:forEach var="item" items="${boCommCdList}">
                                                               <c:if test="${item.mainCode eq 'PC_APPN_MTH_CODE'}">
                                                                 <option value="${item.subCode}" ${item.subCode eq boBdPblnDtl.pcAppnMthCode ? 'selected' : ''}>${item.codeDctwo}</option>
@@ -276,21 +287,21 @@
                                                     <th scope="row">결제 조건<i class="icon icon-required"></i></th>
                                                     <td colspan="3">
                                                         <div class="form-set">
-                                                         <select class="form-select" id="selectSetleCrncyCode">
+                                                         <select class="form-select" id="setleCrncyCode">
                                                             <c:forEach var="item" items="${boCommCdList}">
                                                               <c:if test="${item.mainCode eq 'SETLE_CRNCY_CODE'}">
                                                                 <option value="${item.subCode}" ${item.subCode eq boBdPblnDtl.setleCrncyCode ? 'selected' : ''}>${item.codeDctwo}</option>
                                                               </c:if>
                                                             </c:forEach>
                                                          </select>
-                                                         <select class="form-select" id="selectSetleMthCode">
+                                                         <select class="form-select" id="setleMthCode">
                                                             <c:forEach var="item" items="${boCommCdList}">
                                                               <c:if test="${item.mainCode eq 'SETLE_MTH_CODE'}">
                                                                 <option value="${item.subCode}" ${item.subCode eq boBdPblnDtl.setleMthCode ? 'selected' : ''}>${item.codeDctwo}</option>
                                                               </c:if>
                                                             </c:forEach>
                                                          </select>
-                                                         <select class="form-select" id="selectSetlePdCode">
+                                                         <select class="form-select" id="setlePdCode">
                                                             <c:forEach var="item" items="${boCommCdList}">
                                                               <c:if test="${item.mainCode eq 'SETLE_PD_CODE'}">
                                                                <option value="${item.subCode}" ${item.subCode eq boBdPblnDtl.setlePdCode ? 'selected' : ''}>${item.codeDctwo}</option>
@@ -302,7 +313,7 @@
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">기타 코멘트</th>
-                                                    <td colspan="3" id="selectEtcCn">
+                                                    <td colspan="3" id="etcCn">
                                                     <input type="text" class="input" value="${boBdPblnDtl.etcCn}" seleted placeholder="코멘트를 입력해주세요.">
                                                     </td>
                                                 </tr>
@@ -325,15 +336,18 @@
                                                     <th scope="row">투찰 시작일<i class="icon icon-required"></i></th>
                                                     <td>
                                                         <div class="form-set">
-															<div class="input-group date form-date" id="selectBddprBegindate"> 
-																<input type="text" class="input"  value="${boBdPblnDtl.bddprBeginDt}" />
-																<label for="bddprBegindatepicker" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
+															<div class="input-group date form-date" id="bddprBegindate">
+																<fmt:parseDate value="${boBdPblnDtl.bddprBeginDt}" var="bddprBeginDt" pattern="yyyyMMddHHmmss"/>
+																<fmt:formatDate value="${bddprBeginDt}" var="formattedBeginDe" pattern="yyyy-MM-dd"/>
+																<input type="text" class="input"  value="${formattedBeginDe}" />
+																<label for="bddprBegindate" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
 															</div>
                                                             <select class="form-select" style="width:80px;">
                                                                 <option value="am">am</option>
                                                                 <option value="pm">pm</option>
                                                             </select>
-                                                    		<input type="text" class="input" value="" style="width:50px;">&nbsp;시
+                                                            
+                                                    		<input type="text" class="input" value="${bddprBeginDtHour}"  style="width:50px;">&nbsp;시
                                                     		<input type="text" class="input" value="" style="width:50px;">&nbsp;분
                                                     		<input type="text" class="input" value="" style="width:50px;">&nbsp;초
 														</div>
@@ -341,9 +355,11 @@
                                                     <th scope="row">투찰 마감일<i class="icon icon-required"></i></th>
                                                     <td>
                                                         <div class="form-set">
-															<div class="input-group date form-date" id="selectBddprEnddate" > 
-																<input type="text" class="input" value="${boBdPblnDtl.bddprEndDt}" />
-																<label for="bddprEnddatepicker" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
+															<div class="input-group date form-date" id="bddprEnddate" >
+																<fmt:parseDate value="${boBdPblnDtl.bddprEndDt}" var="bddprEndDt" pattern="yyyyMMddHHmmss"/>
+																<fmt:formatDate value="${bddprEndDt}" var="formattedEndDe" pattern="yyyy-MM-dd"/>
+																<input type="text" class="input"  value="${formattedEndDe}" />
+																<label for="bddprEnddate" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
 															</div>
                                                             <select class="form-select" style="width:80px;">
                                                                 <option value="am">am</option>
@@ -367,9 +383,11 @@
                                                     <td colspan="3">
 														<span style="font-weight: 500; font-size: 0.80rem;">투찰 취소 불가</span>&nbsp;<input type="checkbox" class ="" name="" value="N" id="" />
                                                         <div class="form-set" style="margin-top:5px;">
-															<div class="input-group date form-date" id="selectBddprCancldate" > 
-																<input type="text" class="input" id="selectBddprCancldate"  value="${boBdPblnDtl.bddprCanclLmttDe}" pattern="yyyy-MM-dd" />
-																<label for="bddprCancldatepicker" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
+															<div class="input-group date form-date" id="bddprCancldate" >
+																<fmt:parseDate value="${boBdPblnDtl.bddprCanclLmttDe}" var="bddprCanclLmttDe" pattern="yyyyMMddHHmmss"/>
+																<fmt:formatDate value="${bddprCanclLmttDe}" var="formattedLmttDe" pattern="yyyy-MM-dd"/>
+																<input type="text" class="input"  value="${formattedLmttDe}" /> 
+																<label for="bddprCancldate" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
 															</div>
                                                             <select class="form-select" style="width:80px;">
                                                                 <option value="am">am</option>
@@ -406,7 +424,7 @@
 
 <script>
 
-$("#selectDelyBeginDeDatepicker, #selectDelyEndDeDatepicker, #selectPcAppnBegindatepicker, #pcAppnEnddatepicker, #bddprBegindatepicker, #bddprEnddatepicker, #bddprCancldatepicker").datepicker({
+$("#delyBeginDate, #delyEndDeDate, #pcAppnBegindate, #pcAppnEnddate, #bddprBegindate, #bddprEnddate, #bddprCancldate").datepicker({
     format: "yyyy-mm-dd",
     keyboardNavigation: false,
     forceParse: false,
@@ -424,26 +442,27 @@ function modalClose() {
 function saveBdData() {
 	
 		var params = {
-			"bidPblancId" : "${boBdPblnDtl.bidPblancId}",          // 입찰 공고아이디 
-   		"metalCode" : $('#selectMetalCode').val(),             // 메탈구분 
-   		"brandGroupCode" : $('#selectBrandGroupCode').val(),   // 브랜드그룹
-   		"brandCode" : $('#selectBrandCode').val(),             // 브랜드
-   		"goodsNm" : $('#selectItem').val(),                    // 아이템상품명 
-   		"dstrctLclsfCode" : $('#selectDstrctLclsfCode').val(), // 권역
-   		"bidWt" : $('#selectBidWt').val(),                     // 수량(톤)
-   		"permWtRate" : $('#selectPermWtRate').val(),           // 중량허용공차
-   		"pcAppnBeginDe" :  $('#selectPcAppnBegindate').val(),  // 가격지정시작일자
-   		"pcAppnEndDe" :  $('#selectPcAppnEnddate').val(),      // 가격지정종료일자
-   		"pcAppnMthCode" :  $('#selectPcAppnMthCode').val(),    // 가격지정방법코드
-   		"setleCrncyCode" :  $('#selectSetleCrncyCode').val(),  // 결제통화코드
-   		"setleMthCode" :  $('#selectSetleMthCode').val(),      // 결제방법코드
-   		"setlePdCode" :  $('#selectSetlePdCode').val(),        // 결제기간코드
-   		"etcCn" :  $('#selectEtcCn').val(),                    // 기타코멘트 
-   		"bddprBeginDt" :  $('#selectBddprBegindate').val(),    // 투찰시작일시
-   		"bddprEndDt" :  $('#selectBddprEnddate').val(),        // 투찰종료일시
-   		"bddprCanclLmttDe" : $('#selectBddprCancldate').val()  // 투찰취소제한일자 
+		"bidPblancId" : "${boBdPblnDtl.bidPblancId}",           // 입찰 공고아이디 
+   		"metalCode" : $('#metalCode').val(),                    // 메탈구분 
+   		"brandGroupCode" : $('#brandGroupCode').val(),          // 브랜드그룹
+   		"brandCode" : $('#brandCode').val(),                    // 브랜드
+   		"itmSn" : $('#selectItem').val(),                       // 아이템순번 
+   		"dstrctLclsfCode" : $('#dstrctLclsfCode').val(),        // 권역
+   		"bidWt" : $('#bidWt').val(),                            // 수량(톤)
+   		"permWtRate" : $('#permWtRate').val(),                  // 중량허용공차
+   		"pcAppnBeginDe" :  $('#pcAppnBegindate').val(),         // 가격지정시작일자
+   		"pcAppnEndDe" :  $('#pcAppnEnddate').val(),             // 가격지정종료일자
+   		"pcAppnMthCode" :  $('#pcAppnMthCode').val(),           // 가격지정방법코드
+   		"setleCrncyCode" :  $('#setleCrncyCode').val(),         // 결제통화코드
+   		"setleMthCode" :  $('#setleMthCode').val(),             // 결제방법코드
+   		"setlePdCode" :  $('#setlePdCode').val(),               // 결제기간코드
+   		"etcCn" :  $('#etcCn').val(),                           // 기타코멘트 
+   		"bddprBeginDt" :  $('#bddprBegindate').val(),           // 투찰시작일시
+   		"bddprEndDt" :  $('#bddprEnddate').val(),               // 투찰종료일시
+   		"bddprCanclLmttDe" : $('#selectBddprCancldate').val()   // 투찰취소제한일자 
 		}
 	//debugger;
+		console.log("goodsNm: ", $('#selectItem').val()); 
 	$.ajax({
 		url: '/bo/updateBoBdPblnDtl',
 		method: 'POST', 
