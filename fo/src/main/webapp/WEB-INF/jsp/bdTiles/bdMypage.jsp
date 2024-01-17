@@ -85,16 +85,16 @@
 				            <!-- FILTER AREA :: END -->
 							<!-- TAB BUTTON :: START -->
 							<ul class="tab_btn_group">
-								<li class="item on" data-tab="tab-1" value="1" onclick="getMyPageList('13', '');">
+								<li class="item on" data-tab="tab-1" value="1" onclick="getMyPageList1('13', '');">
 									<a href="javascript:;">투찰 건 (<span class="totalCnt">${bdListCnt.totalCnt}</span>) </a>
 								</li>
-								<li class="item" data-tab="tab-2" value="2" onclick="getMyPageList('31', 'Y');">
+								<li class="item" data-tab="tab-2" value="2" onclick="getMyPageList2('31', 'Y');">
 									<a href="javascript:;">낙찰 건 (<span id="expectCnt">${bdListCnt.expectCnt}</span>)</a>
 								</li>
-								<li class="item" data-tab="tab-3"  value="3"  onclick="getMyPageList('31', 'N');">
+								<li class="item" data-tab="tab-3"  value="3"  onclick="getMyPageList3('31', 'N');">
 									<a href="javascript:;">패찰 건 (<span id="bidingCnt">${bdListCnt.bidingCnt}</span>)</a>
 								</li>
-								<li class="item" data-tab="tab-5" value="4"  onclick="getMyPageList('32', '');">
+								<li class="item" data-tab="tab-4" value="4"  onclick="getMyPageList4('32', '');">
 									<a href="javascript:;">유찰 건 (<span id="endCnt">${bdListCnt.endCnt}</span>) </a>
 								</li>
 							</ul>
@@ -106,7 +106,185 @@
 								  <input type="radio" id="featured-2" name="featuredGroup1"><label for="featured-2">투찰 중건</label>
 								  <input type="radio" id="featured-3" name="featuredGroup1"><label for="featured-3">투찰접수 취소건</label>
 				                </div>
-				                <ul class="list t2" id="myPageData">
+				                <ul class="list t2 myPageData">
+									<c:if test="${empty bdList}">
+										<span>데이터가 존재하지 않습니다.</span>
+									</c:if>
+									<c:forEach items="${bdList}" var="vo">
+				                    <!-- item 1 투찰건 :: START -->
+				                    <li>
+				                        <div class="cart-item-wrap type3">
+				                            <figure class="figure figure1">
+				                                <img src="/images/my/al_sum.jpg" alt="알루미늄" class="w">
+				                            </figure>
+				                            <div class="figure-con">
+				                                <div class="pd-brand-info">
+				                                	<h3 class="pd-bid-no">${vo.bidPblancId}</h3>
+				                                    <div class="pd-wrap">
+														<div class="pd-brand">
+															<div class="pd-label">${vo.metalCodeNma}</div>
+															<div class="brand-nation">
+																<c:if test="${empty vo.nationCode}">
+																	<img src="https://sorincorp.blob.core.windows.net/secs/odflag/flag_mcht_default.png">
+																</c:if>
+																<c:if test="${not empty vo.nationCode}">
+																	<img src="${vo.nationUrl}">
+																</c:if>
+															</div>
+															<c:if test="${empty vo.brandCode}">
+																브랜드 무관
+															</c:if>
+															<c:if test="${not empty vo.brandCode}">
+																${vo.brandCode}
+															</c:if>
+														</div>
+				                                    </div>
+				                                    <div class="pd-name">
+														<span class="item">${vo.brandNm}</span>
+														<span class="wrhous">출고권역 - ${vo.dstrctLclsfCode}</span>
+														<span class="brand-group">${vo.brandGroupCodeNm}</span>
+				                                    </div>
+				                                    <p class="pd-unit-price">
+								          				<span class="label-orange">투찰가</span>
+						                                <span class="u-price realTimePrice up">3,428,000 (원/MT)</span>
+						                            </p>
+				                                    <div class="pd-period">
+				                                        <span class="qty">수량 ${vo.totalCnt} <span class="highlight">100MT</span></span>	
+														<span class="date">투찰기간 <span class="highlight">${vo.bddprBeginDt} ~ ${vo.bddprEndDt}</span></span> 
+													</div>
+				                                </div>
+				                            </div>
+				                            <div class="btns">
+				                                <a href="/guide/html/bid/SOREC-SC-BID-006.html" class="btn-gray-md">상세보기</a>
+				                            </div>
+				                        </div>
+				                    </li>
+								</c:forEach>
+								</ul>
+							</div>
+
+							<div id="tab-2" class="tab-content on">
+				                <div class="custom_radio">
+				                </div>
+				                <ul class="list t2 myPageData">
+									<c:if test="${empty bdList}">
+										<span>데이터가 존재하지 않습니다.</span>
+									</c:if>
+									<c:forEach items="${bdList}" var="vo">
+				                    <!-- item 1 투찰건 :: START -->
+				                    <li>
+				                        <div class="cart-item-wrap type3">
+				                            <figure class="figure figure1">
+				                                <img src="/images/my/al_sum.jpg" alt="알루미늄" class="w">
+				                            </figure>
+				                            <div class="figure-con">
+				                                <div class="pd-brand-info">
+				                                	<h3 class="pd-bid-no">${vo.bidPblancId}</h3>
+				                                    <div class="pd-wrap">
+														<div class="pd-brand">
+															<div class="pd-label">${vo.metalCodeNma}</div>
+															<div class="brand-nation">
+																<c:if test="${empty vo.nationCode}">
+																	<img src="https://sorincorp.blob.core.windows.net/secs/odflag/flag_mcht_default.png">
+																</c:if>
+																<c:if test="${not empty vo.nationCode}">
+																	<img src="${vo.nationUrl}">
+																</c:if>
+															</div>
+															<c:if test="${empty vo.brandCode}">
+																브랜드 무관
+															</c:if>
+															<c:if test="${not empty vo.brandCode}">
+																${vo.brandCode}
+															</c:if>
+														</div>
+				                                    </div>
+				                                    <div class="pd-name">
+														<span class="item">${vo.brandNm}</span>
+														<span class="wrhous">출고권역 - ${vo.dstrctLclsfCode}</span>
+														<span class="brand-group">${vo.brandGroupCodeNm}</span>
+				                                    </div>
+				                                    <p class="pd-unit-price">
+								          				<span class="label-orange">투찰가</span>
+						                                <span class="u-price realTimePrice up">3,428,000 (원/MT)</span>
+						                            </p>
+				                                    <div class="pd-period">
+				                                        <span class="qty">수량 ${vo.totalCnt} <span class="highlight">100MT</span></span>	
+														<span class="date">투찰기간 <span class="highlight">${vo.bddprBeginDt} ~ ${vo.bddprEndDt}</span></span> 
+													</div>
+				                                </div>
+				                            </div>
+				                            <div class="btns">
+				                                <a href="/guide/html/bid/SOREC-SC-BID-006.html" class="btn-gray-md">상세보기</a>
+				                            </div>
+				                        </div>
+				                    </li>
+								</c:forEach>
+								</ul>
+							</div>
+							<div id="tab-3" class="tab-content on">
+				                <div class="custom_radio">
+				                </div>
+				                <ul class="list t2 myPageData">
+									<c:if test="${empty bdList}">
+										<span>데이터가 존재하지 않습니다.</span>
+									</c:if>
+									<c:forEach items="${bdList}" var="vo">
+				                    <!-- item 1 투찰건 :: START -->
+				                    <li>
+				                        <div class="cart-item-wrap type3">
+				                            <figure class="figure figure1">
+				                                <img src="/images/my/al_sum.jpg" alt="알루미늄" class="w">
+				                            </figure>
+				                            <div class="figure-con">
+				                                <div class="pd-brand-info">
+				                                	<h3 class="pd-bid-no">${vo.bidPblancId}</h3>
+				                                    <div class="pd-wrap">
+														<div class="pd-brand">
+															<div class="pd-label">${vo.metalCodeNma}</div>
+															<div class="brand-nation">
+																<c:if test="${empty vo.nationCode}">
+																	<img src="https://sorincorp.blob.core.windows.net/secs/odflag/flag_mcht_default.png">
+																</c:if>
+																<c:if test="${not empty vo.nationCode}">
+																	<img src="${vo.nationUrl}">
+																</c:if>
+															</div>
+															<c:if test="${empty vo.brandCode}">
+																브랜드 무관
+															</c:if>
+															<c:if test="${not empty vo.brandCode}">
+																${vo.brandCode}
+															</c:if>
+														</div>
+				                                    </div>
+				                                    <div class="pd-name">
+														<span class="item">${vo.brandNm}</span>
+														<span class="wrhous">출고권역 - ${vo.dstrctLclsfCode}</span>
+														<span class="brand-group">${vo.brandGroupCodeNm}</span>
+				                                    </div>
+				                                    <p class="pd-unit-price">
+								          				<span class="label-orange">투찰가</span>
+						                                <span class="u-price realTimePrice up">3,428,000 (원/MT)</span>
+						                            </p>
+				                                    <div class="pd-period">
+				                                        <span class="qty">수량 ${vo.totalCnt} <span class="highlight">100MT</span></span>	
+														<span class="date">투찰기간 <span class="highlight">${vo.bddprBeginDt} ~ ${vo.bddprEndDt}</span></span> 
+													</div>
+				                                </div>
+				                            </div>
+				                            <div class="btns">
+				                                <a href="/guide/html/bid/SOREC-SC-BID-006.html" class="btn-gray-md">상세보기</a>
+				                            </div>
+				                        </div>
+				                    </li>
+								</c:forEach>
+								</ul>
+							</div>
+							<div id="tab-4" class="tab-content on">
+				                <div class="custom_radio">
+				                </div>
+				                <ul class="list t2 myPageData">
 									<c:if test="${empty bdList}">
 										<span>데이터가 존재하지 않습니다.</span>
 									</c:if>
@@ -358,12 +536,12 @@
 }
 
 	// 입찰 공고 목록 axios 요청
-	function getMyPageList(bidSttusCode, scsbidAt) {
+	function getMyPageList1(bidSttusCode, scsbidAt) {
 		debugger;
         const url = "/bdMypageAjax"
 
 		var params = {
-		         "bidEntrpsNo" : "C0007",
+		         "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
                  "bidSttusCode" : bidSttusCode,
                  "scsbidAt" : scsbidAt
 		}
@@ -377,7 +555,103 @@
 						dataType: 'html', 
 						success: function(res) {
 							//console.log('데이터 정상', data);
-							updateTable($(res).find("#myPageData").html());
+							updateTable("#tab-1", $(res).find("#tab-1 .myPageData").html());
+						},
+						error: function(error) {
+							// 에러 발생 시의 처리
+							console.log('에러');
+						}
+					});
+
+        // comAjaxMyPage('POST', url, JSON.stringify(params), "html", true, (res) => {
+		// 	debugger;
+        //     updateTable($(res).find("#mypageData").html())
+        // })
+    }
+	function getMyPageList2(bidSttusCode, scsbidAt) {
+		debugger;
+        const url = "/bdMypageAjax"
+
+		var params = {
+		         "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
+                 "bidSttusCode" : bidSttusCode,
+                 "scsbidAt" : scsbidAt
+		}
+
+
+		$.ajax({
+						url: url, 
+						method: 'POST', 
+						contentType: 'application/json', 
+						data: JSON.stringify(params), 
+						dataType: 'html', 
+						success: function(res) {
+							//console.log('데이터 정상', data);
+							updateTable("#tab-2", $(res).find("#tab-2 .myPageData").html());
+						},
+						error: function(error) {
+							// 에러 발생 시의 처리
+							console.log('에러');
+						}
+					});
+
+        // comAjaxMyPage('POST', url, JSON.stringify(params), "html", true, (res) => {
+		// 	debugger;
+        //     updateTable($(res).find("#mypageData").html())
+        // })
+    }
+	function getMyPageList3(bidSttusCode, scsbidAt) {
+		debugger;
+        const url = "/bdMypageAjax"
+
+		var params = {
+		         "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
+                 "bidSttusCode" : bidSttusCode,
+                 "scsbidAt" : scsbidAt
+		}
+
+
+		$.ajax({
+						url: url, 
+						method: 'POST', 
+						contentType: 'application/json', 
+						data: JSON.stringify(params), 
+						dataType: 'html', 
+						success: function(res) {
+							//console.log('데이터 정상', data);
+							updateTable("#tab-3", $(res).find("#tab-3 .myPageData").html());
+						},
+						error: function(error) {
+							// 에러 발생 시의 처리
+							console.log('에러');
+						}
+					});
+
+        // comAjaxMyPage('POST', url, JSON.stringify(params), "html", true, (res) => {
+		// 	debugger;
+        //     updateTable($(res).find("#mypageData").html())
+        // })
+    }
+	function getMyPageList4(bidSttusCode, scsbidAt) {
+		debugger;
+        const url = "/bdMypageAjax"
+
+		var params = {
+		         "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
+                 "bidSttusCode" : bidSttusCode,
+                 "scsbidAt" : scsbidAt
+		}
+
+
+		$.ajax({
+						url: url, 
+						method: 'POST', 
+						contentType: 'application/json', 
+						data: JSON.stringify(params), 
+						dataType: 'html', 
+						success: function(res) {
+							//console.log('데이터 정상', data);
+							updateTable("#tab-4", $(res).find("#tab-4 .myPageData").html());
 						},
 						error: function(error) {
 							// 에러 발생 시의 처리
@@ -391,9 +665,9 @@
         // })
     }
 
-	function updateTable(htmlContent) {
+	function updateTable(tabId, htmlContent) {
         // Find the table body element
-        const tbody = $("#myPageData");
+        const tbody = $(tabId + " .myPageData");
 
         // Replace the content of the table body with the new HTML
         tbody.html('');

@@ -39,6 +39,8 @@ public class BdMypageController {
         List<BdListVO> list = bdMainService.mypageList(bdListVO);
         HttpSession session = request.getSession();
         LoginVO member = (LoginVO) session.getAttribute("member");
+        BdListVO bdListCnt = bdMainService.getBdListTotalCnt(bdListVO);
+        model.addAttribute("bdListCnt", bdListCnt);
         model.addAttribute("bdList", list);
         model.addAttribute("member", member);
         return "bdTiles/bdMypage";

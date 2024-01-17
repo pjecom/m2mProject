@@ -330,9 +330,8 @@ $(function() {
 
 function moveMyPage() {
     var params = {
-		         "bidEntrpsNo" : "C0007",
-                 "bidSttusCode" : '31',
-                 "scsbidAt" : 'N'
+		         "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
+                 "bidSttusCode" : '13'
 		}
     pageMove( "/bdMypage", JSON.stringify(params), 'application/json');
 }

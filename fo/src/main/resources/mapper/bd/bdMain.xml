@@ -119,5 +119,19 @@
 			AND BBD.SCSBID_AT = #{scsbidAt} -- Y: 낙찰, N: 패찰
 			</if>
      </select>
+     
+    <select id="bdMypageCount" parameterType="com.m2m.fo.bd.model.BdListVO" resultType="com.m2m.fo.bd.model.BdListVO">
+        SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+        /* com.m2m.fo.bd.mapper.BdMainMapper.bdMypageList 마이페이지 목록 조회 */
+        SELECT 
+             COUNT(CASE WHEN BB.BID_STTUS_CODE=13 THEN 1 END) AS TotalCnt                                                    /* 입찰 전체 목록 */
+            ,COUNT(CASE WHEN BB.BID_STTUS_CODE=31 AND BBD.SCSBID_AT="Y" THEN 1 END) AS ExpectCnt              /* 입찰상태:입찰예정 */
+            ,COUNT(CASE WHEN BB.BID_STTUS_CODE=31 AND BBD.SCSBID_AT="N" THEN 1 END) AS BidingCnt              /* 입찰상태:투찰중 */
+            ,COUNT(CASE WHEN BB.BID_STTUS_CODE=32 AND THEN 1 END) AS EndCnt                 /* 입찰상태:마감 */
+		FROM dbo.BD_BID_BAS BB
+       INNER JOIN BD_BDDPR_DTL BBD
+          ON BB.BID_PBLANC_ID= BBD.BID_PBLANC_ID 
+       WHERE BBD.BID_ENTRPS_NO = #{bidEntrpsNo}
+     </select>
   
 </mapper>
