@@ -6,27 +6,6 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
 <script>
-    let tempBdBidBas = {}
-    let bdBidBas = {
-        bidSttusCode: '',
-        bidPblancId: '',
-        bddprBeginDt: '',
-        bddprEndDt: ''
-    }
-
-    // bdBidBas.bidSttusCode 값 변경 감지
-    Object.defineProperty(bdBidBas, 'bidSttusCode', {
-        get: function() {
-            return this._bidSttusCode;
-        },
-        set: function(newValue) {
-            this._bidSttusCode = newValue;
-
-            $(".bid-sttus-tab").removeClass("active")
-            $("#bid-sttus-tab-" + newValue).addClass("active")
-        }
-    });
-
 	$(function() {
 	   $("#moveList").click(function() { // 목록가기 버튼 클릭 이벤트
 		var params = {
@@ -81,15 +60,6 @@
         });
 	}
 
-    // 입찰 공고 목록 axios 요청
-    function getBidNoticeList() {
-        const url = "/bo/bidNotice"
-
-        postSetDataTypeBo(url, JSON.stringify(bdBidBas), "html", true, (res) => {
-        debugger;
-            updateTable($(res).find("#realgrid tbody").html())
-        })
-    }
 	function bdNoticeDetailModalSearch() {
 	    var url = "/bo/boBdPblnDtlModal";
 	    var params = {}; // 필요한 경우 데이터를 추가
