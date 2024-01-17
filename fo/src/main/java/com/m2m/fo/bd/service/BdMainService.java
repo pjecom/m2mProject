@@ -10,5 +10,8 @@ public interface BdMainService {
 	public String getString();
 
 	public List<BdListVO> getBdList(BdListVO vo) throws Exception;
+	
+	public List<BdListVO> mypageList(BdListVO vo) throws Exception;
+	
 	public BdListVO getBdListTotalCnt(BdListVO vo) throws Exception;
 }

@@ -23,7 +23,6 @@ public class BdMainServiceImpl implements BdMainService {
 	}
 	public List<BdListVO> getBdList(BdListVO vo) throws Exception {
 		List<BdListVO> list = bdMainMapper.getBdList(vo);
-		log.info("logtest",list);
 		return list;
 	}
 	@Override
@@ -32,4 +31,8 @@ public class BdMainServiceImpl implements BdMainService {
 		return bdMainMapper.getBdListTotalCnt(vo);
 	}
 
+	public List<BdListVO> mypageList(BdListVO vo) throws Exception {
+		List<BdListVO> list = bdMainMapper.bdMypageList(vo);
+		return list;
+	}
 }

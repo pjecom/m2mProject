@@ -133,8 +133,7 @@ function pageMove(url, data, contentType, menuActiveIdenty) {
 function moveToMain() {
         referer = [];
 
-		trackSorin("/main/", "0902");
-        location.href = "/main/";
+        location.href = "/";
 }
 
 function pageMoveAjaxProcess(url, data, contentType) {
@@ -144,6 +143,9 @@ function pageMoveAjaxProcess(url, data, contentType) {
     		if (typeof removeStompSubscriber != "undefined") {
     			removeStompSubscriber();
     		}
+    		
+    		 // Footer 초기화
+        	$(".footer").hide();
 
     		$(".body-main").empty();
     		$(".body-main").append('<div class="container">' + returnData + '</div>');
@@ -199,6 +201,30 @@ function pageMoveAjaxProcess(url, data, contentType) {
     		window.scrollTo(0, 0);
     	});
     }
+
+function postSetDataType(url, data, dataType, isAsync, callback) { // dataType을 사용하지 않고 싶을경우 "" 공백으로
+	return comAjax("POST", url, data, dataType, "application/json", true, isAsync, callback);
+}
+
+function comAjax(_type, _url, _data, _dataType, _contentType, _processData, _isAsync, callback) {
+	if(!validationIsEmpty(_type) && !validationIsEmpty(_url)) {
+		$.ajax({
+				type : _type,
+				url : _url,
+				data : _data,
+				dataType : _dataType,
+				contentType : _contentType,
+				processData : _processData,
+				async: _isAsync,
+				success : function(data) {
+					callback(data);
+				},
+				error : function(request, status, error) {
+					errorException(request);
+				}
+		});
+	}
+}
     
 //메인으로 갈 때 사용
 function moveToBdMain() {
@@ -211,6 +237,23 @@ var jsonChartList = {};
 if('${jsonChartList}') {
     jsonChartList = JSON.parse('${jsonChartList}')
 }
+
+function cmmPopup(dataTarget, dataPopup, msg){
+		let dataId = '#' + dataTarget;
+		if (dataPopup == 'modal') { // 일반 modal
+			$(dataId).addClass('active');
+		} else if (dataPopup == 'bottomsheet') { // 주문 modal
+			$(dataId).addClass('active');
+		} else if (dataPopup == 'alert') { // alert modal
+			$(dataId).find('.alert-con').text(msg);
+			$(dataId).addClass('active');
+			//$('#sorinModalAlert .alert-con').text(msg);
+		} else if (dataPopup == 'confirm') { // confirm modal
+			$(dataId).find('.alert-con').text(msg);
+			$(dataId).addClass('active');
+			$('#sorinModalConfirm .alert-con').text(msg);
+		}
+	}
 </script>
 
 <!-- script core :: START -->

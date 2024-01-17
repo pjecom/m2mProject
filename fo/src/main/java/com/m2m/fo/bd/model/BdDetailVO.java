@@ -49,7 +49,7 @@ public class BdDetailVO {
 	private String bddprEndDt;                   //투찰종료일시
 	private String bddprCanclPossAt;             //투찰취소가능여부
 	private String bddprCanclLmttDe;             //투찰취소제한일자
-	private int PartcptnEntrpsQy;                //참여업체수량
+	private int partcptnEntrpsQy;                //참여업체수량
 	private int intrstEntrpsQy;                  //관심업체수량 
 	private String DspyAt;                       //전시여부
 	private String PblancCanclAt;                //공고취소여부 
@@ -60,10 +60,13 @@ public class BdDetailVO {
 	private Date frstRegistDt;                   //최초등록일시
 	private String lastChangerId;                //최종변경자ID
 	private Date lastChangeDt;                   //최종변경일시
+	private String codeDcone;					 //공통코드(코드1)
 	private String codeDctwo;					 //공통코드(코드2) 
+	private String nationUrl;					 //국가코드
 	
-	// 투찰 상세
-	private String bidEntrpsNo;					 // 입찰업체번호
-	private String bidMberSecretNo;				 // 입찰회원비밀번호
+	
+	// 업체정보 기본
+	private String bidEntrpsNo;					 //입찰업체번호
+	private String bidMberSecretNo;				 //입찰회원비밀번호
 	
 }

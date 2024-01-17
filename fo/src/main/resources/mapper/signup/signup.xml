@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.m2m.fo.signup.mapper.SignupMapper">
+	<select id="getMaxBidEntrpsNo" resultType="java.lang.String">
+	    SELECT MAX(BID_ENTRPS_NO)
+	    FROM BD_ENTRPS_INFO_BAS
+	</select>	
+
+	<insert id="insertEntrps" parameterType="com.m2m.fo.signup.model.SignupVO">
+    	/* com.m2m.fo.signup.model.SignupMapper.insertEntrps */        
+		
+		INSERT INTO BD_ENTRPS_INFO_BAS (
+		    BID_ENTRPS_NO,            -- 입찰 업체 번호(PK)
+		    BID_MBER_ID,              -- 입찰 회원 아이디
+		    BID_MBER_SECRET_NO,       -- 입찰 회원 비밀 번호
+		    ENTRPS_NM,                -- 업체 명
+		    BSNM_REGIST_NO,           -- 사업자 등록 번호
+		    BID_MBER_EMAIL,           -- 입찰 회원 이메일
+		    MOBLPHON_NO2,             -- 휴대폰 번호
+		    ADIT_IEM,                 -- 추가 항목
+		    FRNTN_ENTRPS_AT,          -- 외국 업체 여부
+		    VRSC_ENTRPS_NM,           -- 대행 업체 명
+		    VRSC_BSNM_REGIST_NO,      -- 대행 사업자 등록 번호
+		    VRSC_BID_MBER_EMAIL,      -- 대행 입찰 회원 이메일
+		    VRSC_MOBLPHON_NO,         -- 대행 휴대폰 번호
+		    ADIT_IEM2,                -- 추가 항목2
+		    BID_MBER_STTUS_CODE,      -- 입찰 회원 상태 코드
+		    BID_CONFM_STTUS_CODE,     -- 입찰 승인 상태 코드
+		    BID_CONFM_DETAIL_STTUS_CODE, -- 입찰 승인 상세 상태 코드
+		    ETR_CONFM_REQUST_DT,      -- 가입 승인 요청 일시
+		    ETR_CONFM_PROCESS_DT,     -- 가입 승인 처리 일시
+		    CHANGE_CONFM_REQUST_DT,   -- 변경 승인 요청 일시
+		    CHANGE_CONFM_PROCESS_DT,  -- 변경 승인 처리 일시
+		    BID_MBER_ETR_DT,          -- 입찰 회원 가입 일시
+		    BID_MBER_INTRCP_DT,       -- 입찰 회원 차단 일시
+		    BID_MBER_INTRCP_CN,       -- 입찰 회원 차단 내용
+		    USE_STPLAT_AGRE_AT,       -- 이용 약관 동의 여부
+		    USE_STPLAT_AGRE_DT,       -- 이용 약관 동의 일시
+		    INDVDL_INFO_THREEMAN_PROVD_AGRE_AT, -- 개인 정보 3자 제공 동의 여부
+		    INDVDL_INFO_THREEMAN_PROVD_AGRE_DT, -- 개인 정보 3자 제공 동의 일시
+		    INDVDL_INFO_PROCESS_POLCY_AGRE_AT,  -- 개인 정보 처리 방침 동의 여부
+		    INDVDL_INFO_PROCESS_POLCY_AGRE_DT,  -- 개인 정보 처리 방침 동의 일시
+		    MARKT_RECPTN_AGRE_AT,     -- 마케팅 수신 동의 여부
+		    MARKT_RECPTN_AGRE_DT,     -- 마케팅 수신 동의 일시
+		    MBER_CHRCTR_RECPTN_AGRE_AT, -- 회원 문자 수신 동의 여부
+		    MBER_CHRCTR_RECPTN_AGRE_DT, -- 회원 문자 수신 동의 일시
+		    MBER_EMAIL_RECPTN_AGRE_AT, -- 회원 메일 수신 동의 여부
+		    MBER_EMAIL_RECPTN_AGRE_DT, -- 회원 메일 수신 여부 일시
+		    MBER_PUSH_RECPTN_AGRE_AT,  -- 회원 푸시 수신 동의 여부
+		    MBER_PUSH_RECPTN_AGRE_DT,  -- 회원 푸시 수신 동의 일시
+		    BDDPR_CANCL_CO,           -- 투찰 취소 건수
+		    CHANGE_MOBLPHON_NO2,      -- 변경 휴대폰 번호
+		    CHANGE_VRSC_MOBLPHON_NO,  -- 변경 대행 휴대폰 번호
+		    CHANGE_BID_MBER_SECRET_NO, -- 변경 입찰 회원 비밀 번호
+		    DELETE_AT,                -- 삭제 여부
+		    DELETE_DT,                -- 삭제 일시
+		    FRST_REGISTER_ID,         -- 최초 등록자 아이디
+		    FRST_REGIST_DT,           -- 최초 등록 일시
+		    LAST_CHANGER_ID,          -- 최종 변경자 아이디
+		    LAST_CHANGE_DT            -- 최종 변경 일시
+		) VALUES (
+		    #{bidEntrpsNo},
+		    #{bidMberId},
+		    #{bidMberSecretNo},
+		    #{entrpsNm},
+		    #{bsnmRegistNo},
+		    #{bidMberEmail},
+		    #{moblphonNo2},
+		    #{aditIem},
+		    #{frntnEntrpsAt},
+		    #{vrscEntrpsNm},
+		    #{vrscBsnmRegistNo},
+		    #{vrscBidMberEmail},
+		    #{vrscMoblphonNo},
+		    #{aditIem2},
+		    #{bidMberSttusCode},
+		    #{bidConfmSttusCode},
+		    #{bidConfmDetailSttusCode},
+		    GETDATE(),
+		    #{etrConfmProcessDt},
+		    #{changeConfmRequstDt},
+		    #{changeConfmProcessDt},
+		    GETDATE(),
+		    #{bidMberIntrcpDt},
+		    #{bidMberIntrcpCn},
+		    #{useStplatAgreAt},
+		    GETDATE(),
+		    #{indvdlInfoThreemanProvdAgreAt},
+		    GETDATE(),
+		    #{indvdlInfoProcessPolcyAgreAt},
+		    GETDATE(),
+		    #{marktRecptnAgreAt},
+		    GETDATE(),
+		    #{mberChrctrRecptnAgreAt},
+		    GETDATE(),
+		    #{mberEmailRecptnAgreAt},
+		    GETDATE(),
+		    #{mberPushRecptnAgreAt},
+		    GETDATE(),
+		    #{bddprCanclCo},
+		    #{changeMoblphonNo2},
+		    #{changeVrscMoblphonNo},
+		    #{changeBidMberSecretNo},
+		    'N',
+		    #{deleteDt},
+		    #{bidMberId},
+		    GETDATE(),
+		    #{bidMberId},
+		    GETDATE()
+		);
+    </insert>
+</mapper>

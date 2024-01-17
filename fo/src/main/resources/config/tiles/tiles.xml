@@ -19,6 +19,10 @@
 	<definition name="*/*.tabtiles" template="/WEB-INF/boTiles/tab-main.jsp">
 		<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}.jsp" />
 	</definition>
+	
+	<definition name="*/*.modaltiles" template="/WEB-INF/boTiles/modal-main.jsp">
+		<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}.jsp" />
+	</definition>
    
    <!-- main -->
    <definition name="layout" template="/WEB-INF/bdTiles/layout-main.jsp">
@@ -37,9 +41,7 @@
        <put-attribute name="footer" value="/WEB-INF/bdTiles/footer.jsp" />
    </definition>
    
-   <definition name="*/*.modal" template="/WEB-INF/boTiles/modal-main.jsp">
-		<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}.jsp" />
-	</definition>
+   
    
    <definition name="*/*.bdtiles" extends="layoutBd">
        <put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}.jsp" />

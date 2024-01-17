@@ -7,7 +7,7 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/guide/js/select2/select2.min.js"></script>
-<script type="text/javaScript">
+<script type="text/javaScript"></script>
 
 <div>
 	<span class="label">${noticeSj}</span>

@@ -59,3 +59,47 @@
 	    </div>
 	</body>
 </html>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+
+function validationIsEmpty(obj) {
+        return isUndefined(obj) || validtaionIsNull(obj) || obj === '' || obj === 'null'
+                || obj.length === 0;
+}
+
+function isUndefined(obj) {
+        return obj === undefined;
+}
+
+function validtaionIsNull(obj) {
+        return obj === null;
+}
+
+function postSetDataTypeBo (url, data, dataType, isAsync, callback) { // dataType을 사용하지 않고 싶을경우 "" 공백으로
+	return comAjax("POST", url, data, dataType, "application/json", true, isAsync, callback);
+}
+
+function comAjax(_type, _url, _data, _dataType, _contentType, _processData, _isAsync, callback) {
+	if(!validationIsEmpty(_type) && !validationIsEmpty(_url)) {
+		$.ajax({
+				type : _type,
+				url : _url,
+				data : _data,
+				dataType : _dataType,
+				contentType : _contentType,
+				processData : _processData,
+				async: _isAsync,
+				success : function(data) {
+					callback(data);
+				},
+				error : function(request, status, error) {
+					var url = "/bo";
+					
+				}
+			});
+	}
+}
+
+
+</script>
