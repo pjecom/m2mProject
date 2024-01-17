@@ -189,16 +189,18 @@
         <if test="bidSttusCode != null and bidSttusCode != ''">
             AND BID_STTUS_CODE = #{bidSttusCode}
         </if>
-    </select>
-    <select id="getBoBdPblnListTotalCnt" resultType="com.m2m.fo.bo.model.BoBdPblnVO">
-        SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
-        /* com.m2m.fo.bo.mapper.BoBdPblnMapper.getBoBdPblnListTotalCnt */
-        SELECT
-            COUNT(*) AS TotalCnt
-            ,COUNT(CASE WHEN BID_STTUS_CODE=12 THEN 1 END) AS ExpectCnt
-            ,COUNT(CASE WHEN BID_STTUS_CODE=13 THEN 1 END) AS BidingCnt
-            ,COUNT(CASE WHEN BID_STTUS_CODE=30 THEN 1 END) AS EndCnt
-        FROM BD_BID_BAS
+        <if test="bidPblancId != null and bidPblancId != ''">
+            AND BID_PBLANC_ID LIKE '%' + #{bidPblancId} + '%'
+        </if>
+        <if test="bddprBeginDt != null and bddprBeginDt != ''">
+            <![CDATA[
+                AND BDDPR_BEGIN_DT > #{bddprBeginDt}
+                AND BDDPR_END_DT< #{bddprEndDt}
+            ]]>
+        </if>
+        ORDER BY BID_PBLANC_ID DESC
+        OFFSET #{pagingVO.startNo} ROWS
+        FETCH NEXT #{pagingVO.pageSize} ROWS ONLY
     </select>
     <select id="getbidSttusList" parameterType="String" resultType="com.m2m.fo.comm.model.CoCommCdVO">
         SELECT
@@ -212,5 +214,12 @@
             AND USE_AT = 'Y'
             AND DELETE_AT = 'N'
         ORDER BY CODE_ORDR ASC
+    </select>
+    <select id="getCntByBidSttus" parameterType="String" resultType="int">
+        SELECT count(*)
+        FROM BD_BID_BAS
+        WHERE
+            BID_STTUS_CODE = #{subCode}
+            AND DELETE_AT = 'N'
     </select>
 </mapper>

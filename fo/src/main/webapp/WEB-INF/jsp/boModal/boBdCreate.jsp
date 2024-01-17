@@ -157,15 +157,15 @@
                                         <!-- [D] 월 선택 경우 .form-month 추가 -->
                                         <!-- [D] 날짜 선택 경우 .form-date 추가 -->
                                         <div class="input-group date form-date">
-                                            <input type="text" class="input" id="datepicker1" />
-                                            <label for="datepicker1" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
+                                            <input type="text" class="input" id="datepicker3" />
+                                            <label for="datepicker3" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
                                         </div>
                                         <span>~</span>
                                         <!-- [D] 월 선택 경우 .form-month 추가 -->
                                         <!-- [D] 날짜 선택 경우 .form-date 추가 -->
                                         <div class="input-group date form-date">
-                                            <input type="text" class="input" id="datepicker2" />
-                                            <label for="datepicker2" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
+                                            <input type="text" class="input" id="datepicker4" />
+                                            <label for="datepicker4" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
                                         </div>
                                     </div>
                                 </div>
@@ -198,15 +198,15 @@
                                         <!-- [D] 월 선택 경우 .form-month 추가 -->
                                         <!-- [D] 날짜 선택 경우 .form-date 추가 -->
                                         <div class="input-group date form-date">
-                                            <input type="text" class="input" id="datepicker3" />
-                                            <label for="datepicker3" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
+                                            <input type="text" class="input" id="datepicker5" />
+                                            <label for="datepicker5" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
                                         </div>
                                         <span>~</span>
                                         <!-- [D] 월 선택 경우 .form-month 추가 -->
                                         <!-- [D] 날짜 선택 경우 .form-date 추가 -->
                                         <div class="input-group date form-date">
-                                            <input type="text" class="input" id="datepicker4" />
-                                            <label for="datepicker4" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
+                                            <input type="text" class="input" id="datepicker6" />
+                                            <label for="datepicker6" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
                                         </div>
                                     </div>
                                 </div>
@@ -260,86 +260,66 @@
                             <col width="*" />
                         </colgroup>
                         <tbody>
-                        <tr>
-                            <th scope="row">투찰 시작일<i class="icon icon-required"></i></th>
-                            <td>
-                                <div class="form-set">
-                                    <div class="input-group date form-date">
-                                        <input type="text" class="input" id="datepicker5" />
-                                        <label for="datepicker5" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
+                            <tr>
+                                <th scope="row">투찰 시작일<i class="icon icon-required"></i></th>
+                                <td>
+                                    <div class="form-set">
+                                        <div class="input-group date form-date">
+                                            <input type="text" class="input" id="datepicker7" />
+                                            <label for="datepicker7" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
+                                        </div>
+                                        <select class="form-select" style="width:80px;">
+                                            <option value="am">am</option>
+                                            <option value="pm">pm</option>
+                                        </select>
+                                        <input type="text" class="input" value="" style="width:50px;">&nbsp;시
+                                        <input type="text" class="input" value="" style="width:50px;">&nbsp;분
+                                        <input type="text" class="input" value="" style="width:50px;">&nbsp;초
                                     </div>
-                                    <select class="form-select" style="width:80px;">
-                                        <option value="am">am</option>
-                                        <option value="pm">pm</option>
-                                    </select>
-                                    <input type="text" class="input" value="" style="width:50px;">&nbsp;시
-                                    <input type="text" class="input" value="" style="width:50px;">&nbsp;분
-                                    <input type="text" class="input" value="" style="width:50px;">&nbsp;초
-                                </div>
-                            </td>
-                            <th scope="row">투찰 마감일<i class="icon icon-required"></i></th>
-                            <td>
-                                <div class="form-set">
-                                    <div class="input-group date form-date">
-                                        <input type="text" class="input" id="datepicker6" />
-                                        <label for="datepicker6" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
+                                </td>
+                                <th scope="row">투찰 마감일<i class="icon icon-required"></i></th>
+                                <td>
+                                    <div class="form-set">
+                                        <div class="input-group date form-date">
+                                            <input type="text" class="input" id="datepicker8" />
+                                            <label for="datepicker8" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
+                                        </div>
+                                        <select class="form-select" style="width:80px;">
+                                            <option value="am">am</option>
+                                            <option value="pm">pm</option>
+                                        </select>
+                                        <input type="text" class="input" value="" style="width:50px;">&nbsp;시
+                                        <input type="text" class="input" value="" style="width:50px;">&nbsp;분
+                                        <input type="text" class="input" value="" style="width:50px;">&nbsp;초
                                     </div>
-                                    <select class="form-select" style="width:80px;">
-                                        <option value="am">am</option>
-                                        <option value="pm">pm</option>
-                                    </select>
-                                    <input type="text" class="input" value="" style="width:50px;">&nbsp;시
-                                    <input type="text" class="input" value="" style="width:50px;">&nbsp;분
-                                    <input type="text" class="input" value="" style="width:50px;">&nbsp;초
-                                </div>
-                        </tr>
-                        <tr>
-                            <th scope="row">
-                                투찰 취소기한<i class="icon icon-required"></i>
-                                <div class="icon icon-title-tooltip tooltip" style="margin-left:1px;">
-                                    <span class="tooltiptext">
-                                        회원사가 투찰 후, 취소를 할때<br/>
-                                        설정 된 취소 기한에 따릅니다.
-                                    </span>
-                                </div>
-                            </th>
-                            <td colspan="3">
-                                <span style="font-weight: 500; font-size: 0.80rem;">투찰 취소 불가</span>&nbsp;<input type="checkbox" name="bddprCenclPossAt" id="bddprCenclPossAt" />
-                                <div class="form-set" style="margin-top:5px;">
-                                    <div class="input-group date form-date">
-                                        <input type="text" class="input bddprCenclDt" id="datepicker7" />
-                                        <label for="datepicker7" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    투찰 취소기한<i class="icon icon-required"></i>
+                                    <div class="icon icon-title-tooltip tooltip" style="margin-left:1px;">
+                                        <span class="tooltiptext">
+                                            회원사가 투찰 후, 취소를 할때<br/>
+                                            설정 된 취소 기한에 따릅니다.
+                                        </span>
                                     </div>
-                                    <select class="form-select bddprCenclDt" style="width:80px;">
-                                        <option value="am">am</option>
-                                        <option value="pm">pm</option>
-                                    </select>
-                                    <input type="text" class="input bddprCenclDt" value="" style="width:50px;">&nbsp;시
-                                    <input type="text" class="input bddprCenclDt" value="" style="width:50px;">&nbsp;분
-                                    <input type="text" class="input bddprCenclDt" value="" style="width:50px;">&nbsp;초 까지 투찰 취소 가능함.
-                                </div>
-                            </td>
-                        </tr>
-
-                        <script>
-                            $(document).ready(function(){
-
-                                bddprCenclDtCntr();
-
-                                // Check if the checkbox is checked
-                                $('#bddprCenclPossAt').change(function(){
-                                    bddprCenclDtCntr();
-                                });
-
-                                function bddprCenclDtCntr() {
-                                    // Get the checkbox state
-                                    var isChecked = $('#bddprCenclPossAt').is(':checked');
-
-                                    // Disable or enable other inputs based on checkbox state
-                                    $('.bddprCenclDt').not('#bddprCenclPossAt').prop('disabled', isChecked);
-                                }
-                            });
-                        </script>
+                                </th>
+                                <td colspan="3">
+                                    <span style="font-weight: 500; font-size: 0.80rem;">투찰 취소 불가</span>&nbsp;<input type="checkbox" name="bddpr-cancl-poss-at" id="bddpr-cancl-poss-at" />
+                                    <div class="form-set" style="margin-top:5px;">
+                                        <div class="input-group date form-date">
+                                            <input type="text" class="input bddpr-cancl-dt" id="datepicker9" />
+                                            <label for="datepicker9" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
+                                        </div>
+                                        <select class="form-select bddpr-cancl-dt" style="width:80px;">
+                                            <option value="am">am</option>
+                                            <option value="pm">pm</option>
+                                        </select>
+                                        <input type="text" class="input bddpr-cancl-dt" value="" style="width:50px;">&nbsp;시
+                                        <input type="text" class="input bddpr-cancl-dt" value="" style="width:50px;">&nbsp;분
+                                        <input type="text" class="input bddpr-cancl-dt" value="" style="width:50px;">&nbsp;초 까지 투찰 취소 가능함.
+                                    </div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -382,3 +362,20 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function(){
+
+        bddprCanclDtCntr();
+
+        $('#bddpr-cancl-poss-at').change(function(){
+            bddprCanclDtCntr();
+        });
+
+        function bddprCanclDtCntr() {
+            var isChecked = $('#bddpr-cancl-poss-at').is(':checked');
+
+            $('.bddpr-cancl-dt').not('#bddpr-cancl-poss-at').prop('disabled', isChecked);
+        }
+    });
+</script>

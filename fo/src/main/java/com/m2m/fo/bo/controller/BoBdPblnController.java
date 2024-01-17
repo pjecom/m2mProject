@@ -1,7 +1,9 @@
 package com.m2m.fo.bo.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,21 +34,75 @@ public class BoBdPblnController {
 
     @RequestMapping(value ="/bidNotice")
     public String boDetail(@RequestBody(required = false) BoBdPblnVO vo, ModelMap model) throws Exception {
-        Map<String, Object> map = new HashMap<String, Object>();
+    	Map<String, Object> map = new HashMap<String, Object>();
         List<String> showBidSttusList = Arrays.asList("11", "12", "13", "30", "33");
+
+        String tempBeginDt = null;
+        String tempEndDt = null;
+
+        if (vo != null) {
+            tempBeginDt = vo.getBddprBeginDt();
+            tempEndDt = vo.getBddprEndDt();
+            if (vo.getBddprBeginDt() != null && !vo.getBddprBeginDt().isEmpty()) {
+                vo.setBddprBeginDt(vo.getBddprBeginDt().replaceAll("-", "") + "000000");
+            }
+
+            if (vo.getBddprEndDt() != null && !vo.getBddprEndDt().isEmpty()) {
+                vo.setBddprEndDt(vo.getBddprEndDt().replaceAll("-", "") + "000000");
+            }
+        }
+
+        if (vo == null) {
+            vo = new BoBdPblnVO();
+        }
 
         List<BoBdPblnVO> list = boBdPblnService.getBoBdPblnList(vo);
         List<CoCommCdVO> bidSttusList = boBdPblnService.getbidSttusList("BID_STTUS_CODE");
-        // BoBdPblnVO bdListCnt = boBdPblnService.getBoBdPblnListTotalCnt(bdListVO);
-
+        Map<String, Object> cntByBidSttus = bidSttusList.stream()
+                .collect(Collectors.toMap(
+                        CoCommCdVO::getSubCode,
+                        cdVO -> boBdPblnService.getCntByBidSttus(cdVO.getSubCode())
+                ));
         bidSttusList = bidSttusList.stream()
                 .filter(bslVo -> showBidSttusList.contains(bslVo.getSubCode()))
                 .sorted(Comparator.comparing(bslVo -> bslVo.getSubCode().equals("11")))
                 .collect(Collectors.toList());
 
+        vo.getPagingVO().calPaging(list.size());
+        System.out.println(vo.getPagingVO());
+
+        for (BoBdPblnVO bbpVo : list) {
+            String begin = bbpVo.getBddprBeginDt();
+            String end = bbpVo.getBddprEndDt();
+
+            // Define the original date format
+            SimpleDateFormat originalFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+
+            // Define the target date format
+            SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
+            try {
+                Date beginDate = originalFormat.parse(begin);
+                bbpVo.setBddprBeginDt(targetFormat.format(beginDate));
+
+                Date endDate = originalFormat.parse(end);
+                bbpVo.setBddprEndDt(targetFormat.format(endDate));
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        vo.setBddprBeginDt(tempBeginDt);
+        vo.setBddprEndDt(tempEndDt);
+
+        System.out.println(vo);
+
+        model.addAttribute("BdPblnVO", vo);
         model.addAttribute("bdList", list);
         model.addAttribute("bidSttusList", bidSttusList);
-        // model.addAttribute("bdListCnt", bdListCnt);
+        model.addAttribute("cntByBidSttus", cntByBidSttus);
+
         return "boTab/bdNotice";
 
     }

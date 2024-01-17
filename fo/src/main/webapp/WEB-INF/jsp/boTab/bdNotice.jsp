@@ -138,38 +138,43 @@
                 <div class="amount-list row">
                     <div class="amount-item">
                         <p class="title">전체 등록 공고 건</p>
-                        <p class="desc"><span class="amount">56</span></p>
+                        <p class="desc"><span class="amount">${bdList.size()}</span></p>
                     </div>
                     <div class="amount-item">
                         <p class="title">입찰 예정</p>
-                        <p class="desc"><span class="amount">56</span></p>
+                        <p class="desc"><span class="amount">${cntByBidSttus.get("12")}</span></p>
                     </div>
                     <div class="amount-item">
                         <p class="title">입찰 중</p>
-                        <p class="desc"><span class="amount">100</span></p>
+                        <p class="desc"><span class="amount">${cntByBidSttus.get("13")}</span></p>
                     </div>
                     <div class="amount-item">
                         <p class="title">입찰 마감</p>
-                        <p class="desc"><span class="amount">2456</span></p>
+                        <p class="desc"><span class="amount">${cntByBidSttus.get("30")}</span></p>
                     </div>
                 </div>
             </section>
         </div>
 
-        <div class="search-control mt-24 bid-notice-search-form">
+        <div class="search-control mt-24" id="bid-notice-search-form">
+
             <div class="form-set">
                 <span class="label">상태</span>
                 <select class="form-select" id="bid-sub-code">
                     <option value="">전체</option>
                     <c:forEach var="vo" items="${bidSttusList}">
-                        <option value="${vo.subCode}">${vo.codeDctwo}</option>
+                        <option value="${vo.subCode}"
+                            <c:if test="${vo.subCode eq BdPblnVO.bidSttusCode}">
+                                selected
+                            </c:if>
+                        >${vo.codeDctwo}</option>
                     </c:forEach>
                 </select>
             </div>
 
             <div class="form-set">
                 <span class="label">입찰 공고 번호</span>
-                <input type="text" class="input" id="bid-pblanc-id">
+                <input type="text" class="input" id="bid-pblanc-id" value="${BdPblnVO.bidPblancId}">
             </div>
 
             <div class="form-set form-expand">
@@ -179,93 +184,51 @@
                         <!-- [D] 월 선택 경우 .form-month 추가 -->
                         <!-- [D] 날짜 선택 경우 .form-date 추가 -->
                         <div class="input-group date form-date">
-                            <input type="text" class="input" id="datepicker1" />
+                            <input type="text" class="input" id="datepicker1" value="${BdPblnVO.bddprBeginDt}"/>
                             <label for="datepicker1" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
                         </div>
                         <span>~</span>
                         <!-- [D] 월 선택 경우 .form-month 추가 -->
                         <!-- [D] 날짜 선택 경우 .form-date 추가 -->
                         <div class="input-group date form-date">
-                            <input type="text" class="input" id="datepicker2" />
+                            <input type="text" class="input" id="datepicker2" value="${BdPblnVO.bddprEndDt}"/>
                             <label for="datepicker2" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
                         </div>
                     </div>
                     <div class="btn-box btn-period">
-                        <button type="button" class="btn set-date-picker active" onclick="getFormerDate(0, 0, this)">오늘</button>
+                        <button type="button" class="btn set-date-picker" onclick="getFormerDate(0, 0, this)">오늘</button>
                         <button type="button" class="btn set-date-picker" onclick="getFormerDate(7, 0, this)">일주일</button>
                         <button type="button" class="btn set-date-picker" onclick="getFormerDate(30, 0, this)">1개월</button>
                         <button type="button" class="btn set-date-picker" onclick="getFormerDate(180, 0, this)">6개월</button>
                         <button type="button" class="btn set-date-picker" onclick="getFormerDate(365, 0, this)">1년</button>
                         <button type="button" class="btn set-date-picker" onclick="getFormerDate(730, 0, this)">2년</button>
                     </div>
-
-                    <script>
-                        // 날짜 자동 선택
-                        function getFormerDate(num1, num2, button) {
-                            $(".set-date-picker").removeClass("active")
-                            $(button).addClass("active")
-
-                            var today = new Date();
-                            $("#datepicker1").datepicker("setDate", new Date(today.getFullYear(), today.getMonth(), today.getDate() - num1).toLocaleDateString());
-                            $("#datepicker2").datepicker("setDate", new Date(today.getFullYear(), today.getMonth(), today.getDate() - num2).toLocaleDateString());
-                        }
-
-                        $("#datepicker1, #datepicker2").datepicker({
-                            format: "yyyy-mm-dd",
-                            keyboardNavigation: false,
-                            forceParse: false,
-                            autoclose: true,
-                            todayHighlight: true,
-                            language:"ko"
-                        });
-                    </script>
                 </div>
             </div>
 
             <div class="search-btn">
                 <div class="btn-box">
-                    <button type="button" class="btn btn-blue" onclick="searchBidNotice()">검색</button>
-                    <button type="button" class="btn btn-blue">검색이전</button>
+                    <button type="button" class="btn btn-blue" onclick="searchFunc()">검색</button>
+                    <button type="button" class="btn btn-blue" onclick="returnBeforeSearch()">검색이전</button>
                 </div>
             </div>
-
-            <script>
-                function searchBidNotice() {
-                    $(".bid-notice-search-form").each(function() {
-                        console.log($(this).find("#bid-sub-code").val())
-                        console.log($(this).find("#bid-pblanc-id").val())
-                        console.log($(this).find("#bddpr-begin-dt").val())
-                        console.log($(this).find("#bddpr-end-dt").val())
-
-                    })
-                }
-            </script>
-
         </div>
 
         <div class="table-control">
             <div class="form-set">
                 <div class="tab-button">
-                    <a class="btn bid-sttus-tab active" id="bid-sttus-tab-" onclick="setBidSttus('')">전체</a>
+                    <a class="btn bid-sttus-tab active" id="bid-sttus-tab-" onclick="setBidSttus('')">전체(${bdList.size()})</a>
                     <c:forEach var="vo" items="${bidSttusList}">
-                        <a class="btn bid-sttus-tab" id="bid-sttus-tab-${vo.subCode}" onclick="setBidSttus(${vo.subCode})">${vo.codeDctwo}</a>
+                        <a class="btn bid-sttus-tab" id="bid-sttus-tab-${vo.subCode}" onclick="setBidSttus(${vo.subCode})">${vo.codeDctwo}(${cntByBidSttus[vo.subCode]})</a>
                     </c:forEach>
                 </div>
             </div>
         </div>
-
-        <script type="text/javascript">
-            function setBidSttus(code) {
-                bdBidBas.bidSttusCode = code
-
-                getBidNoticeList()
-            }
-        </script>
-
         <!-- realGrid -->
         <div id="realgrid" class="realgrid-wrap mt-24">
             <div class="table table-list">
                 <table>
+                    <colgroup>
                         <col width="*">
                         <col width="*">
                         <col width="*">
@@ -343,7 +306,9 @@
         <!-- paging -->
         <div class="paging-row">
             <div class="paging">
-                <div id="paging"></div>
+                <div id="paging">
+
+                </div>
             </div>
         </div>
 
@@ -351,6 +316,122 @@
         <!-- 입창 공고 상세 모달 -->
 
 </div>
+
+<script>
+    let tempBdBidBas = {
+        bidSttusCode: '',
+        bidPblancId: '',
+        bddprBeginDt: '',
+        bddprEndDt: ''
+    }
+
+    let bdBidBas = {
+        bidSttusCode: '',
+        bidPblancId: '',
+        bddprBeginDt: '',
+        bddprEndDt: ''
+    }
+
+    // 입찰 공고 목록 axios 요청
+    function getBidNoticeList() {
+        const url = "/bo/bidNotice"
+
+        postSetDataTypeBo(url, JSON.stringify(bdBidBas), "html", true, (res) => {
+            eleRedendering("#bid-notice-search-form", res)
+            eleRedendering("#realgrid tbody", res)
+
+            $(".bid-sttus-tab").removeClass("active")
+            $("#bid-sttus-tab-" + bdBidBas.bidSttusCode).addClass("active")
+        })
+    }
+
+    // Data 변경 시 rerendering
+    function eleRedendering(elementNm, res) {
+        const element = $(elementNm)
+
+        element.html('');
+        element.html($(res).find(elementNm).html());
+
+    }
+
+    // 날짜 자동 선택
+    function getFormerDate(num1, num2, button) {
+        $(".set-date-picker").removeClass("active")
+        $(button).addClass("active")
+
+        var today = new Date();
+
+        const beginDt = new Date(today.getFullYear(), today.getMonth(), today.getDate() - num1)
+        const endDt = new Date(today.getFullYear(), today.getMonth(), today.getDate() - num2)
+        $("#datepicker1").val(dateFormat(beginDt));
+        $("#datepicker2").val(dateFormat(endDt));
+    }
+
+    $("#datepicker1, #datepicker2").datepicker({
+        format: "yyyy-mm-dd",
+        keyboardNavigation: false,
+        forceParse: false,
+        autoclose: true,
+        todayHighlight: true,
+        language:"ko"
+    });
+
+    function dateFormat(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+        const day = String(date.getDate()).padStart(2, '0');
+
+        return year + "-" + month + "-" + day
+    }
+
+    function setBidSttus(code) {
+        bdBidBas.bidSttusCode = code
+
+        getBidNoticeList()
+    }
+
+    function searchFunc() {
+        tempBdBidBas = {...bdBidBas};
+
+        $("#bid-notice-search-form").each(function() {
+            bdBidBas.bidSttusCode = ($(this).find("#bid-sub-code").val())
+            bdBidBas.bidPblancId = ($(this).find("#bid-pblanc-id").val())
+            bdBidBas.bddprBeginDt = ($(this).find("#datepicker1").val())
+            bdBidBas.bddprEndDt = ($(this).find("#datepicker2").val())
+        })
+
+        getBidNoticeList()
+    }
+
+    function returnBeforeSearch() {
+        bdBidBas = {...tempBdBidBas};
+
+        getBidNoticeList()
+    }
+
+    $(function() {
+        $("#moveList").click(function() { // 목록가기 버튼 클릭 이벤트
+            var params = {
+                "bidPblancId" : "TEST01-07",
+            }
+            pageMove( "/boPbln/detail", JSON.stringify(params), 'application/json');
+        });
+    });
+
+    function bdNoticeDetailModalSearch(){
+        var url = "/bo/boBdPblnDtlModal";
+        var params = {
+
+        };
+        postSetDataTypeBo(url, JSON.stringify(params), "html", true, function(result) {
+            if(!sorin.validation.isNull(result)) {
+                $("#bdNoticeDetailModal .modal2").html('');
+                $("#bdNoticeDetailModal .modal2").html(result);
+                $('#bdNoticeDetailModal').modal('show');
+            }
+        });
+    }
+</script>
 
 <div class="modal fade" id="bdNoticeDetailModal" tabindex="-1" role="dialog" data-keyboard="false"  aria-labelledby="bdNoticeDetailModallLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-full"" role="document">

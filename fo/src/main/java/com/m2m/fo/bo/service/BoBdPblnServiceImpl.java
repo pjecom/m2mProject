@@ -52,6 +52,12 @@ public class BoBdPblnServiceImpl implements BoBdPblnService{
 		List<CoCommCdVO> list = boBdPblnMapper.getbidSttusList(mainCode);
 		return list;
 	}
+
+	@Override
+	public int getCntByBidSttus(String subCode) {
+		return boBdPblnMapper.getCntByBidSttus(subCode);
+	}
+
 	@Override
 	public List<BoCoCommCdVO> getBoCommCdList() {
 		return boBdPblnMapper.getBoCommCdList();

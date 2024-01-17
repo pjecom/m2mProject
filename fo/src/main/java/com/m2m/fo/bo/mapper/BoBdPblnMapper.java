@@ -21,6 +21,8 @@ public interface BoBdPblnMapper {
 
 	List<CoCommCdVO> getbidSttusList(String mainCode);
 
+	int getCntByBidSttus(String subCode);
+
 	List<BoCoCommCdVO> getBoCommCdList();
 
 	List<BoBdPblnVO> getBoBdBrandGrpList();
