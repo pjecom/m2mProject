@@ -30,12 +30,6 @@
 <body>
 	<!-- wrapper :: START -->
 	<div class="wrapper pt0">
-	    
-	    <!-- 23.10.16 | header include -->
-	    <div class="header bid"></div>
-	    <script type="text/javascript"> $(".header.bid").load("/guide/html/bid/include/header.html");</script>
-	    <!-- // 23.10.16 | header include -->
-	    
 	    <!-- container :: START -->
 	    <div class="container">
 	        <!-- 본문 -->
@@ -80,7 +74,7 @@
 	                            <div class="tr">
 	                                <label for="bidMberId">아이디</label>
 	                                <span class="limit-width">
-	                                    <input type="text" name="bidMberId" id="bidMberId" placeholder="아이디 (12자 이내의 영문 또는 영문+숫자 조합 )">
+	                                    <input type="text" name="bidMberId" id="bidMberId" placeholder="아이디 (5~12자 이내의 영문 또는 영문+숫자 조합 )">
 	                                </span>
 	                                <span class="t-info" id="idMsg">아이디를 확인해주세요</span>
 	                            </div> 
@@ -265,7 +259,7 @@ $(function() {
 
         // 아이디 정규식 체크 (영문, 영문 + 숫자 12자 이내)
         var checkBidId = (bidMberId) => {
-            var regBidId = /^(?=.*[a-zA-Z])[a-zA-Z0-9]{1,12}$/;
+            var regBidId = /^(?=.*[a-zA-Z])[a-zA-Z0-9]{5,12}$/;
             if (regBidId.test(bidMberId)) {
                 $("#idMsg").hide();
                 checkIdFlag = true; // 통과

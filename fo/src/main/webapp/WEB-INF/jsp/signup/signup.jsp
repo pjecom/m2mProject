@@ -30,12 +30,6 @@
 <body>
 	<!-- wrapper :: START -->
 	<div class="wrapper pt0">
-    
-        <!-- 23.10.16 | header include -->
-        <div class="header bid"></div>
-        <script type="text/javascript"> $(".header.bid").load("/guide/html/bid/include/header.html");</script>
-        <!-- // 23.10.16 | header include -->
-
 		<!-- container :: START -->
 	    <div class="container">
 	        <!-- 본문 -->
