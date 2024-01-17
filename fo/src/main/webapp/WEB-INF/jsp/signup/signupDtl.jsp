@@ -418,7 +418,6 @@ $(function() {
   //가입승인요청
 	$("#btnSubmit").click(function() {
 	var frntnEntrpsAt = $("#frntnEntrpsAt").prop("checked") ? "Y" : "N";
-	debugger;
 		if(checkIdFlag == false){
 			alert('아이디를 다시 입력해주세요');
 			$("#bidMberId").focus();
