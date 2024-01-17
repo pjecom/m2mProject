@@ -46,10 +46,10 @@
               AND DSTRCT_LCLSF_CODE = #{area}                                                                                                           /* 권역    00전체 01인천 02부산 */
              </if>
              <if test="filter == '01' and searchDateFrom != null and searchDateFrom != '' and searchDateTo != null and searchDateTo != ''">
-              AND CONVERT(NVARCHAR(14), BDDPR_BEGIN_DT, 112) between ${searchDateFrom} and ${searchDateTo}                                           /* 공고(마감) 날짜 */
+              AND BDDPR_BEGIN_DT between ${searchDateFrom}000000 and ${searchDateTo}000000                                           /* 공고(마감) 날짜 */
              </if>
              <if test="filter == '02' and searchDateFrom != null and searchDateFrom != '' and searchDateTo != null and searchDateTo != ''">
-              AND CONVERT(NVARCHAR(14), BDDPR_END_DT, 112) between ${searchDateFrom} and ${searchDateTo}                                           /* 공고(마감) 날짜 */
+              AND BDDPR_END_DT between ${searchDateFrom}000000 and ${searchDateTo}000000                                           /* 공고(마감) 날짜 */
              </if>
 
     </select>
@@ -62,7 +62,7 @@
             ,COUNT(CASE WHEN BID_STTUS_CODE=12 THEN 1 END) AS ExpectCnt              /* 입찰상태:입찰예정 */
             ,COUNT(CASE WHEN BID_STTUS_CODE=13 THEN 1 END) AS BidingCnt              /* 입찰상태:투찰중 */
             ,COUNT(CASE WHEN BID_STTUS_CODE=31 THEN 1 END) AS EndCnt                 /* 입찰상태:마감 */
-        FROM dbo.BD_BID_BAS                                                          /* 입찰 기본 */
+        FROM dbo.BD_BID_BAS                                                           /* 입찰 기본 */
         WHERE 1=1
              <if test="brand != null and brand != '' and brand != '00'">
               AND BRAND_GROUP_CODE = #{brand}                                                                                                           /* 브랜드   00전체 01서구산 02비서구산 */
@@ -71,7 +71,10 @@
               AND DSTRCT_LCLSF_CODE = #{area}                                                                                                           /* 권역    00전체 01인천 02부산 */
              </if>
              <if test="filter == '01' and searchDateFrom != null and searchDateFrom != '' and searchDateTo != null and searchDateTo != ''">
-              AND CONVERT(NVARCHAR(14), GETDATE(), 112) between ${searchDateFrom} and ${searchDateTo}                                           /* 공고(마감) 날짜 */
+              AND BDDPR_BEGIN_DT between ${searchDateFrom}000000 and ${searchDateTo}000000                                           /* 공고(마감) 날짜 */
+             </if>
+             <if test="filter == '02' and searchDateFrom != null and searchDateFrom != '' and searchDateTo != null and searchDateTo != ''">
+              AND BDDPR_END_DT between ${searchDateFrom}000000 and ${searchDateTo}000000                                           /* 공고(마감) 날짜 */
              </if>
     </select>
     

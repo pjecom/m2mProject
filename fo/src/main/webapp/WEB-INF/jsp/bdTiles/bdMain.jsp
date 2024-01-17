@@ -156,7 +156,7 @@
 			<li class="item" data-tab="tab-3"  value="13"  onclick="selectBdMainInfoList(13);">
 				<a href="javascript:;">투찰중 (<span id="bidingCnt">${bdListCnt.bidingCnt}</span>)</a>
 			</li>
-			<li class="item" data-tab="tab-5" value="30"  onclick="selectBdMainInfoList(30,31,23,24);">
+			<li class="item" data-tab="tab-4" value="30"  onclick="selectBdMainInfoList(30,31,23,24);">
 				<a href="javascript:;">마감 (<span id="endCnt">${bdListCnt.endCnt}</span>) </a>
 			</li>
 		</ul>
@@ -509,6 +509,7 @@ var params = {
                 case 'all':
                     $("#searchDateFrom").datepicker("setDate", '');
                     $("#searchDateTo").datepicker("setDate", '');
+                    selectBdMainInfoList($(".item.on").val());
                     break;
                 case 'oneMonth':
                 	getFormerDate(30,0);
@@ -530,7 +531,12 @@ var params = {
 	
         $("#searchDateFrom").datepicker("setDate", searchDateFromDate);
         $("#searchDateTo").datepicker("setDate", searchDateToDate);
+
+        var sttusCode = $(".item.on").val();
+
+        selectBdMainInfoList(sttusCode);
     }
+    
 
     $(".item").click(function(){
         var bdPeriod = $(this).attr('value');

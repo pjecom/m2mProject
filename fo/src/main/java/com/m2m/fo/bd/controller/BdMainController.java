@@ -45,6 +45,15 @@ public class BdMainController {
 
     }
 	
+	@RequestMapping("/loginCheck")
+	public ResponseEntity<?> loginCheck(ModelMap model, HttpServletRequest request) throws Exception {
+        HttpSession session = request.getSession();
+        LoginVO member = (LoginVO) session.getAttribute("member");
+        model.addAttribute("member", member);
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
+	
 	@RequestMapping("/bo")
     public String boMain(ModelMap model) throws Exception {
 	

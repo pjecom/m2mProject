@@ -10,16 +10,40 @@
 	<!-- logo :: END -->
 	<div class="util utility bid">
 		<div class="util-list">
+            <c:if test="${member.entrpsNm != null}">
 			<ul id="login-header">
-				<li><a href="javascript:;"><p class="username topUserName" id="myInfo">서린상사님</p></a></li>
-				<li><a href="javascript:;" class="mypage">My Page</a></li>
+				<li><a href="javascript:;"><p class="username topUserName" id="myInfo">${member.entrpsNm}님</p></a></li>
+				<li><a href="javascript:;" class="mypage" onclick="moveMyPage()" >My Page</a></li>
 				<li><a class="fc-lgray header-logout bdLogout" href="javascript:;" id="btnLogout">Logout</a></li>
 			</ul>
+            </c:if>
 		</div>
 	</div>
 </header>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+$(document).ready(function(){
+    $.ajax({
+        type: 'POST',
+        url: '/loginCheck',
+        success: function(response) {
+            if (response.result === "success") {
+                sessionStorage.setItem("bidEntrpsNo", response.member.bidEntrpsNo);
+                sessionStorage.setItem("bidMberId", response.member.bidMberId);
+                sessionStorage.setItem("entrpsNm", response.member.entrpsNm);
+            }
+        }
+    });
+});
+
+function moveMyPage() {
+    var params = {
+		         "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
+                 "bidSttusCode" : '13'
+		}
+    pageMove( "/bdMypage", JSON.stringify(params), 'application/json');
+}
+
 $("#btnLogout").click(function(){
     // 서버로 로그아웃을 요청하는 AJAX 요청
     $.ajax({
