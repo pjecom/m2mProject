@@ -27,11 +27,11 @@
            	 $('#bdNoticeDetailModal').modal('show');
             }
         });
-	} 
+	}
     function redirectToDetailPage(bidPblancId, clickedElement) {
-    	
+
         console.log("클릭한 행의 bidPblancId:", bidPblancId);
-    	
+
         var detailPageUrl = "/bo/boBdPblnDtlModal";
         var params = {
             "bidPblancId": bidPblancId
@@ -47,7 +47,6 @@
                 if (!sorin.validation.isNull(result)) {
                     $("#bdNoticeDetailModal .modal2").html(result);
                     $('#bdNoticeDetailModal').modal('show');
-                    
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -81,18 +80,7 @@
 	        }
 	    });
 	}
-
-    // 입찰 공고 목록 테이블 데이터 변경
-    function updateTable(htmlContent) {
-        // Find the table body element
-        const tbody = $("#realgrid tbody");
-
-        // Replace the content of the table body with the new HTML
-        tbody.html('');
-        tbody.html(htmlContent);
-    }
 </script>
-
 <div class="main-content">
     <div class="inner">
         <div class="main-title">
@@ -103,7 +91,8 @@
             <section class="dashboard2">
                 <div class="main-title">
                     <h2 class="dashboard2-title">※ 주문 접수 현황</h2>
-                    <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal">입찰 공고 등록</button>
+<%--                    <button type="button" class="btn" id="createBtn">입찰 공고 등록</button>--%>
+                    <button type="button" class="btn" data-toggle="modal" data-target="#bdNoticeCreateModal">입찰 공고 등록</button>
                 </div>
                 <div class="amount-list row">
                     <div class="amount-item">
@@ -154,15 +143,15 @@
                         <!-- [D] 월 선택 경우 .form-month 추가 -->
                         <!-- [D] 날짜 선택 경우 .form-date 추가 -->
                         <div class="input-group date form-date">
-                            <input type="text" class="input" id="datepicker1" value="${BdPblnVO.bddprBeginDt}"/>
-                            <label for="datepicker1" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
+                            <input type="text" class="input" id="listBddprBeginDt" value="${BdPblnVO.bddprBeginDt}"/>
+                            <label for="listBddprBeginDt" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
                         </div>
                         <span>~</span>
                         <!-- [D] 월 선택 경우 .form-month 추가 -->
                         <!-- [D] 날짜 선택 경우 .form-date 추가 -->
                         <div class="input-group date form-date">
-                            <input type="text" class="input" id="datepicker2" value="${BdPblnVO.bddprEndDt}"/>
-                            <label for="datepicker2" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
+                            <input type="text" class="input" id="listBddprEndDt" value="${BdPblnVO.bddprEndDt}"/>
+                            <label for="listBddprEndDt" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
                         </div>
                     </div>
                     <div class="btn-box btn-period">
@@ -199,7 +188,6 @@
             <div class="table table-list">
                 <table>
                     <colgroup>
-                        <col width="*">
                         <col width="*">
                         <col width="*">
                         <col width="*">
@@ -281,11 +269,24 @@
                 </div>
             </div>
         </div>
-
-        <!-- 입찰 공고 등록 모달 -->
-        <!-- 입창 공고 상세 모달 -->
-
 </div>
+
+<div class="modal fade" id="bdNoticeDetailModal" tabindex="-1" role="dialog" data-keyboard="false"  aria-labelledby="bdNoticeDetailModallLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-full" role="document">
+        <div class="modal-content modal2">
+        </div>
+    </div>
+</div>
+
+<!-- 입찰 공고 등록 모달 -->
+<%@ include file="../boModal/boBdCreate.jsp" %>
+
+<%--<div class="modal fade" id="bdNoticeCreateModal" tabindex="-1" role="dialog" aria-labelledby="bdNoticeCreateModalLabel" aria-hidden="true">--%>
+<%--    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-full" role="document">--%>
+<%--        <div class="modal-content modal2">--%>
+<%--        </div>--%>
+<%--    </div>--%>
+<%--</div>--%>
 
 <script>
     let tempBdBidBas = {
@@ -308,7 +309,7 @@
 
         postSetDataTypeBo(url, JSON.stringify(bdBidBas), "html", true, (res) => {
             eleRedendering("#bid-notice-search-form", res)
-            eleRedendering("#realgrid tbody", res)
+            eleRedendering("#realgrid", res)
 
             $(".bid-sttus-tab").removeClass("active")
             $("#bid-sttus-tab-" + bdBidBas.bidSttusCode).addClass("active")
@@ -333,11 +334,11 @@
 
         const beginDt = new Date(today.getFullYear(), today.getMonth(), today.getDate() - num1)
         const endDt = new Date(today.getFullYear(), today.getMonth(), today.getDate() - num2)
-        $("#datepicker1").val(dateFormat(beginDt));
-        $("#datepicker2").val(dateFormat(endDt));
+        $("#listBddprBeginDt").val(dateFormat(beginDt));
+        $("#listBddprEndDt").val(dateFormat(endDt));
     }
 
-    $("#datepicker1, #datepicker2").datepicker({
+    $("#listBddprBeginDt, #listBddprEndDt").datepicker({
         format: "yyyy-mm-dd",
         keyboardNavigation: false,
         forceParse: false,
@@ -366,8 +367,8 @@
         $("#bid-notice-search-form").each(function() {
             bdBidBas.bidSttusCode = ($(this).find("#bid-sub-code").val())
             bdBidBas.bidPblancId = ($(this).find("#bid-pblanc-id").val())
-            bdBidBas.bddprBeginDt = ($(this).find("#datepicker1").val())
-            bdBidBas.bddprEndDt = ($(this).find("#datepicker2").val())
+            bdBidBas.bddprBeginDt = ($(this).find("#listBddprBeginDt").val())
+            bdBidBas.bddprEndDt = ($(this).find("#listBddprEndDt").val())
         })
 
         getBidNoticeList()
@@ -378,15 +379,6 @@
 
         getBidNoticeList()
     }
-
-    $(function() {
-        $("#moveList").click(function() { // 목록가기 버튼 클릭 이벤트
-            var params = {
-                "bidPblancId" : "TEST01-07",
-            }
-            pageMove( "/boPbln/detail", JSON.stringify(params), 'application/json');
-        });
-    });
 
     function bdNoticeDetailModalSearch(){
         var url = "/bo/boBdPblnDtlModal";
@@ -401,11 +393,33 @@
             }
         });
     }
+
+    // $(function() {
+    //     //공고 수정
+    //     $("#createBtn").click(function(event){
+    //         event.preventDefault();
+    //
+    //         var url = "/bo/boBdPblnCreateModal";
+    //         var params = {};
+    //
+    //         $.ajax({
+    //             type: "POST",
+    //             url: url,
+    //             data: JSON.stringify(params),
+    //             contentType: "application/json",
+    //             dataType: "html",
+    //             success: function(result) {
+    //                 console.log(result)
+    //                 if (!sorin.validation.isNull(result)) {
+    //                     $("#bdNoticeCreateModal .modal2").html(result);
+    //                     $('#bdNoticeCreateModal').modal('show');
+    //
+    //                 }
+    //             },
+    //             error: function(jqXHR, textStatus, errorThrown) {
+    //                 console.error("Error: " + textStatus, errorThrown);
+    //             }
+    //         });
+    //     });
+    // });
 </script>
-
-<div class="modal fade" id="bdNoticeDetailModal" tabindex="-1" role="dialog" data-keyboard="false"  aria-labelledby="bdNoticeDetailModallLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-full"" role="document">
-        <div class="modal-content modal2">
-        </div>
-</div>
-

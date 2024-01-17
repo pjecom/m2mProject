@@ -516,10 +516,10 @@
 					<!-- Modal -->
 					<!-- [D]모달 위치는 변경 하셔도 됩니다! -->
 					<div class="modal fade" id="bdNoticeDetailModal" tabindex="-1" role="dialog" data-keyboard="false"  aria-labelledby="bdNoticeDetailModallLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-full"" role="document">
-        <div class="modal-content modal2">
-        </div>
-</div>
+						<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-full"" role="document">
+							<div class="modal-content modal2">
+							</div>
+					</div>
 					<div class="modal fade" id="exampleModal" tabindex="-1"
 						role="dialog" aria-labelledby="exampleModalLabel"
 						aria-hidden="true">

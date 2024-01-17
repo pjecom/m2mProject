@@ -1,14 +1,14 @@
 package com.m2m.fo.bo.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
+import com.m2m.fo.bo.model.BoBdBddprVO;
+import com.m2m.fo.bo.model.BoBdPblnUpdtVO;
+import com.m2m.fo.bo.model.BoBdPblnVO;
+import com.m2m.fo.bo.model.BoCoCommCdVO;
+import com.m2m.fo.bo.service.BoBdPblnService;
+import com.m2m.fo.comm.model.CoCommCdVO;
+import com.m2m.fo.login.model.LoginVO;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,15 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.m2m.fo.bd.model.BdBddprVO;
-import com.m2m.fo.bo.model.BoBdBddprVO;
-import com.m2m.fo.bo.model.BoBdPblnUpdtVO;
-import com.m2m.fo.bo.model.BoBdPblnVO;
-import com.m2m.fo.bo.model.BoCoCommCdVO;
-import com.m2m.fo.bo.service.BoBdPblnService;
-import com.m2m.fo.comm.model.CoCommCdVO;
-
-import lombok.extern.slf4j.Slf4j;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -102,6 +98,18 @@ public class BoBdPblnController {
 
         System.out.println(vo);
 
+        //공통코드리스트
+        List<BoCoCommCdVO> boCommCdList = boBdPblnService.getBoCommCdList();
+        model.addAttribute("boCommCdList", boCommCdList);
+
+        //브랜드코드
+        List<BoBdPblnVO> boBdBrandGrpList = boBdPblnService.getBoBdBrandGrpList();
+        model.addAttribute("boBdBrandGrpList", boBdBrandGrpList);
+
+        //아이템상품명
+        List<BoBdPblnVO> boBdItemList = boBdPblnService.getBoBdItemList();
+        model.addAttribute("boBdItemList", boBdItemList);
+
         model.addAttribute("BdPblnVO", vo);
         model.addAttribute("bdList", list);
         model.addAttribute("bidSttusList", bidSttusList);
@@ -110,6 +118,37 @@ public class BoBdPblnController {
         return "boTab/bdNotice";
 
     }
+
+    @RequestMapping(value = "/boBdPblnCreate", method = RequestMethod.POST)
+    public String boBdPblnCreate(@RequestBody BoBdPblnVO bdPblnVO, ModelMap model, HttpServletRequest request) throws Exception {
+
+        HttpSession session = request.getSession();
+        LoginVO member = (LoginVO) session.getAttribute("member");
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
+        String currentDateStr = dateFormat.format(new Date());
+        Date currentDate = dateFormat.parse(currentDateStr);
+
+        Date bddprBeginDt = dateFormat.parse(bdPblnVO.getBddprBeginDt());
+
+        if(bdPblnVO.getDspyAt().equals("N")) {
+            bdPblnVO.setBidSttusCode("11");
+        } else if (currentDate.before(bddprBeginDt)) {
+            bdPblnVO.setBidSttusCode("12");
+        } else {
+            bdPblnVO.setBidSttusCode("13");
+        }
+
+        bdPblnVO.setFrstRegisterId(member.getBidMberId());
+        bdPblnVO.setFrstRegistDt(currentDate);
+        System.out.println("boBdPblnCreate");
+        System.out.println(bdPblnVO);
+
+        boBdPblnService.istboBdPbln(bdPblnVO);
+
+        return "boModal/boBdCreate";
+    }
+
     //입찰공고상세
     @RequestMapping(value = "/boBdPblnDtlModal", method = RequestMethod.POST)
     public String bobdPblnMain(@RequestBody BoBdPblnVO boBdPblnVO, ModelMap model) throws Exception {
@@ -166,7 +205,7 @@ public class BoBdPblnController {
 		
         return "boModal/boBdPblnUpt";
     }
-    
+
     @RequestMapping("/updateBoBdPblnDtl")
     @ResponseBody
 	public ResponseEntity<?> updateBoBdPblnDtl(@RequestBody BoBdPblnVO boBdPblnVO) throws Exception {
@@ -176,12 +215,12 @@ public class BoBdPblnController {
 			//공고수정내용업데이트
 			boBdPblnService.updateBoBdPblnDtl(boBdPblnVO);
 			map.put("result", "success");
-			
+
 			//넣은데이터 조회
 			//boBdPblnVO = boBdPblnService.getBoBdPblnDtl(boBdPblnVO);
-			
+
 			return new ResponseEntity<>(map, HttpStatus.OK); // ajax success 데이터 전달
-		 
+
 		} catch (Exception e) {
 
 			log.error(e.getMessage());

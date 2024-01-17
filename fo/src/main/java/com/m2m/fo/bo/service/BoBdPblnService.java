@@ -17,8 +17,6 @@ public interface BoBdPblnService {
 	
 	List<BoBdPblnVO> getBoBdPblnList(BoBdPblnVO vo) throws Exception;
 
-	BoBdPblnVO getBoBdPblnListTotalCnt(BoBdPblnVO vo) throws Exception;
-
     List<CoCommCdVO> getbidSttusList(String mainCode);
 	
 	List<BoCoCommCdVO> getBoCommCdList();
@@ -29,5 +27,11 @@ public interface BoBdPblnService {
 
 	int getCntByBidSttus(String subCode);
 
+	List<BoBdPblnVO> getBrandGrpList(CoCommCdVO commCdVO);
+
+	List<BoBdPblnVO> getBrandItemList(CoCommCdVO commCdVO);
+
 	void updateBoBdPblnDtl(BoBdPblnVO boBdPblnVO);
+
+	void istboBdPbln(BoBdPblnVO boBdPblnVO);
 }
