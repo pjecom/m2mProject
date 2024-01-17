@@ -23,7 +23,7 @@ public class BdSchedulerImpl implements BdScheduler {
 	private BdSchedulerMapper bdSchedulerMapper;
 	
 	@Override
-	@Scheduled(cron = "* */1 * * * *", zone = "Asia/Seoul")
+	@Scheduled(cron = "0 0/5 * * * *", zone = "Asia/Seoul")
 	public void lowDibSheduler() {
 		log.info("########### 스케쥴러 시작 ###########");
 		
