@@ -3,25 +3,31 @@ package com.m2m.fo.bo.model;
 import java.util.Date;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.ToString;
 
 @Data
-public class BoBdPblnVO {
+public class BoBdPblnVO extends BoCoCommCdVO {
 	private String bidPblancId; // 입찰공고아이디
 	private String bidSttusCode; // 입찰상태코드
 	private String bidSttus;     // 입찰상태
-	
+
 	//공고정보
-	private String metalCode; // 금속코드
-	private String metalName;	//금속 이름
+	private String metalCode;    // 금속코드
+	private String metalName;    //금속 이름
 	private String metalCodeEm; // 메탈구분(영어)
+	
 	private String brandGroupCode; // 브랜드그룹코드
 	private String brandGroupCodeNm; // 브랜드그룹이름
-	private String brandCode; // 브랜드코드	
+	private String brandCode; // 브랜드코드
+	private String brandNm; // 브랜드이름 
+	
 	private int itm; // 아이템순번
 	private String	itmNm; //아이템명
 	private String dspyGoodsNm; // 아이템상품명
+	
+	private int itmSn; // 아이템순번
+	private String goodsNm; // 아이템상품명
+	
+	
 	private String dstrctLclsfCode; // 권역대분류코드
 	private String dstrctNm; // 권역이름
 	private int bidWt; // 입찰중량
@@ -44,11 +50,19 @@ public class BoBdPblnVO {
 	//가격지정
 	private String pcAppnBeginDe; // 가격지정시작일자
 	private String pcAppnEndDe; // 가격지정종료일자
+	
 	private String pcAppnMthCode; // 가격지정방법코드
 	private String pcAppnMthCodeNm; // 가격지정방법
+	private String pcAppnMthNm; // 가격지정방법
+	
 	private String setleCrncyCode; // 결제통화코드
+	private String setleCrncyCodeNm; // 결제통화
 	private String setleMthCode; // 결제방법코드
+	private String setleMthCodeNm; // 결제방법
+	
 	private String setlePdCode; // 결제기간코드
+	private String setlePdCodeNm; // 결제기간
+	
 	private String setleCndtn; // 결제조건
 	private String etcCn; // 기타내용
 	
@@ -61,7 +75,7 @@ public class BoBdPblnVO {
 	//공고수정이력
 	private String bidUpdtCn; // 입찰수정내용
 	private String bidUpdtResn; // 입찰수정사유
-	
+
 	private int partcptnEntrpsQy; // 참여업체수량
 	private int intrstEntrpsQy; // 관심업체수량
 	private String DspyAt; // 전시여부

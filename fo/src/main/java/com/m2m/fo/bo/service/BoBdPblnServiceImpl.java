@@ -9,6 +9,7 @@ import com.m2m.fo.bo.mapper.BoBdPblnMapper;
 import com.m2m.fo.bo.model.BoBdBddprVO;
 import com.m2m.fo.bo.model.BoBdPblnUpdtVO;
 import com.m2m.fo.bo.model.BoBdPblnVO;
+import com.m2m.fo.bo.model.BoCoCommCdVO;
 import com.m2m.fo.comm.model.CoCommCdVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,14 +27,15 @@ public class BoBdPblnServiceImpl implements BoBdPblnService{
 	}
 	
 	@Override
-	public List<BoBdPblnUpdtVO> getBobdUpdateHistroy(BoBdPblnVO vo) throws Exception {
-		return boBdPblnMapper.getBobdUpdateHistroy(vo);
+	public List<BoBdPblnUpdtVO> getBobdUptHist(BoBdPblnVO vo) throws Exception {
+		return boBdPblnMapper.getBobdUptHist(vo);
 	}
 	
 	@Override
 	public List<BoBdBddprVO> getBdEntrpsList(BoBdPblnVO vo) throws Exception {
 		return boBdPblnMapper.getBdEntrpsList(vo);
 	}
+
 	@Override
 	public List<BoBdPblnVO> getBoBdPblnList(BoBdPblnVO vo) throws Exception {
 		List<BoBdPblnVO> list = boBdPblnMapper.getBoBdPblnList(vo);
@@ -50,5 +52,20 @@ public class BoBdPblnServiceImpl implements BoBdPblnService{
 		List<CoCommCdVO> list = boBdPblnMapper.getbidSttusList(mainCode);
 		return list;
 	}
-}
+	@Override
+	public List<BoCoCommCdVO> getBoCommCdList() {
+		return boBdPblnMapper.getBoCommCdList();
+	}
 
+	@Override
+	public List<BoBdPblnVO> getBoBdBrandGrpList() {
+		return boBdPblnMapper.getBoBdBrandGrpList();
+	}
+	@Override
+	public List<BoBdPblnVO> getBoBdItemList() {
+		return boBdPblnMapper.getBoBdItemList();
+	}
+
+
+
+}

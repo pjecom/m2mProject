@@ -37,21 +37,28 @@
     <script type="text/javascript" src="/bo_guide/js/common.js"></script><!-- 퍼블 작성 -->
     
 </head>
-
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="/guide/js/select2/select2.min.js"></script>
+<script>
+	function modalClose() {
+		$('#bdNoticeDetailModal').modal('hide');
+	}
+</script>
+	
 <body>   
-
     <div class="web-wrapper">
         <section class="web-container">
             <div class="main-content">
                 <div class="inner">
                      <!-- Modal -->
                      <!-- [D]모달 위치는 변경 하셔도 됩니다! -->
-                    
                                  <div class="modal-header">
-                                     <h5 class="modal-title" id="exampleModalLabel">입찰 공고 등록</h5>
-                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                     <span aria-hidden="true">&times;</span>
-                                     </button>
+                                     <h5 class="modal-title" id="exampleModalLabel">입찰 공고 수정</h5>
+                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="modalClose()" style="margin-top: 20px; margin-bottom: 10px;">
+										<span aria-hidden="true">&times;</span>
+									 </button>
                                  </div>
                                  <div class="modal-body">
                                     <div class="sub-title mt-0">
@@ -65,42 +72,55 @@
                                                 <col class="col-md" />
                                                 <col width="*" />
                                             </colgroup>
-                                            <tbody>                                                <tr>
-                                                    <th scope="row">메탈 구분<i class="icon icon-required"></i></th>
-                                                    <td>
-                                                        <select class="form-select select-sm">
-                                                            <option value="AL">AL</option>
-                                                            <option value="Zn">Zn</option>
-                                                        </select>
-                                                    </td>
-                                                    <th scope="row">브랜드<i class="icon icon-required"></i></th>
+                                            <tbody>
+                                            <tr>
+                                              <th scope="row">메탈 구분<i class="icon icon-required"  ></i></th>
+                                                 <td>
+                                                   <select class="form-select select-sm">
+                                                       <c:forEach var="item" items="${boCommCdList}">
+                                                            <c:if test="${item.mainCode eq 'METAL_CODE'}">
+                                                            	<option value="${item.subCode}" ${item.subCode eq boBdPblnDtl.metalCode ? 'selected' : ''}>${item.codeDcone}</option>
+                                                            </c:if>
+                                                       </c:forEach>
+                                                    </select>
+                                                 </td>
+                                              <th scope="row">브랜드<i class="icon icon-required" ></i></th>
                                                     <td>
                                                         <div class="form-set">
-                                                            <select class="form-select">
-                                                                <option value="선택">선택</option>
-                                                                <option value="선택">선택</option>
+                                                            <select class="form-select select-sm">
+                                                             <c:forEach var="item" items="${boCommCdList}">
+                                                               <c:if test="${item.mainCode eq 'BRAND_GROUP_CODE'}">
+                                                                 <option value="${item.subCode}"${item.subCode eq boBdPblnDtl.brandGroupCode ? 'selected' : ''}>${item.codeDctwo}</option>
+                                                               </c:if>                                                   
+                                                             </c:forEach>
                                                             </select>
-                                                            <select class="form-select">
-                                                                <option value="선택">선택</option>
-                                                                <option value="선택">선택</option>
+                                                            <select class="form-select select-sm">
+                                                             <c:forEach var="item" items="${boBdBrandGrpList}">
+                                                               <option value="${item.brandCode}">${item.brandNm}</option>                                                    
+                                                             </c:forEach>
                                                             </select>
                                                         </div>
                                                     </td>
-                                                </tr>
+                                            </tr>
                                                 <tr>
-                                                    <th scope="row">아이템 상품명<i class="icon icon-required"></i></th>
+                                                    <th scope="row">아이템 상품명<i class="icon icon-required"  id="boBdItemList" ></i></th>
                                                     <td>
-                                                        <select class="form-select select-sm">
-                                                            <option value="선택">선택</option>
-                                                            <option value="선택">선택</option>
-                                                        </select>
+                                                         <select class="form-select">
+                                                            <c:forEach var="item" items="${boBdItemList}">
+                                                              <option value="${item.itmSn}">${item.goodsNm}</option>                                                    
+                                                            </c:forEach>
+                                                         </select>
                                                     </td>
                                                     <th scope="row">권역</th>
                                                     <td>
-                                                        <select class="form-select select-sm">
-                                                            <option value="선택">선택</option>
-                                                            <option value="선택">선택</option>
-                                                        </select>
+                                                         <select class="form-select select-sm">
+                                                            <c:forEach var="item" items="${boCommCdList}">
+                                                              <c:if test="${item.mainCode eq 'DSTRCT_LCLSF_CODE'}">
+                                                                <%-- <option value="${item.dstrctLclsfCode}">${item.dstrctNm}</option> --%>
+                                                                <option value="${item.subCode}"${item.subCode eq boBdPblnDtl.dstrctLclsfCode ? 'selected' : ''}>${item.codeDctwo}</option>
+                                                              </c:if>                                                    
+                                                            </c:forEach>
+                                                         </select>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -119,73 +139,6 @@
                                                         </select>
                                                     </td>
                                                 </tr>
-                                                <!-- <tr>
-                                                    <th scope="row">대표 전화번호<i class="icon icon-required"></i></th>
-                                                    <td>
-                                                        <input type="text" class="input" value="02-519-3381">
-                                                    </td>
-                                                    [D] 조회 완료 시 .is-checked 추가
-                                                    <th scope="row" class="">기업신용평가</th>
-                                                    <td>
-                                                        <div class="form-set">
-                                                            <input type="text" class="input" value="AAA">
-                                                            <button type="button" class="btn">조회</button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">팩스번호</th>
-                                                    <td>
-                                                        <input type="text" class="input" value="02-542-0013">
-                                                    </td>
-                                                    [D] 조회 완료 시 .is-checked 추가
-                                                    <th scope="row" class="is-checked">기업인증</th>
-                                                    <td>
-                                                        <div class="form-group">
-                                                            <div class="form-set">
-                                                                <select class="form-select select-sm">
-                                                                    <option value="선택">선택</option>
-                                                                    <option value="폐업">폐업</option>
-                                                                </select>
-                                                                <button type="button" class="btn">조회</button>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">가입 신청일<i class="icon icon-required"></i></th>
-                                                    <td>
-                                                        <div class="form-set">
-                                                            <input type="text" class="input" value="2021-03-04 14:05:23">
-                                                        </div>
-                                                    </td>
-                                                    <th scope="row">기업등급/기업상태<i class="icon icon-required"></i></th>
-                                                    <td>
-                                                        <div class="form-set">
-                                                            <select class="form-select">
-                                                                <option value="선택">선택</option>
-                                                                <option value="선택">선택</option>
-                                                            </select>
-                                                            <select class="form-select">
-                                                                <option value="선택">선택</option>
-                                                                <option value="선택">선택</option>
-                                                            </select>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">ERP 코드<i class="icon icon-required"></i></th>
-                                                    <td>
-                                                        <div class="form-set">
-                                                            <input type="text" class="input" value="">
-                                                            <button type="button" class="btn">발급</button>
-                                                        </div>
-                                                    </td>
-                                                    <th scope="row">ERP 등록 여부<i class="icon icon-required"></i></th>
-                                                    <td>
-                                                        미등록
-                                                    </td>
-                                                </tr> -->
                                                 <tr>
                                                     <th scope="row">프리미엄 가격(USD/MT)<i class="icon icon-required"></i></th>
                                                     <td colspan="3">
@@ -284,7 +237,6 @@
                                                     	<input type="text" class="input" value="" placeholder="코멘트를 입력해주세요.">
                                                     </td>
                                                 </tr>
-                
                                             </tbody>
                                         </table>
                                     </div>
@@ -321,28 +273,40 @@
                                                     </td>
                                                     <th scope="row">가격지정방법<i class="icon icon-required"></i></th>
                                                     <td>
-                                                        <select class="form-select select-sm">
-                                                            <option value="선택">선택</option>
-                                                            <option value="선택">선택</option>
-                                                        </select>
+                                                        <select class="form-select">
+                                                            <c:forEach var="item" items="${boCommCdList}">
+                                                              <c:if test="${item.mainCode eq 'PC_APPN_MTH_CODE'}">
+                                                                <option value="${item.subCode}" ${item.subCode eq boBdPblnDtl.pcAppnMthCode ? 'selected' : ''}>${item.codeDctwo}</option>
+                                                              </c:if>
+                                                            </c:forEach>
+                                                         </select>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">결제 조건<i class="icon icon-required"></i></th>
                                                     <td colspan="3">
                                                         <div class="form-set">
-                                                            <select class="form-select">
-                                                                <option value="선택">선택</option>
-                                                                <option value="선택">선택</option>
-                                                            </select>
-                                                            <select class="form-select">
-                                                                <option value="선택">선택</option>
-                                                                <option value="선택">선택</option>
-                                                            </select>
-                                                            <select class="form-select">
-                                                                <option value="선택">선택</option>
-                                                                <option value="선택">선택</option>
-                                                            </select>
+                                                         <select class="form-select">
+                                                            <c:forEach var="item" items="${boCommCdList}">
+                                                              <c:if test="${item.mainCode eq 'SETLE_CRNCY_CODE'}">
+                                                                <option value="${item.subCode}" ${item.subCode eq boBdPblnDtl.setleCrncyCode ? 'selected' : ''}>${item.codeDctwo}</option>
+                                                              </c:if>
+                                                            </c:forEach>
+                                                         </select>
+                                                         <select class="form-select">
+                                                            <c:forEach var="item" items="${boCommCdList}">
+                                                              <c:if test="${item.mainCode eq 'SETLE_MTH_CODE'}">
+                                                                <option value="${item.subCode}" ${item.subCode eq boBdPblnDtl.setleMthCode ? 'selected' : ''}>${item.codeDctwo}</option>
+                                                              </c:if>
+                                                            </c:forEach>
+                                                         </select>
+                                                         <select class="form-select">
+                                                            <c:forEach var="item" items="${boCommCdList}">
+                                                              <c:if test="${item.mainCode eq 'SETLE_PD_CODE'}">
+                                                               <option value="${item.subCode}" ${item.subCode eq boBdPblnDtl.setlePdCode ? 'selected' : ''}>${item.codeDctwo}</option>
+                                                              </c:if>
+                                                            </c:forEach>
+                                                         </select>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -354,157 +318,7 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                    </div>
-                
-                                    <div class="sub-title">
-                                        <h3 class="">낙찰사 서류 심사 필수 제출 설정</h3>
-                                    </div>
-                                    <div class="table table-view">
-                                        <table>
-                                            <colgroup>
-                                                <col width="*" />
-                                                <col width="20%" />
-                                            </colgroup>
-                                            <tbody>
-                                                <tr>
-                                                	<th scope="row">선화증권(Bill of Lading)</th>
-                                                	<td>
-                                                        <div class="radio-group">
-                                                            <div class="form-radio">
-                                                                <input type="radio" id="radio-1" name="radio" checked="checked" />
-                                                                <label for="radio-1"><span>제출</span></label>
-                                                            </div>
-                                                            <div class="form-radio">
-                                                                <input type="radio" id="radio-2" name="radio" />
-                                                                <label for="radio-2"><span>미제출</span></label>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                	<th scope="row">성적서(Certificate of Anaysis)</th>
-                                                	<td>
-                                                        <div class="radio-group">
-                                                            <div class="form-radio">
-                                                                <input type="radio" id="radio-3" name="radio" checked="checked" />
-                                                                <label for="radio-3"><span>제출</span></label>
-                                                            </div>
-                                                            <div class="form-radio">
-                                                                <input type="radio" id="radio-4" name="radio" />
-                                                                <label for="radio-4"><span>미제출</span></label>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                	<th scope="row">제조사 포장명세서(Producer's Packing List)</th>
-                                                	<td>
-                                                        <div class="radio-group">
-                                                            <div class="form-radio">
-                                                                <input type="radio" id="radio-5" name="radio" checked="checked" />
-                                                                <label for="radio-5"><span>제출</span></label>
-                                                            </div>
-                                                            <div class="form-radio">
-                                                                <input type="radio" id="radio-6" name="radio" />
-                                                                <label for="radio-6"><span>미제출</span></label>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                	<th scope="row">원산지 증명서(Certificate of Origin)</th>
-                                                	<td>
-                                                        <div class="radio-group">
-                                                            <div class="form-radio">
-                                                                <input type="radio" id="radio-7" name="radio" checked="checked" />
-                                                                <label for="radio-7"><span>제출</span></label>
-                                                            </div>
-                                                            <div class="form-radio">
-                                                                <input type="radio" id="radio-8" name="radio" />
-                                                                <label for="radio-8"><span>미제출</span></label>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                	<th scope="row">CONDITIONAL RELEASE ISSUED BY WAREHOUSE</th>
-                                                	<td>
-                                                        <div class="radio-group">
-                                                            <div class="form-radio">
-                                                                <input type="radio" id="radio-9" name="radio" checked="checked" />
-                                                                <label for="radio-9"><span>제출</span></label>
-                                                            </div>
-                                                            <div class="form-radio">
-                                                                <input type="radio" id="radio-10" name="radio" />
-                                                                <label for="radio-10"><span>미제출</span></label>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                	<th scope="row">수입통관면장</th>
-                                                	<td>
-                                                        <div class="radio-group">
-                                                            <div class="form-radio">
-                                                                <input type="radio" id="radio-11" name="radio" checked="checked" />
-                                                                <label for="radio-11"><span>제출</span></label>
-                                                            </div>
-                                                            <div class="form-radio">
-                                                                <input type="radio" id="radio-12" name="radio" />
-                                                                <label for="radio-12"><span>미제출</span></label>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                	<th scope="row">final invoice</th>
-                                                	<td>
-                                                        <div class="radio-group">
-                                                            <div class="form-radio">
-                                                                <input type="radio" id="radio-13" name="radio" checked="checked" />
-                                                                <label for="radio-13"><span>제출</span></label>
-                                                            </div>
-                                                            <div class="form-radio">
-                                                                <input type="radio" id="radio-14" name="radio" />
-                                                                <label for="radio-14"><span>미제출</span></label>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                	<th scope="row">Provisional invoice</th>
-                                                	<td>
-                                                        <div class="radio-group">
-                                                            <div class="form-radio">
-                                                                <input type="radio" id="radio-15" name="radio" checked="checked" />
-                                                                <label for="radio-15"><span>제출</span></label>
-                                                            </div>
-                                                            <div class="form-radio">
-                                                                <input type="radio" id="radio-16" name="radio" />
-                                                                <label for="radio-16"><span>미제출</span></label>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                	<th scope="row">분할증명서</th>
-                                                	<td>
-                                                        <div class="radio-group">
-                                                            <div class="form-radio">
-                                                                <input type="radio" id="radio-17" name="radio" checked="checked" />
-                                                                <label for="radio-17"><span>제출</span></label>
-                                                            </div>
-                                                            <div class="form-radio">
-                                                                <input type="radio" id="radio-18" name="radio" />
-                                                                <label for="radio-18"><span>미제출</span></label>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                
+                                    </div>                
                                     <div class="sub-title">
                                         <h3 class="">투찰 기간 설정</h3>
                                     </div>
@@ -584,7 +398,7 @@
                                  </div>
                                  <div class="modal-footer">
                                      <div class="btn-box">
-                                         <button type="button" class="btn">입찰 공고 등록</button>
+                                         <button type="button" class="btn">입찰 공고 수정 저장</button>
                                          <button type="button" class="btn" data-dismiss="modal">취소</button>
                                      </div>
                                  </div>

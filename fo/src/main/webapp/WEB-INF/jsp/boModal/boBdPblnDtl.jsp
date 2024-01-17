@@ -67,16 +67,37 @@
             	"bidPblancId" : "${boBdPblnDtl.bidPblancId}",
             	"popupSe"     : "update"
         	};
-         
+
         	postSetDataTypeBo(url, JSON.stringify(params), "html", true, function(result) {
         		if(!sorin.validation.isNull(result)) {
-        			$("#bdNoticeUpdateModal .modal2").html('');
-        			$("#bdNoticeUpdateModal .modal2").html(result);
-        			$('#bdNoticeUpdateModal').modal();
+        			$("#bdNoticeDetailModal .modal2").html('');
+        			$("#bdNoticeDetailModal .modal2").html(result);
+        			$('#bdNoticeDetailModal').modal();
         		}
     		});
     	});
 	});
+	
+	function showConfirmation() {
+		var result = confirm('해당 공고 건은 입찰 예정 건입니다.\n 공고 취소 시 노출되지 않습니다.\n 취소하시겠습니다.?');
+
+	    if (result) {
+	      // 삭제 처리 후 팝업 표시
+	      alert('글이 삭제되었습니다.');
+	      // 여기에 실제 삭제 처리를 추가할 수 있습니다.
+	    } else {
+	      // 닫기를 선택한 경우 아무 작업 없이 현재 페이지에 머무름
+	    }
+    }
+	
+	$(function() {
+      // 공고 업데이트
+		$("#deleteBtn").click(function(event) {
+          
+        showConfirmation();
+        // 여기에서 필요한 추가 로직을 수행할 수 있습니다.
+      });
+    });
 		
 	function modalClose() {
 		$('#bdNoticeDetailModal').modal('hide');
@@ -110,8 +131,6 @@
                 console.error("Error: " + textStatus, errorThrown);
             },
             complete: function() {
-                // 클릭 이벤트 후에 언더라인 제거
-            	$(clickedElement).find("td:first-child").css("text-decoration", "none");
             }
         });
     }
@@ -140,7 +159,7 @@
 							onclick="modalClose()">목록</button>
 						<button type="button" class="close" data-dismiss="modal"
 							aria-label="Close"
-							="modalClose()"style="margin-top: 20px; margin-bottom: 10px;">
+							onclick="modalClose()"style="margin-top: 20px; margin-bottom: 10px;">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
@@ -163,8 +182,7 @@
 										<td>${boBdPblnDtl.bidSttus}</td>
 										<th>시작 ~ 마감</th>
 										<td colspan="3">${boBdPblnDtl.bddprBeginDt}~
-											${boBdPblnDtl.bddprEndDt}<br>(<span class="color-blue">3일
-												5시간 0분 0초</span> 남음)
+											${boBdPblnDtl.bddprEndDt}<br>(<span class="color-blue">3일 5시간 0분 0초</span> 남음)
 										</td>
 										<th>활성여부</th>
 										<td>
@@ -381,30 +399,13 @@
 									<col width="*" />
 									<col width="40%" />
 								</colgroup>
-								<%-- <tbody>
-                                                <tr>
-                                                    <th scope="row">수정일시</th>
-                                                    <th scope="row">수정 내용</th>
-                                                    <th scope="row">수정 사유</th>
-                                                </tr>
-                                                <tr>
-                                                    <td>2022.01.03.10:10:10</td>
-                                                    <td> ${bobdUpdateHistroy.bidUpdtCn} </td>
-                                                    <td> ${bobdUpdateHistroy.bidUpdtResn} </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2022.01.04.10:10:00</td>
-                                                    <td> ${bobdUpdateHistroy.bidUpdtCn} </td>
-                                                    <td> ${bobdUpdateHistroy.bidUpdtResn} </td>
-                                                </tr>
-                                            </tbody> --%>
 								<tbody>
 									<tr>
 										<th scope="row">수정일시</th>
 										<th scope="row">수정 내용</th>
 										<th scope="row">수정 사유</th>
 									</tr>
-									<c:forEach var="updateHistory" items="${bobdUpdateHistroy}">
+									<c:forEach var="updateHistory" items="${bobdUptHist}">
 										<tr>
 											<td>${updateHistory.lastChangeDt}</td>
 											<td>${updateHistory.bidUpdtCn}</td>
@@ -414,30 +415,21 @@
 								</tbody>
 							</table>
 						</div>
-
-						<!-- <div class="btn-box mt-12">
-                                        <button type="button" class="btn">공고 수정</button>
-                                        <button type="button" class="btn">공고 취소</button>
-                                        <button type="button" class="btn">유찰 처리</button>
-                                    </div> -->
 						<!-- 입찰 상태 코드에 따라 버튼 표시 Start -->
-						<!-- 
-                                    11.공고대기, 12.입찰예정,13.투찰중인 경우 -> 공구수정,취소 버튼 노출
-                                    20.심사중, 21.개찰중, 22.서류접수중, 23.서류심사중, 30.마감인 경우 -> 유찰 처리버튼 
-                                    -->
+						<!-- 11.공고대기, 12.입찰예정,13.투찰중인 경우 -> 공구수정,취소 버튼 노출
+                             20.심사중, 21.개찰중, 22.서류접수중, 23.서류심사중, 30.마감인 경우 -> 유찰 처리버튼  -->
 						<div class="btn-box mt-12">
 							<c:choose>
 								<c:when
 									test="${boBdPblnDtl.bidSttusCode eq '11' or boBdPblnDtl.bidSttusCode eq '12' or boBdPblnDtl.bidSttusCode eq '13'}">
-									<button type="button" class="btn_modify" id="updateBtn">공고 수정</button>
-									<button type="button" class="btn">공고 취소</button>
+									<button type="button" class="btn" id="updateBtn">공고 수정</button>
+									<button type="button" class="btn" id="deleteBtn">공고 취소</button>
 								</c:when>
 								<c:when
 									test="${boBdPblnDtl.bidSttusCode eq '20' or boBdPblnDtl.bidSttusCode eq '21' or boBdPblnDtl.bidSttusCode eq '22' or boBdPblnDtl.bidSttusCode eq '23' or boBdPblnDtl.bidSttusCode eq '30'}">
 									<button type="button" class="btn">유찰 처리</button>
 								</c:when>
 								<c:otherwise>
-									<button type="button" class="btn">test</button>
 								</c:otherwise>
 							</c:choose>
 						</div>
@@ -466,11 +458,22 @@
 										<th scope="row" class="text-center">상태</th>
 										<th scope="row" class="text-center">처리단계</th>
 									</tr>
-									<c:forEach var="bdEntrps" items="${bdEntrpsList}">
+									<c:forEach var="item" items="${bdEntrpsList}">
 										<tr>
-											<td>${bdEntrps.opengRank}</td>
-											<td>${bdEntrps.bddprDt}</td>
-											<td>${bdEntrps.bddprPremiumPc}</td>
+											<td>${item.opengRank}</td>
+											<td>${item.entrpsNm}</td>
+											<td>${item.bddprDt}</td>
+											<td>인도조건</td>
+											<td>${item.bddprPremiumPc}</td>
+											<td>${boBdPblnDtl.bidSttus}</td>
+											<c:choose> 
+											 <c:when test="${boBdPblnDtl.bidSttusCode eq '30'}">
+											 <td>유찰</td>
+											 </c:when>
+											 <c:otherwise>
+											 <td>-</td>
+											 </c:otherwise>
+											</c:choose>
 										</tr>
 									</c:forEach>
 									<!-- <tr>
@@ -512,7 +515,7 @@
 					</div>
 					<!-- Modal -->
 					<!-- [D]모달 위치는 변경 하셔도 됩니다! -->
-					<div class="modal fade" id="bdNoticeUpdateModal" tabindex="-1" role="dialog" data-keyboard="false"  aria-labelledby="bdNoticeDetailModallLabel" aria-hidden="true">
+					<div class="modal fade" id="bdNoticeDetailModal" tabindex="-1" role="dialog" data-keyboard="false"  aria-labelledby="bdNoticeDetailModallLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-full"" role="document">
         <div class="modal-content modal2">
         </div>

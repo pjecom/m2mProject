@@ -6,70 +6,70 @@
 		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
         	/* com.m2m.fo.bo.mapper.BoBdPblnMapper.boBdPblnDtl */
         SELECT
-              BB.BID_PBLANC_ID                                                                 /*입찰공고아이디*/
-            , BB.BID_STTUS_CODE                                                                /*입찰상태코드*/
+              BBD.BID_PBLANC_ID                                                                 /*입찰공고아이디*/
+            , BBD.BID_STTUS_CODE                                                                /*입찰상태코드*/
             , (SELECT CODE_DCTWO 
             	FROM CO_CMMN_CD 
             	WHERE MAIN_CODE = 'BID_STTUS_CODE' 
-            	 AND SUB_CODE = BB.BID_STTUS_CODE) AS BID_STTUS                                /*입찰상태*/
-            , BB.METAL_CODE                                                                    /*금속코드*/
+            	 AND SUB_CODE = BBD.BID_STTUS_CODE) AS BID_STTUS                                /*입찰상태*/
+            , BBD.METAL_CODE                                                                    /*금속코드*/
             , (SELECT CODE_DCTWO 
             	FROM CO_CMMN_CD 
             	WHERE MAIN_CODE = 'METAL_CODE' 
-            	 AND SUB_CODE = BB.METAL_CODE) AS METAL_CODE_NM                                /*메탈구분*/
+            	 AND SUB_CODE = BBD.METAL_CODE) AS METAL_CODE_NM                                /*메탈구분*/
             , (SELECT CODE_DCONE 
             	FROM CO_CMMN_CD 
             	WHERE MAIN_CODE = 'METAL_CODE'  
-            	AND SUB_CODE = BB.METAL_CODE) AS METAL_CODE_EM                                 /*메탈구분(영어)*/
-            , BB.BRAND_GROUP_CODE                                                              /*브랜드그룹코드*/ 
+            	AND SUB_CODE = BBD.METAL_CODE) AS METAL_CODE_EM                                 /*메탈구분(영어)*/
+            , BBD.BRAND_GROUP_CODE                                                              /*브랜드그룹코드*/ 
             , ISNULL((SELECT CODE_DCTWO 
            		FROM CO_CMMN_CD 
            		WHERE MAIN_CODE = 'BRAND_GROUP_CODE'  
-           		 AND SUB_CODE = BB.BRAND_GROUP_CODE),'ANY BRAND') AS BRAND_GROUP_CODE_NM       /*브랜드*/
-            , BB.BRAND_CODE                                                                    /*브랜드코드*/
-            , BB.ITM_SN                                                                        /*아이템순번*/
+           		 AND SUB_CODE = BBD.BRAND_GROUP_CODE),'ANY BRAND') AS BRAND_GROUP_CODE_NM       /*브랜드*/
+            , BBD.BRAND_CODE                                                                    /*브랜드코드*/
+            , BBD.ITM_SN                                                                        /*아이템순번*/
             , (SELECT GOODS_NM
             	FROM IT_ITM_INFO_BAS 
             	WHERE 1=1 
-            	 AND BB.ITM_SN = ITM_SN 
-            	 AND DELETE_AT = 'N') AS DSPY_GOODS_NM                                         /*아이템상품명*/
-            , BB.DSTRCT_LCLSF_CODE                                                             /*권역대분류코드*/
+            	 AND BBD.ITM_SN = ITM_SN 
+            	 AND DELETE_AT = 'N') AS DSPY_GOODS_NM                                          /*아이템상품명*/
+            , BBD.DSTRCT_LCLSF_CODE                                                             /*권역대분류코드*/
             , (SELECT CODE_DCTWO 
             	FROM CO_CMMN_CD 
             	WHERE MAIN_CODE = 'DSTRCT_LCLSF_CODE'  
-            	 AND SUB_CODE = BB.DSTRCT_LCLSF_CODE) AS DSTRCT_NM                             /*권역*/
-            , BB.BID_WT                                                                        /*입찰중량*/
-            , BB.PERM_WT_RATE                                                                  /*허용중량비율*/
-            , BB.DELY_BEGIN_DE                                                                 /*인도기간시작*/
-            , BB.DELY_END_DE                                                                   /*인도기간종료*/
-            , BB.PC_APPN_BEGIN_DE                                                              /*가격지정기간시작*/
-            , BB.PC_APPN_END_DE                                                                /*가격지정기간종료*/
-            , BB.PC_APPN_MTH_CODE                                                              /*가격지정방법코드*/
+            	 AND SUB_CODE = BBD.DSTRCT_LCLSF_CODE) AS DSTRCT_NM                             /*권역*/
+            , BBD.BID_WT                                                                        /*입찰중량*/
+            , BBD.PERM_WT_RATE                                                                  /*허용중량비율*/
+            , BBD.DELY_BEGIN_DE                                                                 /*인도기간시작*/
+            , BBD.DELY_END_DE                                                                   /*인도기간종료*/
+            , BBD.PC_APPN_BEGIN_DE                                                              /*가격지정기간시작*/
+            , BBD.PC_APPN_END_DE                                                                /*가격지정기간종료*/
+            , BBD.PC_APPN_MTH_CODE                                                              /*가격지정방법코드*/
             , (SELECT CODE_DCTWO 
             	FROM CO_CMMN_CD 
             	WHERE MAIN_CODE = 'PC_APPN_MTH_CODE' 
-            	 AND SUB_CODE = BB.PC_APPN_MTH_CODE) AS PC_APPN_MTH_CODE_NM                    /*가격지정방법*/
+            	 AND SUB_CODE = BBD.PC_APPN_MTH_CODE) AS PC_APPN_MTH_CODE_NM                    /*가격지정방법*/
             ,CONCAT(
-            COALESCE((SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'SETLE_CRNCY_CODE' AND SUB_CODE = BB.SETLE_CRNCY_CODE), 'N/A'),' ',
-            COALESCE((SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'SETLE_MTH_CODE' AND SUB_CODE = BB.SETLE_MTH_CODE), 'N/A'),' ',
-            COALESCE((SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'SETLE_PD_CODE' AND SUB_CODE = BB.SETLE_PD_CODE), 'N/A'),' '
+            COALESCE((SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'SETLE_CRNCY_CODE' AND SUB_CODE = BBD.SETLE_CRNCY_CODE), 'N/A'),' ',
+            COALESCE((SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'SETLE_MTH_CODE' AND SUB_CODE = BBD.SETLE_MTH_CODE), 'N/A'),' ',
+            COALESCE((SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'SETLE_PD_CODE' AND SUB_CODE = BBD.SETLE_PD_CODE), 'N/A'),' '
             ) AS SETLE_CNDTN                                                                   /*결제조건*/
-            , BB.ETC_CN                                                                        /*기타코멘트*/
-            , BB.BDDPR_BEGIN_DT                                                                /*투찰시작일시*/
-            , BB.BDDPR_END_DT                                                                  /*투찰종료일시*/
-            , BB.BDDPR_CANCL_LMTT_DE                                                           /*투찰취소제한일자*/            
-            <!-- , BUHS.BID_UPDT_CN                                                                 /*입찰수정내용*/ -->
-            <!-- , BUHS.BID_UPDT_RESN                                                               /*입찰수정사유*/ -->
-            , BB.DSPY_AT                                                                       /*전시여부*/
-      FROM BD_BID_BAS AS BB 
-      <!-- INNER JOIN BD_BID_UPDT_HST AS BUHS                                
-      ON BB.BID_PBLANC_ID = BUHS.BID_PBLANC_ID
+            , BBD.ETC_CN                                                                        /*기타코멘트*/
+            , BBD.BDDPR_BEGIN_DT                                                                /*투찰시작일시*/
+            , BBD.BDDPR_END_DT                                                                  /*투찰종료일시*/
+            , BBD.BDDPR_CANCL_LMTT_DE                                                           /*투찰취소제한일자*/            
+            <!-- , BBUH.BID_UPDT_CN                                                                 /*입찰수정내용*/ -->
+            <!-- , BBUH.BID_UPDT_RESN                                                               /*입찰수정사유*/ -->
+            , BBD.DSPY_AT                                                                       /*전시여부*/
+      FROM BD_BID_BAS AS BBD 
+      <!-- INNER JOIN BD_BID_UPDT_HST AS BBUH                                
+      ON BBD.BID_PBLANC_ID = BBUH.BID_PBLANC_ID
  -->      
       
       WHERE 1=1
-         AND BB.BID_PBLANC_ID          =   #{bidPblancId}                                      /*입찰공고아이디*/                                               /*삭제여부*/
+         AND BBD.BID_PBLANC_ID          =   #{bidPblancId}                                      /*입찰공고아이디*/                                               /*삭제여부*/
 	</select>
-	<select id="getBobdUpdateHistroy" parameterType="com.m2m.fo.bo.model.BoBdPblnVO" resultType="com.m2m.fo.bo.model.BoBdPblnUpdtVO">
+	<select id="getBobdUptHist" parameterType="com.m2m.fo.bo.model.BoBdPblnVO" resultType="com.m2m.fo.bo.model.BoBdPblnUpdtVO">
         SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
         /* com.m2m.fo.bo.mapper.BoBdPblnMapper.getBobdUpdateHistroy */
         SELECT
@@ -83,38 +83,80 @@
             , LAST_CHANGE_DT                                                                /*최종변경일시*/
         FROM BD_BID_UPDT_HST 
         WHERE 1=1 
-           AND BID_PBLANC_ID          =   #{bidPblancId}                                 /*입찰공고아이디*/
+           AND BID_PBLANC_ID          =   #{bidPblancId}                                    /*입찰공고아이디*/
 	</select>
-	<select id="getBdEntrpsList" parameterType="com.m2m.fo.bo.model.BoBdPblnVO" resultType="com.m2m.fo.bo.model.BoBdBddprVO">
+ 	<select id="getBdEntrpsList" parameterType="com.m2m.fo.bo.model.BoBdPblnVO" resultType="com.m2m.fo.bo.model.BoBdBddprVO">
+        SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+        /* com.m2m.fo.bo.mapper.BoBdPblnMapper.getBdEntrpsList 투찰기업리스트*/
 		SELECT 
-		    BID_ENTRPS_NO                                                            /*입찰 업체 번호*/
-		    ,BID_PBLANC_ID                                                            /*입찰 공고 아이디*/
-		    ,DELY_CND_CODE                                                            /*인도 조건 코드*/
-		    ,DELY_CND_STDR_PC                                                            /*인도 조건 기준 가격*/
-		    ,CNVRS_PREMIUM_AMOUNT                                                            /*전환 프리미엄 금액*/
-		    ,BDDPR_PREMIUM_PC                                                            /*투찰 프리미엄 가격*/
-		    ,BDDPR_WT                                                            /*투찰 중량*/
-		    ,PARTCPTN_AGRE_AT                                                            /*참여 동의 여부*/
-		    ,BDDPR_DT                                                            /*투찰 일시*/
-		    ,BDDPR_NRMLT_AT                                                            /*투찰 정상 여부*/
-		    ,OPENG_RANK                                                            /*개찰 순위*/
-		    ,OPENG_DT                                                            /*개찰 일시*/
-		    ,SCSBID_AT                                                            /*낙찰 여부*/
-		    ,SCSBID_DT                                                            /*낙찰 일시*/
-		    ,CANCL_AT                                                            /*취소 여부*/
-		    ,CANCL_DT                                                            /*취소 일시*/
-		    ,CANCL_RESN                                                            /*취소 사유*/
-		    ,DELETE_AT                                                            /*삭제 여부*/
-		    ,DELETE_DT                                                            /*삭제 일시*/
-		    ,FRST_REGISTER_ID                                                            /*최초 등록자 아이디*/
-		    ,FRST_REGIST_DT                                                            /*최초 등록 일시*/
-		    ,LAST_CHANGER_ID                                                            /*최종 변경자 아이디*/
-		    ,LAST_CHANGE_DT                                                            /*최종 변경 일시*/
-		FROM BD_BDDPR_DTL
-			WHERE 1=1 
-           AND BID_PBLANC_ID          =   #{bidPblancId}                                 /*입찰공고아이디*/
+		    BBD.BID_ENTRPS_NO                                                                  /*입찰업체번호*/
+		    ,BEIB.ENTRPS_NM                                                                    /*투찰업체명*/
+		    ,BBD.BID_PBLANC_ID                                                                 /*입찰공고아이디*/
+		    ,BBD.DELY_CND_CODE                                                                 /*인도조건코드*/
+		    ,BBD.DELY_CND_STDR_PC                                                              /*인도조건기준가격*/
+		    ,BBD.CNVRS_PREMIUM_AMOUNT                                                          /*전환프리미엄금액*/
+		    ,BBD.BDDPR_PREMIUM_PC                                                              /*투찰프리미엄가격*/
+		    ,BBD.BDDPR_WT                                                                      /*투찰중량*/
+		    ,BBD.PARTCPTN_AGRE_AT                                                              /*참여동의여부*/
+		    ,BBD.BDDPR_DT                                                                      /*투찰일시*/
+		    ,BBD.BDDPR_NRMLT_AT                                                                /*투찰정상여부*/
+		    ,BBD.OPENG_RANK                                                                    /*개찰순위*/
+		    ,BBD.OPENG_DT                                                                      /*개찰일시*/
+		    ,BBD.SCSBID_AT                                                                     /*낙찰여부*/
+		    ,BBD.SCSBID_DT                                                                     /*낙찰일시*/
+		    ,BBD.CANCL_AT                                                                      /*취소여부*/
+		    ,BBD.CANCL_DT                                                                      /*취소일시*/
+		    ,BBD.CANCL_RESN                                                                    /*취소사유*/
+		    ,BBD.DELETE_AT                                                                     /*삭제여부*/
+		    ,BBD.DELETE_DT                                                                     /*삭제일시*/
+		    ,BBD.FRST_REGISTER_ID                                                              /*최초등록자아이디*/
+		    ,BBD.FRST_REGIST_DT                                                                /*최초등록 일시*/
+		    ,BBD.LAST_CHANGER_ID                                                               /*최종변경자아이디*/
+		    ,BBD.LAST_CHANGE_DT                                                                /*최종변경일시*/
+		FROM BD_BDDPR_DTL AS BBD                                                               /*입찰투찰상세*/
+			INNER JOIN BD_ENTRPS_INFO_BAS AS BEIB                                              /*회원업체정보기본*/
+			ON BBD.BID_ENTRPS_NO = BEIB.BID_ENTRPS_NO 
+			WHERE 1=1
+			 AND BID_PBLANC_ID          =   #{bidPblancId}                                   /*입찰공고아이디*/
+			 AND BBD.DELETE_AT              =    'N'                                             /*삭제여부*/
+			 AND BBD.CANCL_AT               =    'N'                                             /*취소여부*/
 	</select>
-
+	<select id="getBoCommCdList" resultType="com.m2m.fo.bo.model.BoCoCommCdVO">
+		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+        /* com.m2m.fo.bo.mapper.BoBdPblnMapper.getBoCommCdList */
+        SELECT　
+		   MAIN_CODE
+		  ,SUB_CODE
+		  ,CODE_NM
+		  ,CODE_DCONE
+		  ,CODE_DCTWO
+		FROM CO_CMMN_CD 
+	</select>
+	<select id="getBoBdBrandGrpList" resultType="com.m2m.fo.bo.model.BoBdPblnVO">
+		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+        /* com.m2m.fo.bo.mapper.BoBdPblnMapper.getBoBdBrandGrpList 브랜드 */
+         SELECT 
+		  　IBIB.BRAND_CODE 
+		  ,IBIB.BRAND_NM
+		  ,IBIB.METAL_CODE
+		  ,IBIB.NATION_CODE
+		  ,IBIB.BRAND_GROUP_CODE
+		FROM IT_BRAND_INFO_BAS AS IBIB
+		INNER JOIN CO_CMMN_CD AS CCC
+		ON IBIB.BRAND_GROUP_CODE =CCC.SUB_CODE
+		WHERE 1=1 
+		AND CCC.MAIN_CODE = 'BRAND_GROUP_CODE'
+ 
+	</select>
+	<select id="getBoBdItemList" resultType="com.m2m.fo.bo.model.BoBdPblnVO">
+		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+        /* com.m2m.fo.bo.mapper.BoBdPblnMapper.getBoBdItemList 아이템상품명 */
+        SELECT 
+           ITM_SN
+          ,METAL_CODE
+          ,GOODS_NM
+        FROM IT_ITM_INFO_BAS 
+	</select>
     <select id="getBoBdPblnList" parameterType="com.m2m.fo.bo.model.BoBdPblnVO" resultType="com.m2m.fo.bo.model.BoBdPblnVO">
         SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
         /* com.m2m.fo.bo.mapper.BoBdPblnMapper.getBoBdPblnList */
