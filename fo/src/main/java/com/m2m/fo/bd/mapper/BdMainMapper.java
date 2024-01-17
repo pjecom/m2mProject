@@ -10,4 +10,7 @@ public interface BdMainMapper {
 	public BdListVO  getBdListTotalCnt(BdListVO vo) throws Exception;
 	
 	public List<BdListVO> bdMypageList(BdListVO vo) throws Exception;
+	
+	public BdListVO  bdMypageCount(BdListVO vo) throws Exception;
+	
 }

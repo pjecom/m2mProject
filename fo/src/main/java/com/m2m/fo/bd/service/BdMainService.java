@@ -14,4 +14,6 @@ public interface BdMainService {
 	public List<BdListVO> mypageList(BdListVO vo) throws Exception;
 	
 	public BdListVO getBdListTotalCnt(BdListVO vo) throws Exception;
+	
+	public BdListVO bdMypageCount(BdListVO vo) throws Exception;
 }

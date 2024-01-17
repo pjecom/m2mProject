@@ -19,6 +19,7 @@ public class BdListVO {
 	private String	nationCode;                   //국가 코드
 	private String	nationUrl;                    //국가 코드 이미지
 	private String	itmSn;                        //아이템 순번
+	private String	dspyGoodsNm;                  //전시 상품 명
 	private String	dstrctLclsfCode;              //권역 대분류 코드
 	private String	bddprBeginDt;                 //투찰 시작 일시
 	private String	bddprEndDt;                   //투찰 종료 일시
@@ -33,14 +34,21 @@ public class BdListVO {
 	private String	itmPrdlstKorean;              //아이템 품목 한글
 	private String	itmPrdlstEng;                 //아이템 품목 영문
 	private String	goodsNm;                      //상품 명
-	private String	dspyGoodsNm;                  //전시 상품 명
 	private int bidWt;                            //수량
 
-	// 입찰 전체 수량 
+	// 입찰 전체 건수 
 	private int totalCnt;                         //입찰 전체 목록
 	private int expectCnt;                        //입찰상태:입찰예정 
 	private int bidingCnt ;                       //입찰상태:투찰중 
 	private int endCnt;                           //입찰상태:마감 
+	private int count;                            //결과리스트 전체수 
+	// 입찰 현황 건수
+	private int biddingCnt;                       //상태:투찰 
+	private int approvedCnt;                      //상태:낙찰 
+	private int rejectedCnt;                      //상태:패찰 
+	private int auctionCnt;                       //상태:유찰 
+	private int favoritesCnt;                     //상태:관심 
+	
 	
 	
 	// 조회 조건
