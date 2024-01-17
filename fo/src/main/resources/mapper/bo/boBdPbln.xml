@@ -162,11 +162,36 @@
         /* com.m2m.fo.bo.mapper.BoBdPblnMapper.getBoBdPblnList */
         SELECT
             BID_PBLANC_ID --입찰공고아이디
-            ,(SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'METAL_CODE' AND SUB_CODE = CAST(BB.METAL_CODE AS INT)) AS METAL_NAME -- 금속 이름
-            ,(SELECT GOODS_NM FROM IT_ITM_INFO_BAS WHERE ITM_SN = CAST(BB.ITM_SN AS INT) AND DELETE_AT = 'N') AS ITM_NM --아이템명
+            ,(
+                SELECT CODE_DCTWO
+                FROM CO_CMMN_CD
+                WHERE
+                    MAIN_CODE = 'METAL_CODE'
+                    AND SUB_CODE = CAST(BB.METAL_CODE AS INT)
+            ) AS METAL_NAME -- 금속 이름
+            ,(
+                SELECT GOODS_NM
+                FROM IT_ITM_INFO_BAS
+                WHERE
+                    ITM_SN = CAST(BB.ITM_SN AS INT)
+                    AND DELETE_AT = 'N'
+            ) AS ITM_NM --아이템명
             ,BRAND_CODE	--브랜드 코드
-            ,(SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'BRAND_GROUP_CODE' AND SUB_CODE = BB.BRAND_GROUP_CODE AND USE_AT = 'Y') AS BRAND_GROUP_CODE_NM -- 브랜드 그룹명
-            ,(SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'DSTRCT_LCLSF_CODE'  AND SUB_CODE = BB.DSTRCT_LCLSF_CODE) AS DSTRCT_LCLSF_CODE --권역 대분류 코드
+            ,(
+                SELECT CODE_DCTWO
+                FROM CO_CMMN_CD
+                WHERE
+                    MAIN_CODE = 'BRAND_GROUP_CODE'
+                    AND SUB_CODE = BB.BRAND_GROUP_CODE
+                    AND USE_AT = 'Y'
+            ) AS BRAND_GROUP_CODE_NM -- 브랜드 그룹명
+            ,(
+                SELECT CODE_DCTWO
+                FROM CO_CMMN_CD
+                WHERE
+                    MAIN_CODE = 'DSTRCT_LCLSF_CODE'
+                    AND SUB_CODE = BB.DSTRCT_LCLSF_CODE
+            ) AS DSTRCT_LCLSF_CODE -- 권역 대분류 코드
             ,BID_WT --수량
             ,PERM_WT_RATE --중량
             ,BDDPR_BEGIN_DT	--투찰 시작 일시
@@ -174,7 +199,14 @@
             ,DSPY_AT	--전시 여부
             ,BB.FRST_REGIST_DT --등록일
             ,BB.FRST_REGISTER_ID --등록자
-            ,(SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'BID_STTUS_CODE' AND SUB_CODE = BB.BID_STTUS_CODE AND USE_AT = 'Y') AS BID_STTUS
+            ,(
+                SELECT CODE_DCTWO
+                FROM CO_CMMN_CD
+                WHERE
+                    MAIN_CODE = 'BID_STTUS_CODE'
+                    AND SUB_CODE = BB.BID_STTUS_CODE
+                AND USE_AT = 'Y'
+            ) AS BID_STTUS -- 입찰 상태
             ,PARTCPTN_ENTRPS_QY	--참여 업체 수량
             ,(
                 SELECT ISNULL(MIN(BDDPR_PREMIUM_PC), 0)
@@ -186,12 +218,15 @@
             ) AS MIN_PREMIUM_PC --최저프리미엄가
         FROM BD_BID_BAS BB
         where 1=1
+        <!-- 공고 상태 검색 -->
         <if test="bidSttusCode != null and bidSttusCode != ''">
             AND BID_STTUS_CODE = #{bidSttusCode}
         </if>
+        <!-- 공고 번호 검색 -->
         <if test="bidPblancId != null and bidPblancId != ''">
             AND BID_PBLANC_ID LIKE '%' + #{bidPblancId} + '%'
         </if>
+        <!-- 날짜 검색 -->
         <if test="bddprBeginDt != null and bddprBeginDt != ''">
             <![CDATA[
                 AND BDDPR_BEGIN_DT > #{bddprBeginDt}
@@ -199,8 +234,9 @@
             ]]>
         </if>
         ORDER BY BID_PBLANC_ID DESC
-        OFFSET #{pagingVO.startNo} ROWS
-        FETCH NEXT #{pagingVO.pageSize} ROWS ONLY
+        <!-- 페이징 -->
+<!--        OFFSET #{pagingVO.startNo} ROWS-->
+<!--        FETCH NEXT #{pagingVO.pageSize} ROWS ONLY-->
     </select>
     <select id="getbidSttusList" parameterType="String" resultType="com.m2m.fo.comm.model.CoCommCdVO">
         SELECT
@@ -248,4 +284,102 @@
 		   
 		WHERE BID_PBLANC_ID = #{bidPblancId} 
 	</update>
+    <insert id="istboBdPbln" parameterType="com.m2m.fo.bo.model.BoBdPblnVO">
+        /* com.m2m.fo.bd.mapper.BoBdPblnMapper.istboBdPbln */
+        <selectKey keyProperty="bidPblancId" resultType="String" order="BEFORE">
+            SELECT 'TEST02-' + FORMAT(
+                ISNULL(
+                    MAX(
+                    CASE
+                    WHEN ISNUMERIC(RIGHT(BID_PBLANC_ID, CHARINDEX('-', BID_PBLANC_ID + '-') - 5)) = 1
+                    THEN CONVERT(INT, RIGHT(BID_PBLANC_ID, CHARINDEX('-', BID_PBLANC_ID + '-') - 5))
+                    ELSE 0
+                    END
+                ), 0) + 1, '00'
+            ) FROM BD_BID_BAS
+        </selectKey>
+
+        INSERT INTO BD_BID_BAS values (
+            #{bidPblancId},
+            #{metalCode},
+            #{brandGroupCode},
+            #{brandCode},
+            #{itm},
+            #{dstrctLclsfCode},
+            #{bidWt},
+            #{permWtRate},
+            #{delyCnd01ApplcAt},
+            <choose>
+                <when test='delyCnd01ApplcAt.equals("Y")'>
+                    #{delyCnd01StdrPc},
+                    #{delyCnd01premiumPc},
+                </when>
+                <otherwise>
+                    NULL,
+                    NULL,
+                </otherwise>
+            </choose>
+            #{delyCnd02ApplcAt},
+            <choose>
+                <when test='delyCnd02ApplcAt.equals("Y")'>
+                    #{delyCnd02StdrPc},
+                    #{delyCnd02premiumPc},
+                </when>
+                <otherwise>
+                    NULL,
+                    NULL,
+                </otherwise>
+            </choose>
+            #{delyCnd03ApplcAt},
+            <choose>
+                <when test='delyCnd03ApplcAt.equals("Y")'>
+                    #{delyCnd03StdrPc},
+                    #{delyCnd03premiumPc},
+                </when>
+                <otherwise>
+                    NULL,
+                    NULL,
+                </otherwise>
+            </choose>
+            #{delyBeginDe},
+            #{delyEndDe},
+            #{delyPdCn},
+            #{pcAppnBeginDe},
+            #{pcAppnEndDe},
+            #{pcAppnMthCode},
+            #{setleCrncyCode},
+            #{setleMthCode},
+            #{setlePdCode},
+            #{etcCn},
+            #{bddprBeginDt},
+            #{bddprEndDt},
+            #{bddprCanclPossAt},
+            <choose>
+                <when test='bddprCanclPossAt.equals("Y")'>
+                    #{bddprCanclLmttDe},
+                </when>
+                <otherwise>
+                    NULL,
+                </otherwise>
+            </choose>
+            #{bidSttusCode},
+            0,
+            0,
+            #{DspyAt},
+            'N',
+            NULL,
+            'N',
+            NULL,
+            #{frstRegisterId},
+            #{frstRegistDt},
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL
+        )
+    </insert>
 </mapper>

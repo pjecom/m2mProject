@@ -36,28 +36,28 @@
 			<c:choose>                                                                                                                                                                 
                 <c:when test="${member.entrpsNm != null}">
                     <div class="login_container log_on">
-                        <a href="javascript:;"  class="btn_nav" onclick="moveMyPage()"><span class="bold">${member.entrpsNm}</span>님 입찰현황</a>
+                        <a href="javascript:;"  class="btn_nav" onclick="moveMyPage('13', '')"><span class="bold">${member.entrpsNm}</span>님 입찰현황</a>
                         <div class="dashboard">
                                 <div class="item mypage">
-                                    <a href="javascript:;" onclick="pageMove('/bid/bddpr/selectBddprList');" >
+                                    <a href="javascript:;" onclick="moveMyPage('13', '');" >
                                         <h4>투찰건</h4>
-                                        <p class="bid bddprCnt">00</p>						   	 	
+                                        <p class="bid bddprCnt">${bdCnt.biddingCnt}</p>						   	 	
                                     </a>
                                 </div>
                                 <div class="item mypage">
-                                    <a href="javascript:;" onclick="pageMove('/bid/bddpr/selectBddprList?tab=2');" > 
+                                    <a href="javascript:;" onclick="moveMyPage('31', 'Y');" > 
                                         <h4>낙찰건</h4>
-                                        <p class="lose defeatCnt">00</p>
+                                        <p class="lose defeatCnt">${bdCnt.approvedCnt}</p>
                                 </a> 	
                                 </div>		
                                 <div class="item mypage">
-                                    <a href="javascript:;" onclick="pageMove('/bid/bddpr/selectBddprList?tab=3');" >						   	 
+                                    <a href="javascript:;" onclick="moveMyPage('31', 'N');" >						   	 
                                         <h4>패찰건</h4>
-                                        <p class="lose defeatCnt">00</p>
+                                        <p class="lose defeatCnt">${bdCnt.rejectedCnt}</p>
                                 </a> 								   	 	
                                 </div>		
                                 <div class="item">
-                                    <a href="javascript:;" onclick="pageMove('/bid/intrst/selectIntrstPblanc');">
+                                    <a href="javascript:;" onclick="pageMove('/bdMypage')">
                                         <h4>관심건</h4>
                                         <p id="intrstBidCnt" class="keep intrstBidCnt">00</p>
                                     </a> 								   	 	
@@ -148,7 +148,7 @@
 		<!-- TAB BUTTON :: START :: todo: 탭기능 example 추가 -->
 		<ul class="tab_btn_group">
 			<li class="item on" data-tab="tab-1" value="" onclick="selectBdMainInfoList();">
-				<a href="javascript:;">전체 (<span class="totalCnt">${bdListCnt.totalCnt}</span>) </a>
+				<a href="javascript:;">전체 (<span id="totalCnt">${bdListCnt.totalCnt}</span>) </a>
 			</li>
 			<li class="item" data-tab="tab-2" value="12" onclick="selectBdMainInfoList(12);">
 				<a href="javascript:;">입찰예정 (<span id="expectCnt">${bdListCnt.expectCnt}</span>)</a>
@@ -156,7 +156,7 @@
 			<li class="item" data-tab="tab-3"  value="13"  onclick="selectBdMainInfoList(13);">
 				<a href="javascript:;">투찰중 (<span id="bidingCnt">${bdListCnt.bidingCnt}</span>)</a>
 			</li>
-			<li class="item" data-tab="tab-4" value="30"  onclick="selectBdMainInfoList(30,31,23,24);">
+			<li class="item" data-tab="tab-4" value="30"  onclick="selectBdMainInfoList(30);">
 				<a href="javascript:;">마감 (<span id="endCnt">${bdListCnt.endCnt}</span>) </a>
 			</li>
 		</ul>
@@ -164,7 +164,7 @@
 		<div id="tab-1" class="tab-content on">
 			<div class="tit_cont">
 				<h2 class="h3-new" id="selectTotalCnt">
-					Total (<span class="totalCnt"></span>)
+					Total (<span class="totalCount" id="totalCount"></span>)
 				</h2>
 				<div class="opt_group">
 					<div class="opt_item">
@@ -203,10 +203,10 @@
                                     <div class="pd-brand">
                                         <div class="pd-label">${vo.metalCodeNma}</div>
                                         <div class="brand-nation">
-                                            <c:if test="${empty vo.nationCode}">
+                                            <c:if test="${empty vo.nationUrl}">
                                                 <img src="https://sorincorp.blob.core.windows.net/secs/odflag/flag_mcht_default.png">
                                             </c:if>
-                                            <c:if test="${not empty vo.nationCode}">
+                                            <c:if test="${not empty vo.nationUrl}">
                                                 <img src="${vo.nationUrl}">
                                             </c:if>
                                         </div>
@@ -236,12 +236,12 @@
                                 </div>
 
                                 <div class="pd-name">
-                                    <span class="item">${vo.brandNm}</span>
+                                    <span class="item">${vo.dspyGoodsNm}</span>
                                     <span class="wrhous">출고권역 - ${vo.dstrctLclsfCode}</span>
                                     <span class="brand-group">${vo.brandGroupCodeNm}</span>
                                 </div>
                                 <div class="pd-period">
-                                    <span class="qty">수량 ${vo.totalCnt} <span class="highlight">100MT</span></span>	
+                                    <span class="qty">수량<span class="highlight">${vo.bidWt}</span></span>	
                                     <span class="date">투찰기간 <span class="highlight">${vo.bddprBeginDt} ~ ${vo.bddprEndDt}</span></span> 
                                     <c:if test="${vo.bidSttusCode != 30}">
                                         <span class="t-info">개찰결과 : 투찰 기한 마감과 동시에 발표함</span>
@@ -282,6 +282,13 @@
 <!-- 공지사항 & FAQ :: START -->
 
 <script> 
+
+$(".tab_btn_group > .item").click(function(){
+        var bdPeriod = $(this).attr('value');
+        $(".tab_btn_group > .item").removeClass("on");
+        $(this).addClass("on");
+    });
+    
 $(function() {
 
     // =============== DATEPICKER ==================
@@ -328,12 +335,13 @@ $(function() {
 	
 });
 
-function moveMyPage() {
+function moveMyPage(bidSttusCode, scsbidAt) {
     var params = {
-		         "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
-                 "bidSttusCode" : '13'
+        "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
+                 "bidSttusCode" : bidSttusCode,
+                 "scsbidAt" : scsbidAt
 		}
-    pageMove( "/bdMypage", JSON.stringify(params), 'application/json');
+    pageMove( "/bdMypageAjax", JSON.stringify(params), 'application/json');
 }
 
 function dateviewfmt(date){
@@ -376,6 +384,10 @@ function fmtDate(startDate,endDate,id,bidStatusCode){
 }
 	
 function selectBdMainInfoList(bidSttusCode) {
+
+// var bidSttusCode = $(".item.on").val();
+//     console.log("bidSttusCode"+bidSttusCode);
+
 var params = {
 			"bidSttusCode" : bidSttusCode,
 			"filter" : $('#filter').val(),
@@ -383,11 +395,11 @@ var params = {
 			"area" : $('#area').val(),
 			"searchDateFrom" : $('#searchDateFrom').val().replaceAll("-", ""),
 			"searchDateTo" : $('#searchDateTo').val().replaceAll("-", ""),
-			"bidEntrpsNo" : ""
+			"bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo")
 		}
-
 		postSetDataType( "/selectBdMainInfoAjaxList", JSON.stringify(params), "", true, function(result) {
-			$('.totalCnt').html(result.totalCnt);
+            $('#totalCount').html(result.mainBdList.length);
+			$('#totalCnt').html(result.totalCnt);
 			$('#bidingCnt').html(result.bidingCnt);
 			$('#expectCnt').html(result.expectCnt);
 			$('#endCnt').html(result.endCnt);
@@ -408,14 +420,27 @@ var params = {
 				html += '					<div class="pd-brand-info">';
 				html += '	    				<h3 class="pd-bid-no">' + result.mainBdList[i].bidPblancId + '</h3>';
 				html += '	    				<div class="pd-wrap">';
-				html += '	        				<div class="pd-brand">';
-				html += '	             				<div class="pd-label">' + result.mainBdList[i].metalCodeNma + '</div>';
-				html += '	            				<div class="brand-nation">';
-				html += '									<img src="'+result.mainBdList[i].nationUrl+'" alt="">';
-				html += '	            				</div>';
-				html += '	        					' + result.mainBdList[i].brandCode + '';
-				html += '	    					</div>';
-				html += '	    					<div class="pd-like">';
+                
+                if (result.mainBdList[i].nationUrl == null) {
+                    html += '	        				<div class="pd-brand">';
+                    html += '	             				<div class="pd-label">' + result.mainBdList[i].metalCodeNma + '</div>';
+                    html += '	            				<div class="brand-nation">';
+                    html += '									<img src="https://sorincorp.blob.core.windows.net/secs/odflag/flag_mcht_default.png">';
+                    html += '	            				</div>';
+                    html += '	        					브랜드 무관';
+                    html += '	    					</div>';
+				}else{
+                    html += '	        				<div class="pd-brand">';
+                    html += '	             				<div class="pd-label">' + result.mainBdList[i].metalCodeNma + '</div>';
+                    html += '	            				<div class="brand-nation">';
+                    html += '									<img src="'+result.mainBdList[i].nationUrl+'" alt="">';
+                    html += '	            				</div>';
+                    html += '	        					' + result.mainBdList[i].brandCode + '';
+                    html += '	    					</div>';
+				}
+				
+                
+                html += '	    					<div class="pd-like">';
 				html += '	            				<ul class="company">';
 				html += '	             	   				<li> <span>' + result.mainBdList[i].partcptnEntrpsQy + '</span><span>참여기업</span></li>';
 				html += '	                				<li> <span><span id="intrstEntrpsQy">' + result.mainBdList[i].intrstEntrpsQy + '</span><span>관심기업</span></li>';
@@ -428,7 +453,7 @@ var params = {
 				html += '						</div>';
 				
 				html += '						<div class="pd-name" style="pointer-events : none;">';
-				html += '	    					<span class="item">' + result.mainBdList[i].brandNm + '</span> ';
+				html += '	    					<span class="item">' + result.mainBdList[i].dspyGoodsNm + '</span> ';
 				html += '	     					<span class="wrhous">출고권역 - ' + result.mainBdList[i].dstrctLclsfCode + '</span>';
 				html += '	    					<span class="brand-group">' + result.mainBdList[i].brandGroupCodeNm + '</span>';
 				html += '	 					</div>';
@@ -462,15 +487,15 @@ var params = {
 					html += '				<a href="javascript:;" name="selectBid" id ="'+result.mainBdList[i].bidPblancId+'"  class="btn-bid-black">마감</a>';
 					html += '			</div>';
 					if(result.mainBdList[i].bidSttusCode == "32"){
-						html += '		<span class="t-info abs-info">Aborted</span>';
+						html += '		<span class="t-info abs-info">유찰공고</span>';
 					}else{
-						html += '		<span class="t-info abs-info">Offers Opened</span>';
+						html += '		<span class="t-info abs-info">개찰완료</span>';
 					}
 				} else if (result.mainBdList[i].bidSttusCode == "21") {
 	                html += '               <div class="btns">';
 	                    html += '               <a href="javascript:alert(\'Opening of Offers.\');" id ="'+result.mainBdList[i].bidPblancId+'"  class="btn-blue-blue">Opening Offers</a>';
 	                    html += '           </div>';
-	                    html += '      <span class="t-info abs-info">Bid Closed</span>';
+	                    html += '      <span class="t-info abs-info">개찰중</span>';
 	                   // html += '           <span class="bid-d-day pre abs-info"> 투찰 마감까지<sapn class="time" style="color: #1D5FD0;" id=time'+result.mainBdList[i].bidPblancId+'>'+fmtDate(result.mainBdList[i].bddprBeginDt, result.mainBdList[i].bddprEndDt, "time"+result.mainBdList[i].bidPblancId, result.mainBdList[i].bidSttusCode);+'</span>';
 	                    html += '           </span>';
 	                }
@@ -509,7 +534,7 @@ var params = {
                 case 'all':
                     $("#searchDateFrom").datepicker("setDate", '');
                     $("#searchDateTo").datepicker("setDate", '');
-                    selectBdMainInfoList($(".item.on").val());
+                    selectBdMainInfoList($(".tab_btn_group > .item.on").val());
                     break;
                 case 'oneMonth':
                 	getFormerDate(30,0);
@@ -532,20 +557,10 @@ var params = {
         $("#searchDateFrom").datepicker("setDate", searchDateFromDate);
         $("#searchDateTo").datepicker("setDate", searchDateToDate);
 
-        var sttusCode = $(".item.on").val();
+        //var sttusCode = $(".tab_btn_group > .item.on").val();
 
         selectBdMainInfoList(sttusCode);
     }
-    
-
-    $(".item").click(function(){
-        var bdPeriod = $(this).attr('value');
-        //$(".item").val();
-        $(".item").removeClass("on");
-        $(this).addClass("on");
-        console.log("입찰상태"+bdPeriod);
-    });
-    
 //------------------------------------- 공지사항 최근 게시글 제목 4개 조회-------------------------------------//
 /* 로그인 버튼 클릭 메서드 */
     $(function() {

@@ -140,7 +140,7 @@
 														</div>
 				                                    </div>
 				                                    <div class="pd-name">
-														<span class="item">${vo.brandNm}</span>
+														<span class="item">${vo.dspyGoodsNm}</span>
 														<span class="wrhous">출고권역 - ${vo.dstrctLclsfCode}</span>
 														<span class="brand-group">${vo.brandGroupCodeNm}</span>
 				                                    </div>
@@ -149,7 +149,7 @@
 						                                <span class="u-price realTimePrice up">3,428,000 (원/MT)</span>
 						                            </p>
 				                                    <div class="pd-period">
-				                                        <span class="qty">수량 ${vo.totalCnt} <span class="highlight">100MT</span></span>	
+				                                        <span class="qty">수량<span class="highlight">${vo.bidWt}</span></span>	
 														<span class="date">투찰기간 <span class="highlight">${vo.bddprBeginDt} ~ ${vo.bddprEndDt}</span></span> 
 													</div>
 				                                </div>
@@ -200,7 +200,7 @@
 														</div>
 				                                    </div>
 				                                    <div class="pd-name">
-														<span class="item">${vo.brandNm}</span>
+														<span class="item">${vo.dspyGoodsNm}</span>
 														<span class="wrhous">출고권역 - ${vo.dstrctLclsfCode}</span>
 														<span class="brand-group">${vo.brandGroupCodeNm}</span>
 				                                    </div>
@@ -209,7 +209,7 @@
 						                                <span class="u-price realTimePrice up">3,428,000 (원/MT)</span>
 						                            </p>
 				                                    <div class="pd-period">
-				                                        <span class="qty">수량 ${vo.totalCnt} <span class="highlight">100MT</span></span>	
+				                                        <span class="qty">수량<span class="highlight">${vo.bidWt}</span></span>	
 														<span class="date">투찰기간 <span class="highlight">${vo.bddprBeginDt} ~ ${vo.bddprEndDt}</span></span> 
 													</div>
 				                                </div>
@@ -259,7 +259,7 @@
 														</div>
 				                                    </div>
 				                                    <div class="pd-name">
-														<span class="item">${vo.brandNm}</span>
+														<span class="item">${vo.dspyGoodsNm}</span>
 														<span class="wrhous">출고권역 - ${vo.dstrctLclsfCode}</span>
 														<span class="brand-group">${vo.brandGroupCodeNm}</span>
 				                                    </div>
@@ -268,7 +268,7 @@
 						                                <span class="u-price realTimePrice up">3,428,000 (원/MT)</span>
 						                            </p>
 				                                    <div class="pd-period">
-				                                        <span class="qty">수량 ${vo.totalCnt} <span class="highlight">100MT</span></span>	
+				                                        <span class="qty">수량<span class="highlight">${vo.bidWt}</span></span>	
 														<span class="date">투찰기간 <span class="highlight">${vo.bddprBeginDt} ~ ${vo.bddprEndDt}</span></span> 
 													</div>
 				                                </div>
@@ -318,7 +318,7 @@
 														</div>
 				                                    </div>
 				                                    <div class="pd-name">
-														<span class="item">${vo.brandNm}</span>
+														<span class="item">${vo.dspyGoodsNm}</span>
 														<span class="wrhous">출고권역 - ${vo.dstrctLclsfCode}</span>
 														<span class="brand-group">${vo.brandGroupCodeNm}</span>
 				                                    </div>
@@ -327,7 +327,7 @@
 						                                <span class="u-price realTimePrice up">3,428,000 (원/MT)</span>
 						                            </p>
 				                                    <div class="pd-period">
-				                                        <span class="qty">수량 ${vo.totalCnt} <span class="highlight">100MT</span></span>	
+				                                        <span class="qty">수량<span class="highlight">${vo.bidWt}</span></span>	
 														<span class="date">투찰기간 <span class="highlight">${vo.bddprBeginDt} ~ ${vo.bddprEndDt}</span></span> 
 													</div>
 				                                </div>
@@ -396,7 +396,7 @@
 				                                        <span class="wrhous">출고권역 - 인천</span>
 				                                    </div>
 				                                    <div class="pd-period">
-				                                        <span class="qty">수량 <span class="highlight">100MT</span></span>
+				                                        <span class="qty">수량<span class="highlight">${vo.bidWt}</span></span>
 				                                        <span class="date">22.10.20 11:00:00 ~ 22.10.30 18:00:00</span>
 				                                    </div>
 				                                </div>
@@ -448,7 +448,7 @@
 				                                        <span class="wrhous">출고권역 - 인천</span>
 				                                    </div>
 				                                    <div class="pd-period">
-				                                        <span class="qty">수량 <span class="highlight">100MT</span></span>
+				                                        <span class="qty">수량<span class="highlight">${vo.bidWt}</span></span>
 				                                        <span class="date">22.10.20 11:00:00 ~ 22.10.30 18:00:00</span>
 				                                    </div>
 				                                </div>

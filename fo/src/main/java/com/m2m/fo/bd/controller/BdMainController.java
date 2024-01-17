@@ -31,16 +31,23 @@ public class BdMainController {
 	@RequestMapping("/")
     public String bidMain1(ModelMap model, HttpServletRequest request) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
-
+        
+        HttpSession session = request.getSession();
+        LoginVO member = (LoginVO) session.getAttribute("member");
         
         BdListVO bdListVO = new BdListVO();
         List<BdListVO> list = bdMainService.getBdList(bdListVO);
+        //member.getBidEntrpsNo()
+        bdListVO.setBidEntrpsNo("C0007");
+        
         BdListVO bdListCnt = bdMainService.getBdListTotalCnt(bdListVO);
-        HttpSession session = request.getSession();
-        LoginVO member = (LoginVO) session.getAttribute("member");
+
+        BdListVO bdCnt = bdMainService.bdMypageCount(bdListVO);
         model.addAttribute("bdList", list);
         model.addAttribute("bdListCnt", bdListCnt);
+        model.addAttribute("bdCnt", bdCnt);
         model.addAttribute("member", member);
+        
         return "bdTiles/bdMain";
 
     }
@@ -69,10 +76,8 @@ public class BdMainController {
 		try {
 			List<BdListVO> mainBdList = bdMainService.getBdList(bdBidVO);
 	        BdListVO bdListCnt = bdMainService.getBdListTotalCnt(bdBidVO);
-//			int totalCnt = 0;
-//			int expectCnt = 0;
-//			int bidingCnt = 0;
-//			int endCnt = 0;
+	        BdListVO bdCnt = bdMainService.bdMypageCount(bdBidVO);
+	        map.put("biddingCnt", bdCnt.getBiddingCnt());
 			//입찰예정,투찰중,(마감,서류접수중,서류심사중,유찰)
 
 			map.put("mainBdList", mainBdList);

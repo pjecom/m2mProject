@@ -43,11 +43,6 @@ public class BoBdPblnServiceImpl implements BoBdPblnService{
 	}
 
 	@Override
-	public BoBdPblnVO getBoBdPblnListTotalCnt(BoBdPblnVO vo) throws Exception {
-		return boBdPblnMapper.getBoBdPblnListTotalCnt(vo);
-	}
-
-	@Override
 	public List<CoCommCdVO> getbidSttusList(String mainCode) {
 		List<CoCommCdVO> list = boBdPblnMapper.getbidSttusList(mainCode);
 		return list;
@@ -56,6 +51,16 @@ public class BoBdPblnServiceImpl implements BoBdPblnService{
 	@Override
 	public int getCntByBidSttus(String subCode) {
 		return boBdPblnMapper.getCntByBidSttus(subCode);
+	}
+
+	@Override
+	public List<BoBdPblnVO> getBrandGrpList(CoCommCdVO commCdVO) {
+		return null;
+	}
+
+	@Override
+	public List<BoBdPblnVO> getBrandItemList(CoCommCdVO commCdVO) {
+		return null;
 	}
 
 	@Override
@@ -77,6 +82,8 @@ public class BoBdPblnServiceImpl implements BoBdPblnService{
 		boBdPblnMapper.updateBoBdPblnDtl(boBdPblnVO);
 	}
 
-
-
+	@Override
+	public void istboBdPbln(BoBdPblnVO boBdPblnVO) {
+		boBdPblnMapper.istboBdPbln(boBdPblnVO);
+	}
 }

@@ -17,8 +17,6 @@ public interface BoBdPblnMapper {
 	
 	List<BoBdPblnVO> getBoBdPblnList(BoBdPblnVO vo);
 
-	BoBdPblnVO getBoBdPblnListTotalCnt(BoBdPblnVO vo);
-
 	List<CoCommCdVO> getbidSttusList(String mainCode);
 
 	int getCntByBidSttus(String subCode);
@@ -31,7 +29,5 @@ public interface BoBdPblnMapper {
 
 	void updateBoBdPblnDtl(BoBdPblnVO boBdPblnVO);
 
-
-
-	
+	void istboBdPbln(BoBdPblnVO boBdPblnVO);
 }

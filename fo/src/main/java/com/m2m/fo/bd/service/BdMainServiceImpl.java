@@ -35,4 +35,8 @@ public class BdMainServiceImpl implements BdMainService {
 		List<BdListVO> list = bdMainMapper.bdMypageList(vo);
 		return list;
 	}
+	public BdListVO bdMypageCount(BdListVO vo) throws Exception {
+		// TODO Auto-generated method stub
+		return bdMainMapper.bdMypageCount(vo);
+	}
 }
