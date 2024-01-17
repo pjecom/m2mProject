@@ -72,6 +72,11 @@ public class BoBdPblnServiceImpl implements BoBdPblnService{
 		return boBdPblnMapper.getBoBdItemList();
 	}
 
+	@Override
+	public void updateBoBdPblnDtl(BoBdPblnVO boBdPblnVO) {
+		boBdPblnMapper.updateBoBdPblnDtl(boBdPblnVO);
+	}
+
 
 
 }

@@ -222,4 +222,30 @@
             BID_STTUS_CODE = #{subCode}
             AND DELETE_AT = 'N'
     </select>
+    <update id="updateBoBdPblnDtl" parameterType="com.m2m.fo.bo.model.BoBdPblnVO">
+		/* com.m2m.fo.bd.mapper.BoBdPblnMapper.updateBoBdPblnDtl */
+		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+		UPDATE BD_BID_BAS
+		SET 
+		    METAL_CODE                   = #{metalCode}                /*메탈코드*/
+		   ,BRAND_CODE                   = #{brandCode}                /*브랜드코드*/
+		   ,BRAND_GROUP_CODE             = #{brandGroupCode}           /*브랜드그룹코드*/
+		   ,GOODS_NM                     = (SELECT IIIB.GOODS_NM
+		                                    FROM IT_ITM_INFO_BAS IIIB 
+		                                    WHERE IIIB.ITM_SN = #{itmSn}
+		                                     AND DELETE_AT = 'N')      /*아이템상품명*/
+		   ,DSTRCT_LCLSF_CODE            = #{dstrctLclsfCode}          /*권역대분류코드*/
+		   ,BID_WT                       = #{bidWt}                    /*수량*/
+		   ,PERM_WT_RATE                 = #{permWtRate}               /*중량허용공차*/
+		   ,PC_APPN_BEGIN_DE             = #{pcAppnBeginDe}            /*가격지정기간시작*/
+		   ,PC_APPN_END_DE               = #{pcAppnBeginDe}            /*가격지정기간종료*/
+		   ,PC_APPN_MTH_CODE             = #{pcAppnMthCode}            /*가격지정방법*/
+		   ,SETLE_CRNCY_CODE             = #{setleCrncyCode}           /*결제통화코드*/
+		   ,SETLE_MTH_CODE               = #{setleMthCode}             /*결제방법코드*/
+		   ,SETLE_PD_CODE                = #{setlePdCode}              /*결제기간코드*/
+		   ,BDDPR_BEGIN_DT               = #{bddprBeginDt}             /*투찰시작일시*/
+		   ,BDDPR_END_DT                 = #{bddprEndDt}               /*투찰종료일시*/
+		   ,BDDPR_CANCL_LMTT_DE          = #{bddprCanclLmttDe}         /*투찰취소제한일자*/
+		WHERE BID_PBLANC_ID = #{bidPblancId} 
+	</update>
 </mapper>

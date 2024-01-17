@@ -149,10 +149,10 @@
 					<!-- Button trigger modal -->
 					<div class="modal-header">
 						<h5 class="modal-title" id="exampleModalLabel">
-							입찰 공고 상세&nbsp;&nbsp;&gt;&nbsp;PRIMARY AL INGOT
-							P1020&nbsp;&nbsp;&nbsp;&nbsp;<span
-								style="background-color: black; color: white; font-weight: normal;">&nbsp;&nbsp;
-								입찰공고번호 BID20221128-2 &nbsp;&nbsp;</span>
+							입찰 공고 상세&nbsp;&nbsp;&gt;&nbsp;
+							<span style="background-color: black; color: white; font-weight: normal;">&nbsp;&nbsp;
+								입찰공고번호 ${boBdPblnDtl.bidPblancId} &nbsp;&nbsp;
+							</span>
 						</h5>
 						<button type="button" class="btn"
 							style="margin-top: 10px; margin-right: 40px;"
@@ -214,7 +214,7 @@
 										<td>${boBdPblnDtl.metalCodeEm}</td>
 										</th>
 										<th scope="row">브랜드<i class="icon icon-required"></i></th>
-										<td>${boBdPblnDtl.brandGroupCodeNm}</td>
+										<td>${boBdPblnDtl.brandGroupCodeNm} / ${boBdPblnDtl.brandCode}</td>
 									</tr>
 									<tr>
 										<th scope="row">아이템 상품명<i class="icon icon-required"></i></th>

@@ -28,4 +28,6 @@ public interface BoBdPblnService {
 	List<BoBdPblnVO> getBoBdItemList();
 
 	int getCntByBidSttus(String subCode);
+
+	void updateBoBdPblnDtl(BoBdPblnVO boBdPblnVO);
 }

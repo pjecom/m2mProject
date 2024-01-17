@@ -10,12 +10,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.m2m.fo.bd.model.BdBddprVO;
 import com.m2m.fo.bo.model.BoBdBddprVO;
 import com.m2m.fo.bo.model.BoBdPblnUpdtVO;
 import com.m2m.fo.bo.model.BoBdPblnVO;
@@ -162,4 +166,26 @@ public class BoBdPblnController {
 		
         return "boModal/boBdPblnUpt";
     }
+    
+    @RequestMapping("/updateBoBdPblnDtl")
+    @ResponseBody
+	public ResponseEntity<?> updateBoBdPblnDtl(@RequestBody BoBdPblnVO boBdPblnVO) throws Exception {
+    	Map<String, Object> map = new HashMap<String, Object>();
+
+		try {
+			//공고수정내용업데이트
+			boBdPblnService.updateBoBdPblnDtl(boBdPblnVO);
+			map.put("result", "success");
+			
+			//넣은데이터 조회
+			//boBdPblnVO = boBdPblnService.getBoBdPblnDtl(boBdPblnVO);
+			
+			return new ResponseEntity<>(map, HttpStatus.OK); // ajax success 데이터 전달
+		 
+		} catch (Exception e) {
+
+			log.error(e.getMessage());
+			return new ResponseEntity<>("Error.", HttpStatus.BAD_REQUEST);
+		}
+	}
 }

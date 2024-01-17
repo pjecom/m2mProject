@@ -29,6 +29,9 @@ public interface BoBdPblnMapper {
 	
 	List<BoBdPblnVO> getBoBdItemList();
 
+	void updateBoBdPblnDtl(BoBdPblnVO boBdPblnVO);
+
+
 
 	
 }
