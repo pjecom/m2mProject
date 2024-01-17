@@ -98,10 +98,6 @@ public class BdSchedulerImpl implements BdScheduler {
 								bdSchedulerMapper.updateOtherCom(cmpVO);
 							}
 						}	
-					}else {
-						log.info("낙찰에 참여한 업체가 존재하지 않습니다.");
-						//해당 입찰공고 
-						bdSchedulerMapper.updateNoneCom(schedulerVO);
 					}
 				}
 			}	

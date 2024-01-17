@@ -90,16 +90,5 @@
 		AND BID_PBLANC_ID = #{bidPblancId}
 		AND BID_ENTRPS_NO = #{bidEntrpsNo}
 	</update>
-	
-	<update id="updateNoneCom" parameterType="com.m2m.fo.scheduler.BdSchedulerVO">
-		/* com.m2m.fo.scheduler.mapper.updateOtherCom */
-		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED		
-		UPDATE BD_BID_BAS 
-		SET 
-			BID_STTUS_CODE = '32'	/*입찰 상태코드 : 유찰*/
-			,LAST_CHANGER_ID = #{lastChangerId}
-			,LAST_CHANGE_DT = GETDATE()
-		WHERE 1=1 
-		AND BID_PBLANC_ID = #{bidPblancId}
-	</update>    
+	 
 </mapper>
