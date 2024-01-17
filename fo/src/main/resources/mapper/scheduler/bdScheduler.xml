@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.m2m.fo.scheduler.mapper.BdSchedulerMapper">
+		
+	<select id="selectBidList" resultType="com.m2m.fo.scheduler.BdSchedulerVO">
+		 SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+        /* com.m2m.fo.scheduler.mapper.selectBidList */
+		SELECT 
+			 BID_PBLANC_ID /*입찰공고 아이디*/
+			,BDDPR_END_DT	/*투찰종료 일시*/
+		FROM BD_BID_BAS
+		WHERE 1=1 
+		AND BID_STTUS_CODE = '13'
+	</select>
+	
+	<select id="selectCmpList" parameterType="com.m2m.fo.scheduler.BdSchedulerVO" resultType="com.m2m.fo.scheduler.BdSchedulerVO">
+		 SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+        /* com.m2m.fo.scheduler.mapper.selectCmpList */
+		SELECT 
+			BID_ENTRPS_NO	/*입찰업체번호*/ 
+			,BID_PBLANC_ID /*입찰공고 아이디*/
+			,(ISNULL(DELY_CND_STDR_PC, 0) + ISNULL(CNVRS_PREMIUM_AMOUNT,0) + ISNULL(BDDPR_PREMIUM_PC,0)) AS TOTAL_COST	/*투찰총금액*/
+			,BDDPR_DT	/*투찰일시*/
+		FROM BD_BDDPR_DTL
+		WHERE 1=1
+		AND BID_PBLANC_ID = #{bidPblancId}
+		AND CANCL_AT = 'N'	/*투찰취소하지 않은 기업만*/
+		ORDER BY TOTAL_COST ASC, BDDPR_DT　ASC
+	</select>	
+	
+	<update id="updateFirstCom" parameterType="com.m2m.fo.scheduler.BdSchedulerVO">
+		/* com.m2m.fo.scheduler.mapper.updateFirstCom */
+		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+		UPDATE BD_BID_BAS 
+		SET 
+			BID_STTUS_CODE = '31'	/*입찰 상태코드 : 낙찰*/
+			,LAST_CHANGER_ID = #{lastChangerId}
+			,LAST_CHANGE_DT = GETDATE()
+		WHERE 1=1 
+		AND BID_PBLANC_ID = #{bidPblancId}
+		
+		UPDATE BD_BDDPR_DTL
+		SET 
+			SCSBID_AT = 'Y'	/*낙찰여부-'Y', 패찰여부-'N*/
+			,SCSBID_DT =　CONVERT(NVARCHAR(14), GETDATE(), 112) + REPLACE(CONVERT(NVARCHAR(8), GETDATE(), 108), ':', '')	/*낙찰일시*/
+			,LAST_CHANGER_ID = #{lastChangerId}
+			,LAST_CHANGE_DT = GETDATE()
+		WHERE 1=1 
+		AND BID_PBLANC_ID = #{bidPblancId}
+		AND BID_ENTRPS_NO = #{bidEntrpsNo}
+	</update>
+	
+	<insert id="insetScsbidDtl" parameterType="com.m2m.fo.scheduler.BdSchedulerVO" >
+	  /* com.m2m.fo.scheduler.mapper.insetScsbidDtl */
+	  SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+		INSERT INTO BD_SCSBID_DTL                            /* 낙찰　상세          	*/
+		     ( 
+		       BID_ENTRPS_NO									   /* 입찰 업체 번호               		*/
+		     , BID_PBLANC_ID                                        /* 입찰 공고 아이디              	*/
+		     , JDGMN_STTUS_CODE                                      /* 심사상태 코드               	*/
+			 , DELETE_AT                            			   		/* 삭제 여부                    		*/
+			 , FRST_REGISTER_ID                                    	/* 최초 등록자 아이디            	*/
+			 , FRST_REGIST_DT                                      	/* 최초 등록 일시                	*/
+			 , LAST_CHANGER_ID                                    /* 최종 변경자 아이디          	*/
+			 , LAST_CHANGE_DT                                     /* 최종 변경 일시                	*/                                                                  
+		     )
+		VALUES
+		     (
+		       #{bidEntrpsNo}                                                                                  
+		     , #{bidPblancId}
+		     , '03'	/*03:적합*/                                                                    																			
+		     , 'N'                                                                                    
+		     , #{frstRegisterId}                                                                
+		     , GETDATE()                                                                                  
+		     , #{lastChangerId}                                               
+		     , GETDATE()                                                                    
+		     ) 	
+	</insert>
+	
+	<update id="updateOtherCom" parameterType="com.m2m.fo.scheduler.BdSchedulerVO">
+		/* com.m2m.fo.scheduler.mapper.updateOtherCom */
+		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED		
+		UPDATE BD_BDDPR_DTL
+		SET 
+			SCSBID_AT = 'N'	/*낙찰여부-'Y', 패찰여부-'N*/
+			,LAST_CHANGER_ID = #{lastChangerId}
+			,LAST_CHANGE_DT = GETDATE()
+		WHERE 1=1 
+		AND BID_PBLANC_ID = #{bidPblancId}
+		AND BID_ENTRPS_NO = #{bidEntrpsNo}
+	</update>
+	
+	<update id="updateNoneCom" parameterType="com.m2m.fo.scheduler.BdSchedulerVO">
+		/* com.m2m.fo.scheduler.mapper.updateOtherCom */
+		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED		
+		UPDATE BD_BID_BAS 
+		SET 
+			BID_STTUS_CODE = '32'	/*입찰 상태코드 : 유찰*/
+			,LAST_CHANGER_ID = #{lastChangerId}
+			,LAST_CHANGE_DT = GETDATE()
+		WHERE 1=1 
+		AND BID_PBLANC_ID = #{bidPblancId}
+	</update>    
+</mapper>
