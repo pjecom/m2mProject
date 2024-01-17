@@ -26,7 +26,7 @@
         </div>
         <div class="sidebar-2depth has-submenu" id="sidebar_418">
         	<a class="has-submenu">입찰 회원 관리</a><ul class="sidebar-3depth">
-        	<li id="sidebar_426" value="/bo/bd/selectBidMberList">입찰 회원 관리</li></ul>
+        	<li id="sidebar_426" value="/boMber/mberMng">입찰 회원 관리</li></ul>
        	</div>
     </ul>
 </div>
