@@ -43,6 +43,22 @@ public class SignupController {
 		return "signup/signupDtl";
 	}
 	
+	@PostMapping("/ConfirmId")
+	@ResponseBody
+	public ResponseEntity<Boolean> confirmId(String id) {
+	    log.info("ConfirmId.........");
+	    log.info("id : " + id);
+	    boolean result;
+
+	    if (id.trim().isEmpty()) {
+	        result = false;
+	    } else {
+	        result = !signupService.selectId(id);
+	    }
+
+	    return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
 	//입찰업체회원가입
 	@PostMapping("/insertEntrps")
 	@ResponseBody

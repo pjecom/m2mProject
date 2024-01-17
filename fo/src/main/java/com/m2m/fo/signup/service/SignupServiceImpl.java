@@ -17,6 +17,12 @@ public class SignupServiceImpl implements SignupService {
     private SignupMapper signupMapper;
 
     @Override
+	public boolean selectId(String id) {
+		log.info("Service :: selectId...................");
+		return signupMapper.selectId(id);
+	}
+    
+    @Override
     public void insertEntrps(SignupVO signupVO) throws Exception {
         String maxBidEntrpsNo = signupMapper.getMaxBidEntrpsNo();
 
@@ -37,4 +43,5 @@ public class SignupServiceImpl implements SignupService {
 
         signupMapper.insertEntrps(signupVO);
     }
+    
 }

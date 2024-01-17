@@ -8,4 +8,6 @@ public interface SignupMapper {
 	
 	public void insertEntrps(SignupVO signupVO);
 	
+	public boolean selectId(String id);
+	
 }

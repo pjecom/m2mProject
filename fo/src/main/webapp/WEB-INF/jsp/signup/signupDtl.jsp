@@ -189,7 +189,7 @@
 	                                <label for=vrscMoblphonNo>휴대폰 번호</label>
 	                               	<div class="input-complex">
 									    <span class="limit-width">
-		                                    <input type="text" name="vrscMoblphonNo" id="vrscMoblphonNo" placeholder="휴대폰 번호">
+		                                    <input type="text" name="vrscMoblphonNo" id="vrscMoblphonNo" maxlength="13" placeholder="휴대폰 번호">
 		                                </span>
 	                                </div>
 	                            </div>
@@ -220,8 +220,11 @@
 <script>
 $(function() {
 	//checkFlag
-	var checkIdFlag;
-	var checkEmailFlag;
+	var checkIdFlag = false;
+	var checkPwFlag = false;
+	var checkPwChkFlag = false;
+	var frntnEntrpsAt = "N";
+	var checkEmailFlag = false;
 	
 	$(".hidden-file").each(function(){
 		$(this).on('change',function(){
@@ -253,26 +256,53 @@ $(function() {
         $("#bidMberId").off().on("focus",function() {
             $("#idMsg").hide();
         });
-        //id check
-        $(document).off().on('blur keypress keydown', '#bidMberId', function() {
+
+     // 아이디 중복확인
+        $("#bidMberId").on("focusout", function () {
             var bidMberId = $("#bidMberId").val();
             checkBidId(bidMberId);
         });
-      	//아이디 정규식 체크 (영문, 영문 +숫자 12자 이내)
+
+        // 아이디 정규식 체크 (영문, 영문 + 숫자 12자 이내)
         var checkBidId = (bidMberId) => {
             var regBidId = /^(?=.*[a-zA-Z])[a-zA-Z0-9]{1,12}$/;
-            if(regBidId.test(bidMberId)){
+            if (regBidId.test(bidMberId)) {
                 $("#idMsg").hide();
-                checkIdFlag = true;
-            }else{
+                checkIdFlag = true; // 통과
+
+                // Ajax로 중복 확인
+                var id = $("#bidMberId").val();
+                $.ajax({
+                    url: './signup/ConfirmId',
+                    data: {
+                        id: id
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result == true) {
+                            $("#idMsg").show();
+                            $("#idMsg").text("사용 가능한 ID입니다.");
+                        } else {
+                            $("#bidMberId").val('');
+                            $("#idMsg").show();
+                            $("#idMsg").text("사용 불가능한 ID입니다.");
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error("AJAX 오류: " + textStatus, errorThrown);
+                    }
+                });
+            } else {
                 $("#idMsg").show();
-                checkIdFlag = false
+                $("#idMsg").text("아이디를 확인해주세요.");
+                checkIdFlag = false; // 불가
             }
-        }
+        };
         
 	//암호확인
  		$("#bidMberSecretNo, #pwChk").off().on({
-            //비밀번호 foucs 헬퍼텍스트 hide
+            //비밀번호 foucs 텍스트 hide
             focus: function() {
                 if ($(this).attr("id") === "bidMberSecretNo") {
                     $("#pwMsg").hide();
@@ -286,14 +316,18 @@ $(function() {
                 var bidPw = $("#bidMberSecretNo").val();
                 if (pwRegexPattern.test(bidPw)) {
                     $("#pwMsg").hide();
+                    checkPwFlag = true;
                 } else {
                     $("#pwMsg").show();
+                    checkPwFlag = false;
                 }
                 var pwChk = $("#pwChk").val();
                 if (bidPw === pwChk && pwChk !=="") {
                     $("#pwChkMsg").hide();
+                    checkPwChkFlag = true;
                 } else {
                     $("#pwChkMsg").show();
+                    checkPwChkFlag = false;
                 }
             },
             keyup: function(){
@@ -380,71 +414,136 @@ $(function() {
             isAgreeAll = false; //체크 종료
         }
     });
-	
-	//가입승인요청
+    
+  //가입승인요청
 	$("#btnSubmit").click(function() {
-		//기본정보
-		if(checkIdFlag == true && checkEmailFlag == true){
-		    var bidMberId = $("#bidMberId").val();											//id
-		    var bidMberSecretNo = $("#bidMberSecretNo").val();								//pw
-		    var entrpsNm = $("#entrpsNm").val();											//회사명
-		    var bsnmRegistNo = $("#bsnmRegistNo").val().replace(/-/g, ''); 					//사업자번호
-		    var bidMberEmail = $("#bidMberEmail").val();									//이메일
-			var moblphonNo2 = $("#moblphonNo2").val().replace(/-/g, ''); 					//휴대폰번호
-			
-			var frntnEntrpsAt = $("#frntnEntrpsAt").prop("checked") ? "Y" : "N";			//외국기업여부
-			
-			//대리정보
-		    var vrscEntrpsNm = $("#vrscEntrpsNm").val();									//대행 회사명
-		    var vrscBsnmRegistNo = $("#vrscBsnmRegistNo").val().replace(/-/g, '');			//대행사업자번호
-		    var vrscBidMberEmail = $("#vrscBidMberEmail").val();							//대행 이메일
-			var vrscMoblphonNo = $("#vrscMoblphonNo").val().replace(/-/g, ''); 				//대행 휴대폰번호
-			
-			var bidMberSttusCode = '03'														//입찰회원상태코드: 01정상 02차단 03승인대기
-			var bidConfmSttusCode = '01'													//입찰승인상태코드: 01요청 02거절 03승인정상	
-			var bidConfmDetailSttusCode = '01'												//입찰승인상세상태: 01가입 02변경
-		    
-		    var signupData = {
-		        "useStplatAgreAt": "${signupVO.useStplatAgreAt}",
-		        "indvdlInfoThreemanProvdAgreAt": "${signupVO.indvdlInfoThreemanProvdAgreAt}",
-		        "indvdlInfoProcessPolcyAgreAt": "${signupVO.indvdlInfoProcessPolcyAgreAt}",
-		        "mberChrctrRecptnAgreAt": "${signupVO.mberChrctrRecptnAgreAt}",
-		        "mberEmailRecptnAgreAt": "${signupVO.mberEmailRecptnAgreAt}",
-		        "mberPushRecptnAgreAt": "${signupVO.mberPushRecptnAgreAt}",
-		        
-		        "bidMberId": bidMberId,
-		        "bidMberSecretNo": bidMberSecretNo,
-		        "entrpsNm": entrpsNm,
-		        "bsnmRegistNo": bsnmRegistNo,
-		        "bidMberEmail": bidMberEmail,
-		        "moblphonNo2": moblphonNo2,
-		        
-		        "frntnEntrpsAt" : frntnEntrpsAt,
-		        
-		        "vrscEntrpsNm": vrscEntrpsNm,
-		        "vrscBsnmRegistNo": vrscBsnmRegistNo,
-		        "vrscBidMberEmail": vrscBidMberEmail,
-		        "vrscMoblphonNo": vrscMoblphonNo,
-		        
-		        "bidMberSttusCode": bidMberSttusCode,
-		        "bidConfmSttusCode": bidConfmSttusCode,
-		        "bidConfmDetailSttusCode": bidConfmDetailSttusCode,
-		    };
-	
-		    $.ajax({
-		        type: "POST",
-		        contentType: "application/json",
-		        url: "/signup/insertEntrps",
-		        data: JSON.stringify(signupData),
-		        success: function(data) {
-		            console.log(data);
-		            pageMove("/signup/signupCmp");
-		        },
-		        error: function(jqXHR, textStatus, errorThrown) {
-		            console.error("AJAX 오류: " + textStatus, errorThrown);
-		        }
-		    });
+	var frntnEntrpsAt = $("#frntnEntrpsAt").prop("checked") ? "Y" : "N";
+	debugger;
+		if(checkIdFlag == false){
+			alert('아이디를 다시 입력해주세요');
+			$("#bidMberId").focus();
+			return false;
+        }
+		if(checkPwFlag == false){
+        	alert('비밀번호를 다시 입력해주세요');
+			$("#bidMberSecretNo").focus();
+			return false;
+        } 
+		if(checkPwChkFlag == false){
+        	alert('비밀번호 확인을 다시 입력해주세요');
+			$("#pwChk").focus();
+			return false;
+        }
+		if($("#entrpsNm").val() == null || $("#entrpsNm").val() == ''){
+        	alert('회사이름을 입력해주세요');
+			$("#entrpsNm").focus();
+			return false;
+        }
+		if(frntnEntrpsAt == 'N'){	//외국기업이 아닐경우
+			if($("#bsnmRegistNo").val() == null || $("#bsnmRegistNo").val() == ''){
+	        	alert('사업자등록 번호를 다시 입력해주세요');
+	    		$("#bsnmRegistNo").focus();
+	    		return false;
+	        }
+			if(checkEmailFlag == false){
+	            alert('이메일을 다시 입력해주세요');
+	    		$("#bidMberEmail").focus();
+	    		return false;
+	        }
+			if($("#moblphonNo2").val() == null || $("#moblphonNo2").val() == ''){
+	            alert('휴대폰 번호를 다시 입력해주세요');
+	    		$("#moblphonNo2").focus();
+	    		return false;
+	        }
+		} else {	//외국기업일경우
+			if($("#vrscEntrpsNm").val() == null || $("#vrscEntrpsNm").val() == ''){
+	            alert('대리 회사이름을 입력해주세요');
+	    		$("#vrscEntrpsNm").focus();
+	    		return false;
+	        }
+			if($("#vrscBsnmRegistNo").val() == null || $("#vrscBsnmRegistNo").val() == ''){
+	        	alert('대리 사업자등록 번호를 다시 입력해주세요');
+	    		$("#vrscBsnmRegistNo").focus();
+	    		return false;
+	        }
+			if($("#vrscBidMberEmail").val() == null || $("#vrscBidMberEmail").val() == ''){
+	            alert('대리 이메일을 다시 입력해주세요');
+	    		$("#vrscBidMberEmail").focus();
+	    		return false;
+	        }
+			if($("#vrscMoblphonNo").val() == null || $("#vrscMoblphonNo").val() == ''){
+	            alert('대리 휴대폰 번호를 다시 입력해주세요');
+	    		$("#vrscMoblphonNo").focus();
+	    		return false;
+	        }
 		}
+		
+       	//기본정보
+    	if(checkIdFlag == true && checkEmailFlag == true && checkPwFlag == true){
+    	    var bidMberId = $("#bidMberId").val();											//id
+    	    var bidMberSecretNo = $("#bidMberSecretNo").val();								//pw
+    	    var entrpsNm = $("#entrpsNm").val();											//회사명
+    	    var bsnmRegistNo = $("#bsnmRegistNo").val().replace(/-/g, ''); 					//사업자번호
+    	    var bidMberEmail = $("#bidMberEmail").val();									//이메일
+    		var moblphonNo2 = $("#moblphonNo2").val().replace(/-/g, ''); 					//휴대폰번호
+    		
+    		var frntnEntrpsAt = frntnEntrpsAt;												//외국기업여부
+    		
+    		//대리정보
+    	    var vrscEntrpsNm = $("#vrscEntrpsNm").val();									//대행 회사명
+    	    var vrscBsnmRegistNo = $("#vrscBsnmRegistNo").val().replace(/-/g, '');			//대행사업자번호
+    	    var vrscBidMberEmail = $("#vrscBidMberEmail").val();							//대행 이메일
+    		var vrscMoblphonNo = $("#vrscMoblphonNo").val().replace(/-/g, ''); 				//대행 휴대폰번호
+    		
+    		var bidMberSttusCode = '03'														//입찰회원상태코드: 01정상 02차단 03승인대기
+    		var bidConfmSttusCode = '01'													//입찰승인상태코드: 01요청 02거절 03승인정상	
+    		var bidConfmDetailSttusCode = '01'												//입찰승인상세상태: 01가입 02변경
+    	    
+    	    var signupData = {
+    	        "useStplatAgreAt": "${signupVO.useStplatAgreAt}",
+    	        "indvdlInfoThreemanProvdAgreAt": "${signupVO.indvdlInfoThreemanProvdAgreAt}",
+    	        "indvdlInfoProcessPolcyAgreAt": "${signupVO.indvdlInfoProcessPolcyAgreAt}",
+    	        "mberChrctrRecptnAgreAt": "${signupVO.mberChrctrRecptnAgreAt}",
+    	        "mberEmailRecptnAgreAt": "${signupVO.mberEmailRecptnAgreAt}",
+    	        "mberPushRecptnAgreAt": "${signupVO.mberPushRecptnAgreAt}",
+    	        
+    	        "bidMberId": bidMberId,
+    	        "bidMberSecretNo": bidMberSecretNo,
+    	        "entrpsNm": entrpsNm,
+    	        "bsnmRegistNo": bsnmRegistNo,
+    	        "bidMberEmail": bidMberEmail,
+    	        "moblphonNo2": moblphonNo2,
+    	        
+    	        "frntnEntrpsAt" : frntnEntrpsAt,
+    	        
+    	        "vrscEntrpsNm": vrscEntrpsNm,
+    	        "vrscBsnmRegistNo": vrscBsnmRegistNo,
+    	        "vrscBidMberEmail": vrscBidMberEmail,
+    	        "vrscMoblphonNo": vrscMoblphonNo,
+    	        
+    	        "bidMberSttusCode": bidMberSttusCode,
+    	        "bidConfmSttusCode": bidConfmSttusCode,
+    	        "bidConfmDetailSttusCode": bidConfmDetailSttusCode,
+    	    };
+    		if (confirm('가입을 완료하시겠습니까?')) {
+    			$.ajax({
+        	        type: "POST",
+        	        contentType: "application/json",
+        	        url: "/signup/insertEntrps",
+        	        data: JSON.stringify(signupData),
+        	        success: function(data) {
+    	    	        pageMove("/signup/signupCmp");
+        	        },
+        	        error: function(jqXHR, textStatus, errorThrown) {
+        	            console.error("AJAX 오류: " + textStatus, errorThrown);
+        	        }
+        	    });
+    		}
+    	} else {
+    		alertPopup('다시 입력해주세요', function () {
+                return true;
+            });
+        }
 	});
 });
 function isValidEmail(email) {

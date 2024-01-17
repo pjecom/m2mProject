@@ -6,4 +6,6 @@ public interface SignupService {
 
 	public void insertEntrps(SignupVO signupVO) throws Exception;
 	
+	public boolean selectId(String id); 
+	
 }

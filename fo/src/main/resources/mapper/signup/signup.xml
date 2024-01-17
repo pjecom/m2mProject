@@ -2,7 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.m2m.fo.signup.mapper.SignupMapper">
+	<select id="selectId" resultType="boolean">
+		/* com.m2m.fo.signup.model.SignupMapper.selectId */  
+		SELECT COUNT(*)
+		  FROM BD_ENTRPS_INFO_BAS
+		WHERE 1=1 
+		AND BID_MBER_ID = #{bidMberId}
+	</select>
+	
 	<select id="getMaxBidEntrpsNo" resultType="java.lang.String">
+		/* com.m2m.fo.signup.model.SignupMapper.getMaxBidEntrpsNo */  
 	    SELECT MAX(BID_ENTRPS_NO)
 	    FROM BD_ENTRPS_INFO_BAS
 	</select>	
