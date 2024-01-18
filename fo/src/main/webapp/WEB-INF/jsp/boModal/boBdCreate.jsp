@@ -38,7 +38,7 @@
             <div class="main-content">
                 <div class="inner">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">입찰 공고 수정</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">입찰 공고 등록</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: 20px; margin-bottom: 10px;">
                             <span aria-hidden="true">&times;</span>
                         </button>
