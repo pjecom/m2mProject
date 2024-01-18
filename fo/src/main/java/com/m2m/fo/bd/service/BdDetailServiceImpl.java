@@ -36,6 +36,7 @@ public class BdDetailServiceImpl implements BdDetailService {
      * </pre>
      *  @date 2024. 01. 10.
      * @author SH
+     * @throws ParseException 
      * @history
      * ------------------------------------------------
      * 변경일					작성자				변경내용
@@ -44,11 +45,29 @@ public class BdDetailServiceImpl implements BdDetailService {
      * ------------------------------------------------
      **/
 	@Override
-	public BdDetailVO selectDetail(BdDetailVO bdDetailVO) {
+	public BdDetailVO selectDetail(BdDetailVO bdDetailVO) throws ParseException {
 		
-		return bdDetailMapper.selectDetail(bdDetailVO);
+		BdDetailVO detailVO = bdDetailMapper.selectDetail(bdDetailVO);
+		
+		// 현재 문자열 형식
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+
+        // 변환할 문자열 형식
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+
+        Date BeginDate = inputFormat.parse(detailVO.getBddprBeginDt());
+        Date EndDate = inputFormat.parse(detailVO.getBddprEndDt());
+        
+        //투찰기간시작일
+        String bddrBeginDate = outputFormat.format(BeginDate);
+        //투찰기간종료일
+        String bddrEndDate = outputFormat.format(EndDate);
+        
+        detailVO.setBddrBeginDate(bddrBeginDate);
+        detailVO.setBddrEndDate(bddrEndDate);
+        
+		return detailVO;
 	}
-	
     /**
      * <pre>
      * 처리내용: 인도조건 리스트 조회(공통테이블)
@@ -281,6 +300,75 @@ public class BdDetailServiceImpl implements BdDetailService {
 		bdDetailMapper.updateBdBddpr(bdBddprVO);
 		
 	}
+
+    /**
+     * <pre>
+     * 처리내용: 투찰에 참여한 기업조회 update(투찰상세 테이블, 업체정보 기본테이블)
+     * </pre>
+     *  @date 2024. 01. 12.
+     * @author SH
+     * @history
+     * ------------------------------------------------
+     * 변경일					작성자				변경내용
+     * ------------------------------------------------
+     * 2024. 01. 12.		SH    			최초작성
+     * ------------------------------------------------
+     **/
+	@Override
+	public List<BdBddprVO> bdBidResultList(BdDetailVO bdDetailVO) throws ParseException {
+		// TODO Auto-generated method stub
+		List<BdBddprVO> BdBddprList = bdDetailMapper.bdBidResultList(bdDetailVO);
+		
+		for(BdBddprVO bdBddprVO : BdBddprList) {
+      
+			//날짜 포맷형식 바꿈
+	        String bddprDt = changeDate(bdBddprVO.getBddprDt());
+	        
+	        // vo에 주입
+	        bdBddprVO.setBddprDt(bddprDt);
+	        
+	        //받은 가격을 뒷자리만 남기고 * 로 처리
+	        long cost = bdBddprVO.getTotalCost();
+	        
+	        // 가격을 문자열로 변환
+	        String costString = String.valueOf(cost);
+
+	        // 맨 뒷자리만 남기고 나머지는 '*'로 채우기
+	        String maskedTotalCost = maskString(costString);
+	        
+	        bdBddprVO.setMaskedTotalCost(maskedTotalCost);
+		}
+		return BdBddprList;
+	}
+	
+	// 맨 뒷자리만 남기고 나머지는 '*'로 채우는 메소드
+	private static String maskString(String input) {
+	    if (input == null || input.isEmpty()) {
+	        return input;
+	    }
+
+	    char lastChar = input.charAt(input.length() - 1);
+	    StringBuilder maskedString = new StringBuilder();
+	    for (int i = 0; i < input.length() - 1; i++) {
+	        maskedString.append('*');
+	    }
+	    maskedString.append(lastChar);
+
+	    return maskedString.toString();
+	}
+	
+	// 날짜 형식 바꾸는 메소드
+	private static String changeDate(String date) throws ParseException{
+		// 현재 문자열 형식
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        // 변환할 문자열 형식
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+
+        Date ChangeDate = inputFormat.parse(date);
+
+	    return outputFormat.format(ChangeDate);
+	}
+
 
 }
 

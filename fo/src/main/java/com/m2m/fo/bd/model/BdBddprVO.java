@@ -36,6 +36,11 @@ public class BdBddprVO {
 	private String bddprTotalPc;				 //투찰최종가격
 	private String bidMberId;					 //회원아이디
 	private String DateCancelFlag;				 //투찰회원조회 플래그값 (Y-취소된 투찰)
-
+	
+	private int rank;							 //순위
+	private String entrpsNm;					 //업체명
+	private long totalCost;						 //투찰총금액
+	private String maskedTotalCost;				 //투찰총금액(*)
+	private String scsbidResult;				 //결과
 	
 }

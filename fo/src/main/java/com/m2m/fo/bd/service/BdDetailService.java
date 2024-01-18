@@ -11,7 +11,7 @@ public interface BdDetailService {
 	public String getString();
 
 	/*디테일조회*/
-	public BdDetailVO selectDetail(BdDetailVO bdDetailVO);
+	public BdDetailVO selectDetail(BdDetailVO bdDetailVO) throws ParseException;
 
 	/*인도조건 리스트 조회*/
 	public List<BdDetailVO> selectbdDelyCndList(BdDetailVO bdDetailVO);
@@ -21,6 +21,9 @@ public interface BdDetailService {
 	
 	/*입찰 수정 내용조회*/
 	public List<bdUpdateVO> selectBdUpdtList(BdDetailVO bdDetailVO);
+	
+	/*투찰에 참여한 기업 조회*/
+	public List<BdBddprVO> bdBidResultList(BdDetailVO bdDetailVO) throws ParseException;
 
 	/*비밀번호 확인*/
 	public String passwordCheck(BdDetailVO bdDetailVO);
@@ -30,7 +33,5 @@ public interface BdDetailService {
 	
 	/*투찰취소 update*/
 	public void updateBdBddpr(BdBddprVO bdBddprVO);
-
-
 
 }

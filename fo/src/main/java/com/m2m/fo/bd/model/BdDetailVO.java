@@ -63,6 +63,8 @@ public class BdDetailVO {
 	private String codeDcone;					 //공통코드(코드1)
 	private String codeDctwo;					 //공통코드(코드2) 
 	private String nationUrl;					 //국가코드
+	private String bddrBeginDate;				 //투찰기간시작일(포맷)
+	private String bddrEndDate;				     //투찰기간종료일(포맷)
 	
 	
 	// 업체정보 기본

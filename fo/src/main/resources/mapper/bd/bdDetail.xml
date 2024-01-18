@@ -41,6 +41,8 @@
 				, CCC.CODE_DCTWO AS NATION_URL
 				, BB.PARTCPTN_ENTRPS_QY /*참여업체수량*/
 				, BB.INTRST_ENTRPS_QY	/*관심업체수량*/
+				, BB.BDDPR_CANCL_POSS_AT	/*투찰취소 가능 여부*/
+				, BB.BDDPR_CANCL_LMTT_DE	/*투찰취소 제한 일자*/
 		FROM BD_BID_BAS BB
 		LEFT OUTER JOIN IT_BRAND_INFO_BAS IBIB
 		ON BB.BRAND_CODE = IBIB.BRAND_CODE
@@ -88,6 +90,7 @@
 			,CASE WHEN CANCL_AT = 'Y' THEN CANCL_DT
 				ELSE '-' 
 			  END AS CANCL_DT	/*투찰취소일시*/
+			,SCSBID_AT	/*낙찰여부*/
 		FROM	
 			BD_BDDPR_DTL BBD
 		WHERE 1=1
@@ -110,6 +113,37 @@
 		  AND BUH.BID_PBLANC_ID  		= #{bidPblancId}
 		ORDER BY FRST_REGIST_DT 
 	</select>	
+	
+	<select id="bdBidResultList" parameterType="com.m2m.fo.bd.model.BdDetailVO" resultType="com.m2m.fo.bd.model.BdBddprVO">
+		 SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+        /* com.m2m.fo.bd.mapper.BdDetailMapper.bdBidResultList */
+		SELECT
+			ROW_NUMBER() OVER (ORDER BY TOTAL_COST ASC, BDDPR_DT　ASC) AS RANK	/*순위*/
+			,AA.BID_PBLANC_ID	/*입찰공고아이디*/
+			,AA.BID_ENTRPS_NO	/*입찰업체번호*/
+			,AA.ENTRPS_NM	/*업체명*/
+			,AA.BDDPR_DT	/*투찰일시*/
+			,AA.TOTAL_COST	/*투찰총금액*/
+			,AA.SCSBID_RESULT	/*결과*/
+		FROM 
+			(
+				SELECT
+					BBD.BID_PBLANC_ID	/*입찰공고아이디*/
+					,BBD.BID_ENTRPS_NO	/*입찰업체번호*/
+					,BEIB.ENTRPS_NM	/*업체명*/
+					,BBD.BDDPR_DT	/*투찰일시*/
+					,(ISNULL(DELY_CND_STDR_PC, 0) + ISNULL(CNVRS_PREMIUM_AMOUNT,0) + ISNULL(BDDPR_PREMIUM_PC,0)) AS TOTAL_COST	/*투찰총금액*/
+					,CASE WHEN SCSBID_AT = 'Y' THEN '낙찰'
+						ELSE '패찰' END AS SCSBID_RESULT	/*결과*/
+				FROM BD_BDDPR_DTL BBD
+				INNER JOIN BD_ENTRPS_INFO_BAS BEIB
+				ON BBD.BID_ENTRPS_NO = BEIB.BID_ENTRPS_NO
+				WHERE 1=1
+				AND BBD.BID_PBLANC_ID = #{bidPblancId}
+				AND BBD.CANCL_AT = 'N'
+			) AS AA
+		ORDER BY TOTAL_COST ASC, BDDPR_DT　ASC
+	</select>
     
     <select id="passwordCheck" parameterType="com.m2m.fo.bd.model.BdDetailVO" resultType="String">
 	  /* com.m2m.fo.bd.mapper.BdDetailMapper.passwordCheck */
