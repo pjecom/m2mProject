@@ -24,6 +24,9 @@ public interface BdDetailService {
 	
 	/*투찰에 참여한 기업 조회*/
 	public List<BdBddprVO> bdBidResultList(BdDetailVO bdDetailVO) throws ParseException;
+	
+	/*유찰사유 select*/
+	public BdDetailVO selectFailReason(BdDetailVO bdDetailVO) throws ParseException;
 
 	/*비밀번호 확인*/
 	public String passwordCheck(BdDetailVO bdDetailVO);

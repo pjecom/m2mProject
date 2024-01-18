@@ -71,4 +71,8 @@ public class BdDetailVO {
 	private String bidEntrpsNo;					 //입찰업체번호
 	private String bidMberSecretNo;				 //입찰회원비밀번호
 	
+	//유찰사유
+	private String rejectBidResn;				 //유찰사유
+	private String rejectBidResnDt;				 //유찰시간
+	
 }

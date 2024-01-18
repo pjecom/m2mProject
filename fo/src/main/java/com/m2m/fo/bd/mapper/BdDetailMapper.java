@@ -29,5 +29,7 @@ public interface BdDetailMapper {
 	public String getHashedPasswordFromDB(String bidMberSecretNo);
 
 	public List<BdBddprVO> bdBidResultList(BdDetailVO bdDetailVO);
+
+	public BdDetailVO selectFailReason(BdDetailVO bdDetailVO);
 	
 }

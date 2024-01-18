@@ -89,6 +89,12 @@ public class BdDetailController {
 			model.addAttribute("bdBidResultList", bdBidResultList);	
 		}
 		
+		//유찰사유
+		if("32".equals(detailVO.getBidSttusCode())) {
+			BdDetailVO failReason  = new BdDetailVO();
+			failReason = bdDetailService.selectFailReason(bdDetailVO);
+			model.addAttribute("failReason", failReason);
+		}
 		
         return "bdTiles/bdDetail";
 

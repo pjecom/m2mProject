@@ -250,4 +250,16 @@
 	        AND BID_ENTRPS_NO = #{bidEntrpsNo}
 	</select>
 	
+	<select id="selectFailReason" parameterType="com.m2m.fo.bd.model.BdDetailVO" resultType="com.m2m.fo.bd.model.BdDetailVO">
+	  /* com.m2m.fo.bd.mapper.BdDetailMapper.selectFailReason */
+		 SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+		SELECT 
+			BID_PBLANC_ID	/*입찰공고 아이디*/
+			,REJECT_BID_RESN	/*유찰사유*/
+			,REJECT_BID_RESN_DT	/*유찰시간*/
+		FROM BD_BID_BAS
+		WHERE 1=1
+		AND BID_PBLANC_ID = #{bidPblancId}
+	</select>
+	
 </mapper>

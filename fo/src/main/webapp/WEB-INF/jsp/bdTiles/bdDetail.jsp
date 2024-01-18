@@ -206,7 +206,7 @@
 										</c:if>
 										<!-- ###################### END 마감(내가 참여하지 않은 마감건) ######################-->
 										<!-- ###################### START 투찰중(투찰 최종가격) ######################-->
-										<c:if test="${bdDetailVO.bidSttusCode eq '13' || (bdDetailVO.bidSttusCode eq '31' && bdBddprVO.scsbidAt eq 'Y') || (bdDetailVO.bidSttusCode eq '31' && bdBddprVO.scsbidAt eq 'N')}">
+										<c:if test="${bdDetailVO.bidSttusCode eq '13' || (bdDetailVO.bidSttusCode eq '31' && bdBddprVO.scsbidAt eq 'Y') || (bdDetailVO.bidSttusCode eq '31' && bdBddprVO.scsbidAt eq 'N') || bdDetailVO.bidSttusCode eq '32'}">
 											<!-- ###################### START 입찰 후(Flag값 'Y') ######################-->
 											<c:if test="${bdBddprVO.bddprFlag eq 'Y'}">
 												<tr class="bid-condition">
@@ -452,10 +452,33 @@
 										</table>
 									</div> 
 								</c:if>
-				                <!-- ###################### END 투찰결과 ######################--> 	
+				                <!-- ###################### END 투찰결과 ######################-->
+								<!-- ###################### START 유찰사유 ###################### -->
+								<c:if test = "${bdDetailVO.bidSttusCode eq '32'}">
+									<div class="section fixes-wrap">
+										<div class="tbl-list-summary">
+											유찰 사유
+										</div>
+										<ul class="list t2">
+											<li>
+												<div class="balance-manage-result">
+													<div class="date">${failReason.rejectBidResnDt}</div>
+													<div class="figure-con">
+														<p class="pd-order">
+															<span>
+																${failReason.rejectBidResn}
+															</span>
+														</p>
+													</div>
+												</div>
+											</li>                               
+										</ul>
+									</div>	
+								</c:if>		                    
+								<!-- ###################### END 유찰사유 ###################### -->	 	
 			                    <div class="btn-wrap">
 									<c:choose> 
-										<c:when test="${bdBddprVO.bddprFlag eq 'Y' && bdBddprVO.dateCancelFlag ne 'Y' && !(bdDetailVO.bidSttusCode eq '31' && bdBddprVO.scsbidAt eq 'Y') && !(bdDetailVO.bidSttusCode eq '31' && bdBddprVO.scsbidAt eq 'N')}">
+										<c:when test="${bdBddprVO.bddprFlag eq 'Y' && bdBddprVO.dateCancelFlag ne 'Y' && !(bdDetailVO.bidSttusCode eq '31' && bdBddprVO.scsbidAt eq 'Y') && !(bdDetailVO.bidSttusCode eq '31' && bdBddprVO.scsbidAt eq 'N') && bdDetailVO.bidSttusCode ne '32'}">
 											<button type="button" class="btn-gray-big btn-list" onclick="pageMove('/');">공고 목록가기</button>
 											<button type="button" id="bidStr" class="btn-blue-big" onclick="moveMyPage()">마이페이지</button>
 											<button type="button" id="bidStr" class="btn-blue-big" onclick="canclPopup()">투찰취소</button>
@@ -467,12 +490,12 @@
 										<c:when test="${bdDetailVO.bidSttusCode eq '12'}">
 											<button type="button" class="btn-gray-big btn-list" onclick="pageMove('/');">공고 목록가기</button>
 										</c:when>
-										<c:when test="${(bdDetailVO.bidSttusCode eq '31' && bdBddprVO.scsbidAt eq 'Y')}">
+										<c:when test="${(bdDetailVO.bidSttusCode eq '31' && bdBddprVO.scsbidAt eq 'Y') }">
 											<button type="button" class="btn-gray-big btn-list" onclick="moveMyPage('/');">목록가기</button>
 											<button type="button" class="btn-stroke-big blue">낙찰 확인서</button>
 											<button type="button" class="btn-blue-big">서류접수하기</button>
 										</c:when>
-										<c:when test="${(bdDetailVO.bidSttusCode eq '31' && bdBddprVO.scsbidAt eq 'N')}">
+										<c:when test="${(bdDetailVO.bidSttusCode eq '31' && bdBddprVO.scsbidAt eq 'N') || bdDetailVO.bidSttusCode eq '32'}">
 											<button type="button" class="btn-gray-big btn-list" onclick="moveMyPage('/');">목록가기</button>
 										</c:when>										
 										<c:otherwise>

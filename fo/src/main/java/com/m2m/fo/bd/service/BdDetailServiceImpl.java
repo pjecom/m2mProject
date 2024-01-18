@@ -341,6 +341,40 @@ public class BdDetailServiceImpl implements BdDetailService {
 		return BdBddprList;
 	}
 	
+    /**
+     * <pre>
+     * 처리내용: 유찰사유,시간 select(투찰 기본테이블)
+     * </pre>
+     *  @date 2024. 01. 12.
+     * @author SH
+     * @history
+     * ------------------------------------------------
+     * 변경일					작성자				변경내용
+     * ------------------------------------------------
+     * 2024. 01. 12.		SH    			최초작성
+     * ------------------------------------------------
+     **/	
+	@Override
+	public BdDetailVO selectFailReason(BdDetailVO bdDetailVO) throws ParseException{
+		// TODO Auto-generated method stub
+		BdDetailVO failReason = bdDetailMapper.selectFailReason(bdDetailVO);
+		
+		// 현재 문자열 형식
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+
+        // 변환할 문자열 형식
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+
+        Date rejectDate = inputFormat.parse(failReason.getRejectBidResnDt());
+        
+        //투찰기간시작일
+        String rejectBidDate = outputFormat.format(rejectDate);
+        
+        failReason.setRejectBidResnDt(rejectBidDate);
+        
+		return failReason;
+	}
+	
 	// 맨 뒷자리만 남기고 나머지는 '*'로 채우는 메소드
 	private static String maskString(String input) {
 	    if (input == null || input.isEmpty()) {
