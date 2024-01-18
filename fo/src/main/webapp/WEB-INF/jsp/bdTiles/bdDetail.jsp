@@ -107,16 +107,16 @@
 												<div class="btn-bid-stroke">개찰중</div>
 											</c:when>
 											<c:when test="${bdDetailVO.bidSttusCode eq '30'}">
-												<div class="btn-bid-stroke">마감(미투찰)</div>
+												<div class="btn-bid-stroke">마감</div>
 											</c:when>
 											<c:when test="${(bdDetailVO.bidSttusCode eq '31' && bdBddprVO.scsbidAt eq 'Y')}">
-												<div class="btn-bid-stroke">마감(최종낙찰)</div>
+												<div class="btn-bid-stroke">최종낙찰</div>
 											</c:when>
 											<c:when test="${bdDetailVO.bidSttusCode eq '32'}">
-												<div class="btn-bid-stroke">마감(유찰)</div>
+												<div class="btn-bid-stroke">유찰</div>
 											</c:when>
 											<c:when test="${(bdDetailVO.bidSttusCode eq '31' && bdBddprVO.scsbidAt eq 'N')}">
-												<div class="btn-bid-stroke">마감(페찰)</div>
+												<div class="btn-bid-stroke">페찰</div>
 											</c:when>
 											<c:otherwise>
 												<div class="btn-bid-stroke">마감</div>
