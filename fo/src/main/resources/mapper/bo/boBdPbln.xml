@@ -284,8 +284,10 @@
 		   ,DSTRCT_LCLSF_CODE            = #{dstrctLclsfCode}          /*권역대분류코드*/
 		   ,BID_WT                       = #{bidWt}                    /*수량*/
 		   ,PERM_WT_RATE                 = #{permWtRate}               /*중량허용공차*/
+		   ,DELY_BEGIN_DE             	 = #{delyBeginDe}              /*인도시작일자*/
+		   ,DELY_End_DE               	 = #{delyEndDe}                /*인도종료일자*/
 		   ,PC_APPN_BEGIN_DE             = #{pcAppnBeginDe}            /*가격지정기간시작*/
-		   ,PC_APPN_END_DE               = #{pcAppnEndDe}            /*가격지정기간종료*/
+		   ,PC_APPN_END_DE               = #{pcAppnEndDe}              /*가격지정기간종료*/
 		   ,PC_APPN_MTH_CODE             = #{pcAppnMthCode}            /*가격지정방법*/
 		   ,SETLE_CRNCY_CODE             = #{setleCrncyCode}           /*결제통화코드*/
 		   ,SETLE_MTH_CODE               = #{setleMthCode}             /*결제방법코드*/

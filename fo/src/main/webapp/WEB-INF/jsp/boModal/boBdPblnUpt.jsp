@@ -210,7 +210,7 @@
 																<!-- 인도시작일 -->
  																<fmt:parseDate value="${boBdPblnDtl.delyBeginDe}" var="delyBeginDe" pattern="yyyyMMdd"/>
 																<fmt:formatDate value="${delyBeginDe}" var="formattedBeginDe" pattern="yyyy-MM-dd"/> 
-																	<input type="text" class="input" value="${formattedBeginDe}"/>
+																	<input type="text" class="input" id="delyBeginDe" value="${formattedBeginDe}"/>
 																	<label for="delyBeginDate" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
 																</div>
 																<span>~</span>
@@ -220,7 +220,7 @@
 																<!-- 인도종료일 -->
 																<fmt:parseDate value="${boBdPblnDtl.delyEndDe}" var="delyEndDe" pattern="yyyyMMdd"/>
 																<fmt:formatDate value="${delyEndDe}" var="formattedBndDe" pattern="yyyy-MM-dd"/>
-																	<input type="text" class="input" value="${formattedBndDe}"/>
+																	<input type="text" class="input" id="delyEndDe" value="${formattedBndDe}"/>
 																	<label for="delyEndDeDate" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
 																</div>
 															</div>
@@ -533,6 +533,8 @@ function saveBdData() {
 	var bddprCanclLmttDe = $('#bddprCancldateInput').val().replace(/-/g, '') + bddprCanclH + $('#bddprCanclM').val() + $('#bddprCanclS').val();
 	var pcAppnBeginDe = $("#pcAppnBeginDe").val().replace(/-/g, '')
 	var pcAppnEndDe = $("#pcAppnEndDe").val().replace(/-/g, '')
+	var delyBeginDe = $("#delyBeginDe").val().replace(/-/g, '')
+	var delyEndDe = $("#delyEndDe").val().replace(/-/g, '')
 	
 		var params = {
 		"bidPblancId" : "${boBdPblnDtl.bidPblancId}",           // 입찰 공고아이디 
@@ -543,6 +545,8 @@ function saveBdData() {
    		"dstrctLclsfCode" : $('#dstrctLclsfCode').val(),        // 권역
    		"bidWt" : $('#bidWt').val(),                            // 수량(톤)
    		"permWtRate" : $('#permWtRate').val(),                  // 중량허용공차
+   		"delyBeginDe" :  delyBeginDe,           				// 인도기한시작
+   		"delyEndDe" :  delyEndDe,           					// 인도기한종료
    		"pcAppnBeginDe" :  pcAppnBeginDe,           			// 가격지정시작
    		"pcAppnEndDe" :  pcAppnEndDe,           				// 가격지정종료
    		"pcAppnMthCode" :  $('#pcAppnMthCode').val(),           // 가격지정방법코드
@@ -567,6 +571,7 @@ function saveBdData() {
 			// 공고수정확인
             if (confirm('공고 건이 수정되었습니다.')) {
                 // 사용자가 확인 버튼을 누른 경우 modalClose 함수 호출
+                getBidNoticeList()
                 modalClose();
             }
 			
