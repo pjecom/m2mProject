@@ -15,12 +15,10 @@
 
     <link rel="stylesheet" type="text/css" href="/bo_guide/js/vakata-jstree-4a77e59/dist/themes/default/style.min.css"><!-- Folder tree -->
     <link rel="stylesheet" type="text/css" href="/bo_guide/js/bootstrap-timepicker-0.5.2/css/bootstrap-timepicker.css">
-    <link rel="stylesheet" type="text/css" href="/bo_guide/js/fullcalendar-5.7.0/lib/main.css"><!-- Full calendar -->
     <link rel="stylesheet" type="text/css" href="/bo_guide/css/style.css" />
 
     <!-- realGrid -->
     <script type="text/javascript" src="/bo_guide/js/realgrid.2.3.2/realgrid-lic.js"></script>
-    <!-- script type="text/javascript" src="/bo_guide/js/realgrid.2.3.2/realgrid-utils.js"></script -->
     <script type="text/javascript" src="/bo_guide/js/realgrid.2.3.2/realgrid.2.3.2.min.js"></script>
     <script type="text/javascript" src="/bo_guide/js/realgrid.2.3.2/libs/jszip.min.js"></script>
     <!-- //realGrid -->
@@ -30,9 +28,6 @@
     <script type="text/javascript" src="/bo_guide/js/bootstrap4-datepicker-master/js/locales/bootstrap-datepicker.ko.js"></script>
     <script type="text/javascript" src="/bo_guide/js/bootstrap-timepicker-0.5.2/js/bootstrap-timepicker.js"></script>
     <script type="text/javascript" src="/bo_guide/js/vakata-jstree-4a77e59/dist/jstree.min.js"></script><!-- Folder tree -->
-    <script type="text/javascript" src="/bo_guide/js/fullcalendar-5.7.0/lib/main.js"></script><!-- Full calendar -->
-    <script type="text/javascript" src="/bo_guide/js/fullcalendar-5.7.0/lib/locales/ko.js"></script><!-- Full calendar(한글) -->
-    <script type="text/javascript" src="/bo_guide/js/realgridCustom.js"></script><!-- 퍼블 작성 -->
     <script type="text/javascript" src="/bo_guide/js/common.js"></script><!-- 퍼블 작성 -->
 
 </head>
@@ -442,8 +437,6 @@
 </body>
 
 <script>
-    let boBdPbln = {}
-
     function createBdNotice() {
         boBdPbln.metalCode = $('#metal-select').val();
         boBdPbln.brandGroupCode = $('#brand-group-select').val();
@@ -515,11 +508,11 @@
     });
 
     function formatDateTime(date, pod, hour, min, sec) {
-        hour = pod === 'am' ? hour : parseInt(hour) + 12;
+        hour = pod === 'am' ? parseInt(hour) : parseInt(hour) + 12;
 
-        hour = hour.toString().padStart(2, '0');
-        min = min.toString().padStart(2, '0');
-        sec = sec.toString().padStart(2, '0');
+        hour = parseInt(hour).toString().padStart(2, '0');
+        min = parseInt(min).toString().padStart(2, '0');
+        sec = parseInt(sec).toString().padStart(2, '0');
 
         if(date === '') {
             return ''
