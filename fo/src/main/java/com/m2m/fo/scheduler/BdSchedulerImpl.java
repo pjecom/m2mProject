@@ -26,7 +26,7 @@ public class BdSchedulerImpl implements BdScheduler {
 	private BdSchedulerMapper bdSchedulerMapper;
 	
 	@Override
-	@Scheduled(cron = "0 0/5 * * * *", zone = "Asia/Seoul")
+	@Scheduled(cron = "0 0/1 * * * *", zone = "Asia/Seoul")
 	public void lowDibSheduler() {
 		log.info("########### 최저가 낙찰 스케쥴러 시작 ###########");
 		
@@ -103,7 +103,7 @@ public class BdSchedulerImpl implements BdScheduler {
 	}
 	
 	@Override
-	@Scheduled(cron = "0 0/5 * * * *", zone = "Asia/Seoul")
+	@Scheduled(cron = "0 0/1 * * * *", zone = "Asia/Seoul")
 	public void changeBid() {
 		log.info("########### 투찰중 상태이상 변경 스케쥴러 시작 ###########");
 		BdSchedulerVO schedulerVO = new BdSchedulerVO();
