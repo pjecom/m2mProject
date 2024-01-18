@@ -90,5 +90,29 @@
 		AND BID_PBLANC_ID = #{bidPblancId}
 		AND BID_ENTRPS_NO = #{bidEntrpsNo}
 	</update>
+	
+	<select id="selectPlanList" resultType="com.m2m.fo.scheduler.BdSchedulerVO">
+		 SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+        /* com.m2m.fo.scheduler.mapper.selectPlanList */
+		SELECT 
+			 BID_PBLANC_ID /*입찰공고 아이디*/
+			,BDDPR_BEGIN_DT	/*투찰시작 일시*/
+		FROM BD_BID_BAS
+		WHERE 1=1 
+		AND BID_STTUS_CODE = '12'
+	</select>
+	
+	<update id="updateBidPlan" parameterType="com.m2m.fo.scheduler.BdSchedulerVO">
+		/* com.m2m.fo.scheduler.mapper.updateBidPlan */
+		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+		UPDATE BD_BID_BAS 
+		SET 
+			BID_STTUS_CODE = '13'	/*입찰 상태코드 : 투찰중*/
+			,LAST_CHANGER_ID = #{lastChangerId}
+			,LAST_CHANGE_DT = GETDATE()
+		WHERE 1=1 
+		AND BID_PBLANC_ID = #{bidPblancId}
+
+	</update>
 	 
 </mapper>

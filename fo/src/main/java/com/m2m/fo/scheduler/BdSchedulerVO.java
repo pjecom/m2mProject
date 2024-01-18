@@ -14,4 +14,5 @@ public class BdSchedulerVO {
 	private String bidEntrpsNo;	/*입찰업체번호*/
 	private String frstRegisterId;  /*최초등록자ID*/
 	private String lastChangerId;	/*최종변경자ID*/
+	private String bddprBeginDt;	/*투찰종료일*/
 }
