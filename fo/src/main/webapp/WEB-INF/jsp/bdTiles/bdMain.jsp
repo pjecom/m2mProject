@@ -112,7 +112,7 @@
 					<option value="02">마감일</option>
 				</select>
 			</div>
-			<div class="cal" onchange="selectBdMainInfoList(-1);">
+			<div class="cal" onchange="selectBdMainInfoList(-1)";>
 				<div class="datepicker-wrap">
 					<input type="text"
 						class="datepicker from center validate[required,custom[date]]"
@@ -329,8 +329,7 @@ $(function() {
 		,minDate: "-5Y" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
 		,maxDate: "+5y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)
 	});
-
-	selectBdMainInfoList();
+	selectBdMainInfoList(-1);
 	
 	
 });
@@ -384,9 +383,10 @@ function fmtDate(startDate,endDate,id,bidStatusCode){
 }
 	
 function selectBdMainInfoList(bidSttusCode) {
-
-// var bidSttusCode = $(".item.on").val();
-//     console.log("bidSttusCode"+bidSttusCode);
+if(bidSttusCode == '-1'){
+    var bidSttusCode = $(".item.on").val();
+}
+console.log("bidSttusCode"+bidSttusCode);
 
 var params = {
 			"bidSttusCode" : bidSttusCode,
@@ -534,7 +534,7 @@ var params = {
                 case 'all':
                     $("#searchDateFrom").datepicker("setDate", '');
                     $("#searchDateTo").datepicker("setDate", '');
-                    selectBdMainInfoList($(".tab_btn_group > .item.on").val());
+                    selectBdMainInfoList(-1);
                     break;
                 case 'oneMonth':
                 	getFormerDate(30,0);
@@ -557,9 +557,7 @@ var params = {
         $("#searchDateFrom").datepicker("setDate", searchDateFromDate);
         $("#searchDateTo").datepicker("setDate", searchDateToDate);
 
-        //var sttusCode = $(".tab_btn_group > .item.on").val();
-
-        selectBdMainInfoList(sttusCode);
+        selectBdMainInfoList(-1);
     }
 //------------------------------------- 공지사항 최근 게시글 제목 4개 조회-------------------------------------//
 /* 로그인 버튼 클릭 메서드 */
