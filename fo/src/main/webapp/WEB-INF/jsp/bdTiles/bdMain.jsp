@@ -10,8 +10,10 @@
     text-decoration: underline;
 }
 </style>
+
 <!-- script core :: START -->
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/guide/css/common.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="/guide/js/select2/select2.min.js"></script>
@@ -19,6 +21,7 @@
 <script type="text/javaScript">
 
 </script>
+
 <!-- main visual :: START -->
 <div class="main-visual">
 	<div class="inwrap">
@@ -299,8 +302,8 @@ $(function() {
 		dateFormat: 'yy-mm-dd' //달력 날짜 형태
 		,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
 		,showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
-		,changeYear: true //option값 년 선택 가능
-		,changeMonth: true //option값  월 선택 가능
+		,changeYear: false //option값 년 선택 가능
+		,changeMonth: false //option값  월 선택 가능
 		,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시
 		,buttonImage: "/images/calendar.png" //버튼 이미지 경로
 		,buttonImageOnly: true //버튼 이미지만 깔끔하게 보이게함
@@ -318,8 +321,8 @@ $(function() {
 		dateFormat: 'yy-mm-dd' //달력 날짜 형태
 		,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
 		,showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
-		,changeYear: true //option값 년 선택 가능
-		,changeMonth: true //option값  월 선택 가능
+		,changeYear: false //option값 년 선택 가능
+		,changeMonth: false //option값  월 선택 가능
 		,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시
 		,buttonImage: "/images/calendar.png" //버튼 이미지 경로
 		,buttonImageOnly: true //버튼 이미지만 깔끔하게 보이게함
@@ -626,6 +629,12 @@ var params = {
         });
     });
     
+    $('.filter').select2({
+	    width: 'element',
+	    placeholder: '공고일',
+	    minimumResultsForSearch: Infinity,
+	    selectOnClose: true
+	});
 </script>
 
 <!-- 공지사항 & FAQ :: START -->

@@ -32,8 +32,8 @@ public class BdMypageController {
         List<BdListVO> list = bdMainService.mypageList(bdListVO);
         HttpSession session = request.getSession();
         LoginVO member = (LoginVO) session.getAttribute("member");
-        BdListVO bdListCnt = bdMainService.getBdListTotalCnt(bdListVO);
-        model.addAttribute("bdListCnt", bdListCnt);
+        BdListVO bdCnt = bdMainService.bdMypageCount(bdListVO);
+        model.addAttribute("bdCnt", bdCnt);
         model.addAttribute("bdList", list);
         model.addAttribute("member", member);
         return "bdTiles/bdMypage";
@@ -42,6 +42,8 @@ public class BdMypageController {
 	@RequestMapping(value = "/bdMypageAjax", method = RequestMethod.POST)
     public String mypageAjaxList(@RequestBody(required = false) BdListVO bdListVO , ModelMap model, HttpServletRequest request) throws Exception {
 		List<BdListVO> list = bdMainService.mypageList(bdListVO);
+        BdListVO bdCnt = bdMainService.bdMypageCount(bdListVO);
+        model.addAttribute("bdCnt", bdCnt);
 		model.addAttribute("bdList", list);
         return "bdTiles/bdMypage";
     }

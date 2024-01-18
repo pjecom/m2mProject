@@ -20,8 +20,8 @@
     <link rel="stylesheet" href="/guide/css/sorin.css">
     <link rel="stylesheet" href="/guide/css/select2/select2.min.css">
     <!-- script core :: START -->
-    <script src="/guide/js/jquery-3.6.0.min.js"></script>
-	<script src="/guide/js/ui/1.12.1/jquery-ui.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="/guide/js/select2/select2.min.js"></script>
     <!-- script core :: END -->
 
@@ -59,18 +59,18 @@
 				            <div class="filter_area">
 				                <div class="opt">
 									<label for="">Search Keyword</label> 
-									<select id="filter" name="filter" onchange="selectBdMainInfoList(-1);" class="filter">
+									<select id="filter" name="filter" class="filter">
 									<option value="01">공고일</option>
 									<option value="02">마감일</option>
 								</select>
 				                </div>
 				                <div class="cal">
 				                    <div class="datepicker-wrap">
-				                        <input type="text" onchange="selectBdMainInfoList(-1);" class="datepicker from validate[required,custom[date]]" id="startDate" desc="날짜" placeholder="시작 일자" style="font-size: 1.4rem !important;" readonly>
+				                        <input type="text" class="datepicker from validate[required,custom[date]]" id="searchDateFrom" desc="날짜" placeholder="시작 일자" style="font-size: 1.4rem !important;" readonly>
 				                    </div>
 				                    <div class="tilde">~</div>
 				                    <div class="datepicker-wrap">
-				                        <input type="text" onchange="selectBdMainInfoList(-1);" class="datepicker to validate[required,custom[date]]" id="endDate" desc="날짜" placeholder="종료 일자" style="font-size: 1.4rem !important;" readonly>
+				                        <input type="text" class="datepicker to validate[required,custom[date]]" id="searchDateTo" desc="날짜" placeholder="종료 일자" style="font-size: 1.4rem !important;" readonly>
 				                    </div>
 				                </div>
 
@@ -86,16 +86,16 @@
 							<!-- TAB BUTTON :: START -->
 							<ul class="tab_btn_group">
 								<li class="item on" data-tab="tab-1" value="1" onclick="getMyPageList1('13', '');">
-									<a href="javascript:;">투찰 건 (<span class="totalCnt">${bdListCnt.totalCnt}</span>) </a>
+									<a href="javascript:;">투찰 건 (<span class="totalCnt">${bdCnt.biddingCnt}</span>) </a>
 								</li>
 								<li class="item" data-tab="tab-2" value="2" onclick="getMyPageList2('31', 'Y');">
-									<a href="javascript:;">낙찰 건 (<span id="expectCnt">${bdListCnt.expectCnt}</span>)</a>
+									<a href="javascript:;">낙찰 건 (<span id="expectCnt">${bdCnt.approvedCnt}</span>)</a>
 								</li>
 								<li class="item" data-tab="tab-3"  value="3"  onclick="getMyPageList3('31', 'N');">
-									<a href="javascript:;">패찰 건 (<span id="bidingCnt">${bdListCnt.bidingCnt}</span>)</a>
+									<a href="javascript:;">패찰 건 (<span id="bidingCnt">${bdCnt.rejectedCnt}</span>)</a>
 								</li>
 								<li class="item" data-tab="tab-4" value="4"  onclick="getMyPageList4('32', '');">
-									<a href="javascript:;">유찰 건 (<span id="endCnt">${bdListCnt.endCnt}</span>) </a>
+									<a href="javascript:;">유찰 건 (<span id="endCnt">${bdCnt.auctionCnt}</span>) </a>
 								</li>
 							</ul>
                             <!-- TAB BUTTON :: END -->
@@ -108,7 +108,7 @@
 				                </div>
 				                <ul class="list t2 myPageData">
 									<c:if test="${empty bdList}">
-										<span>데이터가 존재하지 않습니다.</span>
+										<div class="no-data empty-content">Could not find any matches.</div>
 									</c:if>
 									<c:forEach items="${bdList}" var="vo">
 				                    <!-- item 1 투찰건 :: START -->
@@ -146,7 +146,7 @@
 				                                    </div>
 				                                    <p class="pd-unit-price">
 								          				<span class="label-orange">투찰가</span>
-						                                <span class="u-price realTimePrice up">3,428,000 (원/MT)</span>
+						                                <span class="u-price realTimePrice up">{vo.bddprPremiumPc} (원/MT)</span>
 						                            </p>
 				                                    <div class="pd-period">
 				                                        <span class="qty">수량<span class="highlight">${vo.bidWt}</span></span>	
@@ -155,7 +155,7 @@
 				                                </div>
 				                            </div>
 				                            <div class="btns">
-				                                <a href="/guide/html/bid/SOREC-SC-BID-006.html" class="btn-gray-md">상세보기</a>
+				                                <a href="javascript:;" name="selectBid" id="${vo.bidPblancId}" class="btn-gray-md">상세보기</a>
 				                            </div>
 				                        </div>
 				                    </li>
@@ -168,7 +168,7 @@
 				                </div>
 				                <ul class="list t2 myPageData">
 									<c:if test="${empty bdList}">
-										<span>데이터가 존재하지 않습니다.</span>
+										<div class="no-data empty-content">Could not find any matches.</div>
 									</c:if>
 									<c:forEach items="${bdList}" var="vo">
 				                    <!-- item 1 투찰건 :: START -->
@@ -215,7 +215,7 @@
 				                                </div>
 				                            </div>
 				                            <div class="btns">
-				                                <a href="/guide/html/bid/SOREC-SC-BID-006.html" class="btn-gray-md">상세보기</a>
+				                                <a href="javascript:;" name="selectBid" id="${vo.bidPblancId}" class="btn-gray-md">상세보기</a>
 				                            </div>
 				                        </div>
 				                    </li>
@@ -227,7 +227,7 @@
 				                </div>
 				                <ul class="list t2 myPageData">
 									<c:if test="${empty bdList}">
-										<span>데이터가 존재하지 않습니다.</span>
+										<div class="no-data empty-content">Could not find any matches.</div>
 									</c:if>
 									<c:forEach items="${bdList}" var="vo">
 				                    <!-- item 1 투찰건 :: START -->
@@ -274,7 +274,7 @@
 				                                </div>
 				                            </div>
 				                            <div class="btns">
-				                                <a href="/guide/html/bid/SOREC-SC-BID-006.html" class="btn-gray-md">상세보기</a>
+				                                <a href="javascript:;" name="selectBid" id="${vo.bidPblancId}"  class="btn-gray-md">상세보기</a>
 				                            </div>
 				                        </div>
 				                    </li>
@@ -286,7 +286,7 @@
 				                </div>
 				                <ul class="list t2 myPageData">
 									<c:if test="${empty bdList}">
-										<span>데이터가 존재하지 않습니다.</span>
+										<div class="no-data empty-content">Could not find any matches.</div>
 									</c:if>
 									<c:forEach items="${bdList}" var="vo">
 				                    <!-- item 1 투찰건 :: START -->
@@ -333,7 +333,7 @@
 				                                </div>
 				                            </div>
 				                            <div class="btns">
-				                                <a href="/guide/html/bid/SOREC-SC-BID-006.html" class="btn-gray-md">상세보기</a>
+				                                <a href="javascript:;" name="selectBid" id="${vo.bidPblancId}"  class="btn-gray-md">상세보기</a>
 				                            </div>
 				                        </div>
 				                    </li>
@@ -746,42 +746,93 @@
 	    $(this).toggleClass('active');
 	})
 
-	// =============== DATEPICKER ==================
-	$('.datepicker.from, .datepicker.to').datepicker({
-	    showOn: "both", // 버튼과 텍스트 필드 모두 캘린더를 보여줌
-	    buttonImage: "/images/calendar.png", // 버튼 이미지
-	    buttonImageOnly: true, // 버튼에 있는 이미지만 표시
-	    changeMonth: false, // 월을 바꿀수 있는 셀렉트 박스를 표시
-	    changeYear: false, // 년을 바꿀 수 있는 셀렉트 박스를 표시
-	    //minDate: '-100y', // 현재날짜로부터 100년이전까지 년을 표시
-	    minDate: 0,
-	    nextText: '다음 달', // next 아이콘의 툴팁
-	    prevText: '이전 달', // prev 아이콘의 툴팁
-	    numberOfMonths: [1,1], // 한번에 얼마나 많은 월을 표시할것인가. [2,3] 일 경우, 2(행) x 3(열) = 6개의 월을 표시
-	    stepMonths: 1, // next, prev 버튼을 클릭했을때 얼마나 많은 월을 이동하여 표시하는가
-	    yearRange: 'c-100:c+10', // 년도 선택 셀렉트박스를 현재 년도에서 이전, 이후로 얼마의 범위를 표시할것인가
-	    showButtonPanel: false, // 캘린더 하단에 버튼 패널을 표시
-	    // currentText: '오늘 날짜' , // 오늘 날짜로 이동하는 버튼 패널
-	    // closeText: '닫기', // 닫기 버튼 패널
-	    dateFormat: "yy-mm-dd", // 텍스트 필드에 입력되는 날짜 형식
-	    showAnim: "slideDown", //애니메이션을 적용
-	    showMonthAfterYear: true , // 월, 년순의 셀렉트 박스를 년,월 순으로 변경
-	    dayNamesMin: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'], // 요일의 한글 형식
-	    monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-	    monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'], // 월의 한글 형식. yearRange: "2010:2013" //연도 범위
-	    weekHeader: "주",
-	    yearSuffix: '년',
-	    orientation: 'left',
-        beforeShow: function(input) {
-        	let i_offset = $(input).offset();
-        	setTimeout(function(){
-        		$('#ui-datepicker-div').css({
-        			'top': i_offset.top + 40,
-        			'left': i_offset.left - 96,
-        			'bottom': ''
-        		});
-        	});
+	$(function() {
+
+// =============== DATEPICKER ==================
+$("#searchDateFrom").datepicker({
+	dateFormat: 'yy-mm-dd' //달력 날짜 형태
+	,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+	,showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
+	,changeYear: false //option값 년 선택 가능
+	,changeMonth: false //option값  월 선택 가능
+	,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시
+	,buttonImage: "/images/calendar.png" //버튼 이미지 경로
+	,buttonImageOnly: true //버튼 이미지만 깔끔하게 보이게함
+	,buttonText: "선택" //버튼 호버 텍스트
+	,yearSuffix: "년" //달력의 년도 부분 뒤 텍스트
+	,monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 텍스트
+	,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip
+	,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 텍스트
+	,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 Tooltip
+	,minDate: "-5Y" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+	,maxDate: "+5y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)
+});
+
+$("#searchDateTo").datepicker({
+	dateFormat: 'yy-mm-dd' //달력 날짜 형태
+	,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+	,showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
+	,changeYear: false //option값 년 선택 가능
+	,changeMonth: false //option값  월 선택 가능
+	,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시
+	,buttonImage: "/images/calendar.png" //버튼 이미지 경로
+	,buttonImageOnly: true //버튼 이미지만 깔끔하게 보이게함
+	,buttonText: "선택" //버튼 호버 텍스트
+	,yearSuffix: "년" //달력의 년도 부분 뒤 텍스트
+	,monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 텍스트
+	,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip
+	,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 텍스트
+	,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 Tooltip
+	,minDate: "-5Y" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+	,maxDate: "+5y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)
+});
+
+
+});
+
+$(".btn-period > .radio-btn").click(function() {
+            $('.btn-period > .radio-btn').removeClass('active');
+            $(this).addClass('active');
+
+            switch($(this).attr('id')) {
+                case 'all':
+                    $("#searchDateFrom").datepicker("setDate", '');
+                    $("#searchDateTo").datepicker("setDate", '');
+                    break;
+                case 'oneMonth':
+                	getFormerDate(30,0);
+                    break;
+                case 'threeMonth':
+                    getFormerDate(90,0);
+                    break;
+                case 'sixMonth':
+                    getFormerDate(180,0);
+                    break;
+            }
+        });
+
+    function getFormerDate(num1, num2) {
+        var today = new Date();
+        
+        var searchDateFromDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - num1);
+        var searchDateToDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - num2);
+	
+        $("#searchDateFrom").datepicker("setDate", searchDateFromDate);
+        $("#searchDateTo").datepicker("setDate", searchDateToDate);
+    }
+
+
+	function dateviewfmt(date){
+	return date.substring(2,4) + '.' +date.substring(4,6)+ '.' +date.substring(6,8)+ ' ' +date.substring(8,10)+ ':' +date.substring(10,12)+ ':' +date.substring(12,14);
+	}
+
+	$(document).on( 'click', "a[name='selectBid']", function(event) {
+            var params = {
+            "bidPblancId" : this.id,
+            "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo")
         }
-	});
+            pageMove( "/detail/bdDetail", JSON.stringify(params), 'application/json');
+	   		
+    });
 	</script>
 </body>
