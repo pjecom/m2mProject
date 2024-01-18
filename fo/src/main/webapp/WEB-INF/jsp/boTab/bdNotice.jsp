@@ -98,15 +98,15 @@
                         <!-- [D] 월 선택 경우 .form-month 추가 -->
                         <!-- [D] 날짜 선택 경우 .form-date 추가 -->
                         <div class="input-group date form-date">
-                            <input type="text" class="input" id="listBddprBeginDt" value="${BdPblnVO.bddprBeginDt}"/>
-                            <label for="listBddprBeginDt" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
+                            <input type="text" class="input" id="list-bddpr-begin-dt" value="${BdPblnVO.bddprBeginDt}"/>
+                            <label for="list-bddpr-begin-dt" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
                         </div>
                         <span>~</span>
                         <!-- [D] 월 선택 경우 .form-month 추가 -->
                         <!-- [D] 날짜 선택 경우 .form-date 추가 -->
                         <div class="input-group date form-date">
-                            <input type="text" class="input" id="listBddprEndDt" value="${BdPblnVO.bddprEndDt}"/>
-                            <label for="listBddprEndDt" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
+                            <input type="text" class="input" id="list-bddpr-end-dt" value="${BdPblnVO.bddprEndDt}"/>
+                            <label for="list-bddpr-end-dt" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
                         </div>
                     </div>
                     <div class="btn-box btn-period">
@@ -262,7 +262,10 @@
         const url = "/bo/bidNotice"
 
         postSetDataTypeBo(url, JSON.stringify(bdBidBas), "html", true, (res) => {
-            eleRedendering("#bid-notice-search-form", res)
+            eleRedendering("#bid-sub-code", res)
+            eleRedendering("#bid-pblanc-id", res)
+            eleRedendering("#list-bddpr-begin-dt", res)
+            eleRedendering("#list-bddpr-end-dt", res)
             eleRedendering("#realgrid", res)
 
             $(".bid-sttus-tab").removeClass("active")
@@ -287,11 +290,11 @@
 
         const beginDt = new Date(today.getFullYear(), today.getMonth(), today.getDate() - num1)
         const endDt = new Date(today.getFullYear(), today.getMonth(), today.getDate() - num2)
-        $("#listBddprBeginDt").val(dateFormat(beginDt));
-        $("#listBddprEndDt").val(dateFormat(endDt));
+        $("#list-bddpr-begin-dt").val(dateFormat(beginDt));
+        $("#list-bddpr-end-dt").val(dateFormat(endDt));
     }
 
-    $("#listBddprBeginDt, #listBddprEndDt").datepicker({
+    $("#list-bddpr-begin-dt, #list-bddpr-end-dt").datepicker({
         format: "yyyy-mm-dd",
         keyboardNavigation: false,
         forceParse: false,
@@ -320,8 +323,8 @@
         $("#bid-notice-search-form").each(function() {
             bdBidBas.bidSttusCode = ($(this).find("#bid-sub-code").val())
             bdBidBas.bidPblancId = ($(this).find("#bid-pblanc-id").val())
-            bdBidBas.bddprBeginDt = ($(this).find("#listBddprBeginDt").val())
-            bdBidBas.bddprEndDt = ($(this).find("#listBddprEndDt").val())
+            bdBidBas.bddprBeginDt = ($(this).find("#list-bddpr-begin-dt").val())
+            bdBidBas.bddprEndDt = ($(this).find("#list-bddpr-begin-dt").val())
         })
 
         getBidNoticeList()
