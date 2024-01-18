@@ -89,7 +89,7 @@
 			                                </div>
 			                                <div class="pd-period">
 			                                    <span class="qty">수량 <span class="highlight"><fmt:formatNumber value="${bdDetailVO.bidWt}" pattern="#,###"/>MT</span></span>	
-			                                    <span class="date">투찰기간 <span class="highlight">${bdDetailVO.bddprBeginDt} ~ ${bdDetailVO.bddprEndDt}</span></span> 
+			                                    <span class="date">투찰기간 <span class="highlight">${bdDetailVO.bddrBeginDate} ~ ${bdDetailVO.bddrEndDate}</span></span> 
 			                                	<span class="t-info">개찰결과 : 투찰 기한 마감과 동시에 발표함</span>
 			                                </div>
 			                            </div>
@@ -109,13 +109,13 @@
 											<c:when test="${bdDetailVO.bidSttusCode eq '30'}">
 												<div class="btn-bid-stroke">마감(미투찰)</div>
 											</c:when>
-											<c:when test="${bdDetailVO.bidSttusCode eq '31'}">
+											<c:when test="${(bdDetailVO.bidSttusCode eq '31' && bdBddprVO.scsbidAt eq 'Y')}">
 												<div class="btn-bid-stroke">마감(최종낙찰)</div>
 											</c:when>
 											<c:when test="${bdDetailVO.bidSttusCode eq '32'}">
 												<div class="btn-bid-stroke">마감(유찰)</div>
 											</c:when>
-											<c:when test="${bdDetailVO.bidSttusCode eq '34'}">
+											<c:when test="${(bdDetailVO.bidSttusCode eq '31' && bdBddprVO.scsbidAt eq 'N')}">
 												<div class="btn-bid-stroke">마감(페찰)</div>
 											</c:when>
 											<c:otherwise>
@@ -206,7 +206,7 @@
 										</c:if>
 										<!-- ###################### END 마감(내가 참여하지 않은 마감건) ######################-->
 										<!-- ###################### START 투찰중(투찰 최종가격) ######################-->
-										<c:if test="${bdDetailVO.bidSttusCode eq '13'}">
+										<c:if test="${bdDetailVO.bidSttusCode eq '13' || (bdDetailVO.bidSttusCode eq '31' && bdBddprVO.scsbidAt eq 'Y') || (bdDetailVO.bidSttusCode eq '31' && bdBddprVO.scsbidAt eq 'N')}">
 											<!-- ###################### START 입찰 후(Flag값 'Y') ######################-->
 											<c:if test="${bdBddprVO.bddprFlag eq 'Y'}">
 												<tr class="bid-condition">
@@ -312,28 +312,30 @@
 			                                <th scope="row">기타 코멘트</th>
 			                                <td colspan="3">${bdDetailVO.etcCn}</td>
 			                            </tr>
-										<tr>
-			                                <th scope="row">입찰 참여 동의</th>
-			                                <td colspan="3">
-			                                    <div class="checkbox-container">
-													<!--입찰전-->
-													<c:if test = "${bdBddprVO.bddprFlag ne 'Y'}">
-														<label class="checkbox-label" for="agree_all">
-															<input type="checkbox" name="agree_all" id="agree_all" value="">
-															<span class="checkbox-custom rectangular"></span>
-														</label>
-													</c:if>
-													<!--입찰후-->
-													<c:if test = "${bdBddprVO.bddprFlag eq 'Y'}">
-														<label class="checkbox-label" for="agree_all">
-															<input type="checkbox" name="agree_all" id="agree_all" value="" checked disabled>
-															<span class="checkbox-custom rectangular"></span>
-														</label>
-													</c:if>
-			                                        <div class="input-title">상기&nbsp;내용에&nbsp;입찰&nbsp;동의합니다.</div>
-			                                    </div>   
-			                                </td>
-			                            </tr>	
+										<c:if test="${bdDetailVO.bidSttusCode ne '12'}">
+											<tr>
+												<th scope="row">입찰 참여 동의</th>
+												<td colspan="3">
+													<div class="checkbox-container">
+														<!--입찰전-->
+														<c:if test = "${bdBddprVO.bddprFlag ne 'Y'}">
+															<label class="checkbox-label" for="agree_all">
+																<input type="checkbox" name="agree_all" id="agree_all" value="">
+																<span class="checkbox-custom rectangular"></span>
+															</label>
+														</c:if>
+														<!--입찰후-->
+														<c:if test = "${bdBddprVO.bddprFlag eq 'Y'}">
+															<label class="checkbox-label" for="agree_all">
+																<input type="checkbox" name="agree_all" id="agree_all" value="" checked disabled>
+																<span class="checkbox-custom rectangular"></span>
+															</label>
+														</c:if>
+														<div class="input-title">상기&nbsp;내용에&nbsp;입찰&nbsp;동의합니다.</div>
+													</div>   
+												</td>
+											</tr>	
+										</c:if>
 			                        </tbody>
 			                    </table>
 								<!-- ###################### START 송신상태 ######################-->
@@ -408,20 +410,73 @@
 										</div>
 									</c:otherwise>
 								</c:choose>
-			                    <!-- ###################### END 수정사항 ######################--> 												
+			                    <!-- ###################### END 수정사항 ######################--> 	
+								<!-- ###################### START 투찰결과 ######################--> 	
+								<c:if test = "${(bdDetailVO.bidSttusCode eq '31' && bdBddprVO.scsbidAt eq 'Y') || (bdDetailVO.bidSttusCode eq '31' && bdBddprVO.scsbidAt eq 'N')}">
+									<div class="section bid-result">	    	                		                    
+										<div class="hgroup">
+											<h2 class="h3">투찰 결과</h2>
+											<c:if test = "${(bdDetailVO.bidSttusCode eq '31' && bdBddprVO.scsbidAt eq 'Y')}">
+												<span class="icon-info-txt">낙찰 되신 것을 축하드립니다.</span>
+											</c:if>
+										</div>
+										<table class="tbl t3 bid">
+											<caption>투찰 결과</caption>
+											<colgroup>
+												<col style="width:20%;">
+												<col style="width:20%;">
+												<col style="width:20%;">
+												<col style="width:20%;">
+												<col style="width:20%;">
+											</colgroup>
+											<thead>
+												<tr>
+													<th scope="col" class="rank">순위</th>
+													<th scope="col" class="company">기업명</th>
+													<th scope="col" class="date">접수일</th>
+													<th scope="col" class="premium">프리미엄가</th>
+													<th scope="col" class="result">결과</th>
+												</tr>
+											</thead>
+											<tbody id="bdResult">
+												<c:forEach items="${bdBidResultList}" var="vo">
+													<tr>
+														<td class="center">${vo.rank}</td>
+														<td class="center">${vo.entrpsNm}</td>
+														<td class="center">${vo.bddprDt}</td>
+														<td class="center">${vo.maskedTotalCost}</td>
+														<td class="center">${vo.scsbidResult}</td>
+													</tr>
+												</c:forEach>
+											</tbody>
+										</table>
+									</div> 
+								</c:if>
+				                <!-- ###################### END 투찰결과 ######################--> 	
 			                    <div class="btn-wrap">
-			                        <button type="button" class="btn-gray-big btn-list" onclick="pageMove('/');">공고 목록가기</button>
 									<c:choose> 
-										<c:when test="${bdBddprVO.bddprFlag eq 'Y' && bdBddprVO.dateCancelFlag ne 'Y'}">
-											<button type="button" id="bidStr" class="btn-blue-big" >마이페이지</button>
+										<c:when test="${bdBddprVO.bddprFlag eq 'Y' && bdBddprVO.dateCancelFlag ne 'Y' && !(bdDetailVO.bidSttusCode eq '31' && bdBddprVO.scsbidAt eq 'Y') && !(bdDetailVO.bidSttusCode eq '31' && bdBddprVO.scsbidAt eq 'N')}">
+											<button type="button" class="btn-gray-big btn-list" onclick="pageMove('/');">공고 목록가기</button>
+											<button type="button" id="bidStr" class="btn-blue-big" onclick="moveMyPage()">마이페이지</button>
 											<button type="button" id="bidStr" class="btn-blue-big" onclick="canclPopup()">투찰취소</button>
 										</c:when>
 										<c:when test="${bdBddprVO.dateCancelFlag eq 'Y'}">
-											<button type="button" id="bidStr" class="btn-blue-big" >마이페이지</button>
+											<button type="button" class="btn-gray-big btn-list" onclick="pageMove('/');">공고 목록가기</button>
+											<button type="button" id="bidStr" class="btn-blue-big" onclick="moveMyPage()">마이페이지</button>
 										</c:when>
 										<c:when test="${bdDetailVO.bidSttusCode eq '12'}">
+											<button type="button" class="btn-gray-big btn-list" onclick="pageMove('/');">공고 목록가기</button>
+										</c:when>
+										<c:when test="${(bdDetailVO.bidSttusCode eq '31' && bdBddprVO.scsbidAt eq 'Y')}">
+											<button type="button" class="btn-gray-big btn-list" onclick="moveMyPage('/');">목록가기</button>
+											<button type="button" class="btn-stroke-big blue">낙찰 확인서</button>
+											<button type="button" class="btn-blue-big">서류접수하기</button>
+										</c:when>
+										<c:when test="${(bdDetailVO.bidSttusCode eq '31' && bdBddprVO.scsbidAt eq 'N')}">
+											<button type="button" class="btn-gray-big btn-list" onclick="moveMyPage('/');">목록가기</button>
 										</c:when>										
 										<c:otherwise>
+											<button type="button" class="btn-gray-big btn-list" onclick="pageMove('/');">공고 목록가기</button>
 											<button type="button" id="bidStr" class="btn-blue-big" onclick="confirmPopup()">투찰하기</button>
 										</c:otherwise>
 									</c:choose>
@@ -451,7 +506,7 @@
 											</div>
 											<div class="modal-btns">
 												<button type="button" class="btn-blue-big" onclick="reloadPage()">확인</button>
-												<button type="button" class="btn-blue-big" id="" onclick="">마이페이지</button>
+												<button type="button" class="btn-blue-big" id="" onclick="moveMyPage()">마이페이지</button>
 											</div>
 										</div>
 										<div id="modal3" style="display:none">
@@ -518,7 +573,31 @@
 	<script src="/guide/js/sorin-ma.js"></script><!-- main js -->
 	<!-- script custom :: END -->
 	<script type="text/javascript"> 
-	
+
+	// =============== 페이지 이동 ==================
+	$(function() {
+    	var currentEntrpsNm = sessionStorage.getItem("entrpsNm");
+
+		// 각 행을 순회하면서 순위 비교
+		$("#bdResult tr").each(function() {
+            var rowCompanyName = $(this).find("td:eq(1)").text().trim(); // 각 행의 회사 이름
+
+            // 현재 업체와 일치하는 회사 이름의 행에 파란색 배경 적용
+            if (rowCompanyName === currentEntrpsNm) {
+                $(this).addClass("active");
+            }
+        });
+    });
+	// =============== 페이지 이동 ==================
+	function moveMyPage() {
+		var params = {
+					"bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
+					"bidSttusCode" : "${bdDetailVO.bidSttusCode}"
+			}
+		pageMove( "/bdMypage", JSON.stringify(params), 'application/json');
+	}
+
+	// =============== 투찰 마감까지 타이머 ==================
 	$(function() {
     	fmtDate(${bdDetailVO.bddprBeginDt}, ${bdDetailVO.bddprEndDt});
     });
@@ -528,6 +607,7 @@
 		return date.substring(0,4) + '-' +date.substring(4,6)+ '-' +date.substring(6,8)+ ' ' +date.substring(8,10)+ ':' +date.substring(10,12)+ ':' +date.substring(12,14);
 	}
 	
+	// 타이머
     function fmtDate(startDate,endDate){
 		//debugger;
 		startDate = startDate.toString();
@@ -682,21 +762,47 @@
 
 	// 비밀번호 확인 팝업 오픈
 	function canclPopup(){
-		//현재시간
-		//var nowDate = new Date();
-		//var canclDate  = 
 
-		document.getElementById('bidCancelConfirm').style.display = 'block';
-		$("#agree_cancl").prop("checked", false);  // 체크박스 초기화
+		var canclPossAt = "${bdDetailVO.bddprCanclPossAt}";
+	
+		if(canclPossAt !== 'Y'){
+			alert("취소불가능한 공고입니다.");
+		}else{
+			//현재시간
+			var nowDate = new Date();
+			var formattnowDt = formatDate(nowDate);
+			//투찰취소 제한일자
+			var canclDt = "${bdDetailVO.bddprCanclLmttDe}"
 
-		cmmPopup('bidCancelConfirm', 'confirm');
-		$('#modal1').hide();
-		$('#modal2').hide();
-		$('#modal3').show();
-		$('#modal4').hide();
+			if(formattnowDt < canclDt){
+				console.log("취소가능한 공고입니다.");
+				document.getElementById('bidCancelConfirm').style.display = 'block';
+				$("#agree_cancl").prop("checked", false);  // 체크박스 초기화
+
+				cmmPopup('bidCancelConfirm', 'confirm');
+				$('#modal1').hide();
+				$('#modal2').hide();
+				$('#modal3').show();
+				$('#modal4').hide();
+			}else{
+				alert("투찰취소 기한이 지났습니다.");
+			}
+		}
 	}	
 
-		// 투찰 취소합니다 버튼 클릭시
+	// Date 객체를 "yyyyMMddHHmmss" 형식의 문자열로 변환하는 함수
+	function formatDate(date) {
+		var year = date.getFullYear();
+		var month = ('0' + (date.getMonth() + 1)).slice(-2);
+		var day = ('0' + date.getDate()).slice(-2);
+		var hours = ('0' + date.getHours()).slice(-2);
+		var minutes = ('0' + date.getMinutes()).slice(-2);
+		var seconds = ('0' + date.getSeconds()).slice(-2);
+
+		return year + month + day + hours + minutes + seconds;
+	}
+
+	// 투찰 취소 버튼 클릭시
 	function nextPopup(){
 		var agree = $('#agree_cancl').prop('checked');
 		var value = agree ? 'Y' : 'N';

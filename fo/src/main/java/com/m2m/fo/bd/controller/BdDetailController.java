@@ -1,12 +1,10 @@
 package com.m2m.fo.bd.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +20,6 @@ import com.m2m.fo.bd.model.BdBddprVO;
 import com.m2m.fo.bd.model.BdDetailVO;
 import com.m2m.fo.bd.model.bdUpdateVO;
 import com.m2m.fo.bd.service.BdDetailService;
-import com.m2m.fo.login.model.LoginVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,7 +33,7 @@ public class BdDetailController {
 	
     /**
      * <pre>
-     * 처리내용: 디테일 조회(입찰기본 테이블), 인도조건 리스트 조회(공통테이블), 투찰세부 조회(투찰상세 테이블), 입찰 수정 내용조회(입찰수정이력 테이블)
+     * 처리내용: 디테일 조회(입찰기본 테이블), 인도조건 리스트 조회(공통테이블), 투찰세부 조회(투찰상세 테이블), 입찰 수정 내용조회(입찰수정이력 테이블), 투찰결과()
      * </pre>
      *  @date 2024. 01. 10.
      * @author SH
@@ -49,21 +46,15 @@ public class BdDetailController {
      **/
 	@RequestMapping("/bdDetail")
     public String bdDetail(@RequestBody BdDetailVO bdDetailVO, Model model, HttpServletRequest request) throws Exception {
-		 
+		BdDetailVO detailVO = new BdDetailVO(); 
         // vo에 업체번호 주입
         bdDetailVO.setBidEntrpsNo(bdDetailVO.getBidEntrpsNo());
-        log.info("bdDetailVO.getBidEntrpsNo() >>> ::: {}",bdDetailVO.getBidEntrpsNo());
-		
-		BdDetailVO detailVO = new BdDetailVO();
+
 		// 상세화면 리스트
 		detailVO = bdDetailService.selectDetail(bdDetailVO);
-		log.info("bdDetailVO >>> ::: {}",detailVO);
 		
 		//vo에 업체번호 주입
 		detailVO.setBidEntrpsNo(bdDetailVO.getBidEntrpsNo());
-		
-		log.info("detailVO.getBidEntrpsNo() >>> ::: {}",detailVO.getBidEntrpsNo());
-		
 		model.addAttribute("bdDetailVO", detailVO);
 		
 		// 인도조건 리스트
@@ -74,11 +65,10 @@ public class BdDetailController {
 		// 투찰세부 조회
 		BdBddprVO bdBddprVO = new BdBddprVO();
 		bdBddprVO = bdDetailService.selectBddpr(bdDetailVO);
-		log.info("bdBddprVO >>> ::: {}",bdBddprVO);
+		
 		if(bdBddprVO == null) {
 			log.info("값이 존재하지 않습니다.");
 		}else {
-			log.info("getBddprFlag >>> ::: {}",bdBddprVO.getBddprFlag());	//flag값
 			model.addAttribute("bdBddprVO", bdBddprVO);	
 		}
 		
@@ -86,14 +76,20 @@ public class BdDetailController {
 		
 		//입찰 수정 내용조회
 		List<bdUpdateVO> bdBidUpdtList = bdDetailService.selectBdUpdtList(bdDetailVO);
-		log.info("bdBidUpdtList.size() >>> ::: {}",bdBidUpdtList.size());
 		
 		if(bdBidUpdtList.size() <= 0 || bdBidUpdtList == null) {
 			log.info("수정 이력이 존재하지 않습니다.");
 		}else {	        
 			model.addAttribute("bdBidUpdtList", bdBidUpdtList);
 		}
-	
+		
+		//투찰에 참여한 기업 조회, 낙찰,패찰일 경우만 조회
+		if("31".equals(detailVO.getBidSttusCode()) || ("30".equals(detailVO.getBidSttusCode()) && "N".equals(bdBddprVO.getScsbidAt()))) {			
+			List<BdBddprVO> bdBidResultList = bdDetailService.bdBidResultList(bdDetailVO);
+			model.addAttribute("bdBidResultList", bdBidResultList);	
+		}
+		
+		
         return "bdTiles/bdDetail";
 
     }
@@ -162,6 +158,7 @@ public class BdDetailController {
     @ResponseBody
 	public ResponseEntity<?> insertBdBddpr(@RequestBody BdBddprVO bdBddprVO) throws Exception {
     	Map<String, Object> retVal = new HashMap<String, Object>();
+
     	// 테스트데이터
     	bdBddprVO.setFrstRegisterId(bdBddprVO.getBidMberId());
     	bdBddprVO.setLastChangerId(bdBddprVO.getBidMberId());

@@ -27,5 +27,7 @@ public interface BdDetailMapper {
 	public void updateBdBddpr(BdBddprVO bdBddprVO);
 
 	public String getHashedPasswordFromDB(String bidMberSecretNo);
+
+	public List<BdBddprVO> bdBidResultList(BdDetailVO bdDetailVO);
 	
 }
