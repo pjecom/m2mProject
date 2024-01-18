@@ -224,7 +224,7 @@
                    AND BID_STTUS_CODE in ('30','31','32')
                 </when>
                 <otherwise>
-                   AND BID_STTUS_CODE = #{subCode}
+                   AND BID_STTUS_CODE = #{bidSttusCode}
                 </otherwise>
             </choose>
         </if>
