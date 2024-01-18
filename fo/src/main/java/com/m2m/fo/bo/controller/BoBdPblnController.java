@@ -156,14 +156,13 @@ public class BoBdPblnController {
         model.addAttribute("itemList", itemList);
         model.addAttribute("boCommCdList", boCommCdList);
 
-
         return "boModal/boBdCreate";
     }
 
     @RequestMapping(value = "/boBdPblnCreate", method = RequestMethod.POST)
     public String boBdPblnCreate(@RequestBody BoBdPblnVO bdPblnVO, ModelMap model) throws Exception {
 
-        SimpleDateFormat dateTimeFm = new SimpleDateFormat("yyyyMMddhhmmss");
+        SimpleDateFormat dateTimeFm = new SimpleDateFormat("yyyyMMddHHmmss");
         String currentDateTimeStr = dateTimeFm.format(new Date());
         Date currentDateTime = dateTimeFm.parse(currentDateTimeStr);
 
@@ -186,7 +185,7 @@ public class BoBdPblnController {
 
         boBdPblnService.istboBdPbln(bdPblnVO);
 
-        return "boModal/boBdCreate";
+        return "boTab/bdNotice";
     }
 
     //입찰공고상세

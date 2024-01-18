@@ -535,10 +535,16 @@
         const url = "/bo/boBdPblnCreate"
 
         postSetDataTypeBo(url, JSON.stringify(boBdPbln), "html", true, (res) => {
-            console.log(res)
+            alert('등록 완료되었습니다.')
+            getBidNoticeList()
+            modalClose()
         })
     }
-    
+
+    function modalClose() {
+        $('#bdNoticeCreateModal').modal('hide');
+    }
+
     $(document).ready(function(){
 
         bddprCanclDtCntr();
@@ -573,14 +579,6 @@
                 eleRedendering("#item-select", result)
             }
         });
-    }
-
-    // Data 변경 시 rerendering
-    function eleRedendering(elementNm, res) {
-        const element = $(elementNm)
-
-        element.html('');
-        element.html($(res).find(elementNm).html());
     }
 
     $(

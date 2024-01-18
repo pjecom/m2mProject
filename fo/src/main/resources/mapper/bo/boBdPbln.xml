@@ -395,6 +395,7 @@
             NULL,
             NULL,
             NULL,
+            NULL,
             NULL
         )
     </insert>
