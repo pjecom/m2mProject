@@ -490,7 +490,24 @@
 
         boBdPbln.dspyAt = $('input[name="dspyYn"]:checked').val();
 
-        createBidNotice()
+        const excludedProperties = ['delyPdCn', 'etcCn']
+        if (boBdPbln.bddprCanclPossAt === 'N') {
+            excludedProperties.push('bddprCanclLmttDe')
+        }
+        if (Object.keys(boBdPbln)
+            .filter(property => !excludedProperties.includes(property))
+            .some(property => {
+                const value = boBdPbln[property];
+                return value === '' || value === null || value === undefined;
+            })
+        ){
+            alert('필수 항목을 모두 작성해주세요');
+        } else if (boBdPbln.delyCnd01ApplcAt === 'N' && boBdPbln.delyCnd02ApplcAt === 'N' && boBdPbln.delyCnd03ApplcAt === 'N') {
+            alert('필수 항목을 모두 작성해주세요');
+        }
+        else {
+            createBidNotice()
+        }
     }
 
     document.querySelectorAll('.create-bddpr-begin-dt input, .create-bddpr-end-dt input, .create-bddpr-cancl-dt input').forEach(function(input) {
