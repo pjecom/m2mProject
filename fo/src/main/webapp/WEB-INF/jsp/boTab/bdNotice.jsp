@@ -204,7 +204,7 @@
                                         <c:when test="${vo.dspyAt eq 'N'}"><td>비활성</td></c:when>
                                         <c:otherwise><td></td></c:otherwise>
                                     </c:choose>
-                                    <fmt:formatDate value="${vo.frstRegistDt}" pattern = "yyyy-MM-dd hh:mm:ss" var = "frstRegistDt"/>
+                                    <fmt:formatDate value="${vo.frstRegistDt}" pattern = "yyyy-MM-dd HH:mm:ss" var = "frstRegistDt"/>
                                     <td>${frstRegistDt}(${vo.frstRegisterId})</td>
                                     <td>${vo.bidSttus}</td>
                                     <td>${vo.partcptnEntrpsQy}</td>
