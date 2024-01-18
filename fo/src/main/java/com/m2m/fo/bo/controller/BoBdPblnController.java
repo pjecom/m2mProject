@@ -98,18 +98,6 @@ public class BoBdPblnController {
 
         System.out.println(vo);
 
-        //공통코드리스트
-        List<BoCoCommCdVO> boCommCdList = boBdPblnService.getBoCommCdList();
-        model.addAttribute("boCommCdList", boCommCdList);
-
-        //브랜드코드
-        List<BoBdPblnVO> boBdBrandGrpList = boBdPblnService.getBoBdBrandGrpList();
-        model.addAttribute("boBdBrandGrpList", boBdBrandGrpList);
-
-        //아이템상품명
-        List<BoBdPblnVO> boBdItemList = boBdPblnService.getBoBdItemList();
-        model.addAttribute("boBdItemList", boBdItemList);
-
         model.addAttribute("BdPblnVO", vo);
         model.addAttribute("bdList", list);
         model.addAttribute("bidSttusList", bidSttusList);
@@ -119,26 +107,42 @@ public class BoBdPblnController {
 
     }
 
-    @RequestMapping(value = "/openBdCreateModal", method = RequestMethod.POST)
-    public String openBdCreateModal(@RequestBody(required = false) BoBdPblnVO bdPblnVO, ModelMap model) throws Exception {
-
-        System.out.println("openBdCreateModal");
-
+    @RequestMapping(value = "/initBdCrtModal", method = RequestMethod.POST)
+    public String initBdCreateModal(@RequestBody(required = false) BoBdPblnVO bdPblnVO, ModelMap model) throws Exception {
         if(bdPblnVO == null) {
             bdPblnVO = new BoBdPblnVO();
         }
 
         //공통코드리스트
-        List<BoCoCommCdVO> boCommCdList = boBdPblnService.getBoCommCdList(bdPblnVO);
-        model.addAttribute("boCommCdList", boCommCdList);
-
+        List<BoCoCommCdVO> boCommCdList = boBdPblnService.getBoCommCdList();
         //브랜드코드
-        List<BoBdPblnVO> boBdBrandGrpList = boBdPblnService.getBoBdBrandGrpList(bdPblnVO);
-        model.addAttribute("boBdBrandGrpList", boBdBrandGrpList);
-
+        List<BoBdPblnVO> boBdBrandGrpList = boBdPblnService.getBoBdBrandGrpList();
         //아이템상품명
-        List<BoBdPblnVO> boBdItemList = boBdPblnService.getBoBdItemList(bdPblnVO);
+        List<BoBdPblnVO> boBdItemList = boBdPblnService.getBoBdItemList();
+
+        if (bdPblnVO.getMetalCode() != null && !bdPblnVO.getMetalCode().isEmpty()) {
+            String metalCode = bdPblnVO.getMetalCode();
+
+            // 브랜드 그룹 코드 필터링
+            boCommCdList = boCommCdList.stream()
+                    .filter(item -> !"BRAND_GROUP_CODE".equals(item.getMainCode()) || metalCode.equals(item.getCodeDcone()))
+                    .collect(Collectors.toList());
+
+            // 브랜드 코드 필터링
+            boBdBrandGrpList = boBdBrandGrpList.stream()
+                    .filter(item -> metalCode.equals(item.getMetalCode()))
+                    .collect(Collectors.toList());
+
+            // 아이템 필터링
+            boBdItemList = boBdItemList.stream()
+                    .filter(item -> metalCode.equals(item.getMetalCode()))
+                    .collect(Collectors.toList());
+        }
+
+        model.addAttribute("boCommCdList", boCommCdList);
+        model.addAttribute("boBdBrandGrpList", boBdBrandGrpList);
         model.addAttribute("boBdItemList", boBdItemList);
+
 
         return "boModal/boBdCreate";
     }

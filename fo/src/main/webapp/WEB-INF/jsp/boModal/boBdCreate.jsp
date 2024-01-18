@@ -100,7 +100,7 @@
                                                 </c:forEach>
                                             </select>
                                         </td>
-                                        <th scope="row">권역</th>
+                                        <th scope="row">권역<i class="icon icon-required"></i></th>
                                         <td>
                                             <select class="form-select" id="dstrct-lclsf-select">
                                             <c:forEach var="item" items="${boCommCdList}">
@@ -545,14 +545,11 @@
 
         bddprCanclDtCntr();
 
-        // $('#metal-select').on('change', () => {
-        //     console.log('metal-select')
-        //
-        //     const metalCd = $('#metal-select').val()
-        //     CoCommCdVO.metalCode.subCode = metalCd
-        //
-        //     getBidNoticeList(CoCommCdVO.metalCode)
-        // })
+        $('#metal-select').on('change', () => {
+            boBdPbln.metalCode = $('#metal-select').val()
+
+            initModal()
+        })
 
         $('#create-bddpr-cancl-poss-at').change(function(){
             bddprCanclDtCntr();
@@ -564,6 +561,25 @@
             $('.create-bddpr-cancl-dt input, .create-bddpr-cancl-dt select').not('#create-bddpr-cancl-poss-at').prop('disabled', isChecked);
         }
     });
+
+    function initModal() {
+        var url = "/bo/initBdCrtModal";
+        postSetDataTypeBo(url, JSON.stringify(boBdPbln), "html", true, function(result) {
+            if(!sorin.validation.isNull(result)) {
+                eleRedendering("#brand-group-select", result)
+                eleRedendering("#brand-select", result)
+                eleRedendering("#item-select", result)
+            }
+        });
+    }
+
+    // Data 변경 시 rerendering
+    function eleRedendering(elementNm, res) {
+        const element = $(elementNm)
+
+        element.html('');
+        element.html($(res).find(elementNm).html());
+    }
 
     $(
         "#create-dely-begin-de, " +

@@ -27,10 +27,6 @@ public interface BoBdPblnService {
 
 	int getCntByBidSttus(String subCode);
 
-	List<BoBdPblnVO> getBrandGrpList(CoCommCdVO commCdVO);
-
-	List<BoBdPblnVO> getBrandItemList(CoCommCdVO commCdVO);
-
 	void updateBoBdPblnDtl(BoBdPblnVO boBdPblnVO);
 
 	void istboBdPbln(BoBdPblnVO boBdPblnVO);

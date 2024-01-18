@@ -335,7 +335,7 @@
     }
 
     function openBdCreateModal() {
-        var url = "/bo/openBdCreateModal";
+        var url = "/bo/initBdCrtModal";
         var params = {};
         postSetDataTypeBo(url, JSON.stringify(params), "html", true, function(result) {
             if(!sorin.validation.isNull(result)) {

@@ -54,16 +54,6 @@ public class BoBdPblnServiceImpl implements BoBdPblnService{
 	}
 
 	@Override
-	public List<BoBdPblnVO> getBrandGrpList(CoCommCdVO commCdVO) {
-		return null;
-	}
-
-	@Override
-	public List<BoBdPblnVO> getBrandItemList(CoCommCdVO commCdVO) {
-		return null;
-	}
-
-	@Override
 	public List<BoCoCommCdVO> getBoCommCdList() {
 		return boBdPblnMapper.getBoCommCdList();
 	}
@@ -72,6 +62,8 @@ public class BoBdPblnServiceImpl implements BoBdPblnService{
 	public List<BoBdPblnVO> getBoBdBrandGrpList() {
 		return boBdPblnMapper.getBoBdBrandGrpList();
 	}
+
+
 	@Override
 	public List<BoBdPblnVO> getBoBdItemList() {
 		return boBdPblnMapper.getBoBdItemList();
