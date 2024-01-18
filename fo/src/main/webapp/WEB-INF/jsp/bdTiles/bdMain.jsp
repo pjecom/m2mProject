@@ -41,25 +41,25 @@
                                 <div class="item mypage">
                                     <a href="javascript:;" onclick="moveMyPage('13', '');" >
                                         <h4>투찰건</h4>
-                                        <p class="bid bddprCnt">${bdCnt.biddingCnt}</p>						   	 	
+                                        <p class="bid bddprCnt" id="biddingCnt"></p>						   	 	
                                     </a>
                                 </div>
                                 <div class="item mypage">
                                     <a href="javascript:;" onclick="moveMyPage('31', 'Y');" > 
                                         <h4>낙찰건</h4>
-                                        <p class="lose defeatCnt">${bdCnt.approvedCnt}</p>
+                                        <p class="lose defeatCnt" id="approvedCnt"></p>
                                 </a> 	
                                 </div>		
                                 <div class="item mypage">
                                     <a href="javascript:;" onclick="moveMyPage('31', 'N');" >						   	 
                                         <h4>패찰건</h4>
-                                        <p class="lose defeatCnt">${bdCnt.rejectedCnt}</p>
+                                        <p class="lose defeatCnt" id="rejectedCnt"></p>
                                 </a> 								   	 	
                                 </div>		
                                 <div class="item">
                                     <a href="javascript:;" onclick="pageMove('/bdMypage')">
                                         <h4>관심건</h4>
-                                        <p id="intrstBidCnt" class="keep intrstBidCnt">00</p>
+                                        <p id="intrstBidCnt" class="keep intrstBidCnt" id="favoritesCnt">00</p>
                                     </a> 								   	 	
                                 </div>							   	 						   	 					   	 
                         </div>
@@ -330,10 +330,31 @@ $(function() {
 		,maxDate: "+5y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)
 	});
 	selectBdMainInfoList(-1);
+
+    if(sessionStorage.getItem("bidEntrpsNo") != "" && sessionStorage.getItem("bidEntrpsNo") != null) {
+        getMypageInfo(sessionStorage.getItem("bidEntrpsNo"));
+    }
 	
 	
 });
 
+function getMypageInfo(bidEntrpsNo)
+ {
+    var data = { "bidEntrpsNo" : bidEntrpsNo }
+    $.ajax({
+            type: 'POST',
+            url: '/bdMypageCount',
+            contentType: 'application/json', 
+			data: JSON.stringify(data),
+            success: function(data) {
+                    console.log(data);
+                    console.log(data.biddingCnt);
+                    $("#biddingCnt").val(data.biddingCnt); //투찰
+                    $("#approvedCnt").val(data.approvedCnt); //낙찰
+                    $("#rejectedCnt").val(data.rejectedCnt); //패찰
+            }
+        });
+ }
 function moveMyPage(bidSttusCode, scsbidAt) {
     var params = {
         "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
