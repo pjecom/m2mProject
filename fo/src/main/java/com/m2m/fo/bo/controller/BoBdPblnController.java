@@ -120,27 +120,28 @@ public class BoBdPblnController {
     }
 
     @RequestMapping(value = "/boBdPblnCreate", method = RequestMethod.POST)
-    public String boBdPblnCreate(@RequestBody BoBdPblnVO bdPblnVO, ModelMap model, HttpServletRequest request) throws Exception {
+    public String boBdPblnCreate(@RequestBody BoBdPblnVO bdPblnVO, ModelMap model) throws Exception {
 
-        HttpSession session = request.getSession();
-        LoginVO member = (LoginVO) session.getAttribute("member");
+        SimpleDateFormat dateTimeFm = new SimpleDateFormat("yyyyMMddhhmmss");
+        String currentDateTimeStr = dateTimeFm.format(new Date());
+        Date currentDateTime = dateTimeFm.parse(currentDateTimeStr);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
-        String currentDateStr = dateFormat.format(new Date());
-        Date currentDate = dateFormat.parse(currentDateStr);
+        SimpleDateFormat dateFm = new SimpleDateFormat("yyMMdd");
+        String currentDateStr = dateFm.format(new Date());
 
-        Date bddprBeginDt = dateFormat.parse(bdPblnVO.getBddprBeginDt());
+        Date bddprBeginDt = dateTimeFm.parse(bdPblnVO.getBddprBeginDt());
 
         if(bdPblnVO.getDspyAt().equals("N")) {
             bdPblnVO.setBidSttusCode("11");
-        } else if (currentDate.before(bddprBeginDt)) {
+        } else if (currentDateTime.before(bddprBeginDt)) {
             bdPblnVO.setBidSttusCode("12");
         } else {
             bdPblnVO.setBidSttusCode("13");
         }
 
-        bdPblnVO.setFrstRegisterId(member.getBidMberId());
-        bdPblnVO.setFrstRegistDt(currentDate);
+        bdPblnVO.setBidPblancId("BID" + currentDateStr);
+        bdPblnVO.setFrstRegisterId("admin");
+        bdPblnVO.setFrstRegistDt(currentDateTime);
         System.out.println("boBdPblnCreate");
         System.out.println(bdPblnVO);
 

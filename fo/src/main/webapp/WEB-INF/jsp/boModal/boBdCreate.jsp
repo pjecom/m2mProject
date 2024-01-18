@@ -461,6 +461,7 @@
         const bddprCanclM = $('.create-bddpr-cancl-dt .min').val();
         const bddprCanclS = $('.create-bddpr-cancl-dt .sec').val();
         boBdPbln.bddprCanclLmttDe = formatDateTime(bddprCanclDt, bddprCanclPOD, bddprCanclH, bddprCanclM, bddprCanclS);
+
         boBdPbln.dspyAt = $('input[name="dspyYn"]:checked').val();
 
         console.log(boBdPbln)
@@ -474,7 +475,6 @@
             var maxValue = parseInt(this.max, 10);
             var currentValue = parseInt(this.value, 10);
 
-            // Validate the input value
             if (isNaN(currentValue) || currentValue < minValue) {
                 this.value = minValue;
             } else if (currentValue > maxValue) {
@@ -519,7 +519,7 @@
         //     getBidNoticeList(CoCommCdVO.metalCode)
         // })
 
-        $('#bddpr-cancl-poss-at').change(function(){
+        $('#create-bddpr-cancl-poss-at').change(function(){
             bddprCanclDtCntr();
         });
 

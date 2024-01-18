@@ -233,7 +233,7 @@
                 AND BDDPR_END_DT< #{bddprEndDt}
             ]]>
         </if>
-        ORDER BY BID_PBLANC_ID DESC
+        ORDER BY FRST_REGIST_DT DESC
         <!-- 페이징 -->
 <!--        OFFSET #{pagingVO.startNo} ROWS-->
 <!--        FETCH NEXT #{pagingVO.pageSize} ROWS ONLY-->
@@ -287,16 +287,18 @@
     <insert id="istboBdPbln" parameterType="com.m2m.fo.bo.model.BoBdPblnVO">
         /* com.m2m.fo.bd.mapper.BoBdPblnMapper.istboBdPbln */
         <selectKey keyProperty="bidPblancId" resultType="String" order="BEFORE">
-            SELECT 'TEST02-' + FORMAT(
-                ISNULL(
-                    MAX(
-                    CASE
-                    WHEN ISNUMERIC(RIGHT(BID_PBLANC_ID, CHARINDEX('-', BID_PBLANC_ID + '-') - 5)) = 1
-                    THEN CONVERT(INT, RIGHT(BID_PBLANC_ID, CHARINDEX('-', BID_PBLANC_ID + '-') - 5))
-                    ELSE 0
-                    END
-                ), 0) + 1, '00'
-            ) FROM BD_BID_BAS
+            SELECT
+                CONCAT(
+                    #{bidPblancId},
+                    '-',
+                    FORMAT(
+                        COALESCE(
+                            MAX(CONVERT(INT, RIGHT(BID_PBLANC_ID, LEN(BID_PBLANC_ID) - CHARINDEX('-', BID_PBLANC_ID)))) + 1,
+                            0
+                        ), '00'
+                    )
+                )
+            FROM BD_BID_BAS
         </selectKey>
 
         INSERT INTO BD_BID_BAS values (
@@ -356,10 +358,10 @@
             #{bddprCanclPossAt},
             <choose>
                 <when test='bddprCanclPossAt.equals("Y")'>
-                    #{bddprCanclLmttDe},
+                    NULL,
                 </when>
                 <otherwise>
-                    NULL,
+                    #{bddprCanclLmttDe},
                 </otherwise>
             </choose>
             #{bidSttusCode},
