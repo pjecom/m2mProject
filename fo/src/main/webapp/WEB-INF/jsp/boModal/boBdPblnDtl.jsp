@@ -76,7 +76,6 @@
         		}
     		});
     	});
-    	debugger;
     	var endDt = $("#bddprEndDt").val();
     	var formatEndDt = formatDate(endDt);
     	countDownTimer('allDday', formatEndDt);
@@ -96,7 +95,8 @@
 	}
 	
 	const countDownTimer = function (id, date) {
-	debugger;
+		if(document.getElementById(id) == "" || document.getElementById(id) == null || document.getElementById(id) === undefined)
+			return;
         var _vDate = new Date(date); // 전달 받은 일자
         var _second = 1000;
         var _minute = _second * 60;

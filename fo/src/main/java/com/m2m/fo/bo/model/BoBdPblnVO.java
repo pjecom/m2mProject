@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class BoBdPblnVO extends BoCoCommCdVO {
+public class BoBdPblnVO extends BoCoCommCdVO{
 	private String bidPblancId; // 입찰공고아이디
 	private String bidSttusCode; // 입찰상태코드
 	private String bidSttus;     // 입찰상태

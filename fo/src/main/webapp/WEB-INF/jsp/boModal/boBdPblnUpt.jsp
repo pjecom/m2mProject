@@ -339,17 +339,17 @@
 															<div class="input-group date form-date" id="bddprBegindate">
 																<fmt:parseDate value="${boBdPblnDtl.bddprBeginDt}" var="bddprBeginDt" pattern="yyyyMMddHHmmss"/>
 																<fmt:formatDate value="${bddprBeginDt}" var="formattedBeginDe" pattern="yyyy-MM-dd"/>
-																<input type="text" class="input"  value="${formattedBeginDe}" />
+																<input type="text" class="input" id="bddprBegindateInput" value="${formattedBeginDe}" />
 																<label for="bddprBegindate" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
 															</div>
-                                                            <select class="form-select" style="width:80px;">
+                                                            <select class="form-select" style="width:80px;" id="bddprBegindateAmPm">
                                                                 <option value="am">am</option>
                                                                 <option value="pm">pm</option>
                                                             </select>
                                                             
-                                                    		<input type="text" class="input" value="${bddprBeginDtHour}"  style="width:50px;">&nbsp;시
-                                                    		<input type="text" class="input" value="" style="width:50px;">&nbsp;분
-                                                    		<input type="text" class="input" value="" style="width:50px;">&nbsp;초
+                                                    		<input type="text" class="input" value="" id="bddprBeginH" style="width:50px;" >&nbsp;시
+                                                    		<input type="text" class="input" value="" id="bddprBeginM" style="width:50px;">&nbsp;분
+                                                    		<input type="text" class="input" value="" id="bddprBeginS" style="width:50px;">&nbsp;초
 														</div>
                                                     </td>
                                                     <th scope="row">투찰 마감일<i class="icon icon-required"></i></th>
@@ -358,17 +358,18 @@
 															<div class="input-group date form-date" id="bddprEnddate" >
 																<fmt:parseDate value="${boBdPblnDtl.bddprEndDt}" var="bddprEndDt" pattern="yyyyMMddHHmmss"/>
 																<fmt:formatDate value="${bddprEndDt}" var="formattedEndDe" pattern="yyyy-MM-dd"/>
-																<input type="text" class="input"  value="${formattedEndDe}" />
+																<input type="text" class="input" id="bddprEnddateInput"  value="${formattedEndDe}" />
 																<label for="bddprEnddate" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
 															</div>
-                                                            <select class="form-select" style="width:80px;">
+                                                            <select class="form-select" style="width:80px;" id="bddprEnddateAmPm">
                                                                 <option value="am">am</option>
                                                                 <option value="pm">pm</option>
                                                             </select>
-                                                    		<input type="text" class="input" value="" style="width:50px;">&nbsp;시
-                                                    		<input type="text" class="input" value="" style="width:50px;">&nbsp;분
-                                                    		<input type="text" class="input" value="" style="width:50px;">&nbsp;초
+                                                    		<input type="text" class="input" value="" id="bddprEndH" style="width:50px;">&nbsp;시
+                                                    		<input type="text" class="input" value="" id="bddprEndM" style="width:50px;">&nbsp;분
+                                                    		<input type="text" class="input" value="" id="bddprEndS" style="width:50px;">&nbsp;초
 														</div>
+													</td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">
@@ -386,16 +387,16 @@
 															<div class="input-group date form-date" id="bddprCancldate" >
 																<fmt:parseDate value="${boBdPblnDtl.bddprCanclLmttDe}" var="bddprCanclLmttDe" pattern="yyyyMMddHHmmss"/>
 																<fmt:formatDate value="${bddprCanclLmttDe}" var="formattedLmttDe" pattern="yyyy-MM-dd"/>
-																<input type="text" class="input"  value="${formattedLmttDe}" /> 
+																<input type="text" class="input" id="bddprCancldateInput"  value="${formattedLmttDe}" /> 
 																<label for="bddprCancldate" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
 															</div>
-                                                            <select class="form-select" style="width:80px;">
+                                                            <select class="form-select" style="width:80px;" id="bddprCancldateAmPm">
                                                                 <option value="am">am</option>
                                                                 <option value="pm">pm</option>
                                                             </select>
-                                                    		<input type="text" class="input" value="" style="width:50px;">&nbsp;시
-                                                    		<input type="text" class="input" value="" style="width:50px;">&nbsp;분
-                                                    		<input type="text" class="input" value="" style="width:50px;">&nbsp;초 까지 투찰 취소 가능함.
+                                                    		<input type="text" class="input" value="" id="bddprCanclH" style="width:50px;">&nbsp;시
+                                                    		<input type="text" class="input" value="" id="bddprCanclM" style="width:50px;">&nbsp;분
+                                                    		<input type="text" class="input" value="" id="bddprCanclS" style="width:50px;">&nbsp;초 까지 투찰 취소 가능함.
 														</div>
                                                     </textarea>
                                                     </td>
@@ -423,7 +424,6 @@
 </html>
 
 <script>
-
 $("#delyBeginDate, #delyEndDeDate, #pcAppnBegindate, #pcAppnEnddate, #bddprBegindate, #bddprEnddate, #bddprCancldate").datepicker({
     format: "yyyy-mm-dd",
     keyboardNavigation: false,
@@ -433,6 +433,70 @@ $("#delyBeginDate, #delyEndDeDate, #pcAppnBegindate, #pcAppnEnddate, #bddprBegin
     language:"ko"
 });
 
+$(function(){
+	//투찰 시작일
+	var bddprBeginDt ="${boBdPblnDtl.bddprBeginDt}";
+	var bddprBeginDay = bddprBeginDt.substring(0, 8);
+	var bddprBeginHour = bddprBeginDt.substring(8, 10);
+	var bddprBegindateAmPm = "am";
+	
+	if(bddprBeginHour == 12) {
+		bddprBegindateAmPm = "pm";
+	}
+	if(bddprBeginHour > 12 ){
+		bddprBegindateAmPm = "pm";
+		bddprBeginHour = bddprBeginHour - 12;
+	}
+	var bddprBeginMinute = bddprBeginDt.substring(10, 12);	//분
+	var bddprBeginSecond = bddprBeginDt.substring(12, 14);	//초
+	
+	$('#bddprBegindateAmPm').val(bddprBegindateAmPm);
+	
+	$('#bddprBeginH').val(bddprBeginHour);
+	$('#bddprBeginM').val(bddprBeginMinute);
+	$('#bddprBeginS').val(bddprBeginSecond);
+	
+	//투찰 마감일
+	var bddprEndDt = "${boBdPblnDtl.bddprEndDt}";
+	var bddprEndHour = bddprEndDt.substring(8, 10);
+	var bddprEnddateAmPm = "am";
+	
+	if(bddprEndHour == 12) {
+		bddprEnddateAmPm = "pm";
+	}
+	if(bddprEndHour > 12 ){
+		bddprEnddateAmPm = "pm";
+		bddprEndHour = bddprEndHour - 12;
+	}
+	var bddprEndMinute = bddprEndDt.substring(10, 12);	//분
+	var bddprEndSecond = bddprEndDt.substring(12, 14);	//초
+	
+	$('#bddprEnddateAmPm').val(bddprEnddateAmPm);
+	$('#bddprEndH').val(bddprEndHour);
+	$('#bddprEndM').val(bddprEndMinute);
+	$('#bddprEndS').val(bddprEndSecond);
+	
+	//투찰 취소기한
+	var bddprCanclLmttDe = "${boBdPblnDtl.bddprCanclLmttDe}";
+	var bddprCanclHour = bddprCanclLmttDe.substring(8, 10);
+	var bddprCancldateAmPm = "am";
+	
+	if(bddprCanclHour == 12) {
+		bddprCancldateAmPm = "pm";
+	}
+	if(bddprCanclHour > 12 ){
+		bddprCancldateAmPm = "pm";
+		bddprCanclHour = bddprCanclHour - 12;
+	}
+	var bddprCanclMinute = bddprCanclLmttDe.substring(10, 12);	//분
+	var bddprCanclSecond = bddprCanclLmttDe.substring(12, 14);	//초
+	
+	$('#bddprCancldateAmPm').val(bddprCancldateAmPm);
+	$('#bddprCanclH').val(bddprCanclHour);
+	$('#bddprCanclM').val(bddprCanclMinute);
+	$('#bddprCanclS').val(bddprCanclSecond);
+	
+});
 
 function modalClose() {
 	$('#bdNoticeDetailModal').modal('hide');
@@ -440,7 +504,35 @@ function modalClose() {
 
 
 function saveBdData() {
+	var bddprBeginH = $('#bddprBeginH').val();
+	var bddprBegindateAmPm = $('#bddprBegindateAmPm').val();
+	var bddprEndH = $('#bddprEndH').val();
+	var bddprEnddateAmPm = $('#bddprEnddateAmPm').val();
+	var bddprCanclH = $('#bddprCanclH').val();
+	var bddprCancldateAmPm = $('#bddprCancldateAmPm').val();
+
+	if (bddprBegindateAmPm === 'pm' && bddprBeginH < 12) {
+	    bddprBeginH = String(Number(bddprBeginH) + 12); // pm이면 12시간을 더해줍니다.
+	} else if (bddprBegindateAmPm === 'am' && bddprBeginH == 12) {
+	    bddprBeginH = '00'; // am이면서 12시인 경우 00으로 변환합니다.
+	}
+
+	if (bddprEnddateAmPm === 'pm' && bddprEndH < 12) {
+		bddprEndH = String(Number(bddprEndH) + 12); // pm이면 12시간을 더해줍니다.
+	} else if (bddprEnddateAmPm === 'am' && bddprEndH == 12) {
+		bddprEndH = '00'; // am이면서 12시인 경우 00으로 변환합니다.
+	}
+
+	if (bddprCancldateAmPm === 'pm' && bddprCanclH < 12) {
+	    bddprCanclH = String(Number(bddprCanclH) + 12); // pm이면 12시간을 더해줍니다.
+	} else if (bddprCancldateAmPm === 'am' && bddprCanclH == 12) {
+	    bddprCanclH = '00'; // am이면서 12시인 경우 00으로 변환합니다.
+	}
 	
+	var bddprBeginDt = $('#bddprBegindateInput').val().replace(/-/g, '') + bddprBeginH + $('#bddprBeginM').val() + $('#bddprBeginS').val();
+	var bddprEndDt = $('#bddprEnddateInput').val().replace(/-/g, '') + bddprEndH + $('#bddprEndM').val() + $('#bddprEndS').val();
+	var bddprCanclLmttDe = $('#bddprCancldateInput').val().replace(/-/g, '') + bddprCanclH + $('#bddprCanclM').val() + $('#bddprCanclS').val();
+
 		var params = {
 		"bidPblancId" : "${boBdPblnDtl.bidPblancId}",           // 입찰 공고아이디 
    		"metalCode" : $('#metalCode').val(),                    // 메탈구분 
@@ -457,11 +549,10 @@ function saveBdData() {
    		"setleMthCode" :  $('#setleMthCode').val(),             // 결제방법코드
    		"setlePdCode" :  $('#setlePdCode').val(),               // 결제기간코드
    		"etcCn" :  $('#etcCn').val(),                           // 기타코멘트 
-   		"bddprBeginDt" :  $('#bddprBegindate').val(),           // 투찰시작일시
-   		"bddprEndDt" :  $('#bddprEnddate').val(),               // 투찰종료일시
-   		"bddprCanclLmttDe" : $('#selectBddprCancldate').val()   // 투찰취소제한일자 
+   		"bddprBeginDt" :  bddprBeginDt,           				// 투찰시작일시
+   		"bddprEndDt" :  bddprEndDt,               				// 투찰종료일시
+   		"bddprCanclLmttDe" : bddprCanclLmttDe   				// 투찰취소제한일자 
 		}
-	//debugger;
 		console.log("goodsNm: ", $('#selectItem').val()); 
 	$.ajax({
 		url: '/bo/updateBoBdPblnDtl',
