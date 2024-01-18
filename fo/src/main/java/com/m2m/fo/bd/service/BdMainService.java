@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.ui.ModelMap;
 
+import com.m2m.fo.bd.model.BdDetailVO;
 import com.m2m.fo.bd.model.BdListVO;
 
 public interface BdMainService {
@@ -16,4 +17,9 @@ public interface BdMainService {
 	public BdListVO getBdListTotalCnt(BdListVO vo) throws Exception;
 	
 	public BdListVO bdMypageCount(BdListVO vo) throws Exception;
+	
+	/*인도조건 리스트 조회*/
+	public List<BdListVO> selectbdDelyCndList(BdListVO vo);
+	public List<BdListVO> selectbdDelyList(BdListVO vo);
+	
 }

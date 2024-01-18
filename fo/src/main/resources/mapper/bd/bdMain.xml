@@ -45,7 +45,7 @@
                   AND BID_STTUS_CODE between 20 and 40                                                                                                   /* 입찰 상태 코드 */
                  </if>
              </if>
-             <if test="brand != null and brand != '' and brand != '00'">
+             <if test="brand != null and brand != ''">
               AND BRAND_GROUP_CODE = #{brand}                                                                                                             /* 브랜드   00전체 01서구산 02비서구산 */
              </if>
              <if test="area != null and area != '' and area != '00'">
@@ -74,7 +74,7 @@
              <if test="brand != null and brand != '' and brand != '00'">
               AND BRAND_GROUP_CODE = #{brand}                                                                                                              /* 브랜드   00전체 01서구산 02비서구산 */
              </if>
-             <if test="area != null and area != '' and area != '00'">
+             <if test="area != null and area != ''">
               AND DSTRCT_LCLSF_CODE = #{area}                                                                                                              /* 권역    00전체 01인천 02부산 */
              </if>
              <if test="filter == '01' and searchDateFrom != null and searchDateFrom != '' and searchDateTo != null and searchDateTo != ''">
@@ -148,5 +148,33 @@
           ON BB.BID_PBLANC_ID= BBD.BID_PBLANC_ID 
        WHERE BBD.BID_ENTRPS_NO = #{bidEntrpsNo}
      </select>
+     
+     <select id="selectbdDelyCndList" parameterType="com.m2m.fo.bd.model.BdListVO" resultType="com.m2m.fo.bd.model.BdListVO">
+	  /* com.m2m.fo.bd.mapper.BdDetailMapper.selectbdDelyCndList */
+		SELECT 
+			SUB_CODE,
+			CODE_DCONE,
+			CODE_DCTWO
+	 	 FROM CO_CMMN_CD 
+		 WHERE 1=1
+		   AND MAIN_CODE = 'BRAND_GROUP_CODE'
+		   AND SUB_CODE != '@'
+		   AND DELETE_AT = 'N'
+		 ORDER BY SUB_CODE 
+    </select>
+    
+         <select id="selectbdDelyList" parameterType="com.m2m.fo.bd.model.BdListVO" resultType="com.m2m.fo.bd.model.BdListVO">
+	  /* com.m2m.fo.bd.mapper.BdDetailMapper.selectbdDelyCndList */
+		 SELECT 
+			SUB_CODE,
+			CODE_DCTWO,
+			*
+	 	 FROM CO_CMMN_CD 
+		 WHERE 1=1
+		   AND MAIN_CODE = 'DSTRCT_LCLSF_CODE'
+		   AND SUB_CODE != '@'
+		   AND DELETE_AT = 'N'
+		 ORDER BY CODE_ORDR
+    </select>
   
 </mapper>

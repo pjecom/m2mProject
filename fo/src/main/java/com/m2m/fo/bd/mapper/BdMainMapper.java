@@ -2,6 +2,7 @@ package com.m2m.fo.bd.mapper;
 
 import java.util.List;
 
+import com.m2m.fo.bd.model.BdDetailVO;
 import com.m2m.fo.bd.model.BdListVO;
 
 public interface BdMainMapper {
@@ -13,4 +14,7 @@ public interface BdMainMapper {
 	
 	public BdListVO  bdMypageCount(BdListVO vo) throws Exception;
 	
+	public List<BdListVO> selectbdDelyCndList(BdListVO vo);
+
+	public List<BdListVO> selectbdDelyList(BdListVO vo);
 }

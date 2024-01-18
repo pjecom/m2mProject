@@ -86,4 +86,8 @@ public class BdListVO {
 	private int rowEnd;
 	private int bgno;
 	
+	private String codeDcone;					 //공통코드(코드1)
+	private String codeDctwo;					 //공통코드(코드2)
+	private String subCode;					 //공통코드(코드2)
+	
 }

@@ -14,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.m2m.fo.bd.model.BdDetailVO;
 import com.m2m.fo.bd.model.BdListVO;
 import com.m2m.fo.bd.service.BdMainService;
 import com.m2m.fo.login.model.LoginVO;
@@ -37,7 +39,13 @@ public class BdMainController {
         
         BdListVO bdListVO = new BdListVO();
         List<BdListVO> list = bdMainService.getBdList(bdListVO);
-
+        
+		List<BdListVO> bdDelyCndList = bdMainService.selectbdDelyCndList(bdListVO);
+		model.addAttribute("bdDelyCndList", bdDelyCndList);
+		
+		List<BdListVO> bdDelyList = bdMainService.selectbdDelyList(bdListVO);
+		model.addAttribute("bdDelyList", bdDelyList);
+		
         model.addAttribute("bdList", list);
         model.addAttribute("member", member);
         

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.m2m.fo.bd.mapper.BdMainMapper;
+import com.m2m.fo.bd.model.BdDetailVO;
 import com.m2m.fo.bd.model.BdListVO;
 import com.m2m.fo.sample.model.SampleVO;
 
@@ -39,4 +40,17 @@ public class BdMainServiceImpl implements BdMainService {
 		// TODO Auto-generated method stub
 		return bdMainMapper.bdMypageCount(vo);
 	}
+	
+	@Override
+	public List<BdListVO> selectbdDelyCndList(BdListVO vo) {
+
+		return bdMainMapper.selectbdDelyCndList(vo);
+	}
+	
+	@Override
+	public List<BdListVO> selectbdDelyList(BdListVO vo) {
+
+		return bdMainMapper.selectbdDelyList(vo);
+	}
+
 }

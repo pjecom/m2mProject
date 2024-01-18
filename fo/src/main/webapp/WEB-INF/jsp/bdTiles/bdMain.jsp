@@ -171,17 +171,17 @@
 					<div class="opt_item">
 						<label for="">브랜드</label> <select name="brand" id="brand" onchange="selectBdMainInfoList(-1);"
 							class="brand">
-							<option value="00">브랜드(전체)</option>
-							<option value="01">서구산</option>
-							<option value="02">비서구산</option>
+                            <c:forEach var="vo" items="${bdDelyCndList}">
+                                <option value="${vo.subCode}">${vo.codeDctwo}</option>
+                            </c:forEach>
 						</select>
 					</div>
 					<div class="opt_item">
 						<label for="">권역</label> <select name="area" id="area" onchange="selectBdMainInfoList(-1);"
 							class="area">
-							<option value="00">권역(전체)</option>
-							<option value="01">인천</option>
-							<option value="02">부산</option>
+                            <c:forEach var="vo" items="${bdDelyList}">
+                                <option value="${vo.subCode}">${vo.codeDctwo}</option>
+                            </c:forEach>
 						</select>
 					</div>
 				</div>
@@ -406,12 +406,13 @@ function selectBdMainInfoList(bidSttusCode) {
 if(bidSttusCode == '-1'){
     var bidSttusCode = $(".item.on").val();
 }
-console.log("bidSttusCode"+bidSttusCode);
+console.log("brand ::::::::"+$('#brand').val());
+console.log("area ::::::::"+$('#area').val());
 
 var params = {
 			"bidSttusCode" : bidSttusCode,
 			"filter" : $('#filter').val(),
-			"brand" : $('#brand').val(),
+			"brand" : $('#brand').val(), 
 			"area" : $('#area').val(),
 			"searchDateFrom" : $('#searchDateFrom').val().replaceAll("-", ""),
 			"searchDateTo" : $('#searchDateTo').val().replaceAll("-", ""),
