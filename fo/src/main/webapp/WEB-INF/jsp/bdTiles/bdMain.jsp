@@ -15,6 +15,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="/guide/js/select2/select2.min.js"></script>
+<script src="/guide/js/sorin.js"></script>
 <script type="text/javaScript">
 
 </script>
@@ -112,7 +113,7 @@
 					<option value="02">마감일</option>
 				</select>
 			</div>
-			<div class="cal" onchange="selectBdMainInfoList(-1)";>
+			<div class="cal" onchange="selectBdMainInfoList(-1);">
 				<div class="datepicker-wrap">
 					<input type="text"
 						class="datepicker from center validate[required,custom[date]]"
@@ -538,11 +539,18 @@ var params = {
         
     }
     $(document).on( 'click', "a[name='selectBid']", function(event) {
-        var params = {
+        if (sessionStorage.getItem("bidEntrpsNo") != null && sessionStorage.getItem("bidEntrpsNo") != '') {
+            var params = {
             "bidPblancId" : this.id,
             "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo")
         }
-        pageMove( "/detail/bdDetail", JSON.stringify(params), 'application/json');
+            pageMove( "/detail/bdDetail", JSON.stringify(params), 'application/json');
+	   		
+	   	} else {
+	   	    	alertPopup('입찰서비스는 입찰 회원 전용 서비스입니다. 로그인 또는 가입 후 참여해주세요. 감사합니다', function () {
+	                return true;
+	            });
+	   	}
     });
 
     $(".btn-period > .radio-btn").click(function() {
