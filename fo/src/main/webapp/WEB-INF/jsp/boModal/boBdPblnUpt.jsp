@@ -114,19 +114,21 @@
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">수량 (톤)<i class="icon icon-required" id="bidWt"></i></th>
-                                                    <td>
-                                                        <select class="form-select select-sm">
-                                                            <option value="100">100</option>
-                                                            <option value="200">200</option>
-                                                        </select>
-                                                    </td>
+                                                   	<td>
+			                                            <select class="form-select select-sm" id="bid-wt-select">
+			                                                <c:forEach var="count" begin="100" end="2000" step="100">
+			                                                    <option value="${count}">${count}</option>
+			                                                </c:forEach>
+			                                            </select>
+			                                        </td>
                                                     <th scope="row">중량허용공차(±)<i class="icon icon-required" id="permWtRate"></i></th>
                                                     <td>
-                                                        <select class="form-select select-sm">
-                                                            <option value="1">1%</option>
-                                                            <option value="10">10%</option>
-                                                        </select>
-                                                    </td>
+		                                            <select class="form-select select-sm" id="perm-wt-select">
+		                                                <c:forEach var="count" begin="1" end="10">
+		                                                    <option value="${count}">${count}%</option>
+		                                                </c:forEach>
+		                                            </select>
+		                                        </td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">프리미엄 가격(USD/MT)<i class="icon icon-required"></i></th>
@@ -146,45 +148,54 @@
 	                                                            	</tr>
 	                                                            </thead>
 					                                            <tbody>
-	                                                            	<tr>
-	                                                            		<td class="text-center"><input type="checkbox" class ="" name="" value="Y" id="" checked /></td>
-	                                                            		<td>서린상사 지정 보세창고 도착도(FCA 서린상사 지정 보세창고)</td>
-	                                                            		<td>
-	                                                            			<div class="form-set">
-		                                                            			<input type="text" class="input" value="0" readonly="readonly">
-						                                                        <select class="form-select select-sm">
-						                                                            <option value="선택">선택</option>
-						                                                            <option value="선택">선택</option>
-						                                                        </select>
-						                                                     </div>
-					                                                    </td>
-	                                                            	</tr>
-	                                                            	<tr>
-	                                                            		<td class="text-center"><input type="checkbox" class ="" name="" value="Y" id="" checked /></td>
-	                                                            		<td>기타 부산/인천 보세창고 상차도(FCA BUSAN/INCHEON)</td>
-	                                                            		<td>
-	                                                            			<div class="form-set">
-		                                                            			<input type="text" class="input" value="100" readonly="readonly">
-						                                                        <select class="form-select select-sm">
-						                                                            <option value="선택">선택</option>
-						                                                            <option value="선택">선택</option>
-						                                                        </select>
-						                                                     </div>
-					                                                    </td>
-	                                                            	</tr>
-	                                                            	<tr>
-	                                                            		<td class="text-center"><input type="checkbox" class ="" name="" value="Y" id="" checked /></td>
-	                                                            		<td>CIF INCHEON / CIF BUSAN</td>
-	                                                            		<td>
-	                                                            			<div class="form-set">
-		                                                            			<input type="text" class="input" value="200" readonly="readonly">
-						                                                        <select class="form-select select-sm">
-						                                                            <option value="선택">선택</option>
-						                                                            <option value="선택">선택</option>
-						                                                        </select>
-						                                                     </div>
-					                                                    </td>
-	                                                            	</tr>
+	                                                            	<tr id="dely-cnd-01">
+				                                                        <td class="text-center">
+				                                                            <input type="checkbox" class="prmu-price" checked />
+				                                                        </td>
+				                                                        <td>서린상사 지정 보세창고 도착도(FCA 서린상사 지정 보세창고)</td>
+				                                                        <td>
+				                                                            <div class="form-set">
+				                                                                <input type="text" class="input stdr-pc" value="0" readonly="readonly">
+				                                                                <select class="form-select select-sm premium-pc">
+				                                                                    <c:forEach var="count" begin="1000" end="3000" step="1000">
+				                                                                        <option value="${count}">${count}</option>
+				                                                                    </c:forEach>
+				                                                                </select>
+				                                                            </div>
+				                                                        </td>
+				                                                    </tr>
+	                                                            	<tr id="dely-cnd-02">
+				                                                        <td class="text-center">
+				                                                            <input type="checkbox" class="prmu-price" checked />
+				                                                        </td>
+				                                                        <td>기타 부산/인천 보세창고 상차도(FCA BUSAN/INCHEON)</td>
+				                                                        <td>
+				                                                            <div class="form-set">
+				                                                                <input type="text" class="input stdr-pc" value="10000" readonly="readonly">
+				                                                                <select class="form-select select-sm premium-pc">
+				                                                                    <c:forEach var="count" begin="1000" end="3000" step="1000">
+				                                                                        <option value="${count}">${count}</option>
+				                                                                    </c:forEach>
+				                                                                </select>
+				                                                            </div>
+				                                                        </td>
+				                                                    </tr>
+	                                                            	<tr id="dely-cnd-03">
+				                                                        <td class="text-center">
+				                                                            <input type="checkbox" class="prmu-price" checked />
+				                                                        </td>
+				                                                        <td>CIF INCHEON / CIF BUSAN</td>
+				                                                        <td>
+				                                                            <div class="form-set">
+				                                                                <input type="text" class="input stdr-pc" value="20000" readonly="readonly">
+				                                                                <select class="form-select select-sm premium-pc">
+				                                                                    <c:forEach var="count" begin="1000" end="3000" step="1000">
+				                                                                        <option value="${count}">${count}</option>
+				                                                                    </c:forEach>
+				                                                                </select>
+				                                                            </div>
+				                                                        </td>
+				                                                    </tr>
                                                             	</tbody>
                                                             </table>
                                                         </div>
@@ -535,7 +546,7 @@ function saveBdData() {
 	var pcAppnEndDe = $("#pcAppnEndDe").val().replace(/-/g, '')
 	var delyBeginDe = $("#delyBeginDe").val().replace(/-/g, '')
 	var delyEndDe = $("#delyEndDe").val().replace(/-/g, '')
-	
+	debugger;
 		var params = {
 		"bidPblancId" : "${boBdPblnDtl.bidPblancId}",           // 입찰 공고아이디 
    		"metalCode" : $('#metalCode').val(),                    // 메탈구분 
@@ -543,8 +554,13 @@ function saveBdData() {
    		"brandCode" : $('#brandCode').val(),                    // 브랜드
    		"itmSn" : $('#selectItem').val(),                       // 아이템순번 
    		"dstrctLclsfCode" : $('#dstrctLclsfCode').val(),        // 권역
-   		"bidWt" : $('#bidWt').val(),                            // 수량(톤)
-   		"permWtRate" : $('#permWtRate').val(),                  // 중량허용공차
+   		"bidWt" : $('#bid-wt-select').val(),                    // 수량(톤)
+   		"permWtRate" : $('#perm-wt-select').val(),              // 중량허용공차
+   		
+   		"delyCnd01premiumPc" : $('#dely-cnd-01 .stdr-pc').val(),// 인도조건 01프리미엄가격 
+   		"delyCnd02premiumPc" : $('#dely-cnd-02 .stdr-pc').val(),// 인도조건 01프리미엄가격 
+   		"delyCnd03premiumPc" : $('#dely-cnd-03 .stdr-pc').val(),// 인도조건 01프리미엄가격 
+   		
    		"delyBeginDe" :  delyBeginDe,           				// 인도기한시작
    		"delyEndDe" :  delyEndDe,           					// 인도기한종료
    		"pcAppnBeginDe" :  pcAppnBeginDe,           			// 가격지정시작
