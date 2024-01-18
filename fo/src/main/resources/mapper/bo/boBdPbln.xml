@@ -371,7 +371,7 @@
             #{bddprEndDt},
             #{bddprCanclPossAt},
             <choose>
-                <when test='bddprCanclPossAt.equals("Y")'>
+                <when test='bddprCanclPossAt.equals("N")'>
                     NULL,
                 </when>
                 <otherwise>

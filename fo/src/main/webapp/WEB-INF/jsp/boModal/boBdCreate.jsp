@@ -486,7 +486,7 @@
         const bddprEndS = $('.create-bddpr-end-dt .sec').val();
         boBdPbln.bddprEndDt = formatDateTime(bddprEndDt, bddprEndPOD, bddprEndH, bddprEndM, bddprEndS);
 
-        boBdPbln.bddprCanclPossAt = $('#create-bddpr-cancl-poss-at').is(':checked') ? 'Y' : 'N';
+        boBdPbln.bddprCanclPossAt = $('#create-bddpr-cancl-poss-at').is(':checked') ? 'N' : 'Y';
 
         const bddprCanclDt = $('#create-bddpr-cancl-lmtt-de').val();
         const bddprCanclPOD = $('.create-bddpr-cancl-dt .periodOfDay').val();
@@ -496,8 +496,6 @@
         boBdPbln.bddprCanclLmttDe = formatDateTime(bddprCanclDt, bddprCanclPOD, bddprCanclH, bddprCanclM, bddprCanclS);
 
         boBdPbln.dspyAt = $('input[name="dspyYn"]:checked').val();
-
-        console.log(boBdPbln)
 
         createBidNotice()
     }
