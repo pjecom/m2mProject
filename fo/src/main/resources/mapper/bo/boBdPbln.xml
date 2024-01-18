@@ -219,7 +219,14 @@
         where 1=1
         <!-- 공고 상태 검색 -->
         <if test="bidSttusCode != null and bidSttusCode != ''">
-            AND BID_STTUS_CODE = #{bidSttusCode}
+            <choose>
+                <when test='bidSttusCode.equals("30")'>
+                   AND BID_STTUS_CODE in ('30','31','32')
+                </when>
+                <otherwise>
+                   AND BID_STTUS_CODE = #{subCode}
+                </otherwise>
+            </choose>
         </if>
         <!-- 공고 번호 검색 -->
         <if test="bidPblancId != null and bidPblancId != ''">
@@ -250,11 +257,19 @@
             AND DELETE_AT = 'N'
         ORDER BY CODE_ORDR ASC
     </select>
-    <select id="getCntByBidSttus" parameterType="String" resultType="int">
+    <select id="getCntByBidSttus" parameterType="com.m2m.fo.bo.model.BoBdPblnVO" resultType="int">
         SELECT count(*)
         FROM BD_BID_BAS
         WHERE
-            BID_STTUS_CODE = #{subCode}
+            <choose>
+                <when test='subCode.equals("30")'>
+                    BID_STTUS_CODE in ('30','31','32')
+                </when>
+                <otherwise>
+                    BID_STTUS_CODE = #{subCode}
+                </otherwise>
+            </choose>
+<!--            BID_STTUS_CODE = #{subCode}-->
             AND DELETE_AT = 'N'
     </select>
     <update id="updateBoBdPblnDtl" parameterType="com.m2m.fo.bo.model.BoBdPblnVO">

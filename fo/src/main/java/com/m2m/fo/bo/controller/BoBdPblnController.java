@@ -30,7 +30,6 @@ public class BoBdPblnController {
 
     @RequestMapping(value ="/bidNotice")
     public String boDetail(@RequestBody(required = false) BoBdPblnVO vo, ModelMap model) throws Exception {
-    	Map<String, Object> map = new HashMap<String, Object>();
         List<String> showBidSttusList = Arrays.asList("11", "12", "13", "30", "33");
 
         String tempBeginDt = null;
@@ -54,27 +53,28 @@ public class BoBdPblnController {
 
         List<BoBdPblnVO> list = boBdPblnService.getBoBdPblnList(vo);
         List<CoCommCdVO> bidSttusList = boBdPblnService.getbidSttusList("BID_STTUS_CODE");
+        BoBdPblnVO finalVo = new BoBdPblnVO();
         Map<String, Object> cntByBidSttus = bidSttusList.stream()
                 .collect(Collectors.toMap(
                         CoCommCdVO::getSubCode,
-                        cdVO -> boBdPblnService.getCntByBidSttus(cdVO.getSubCode())
+                        cdVO -> {
+                            finalVo.setSubCode(cdVO.getSubCode());
+                            return boBdPblnService.getCntByBidSttus(finalVo);
+                        }
                 ));
         bidSttusList = bidSttusList.stream()
                 .filter(bslVo -> showBidSttusList.contains(bslVo.getSubCode()))
                 .sorted(Comparator.comparing(bslVo -> bslVo.getSubCode().equals("11")))
                 .collect(Collectors.toList());
 
-        vo.getPagingVO().calPaging(list.size());
-        System.out.println(vo.getPagingVO());
+//        vo.getPagingVO().calPaging(list.size());
+//        System.out.println(vo.getPagingVO());
 
         for (BoBdPblnVO bbpVo : list) {
             String begin = bbpVo.getBddprBeginDt();
             String end = bbpVo.getBddprEndDt();
 
-            // Define the original date format
             SimpleDateFormat originalFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-
-            // Define the target date format
             SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
             try {

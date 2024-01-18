@@ -19,7 +19,7 @@ public interface BoBdPblnMapper {
 
 	List<CoCommCdVO> getbidSttusList(String mainCode);
 
-	int getCntByBidSttus(String subCode);
+	int getCntByBidSttus(BoBdPblnVO bdPblnVO);
 
 	List<BoCoCommCdVO> getBoCommCdList();
 

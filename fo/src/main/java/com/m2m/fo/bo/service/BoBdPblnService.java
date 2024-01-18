@@ -25,7 +25,7 @@ public interface BoBdPblnService {
 	
 	List<BoBdPblnVO> getBoBdItemList();
 
-	int getCntByBidSttus(String subCode);
+	int getCntByBidSttus(BoBdPblnVO boBdPblnVO);
 
 	void updateBoBdPblnDtl(BoBdPblnVO boBdPblnVO);
 
