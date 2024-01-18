@@ -76,7 +76,62 @@
         		}
     		});
     	});
+    	debugger;
+    	var endDt = $("#bddprEndDt").val();
+    	var formatEndDt = formatDate(endDt);
+    	countDownTimer('allDday', formatEndDt);
 	});
+	
+	function formatDate(inputDate) {
+	    const year = inputDate.substring(0, 4);
+	    const month = inputDate.substring(4, 6);
+	    const day = inputDate.substring(6, 8);
+	    const hour = inputDate.substring(8, 10);
+	    const minute = inputDate.substring(10, 12);
+	    const second = inputDate.substring(12, 14);
+	
+	    const formattedDate = year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
+	    
+	    return formattedDate;
+	}
+	
+	const countDownTimer = function (id, date) {
+	debugger;
+        var _vDate = new Date(date); // 전달 받은 일자
+        var _second = 1000;
+        var _minute = _second * 60;
+        var _hour = _minute * 60;
+        var _day = _hour * 24;
+
+        function showRemaining() {
+            var now = new Date();
+            var distDt = _vDate - now;
+//            console.log("distDt : "+distDt);
+            var bidSttus = '${selectBidDetailData.bidSttusCode}';
+            if (distDt < 0 && bidSttus != '33') {
+                clearInterval(timer);
+                document.getElementById(id).textContent = '투찰기간이 종료되었습니다.';
+                return;
+            } 
+            if (bidSttus == '33') {
+            	clearInterval(timer);
+                document.getElementById(id).textContent = '취소된 공고입니다.';
+                return;
+            }
+
+            var days = Math.floor(distDt / _day);
+            var hours = Math.floor((distDt % _day) / _hour);
+            var minutes = Math.floor((distDt % _hour) / _minute);
+            var seconds = Math.floor((distDt % _minute) / _second);
+
+            document.getElementById(id).textContent = days + '일 ';
+            document.getElementById(id).textContent += hours + '시간 ';
+            document.getElementById(id).textContent += minutes + '분 ';
+            document.getElementById(id).textContent += seconds + '초 남음';
+        }
+
+        timer = setInterval(showRemaining, 1000);
+    }
 	
 	function showConfirmation() {
 		var result = confirm('해당 공고 건은 입찰 예정 건입니다.\n 공고 취소 시 노출되지 않습니다.\n 취소하시겠습니다.?');
@@ -151,6 +206,7 @@
 				<div class="inner">
 					<!-- Button trigger modal -->
 					<div class="modal-header">
+						<input type="hidden" value="${boBdPblnDtl.bddprEndDt}" id="bddprEndDt" />
 						<h5 class="modal-title" id="exampleModalLabel">
 							입찰 공고 상세&nbsp;&nbsp;&gt;&nbsp;
 							<span style="background-color: black; color: white; font-weight: normal;">&nbsp;&nbsp;
@@ -193,7 +249,7 @@
 											<fmt:formatDate value="${bddprEndDt}" var="formattedBndDt" pattern="yyyy.MM.dd HH:mm:ss"/>
 											${formattedBeginDt}~ ${formattedBndDt}											
 											<br>(
-											<span class="color-blue">3일 5시간 0분 0초</span> 남음)
+											<span class="color-blue" id="allDday">3일 5시간 0분 0초</span>)
 										</td>
 										<th>활성여부</th>
 										<td>

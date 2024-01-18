@@ -37,20 +37,29 @@ public class BdMainController {
         
         BdListVO bdListVO = new BdListVO();
         List<BdListVO> list = bdMainService.getBdList(bdListVO);
-        //member.getBidEntrpsNo()
-        bdListVO.setBidEntrpsNo("C0007");
-        
-        BdListVO bdListCnt = bdMainService.getBdListTotalCnt(bdListVO);
 
-        BdListVO bdCnt = bdMainService.bdMypageCount(bdListVO);
         model.addAttribute("bdList", list);
-        model.addAttribute("bdListCnt", bdListCnt);
-        model.addAttribute("bdCnt", bdCnt);
         model.addAttribute("member", member);
         
         return "bdTiles/bdMain";
 
     }
+	
+
+	@RequestMapping("/bdMypageCount")
+	public ResponseEntity<?> bdMypageCount(@RequestBody BdListVO bdBidVO, Model model) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+	        BdListVO bdCnt = bdMainService.bdMypageCount(bdBidVO);
+			map.put("biddingCnt", bdCnt.getBiddingCnt());
+			map.put("approvedCnt", bdCnt.getApprovedCnt());
+			map.put("rejectedCnt", bdCnt.getRejectedCnt());
+			return new ResponseEntity<>(map, HttpStatus.OK);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
 	
 	@RequestMapping("/loginCheck")
 	public ResponseEntity<?> loginCheck(ModelMap model, HttpServletRequest request) throws Exception {
@@ -58,7 +67,6 @@ public class BdMainController {
         LoginVO member = (LoginVO) session.getAttribute("member");
         model.addAttribute("member", member);
         return new ResponseEntity<>(HttpStatus.OK);
-
     }
 	
 	@RequestMapping("/bo")
