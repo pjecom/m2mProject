@@ -119,6 +119,30 @@ public class BoBdPblnController {
 
     }
 
+    @RequestMapping(value = "/openBdCreateModal", method = RequestMethod.POST)
+    public String openBdCreateModal(@RequestBody(required = false) BoBdPblnVO bdPblnVO, ModelMap model) throws Exception {
+
+        System.out.println("openBdCreateModal");
+
+        if(bdPblnVO == null) {
+            bdPblnVO = new BoBdPblnVO();
+        }
+
+        //공통코드리스트
+        List<BoCoCommCdVO> boCommCdList = boBdPblnService.getBoCommCdList(bdPblnVO);
+        model.addAttribute("boCommCdList", boCommCdList);
+
+        //브랜드코드
+        List<BoBdPblnVO> boBdBrandGrpList = boBdPblnService.getBoBdBrandGrpList(bdPblnVO);
+        model.addAttribute("boBdBrandGrpList", boBdBrandGrpList);
+
+        //아이템상품명
+        List<BoBdPblnVO> boBdItemList = boBdPblnService.getBoBdItemList(bdPblnVO);
+        model.addAttribute("boBdItemList", boBdItemList);
+
+        return "boModal/boBdCreate";
+    }
+
     @RequestMapping(value = "/boBdPblnCreate", method = RequestMethod.POST)
     public String boBdPblnCreate(@RequestBody BoBdPblnVO bdPblnVO, ModelMap model) throws Exception {
 
@@ -142,8 +166,6 @@ public class BoBdPblnController {
         bdPblnVO.setBidPblancId("BID" + currentDateStr);
         bdPblnVO.setFrstRegisterId("admin");
         bdPblnVO.setFrstRegistDt(currentDateTime);
-        System.out.println("boBdPblnCreate");
-        System.out.println(bdPblnVO);
 
         boBdPblnService.istboBdPbln(bdPblnVO);
 

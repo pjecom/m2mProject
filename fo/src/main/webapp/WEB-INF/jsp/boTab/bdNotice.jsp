@@ -6,28 +6,6 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
 <script>
-	$(function() {
-	   $("#moveList").click(function() { // 목록가기 버튼 클릭 이벤트
-		var params = {
-		         "bidPblancId" : "TEST01-07",
-		}
-	      pageMove( "/boPbln/detail", JSON.stringify(params), 'application/json');
-	   });
-	});
-
-	function bdNoticeDetailModalSearch(){
-		var url = "/bo/boBdPblnDtlModal";
-		var params = {
-
-		};
-		postSetDataTypeBo(url, JSON.stringify(params), "html", true, function(result) {
-            if(!sorin.validation.isNull(result)) {
-           	 $("#bdNoticeDetailModal .modal2").html('');
-           	 $("#bdNoticeDetailModal .modal2").html(result);
-           	 $('#bdNoticeDetailModal').modal('show');
-            }
-        });
-	}
     function redirectToDetailPage(bidPblancId, clickedElement) {
 
         console.log("클릭한 행의 bidPblancId:", bidPblancId);
@@ -58,28 +36,6 @@
             }
         });
 	}
-
-	function bdNoticeDetailModalSearch() {
-	    var url = "/bo/boBdPblnDtlModal";
-	    var params = {}; // 필요한 경우 데이터를 추가
-
-	    $.ajax({
-	        type: "POST",
-	        url: url,
-	        data: JSON.stringify(params),
-	        contentType: "application/json",
-	        dataType: "html",
-	        success: function(result) {
-	            if (!sorin.validation.isNull(result)) {
-	                $("#bdNoticeDetailModal .modal2").html(result);
-	                $('#bdNoticeDetailModal').modal('show');
-	            }
-	        },
-	        error: function(jqXHR, textStatus, errorThrown) {
-	            console.error("Error: " + textStatus, errorThrown);
-	        }
-	    });
-	}
 </script>
 <div class="main-content">
     <div class="inner">
@@ -92,7 +48,7 @@
                 <div class="main-title">
                     <h2 class="dashboard2-title">※ 주문 접수 현황</h2>
 <%--                    <button type="button" class="btn" id="createBtn">입찰 공고 등록</button>--%>
-                    <button type="button" class="btn" data-toggle="modal" data-target="#bdNoticeCreateModal">입찰 공고 등록</button>
+                    <button type="button" class="btn" onclick="openBdCreateModal()">입찰 공고 등록</button>
                 </div>
                 <div class="amount-list row">
                     <div class="amount-item">
@@ -271,22 +227,21 @@
         </div>
 </div>
 
-<div class="modal fade" id="bdNoticeDetailModal" tabindex="-1" role="dialog" data-keyboard="false"  aria-labelledby="bdNoticeDetailModallLabel" aria-hidden="true">
+<%--<!-- 입찰 공고 상세 모달 -->--%>
+<div class="modal fade" id="bdNoticeDetailModal" tabindex="-1" role="dialog" data-keyboard="false" aria-labelledby="bdNoticeDetailModallLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-full" role="document">
         <div class="modal-content modal2">
         </div>
     </div>
 </div>
 
-<!-- 입찰 공고 등록 모달 -->
-<%@ include file="../boModal/boBdCreate.jsp" %>
-
-<%--<div class="modal fade" id="bdNoticeCreateModal" tabindex="-1" role="dialog" aria-labelledby="bdNoticeCreateModalLabel" aria-hidden="true">--%>
-<%--    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-full" role="document">--%>
-<%--        <div class="modal-content modal2">--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--</div>--%>
+<%--<!-- 입찰 공고 등록 모달 -->--%>
+<div class="modal fade" id="bdNoticeCreateModal" tabindex="-1" role="dialog" data-keyboard="false" aria-labelledby="bdNoticeCreateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-full" role="document">
+        <div class="modal-content modal2">
+        </div>
+    </div>
+</div>
 
 <script>
     let tempBdBidBas = {
@@ -322,7 +277,6 @@
 
         element.html('');
         element.html($(res).find(elementNm).html());
-
     }
 
     // 날짜 자동 선택
@@ -380,46 +334,16 @@
         getBidNoticeList()
     }
 
-    function bdNoticeDetailModalSearch(){
-        var url = "/bo/boBdPblnDtlModal";
-        var params = {
-
-        };
+    function openBdCreateModal() {
+        var url = "/bo/openBdCreateModal";
+        var params = {};
         postSetDataTypeBo(url, JSON.stringify(params), "html", true, function(result) {
             if(!sorin.validation.isNull(result)) {
-                $("#bdNoticeDetailModal .modal2").html('');
-                $("#bdNoticeDetailModal .modal2").html(result);
-                $('#bdNoticeDetailModal').modal('show');
+                $("#bdNoticeCreateModal .modal2").html('');
+                $("#bdNoticeCreateModal .modal2").html(result);
+                $('#bdNoticeCreateModal').modal('show');
             }
         });
     }
 
-    // $(function() {
-    //     //공고 수정
-    //     $("#createBtn").click(function(event){
-    //         event.preventDefault();
-    //
-    //         var url = "/bo/boBdPblnCreateModal";
-    //         var params = {};
-    //
-    //         $.ajax({
-    //             type: "POST",
-    //             url: url,
-    //             data: JSON.stringify(params),
-    //             contentType: "application/json",
-    //             dataType: "html",
-    //             success: function(result) {
-    //                 console.log(result)
-    //                 if (!sorin.validation.isNull(result)) {
-    //                     $("#bdNoticeCreateModal .modal2").html(result);
-    //                     $('#bdNoticeCreateModal').modal('show');
-    //
-    //                 }
-    //             },
-    //             error: function(jqXHR, textStatus, errorThrown) {
-    //                 console.error("Error: " + textStatus, errorThrown);
-    //             }
-    //         });
-    //     });
-    // });
 </script>
