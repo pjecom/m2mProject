@@ -256,7 +256,7 @@
 																<!-- 가격지정시작일 -->
 																<fmt:parseDate value="${boBdPblnDtl.pcAppnBeginDe}" var="pcAppnBeginDe" pattern="yyyyMMdd"/>
 																<fmt:formatDate value="${pcAppnBeginDe}" var="formattedBeginDe" pattern="yyyy-MM-dd"/>
-																	<input type="text" class="input"  value="${formattedBeginDe}"/>
+																	<input type="text" class="input" id="pcAppnBeginDe"  value="${formattedBeginDe}"/>
 																	<label for="pcAppnBegindate" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
 																</div>
 																<span>~</span>
@@ -266,7 +266,7 @@
 																<!-- 가격지정종료일 -->
 																<fmt:parseDate value="${boBdPblnDtl.pcAppnEndDe}" var="pcAppnEndDe" pattern="yyyyMMdd"/>
 																<fmt:formatDate value="${pcAppnEndDe}" var="formattedBndDe" pattern="yyyy-MM-dd"/> 
-																	<input type="text" class="input"  value="${formattedBndDe}"/>
+																	<input type="text" class="input"  id="pcAppnEndDe" value="${formattedBndDe}"/>
 																	<label for="pcAppnEnddate" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
 																</div>
 															</div>
@@ -495,7 +495,6 @@ $(function(){
 	$('#bddprCanclH').val(bddprCanclHour);
 	$('#bddprCanclM').val(bddprCanclMinute);
 	$('#bddprCanclS').val(bddprCanclSecond);
-	
 });
 
 function modalClose() {
@@ -532,7 +531,9 @@ function saveBdData() {
 	var bddprBeginDt = $('#bddprBegindateInput').val().replace(/-/g, '') + bddprBeginH + $('#bddprBeginM').val() + $('#bddprBeginS').val();
 	var bddprEndDt = $('#bddprEnddateInput').val().replace(/-/g, '') + bddprEndH + $('#bddprEndM').val() + $('#bddprEndS').val();
 	var bddprCanclLmttDe = $('#bddprCancldateInput').val().replace(/-/g, '') + bddprCanclH + $('#bddprCanclM').val() + $('#bddprCanclS').val();
-
+	var pcAppnBeginDe = $("#pcAppnBeginDe").val().replace(/-/g, '')
+	var pcAppnEndDe = $("#pcAppnEndDe").val().replace(/-/g, '')
+	
 		var params = {
 		"bidPblancId" : "${boBdPblnDtl.bidPblancId}",           // 입찰 공고아이디 
    		"metalCode" : $('#metalCode').val(),                    // 메탈구분 
@@ -542,8 +543,8 @@ function saveBdData() {
    		"dstrctLclsfCode" : $('#dstrctLclsfCode').val(),        // 권역
    		"bidWt" : $('#bidWt').val(),                            // 수량(톤)
    		"permWtRate" : $('#permWtRate').val(),                  // 중량허용공차
-   		"pcAppnBeginDe" :  $('#pcAppnBegindate').val(),         // 가격지정시작일자
-   		"pcAppnEndDe" :  $('#pcAppnEnddate').val(),             // 가격지정종료일자
+   		"pcAppnBeginDe" :  pcAppnBeginDe,           			// 가격지정시작
+   		"pcAppnEndDe" :  pcAppnEndDe,           				// 가격지정종료
    		"pcAppnMthCode" :  $('#pcAppnMthCode').val(),           // 가격지정방법코드
    		"setleCrncyCode" :  $('#setleCrncyCode').val(),         // 결제통화코드
    		"setleMthCode" :  $('#setleMthCode').val(),             // 결제방법코드

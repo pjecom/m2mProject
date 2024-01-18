@@ -285,7 +285,7 @@
 		   ,BID_WT                       = #{bidWt}                    /*수량*/
 		   ,PERM_WT_RATE                 = #{permWtRate}               /*중량허용공차*/
 		   ,PC_APPN_BEGIN_DE             = #{pcAppnBeginDe}            /*가격지정기간시작*/
-		   ,PC_APPN_END_DE               = #{pcAppnBeginDe}            /*가격지정기간종료*/
+		   ,PC_APPN_END_DE               = #{pcAppnEndDe}            /*가격지정기간종료*/
 		   ,PC_APPN_MTH_CODE             = #{pcAppnMthCode}            /*가격지정방법*/
 		   ,SETLE_CRNCY_CODE             = #{setleCrncyCode}           /*결제통화코드*/
 		   ,SETLE_MTH_CODE               = #{setleMthCode}             /*결제방법코드*/
@@ -388,7 +388,6 @@
             NULL,
             #{frstRegisterId},
             #{frstRegistDt},
-            NULL,
             NULL,
             NULL,
             NULL,

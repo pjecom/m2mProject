@@ -217,6 +217,7 @@ $(function() {
 	var checkIdFlag = false;
 	var checkPwFlag = false;
 	var checkPwChkFlag = false;
+	var checkBsnFlag  = false;
 	var frntnEntrpsAt = "N";
 	var checkEmailFlag = false;
 	
@@ -338,7 +339,7 @@ $(function() {
         });
 	//사업자등록번호
 		$("#bsnmRegistNo, #vrscBsnmRegistNo").keyup(function(){
-	        var value = this.value.replace(/\D/g, ''); // 숫자 이외의 문자 제거
+			var value = this.value.replace(/\D/g, ''); // 숫자 이외의 문자 제거
 	        if (value.length >= 4 && value.length <= 7) {
 	            value = value.slice(0, 3) + '-' + value.slice(3);
 	        } else if (value.length >= 8 && value.length <= 11) {
@@ -348,6 +349,11 @@ $(function() {
 	            value = value.slice(0, 12); // 최대 12자 제한
 	        }
 	        this.value = value;
+	        if (value.length === 12) {
+	            checkBsnFlag = true;
+	        }else {
+	        	checkBsnFlag = false;
+	        }
 	    });
 	
 	//이메일
@@ -433,7 +439,8 @@ $(function() {
 			return false;
         }
 		if(frntnEntrpsAt == 'N'){	//외국기업이 아닐경우
-			if($("#bsnmRegistNo").val() == null || $("#bsnmRegistNo").val() == ''){
+			//if($("#bsnmRegistNo").val() == null || $("#bsnmRegistNo").val() == ''){
+			if(checkBsnFlag == false){
 	        	alert('사업자등록 번호를 다시 입력해주세요');
 	    		$("#bsnmRegistNo").focus();
 	    		return false;
