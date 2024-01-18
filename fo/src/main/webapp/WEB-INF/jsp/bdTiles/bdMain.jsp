@@ -171,6 +171,7 @@
 					<div class="opt_item">
 						<label for="">브랜드</label> <select name="brand" id="brand" onchange="selectBdMainInfoList(-1);"
 							class="brand">
+                                <option value="">브랜드(전체)</option>
                             <c:forEach var="vo" items="${bdDelyCndList}">
                                 <option value="${vo.subCode}">${vo.codeDctwo}</option>
                             </c:forEach>
@@ -179,6 +180,7 @@
 					<div class="opt_item">
 						<label for="">권역</label> <select name="area" id="area" onchange="selectBdMainInfoList(-1);"
 							class="area">
+                            <option value="">권역(전체)</option>
                             <c:forEach var="vo" items="${bdDelyList}">
                                 <option value="${vo.subCode}">${vo.codeDctwo}</option>
                             </c:forEach>
