@@ -95,7 +95,7 @@
 	}
 	
 	const countDownTimer = function (id, date) {
-		if(document.getElementById(id) == "" || document.getElementById(id) == null || document.getElementById(id) === undefined)
+		if(document.getElementById(id) == "" || document.getElementById(id) == null || document.getElementById(id) === undefiend)
 			return;
         var _vDate = new Date(date); // 전달 받은 일자
         var _second = 1000;
@@ -317,26 +317,26 @@
 														<tr>
 															<td class="text-center"><b>1</b></td>
 															<td>서린상사 지정 보세창고 도착도(FCA 서린상사 지정 보세창고)</td>
-															<td><input type="text" value="0" class="input"
-																style="width: 50%; background-color: #fafafa;"
-																readonly="readonly"> &nbsp;&nbsp; <span
-																class="color-red">+USD 15.0</span></td>
+															<td>
+																<input type="text" value="0" class="input" style="width: 50%; background-color: #fafafa;" readonly="readonly"> &nbsp;&nbsp; 
+																<span class="color-red">+USD 15.0</span>
+															</td>
 														</tr>
 														<tr>
 															<td class="text-center"><b>2</b></td>
 															<td>기타 부산/인천 보세창고 상차도(FCA BUSAN/INCHEON)</td>
-															<td><input type="text" value="100" class="input"
-																style="width: 50%; background-color: #fafafa;"
-																readonly="readonly"> &nbsp;&nbsp; <span
-																class="color-red">+USD 15.0</span></td>
+															<td>
+																<input type="text" value="100" class="input" style="width: 50%; background-color: #fafafa;" readonly="readonly"> &nbsp;&nbsp; 
+																<span class="color-red">+USD 15.0</span>
+															</td>
 														</tr>
 														<tr>
 															<td class="text-center"><b>3</b></td>
 															<td>CIF INCHEON / CIF BUSAN</td>
-															<td><input type="text" value="200" class="input"
-																style="width: 50%; background-color: #fafafa;"
-																readonly="readonly"> &nbsp;&nbsp; <span
-																class="color-red">+USD 15.0</span></td>
+															<td>
+																<input type="text" value="200" class="input" style="width: 50%; background-color: #fafafa;" readonly="readonly"> &nbsp;&nbsp; 
+																<span class="color-red">+USD 15.0</span>
+															</td>
 														</tr>
 													</tbody>
 												</table>
