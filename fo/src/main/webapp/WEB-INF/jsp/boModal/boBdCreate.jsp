@@ -66,10 +66,8 @@
                                         <th scope="row">메탈 구분<i class="icon icon-required"></i></th>
                                         <td>
                                             <select class="form-select select-sm" id="metal-select">
-                                                <c:forEach var="item" items="${boCommCdList}">
-                                                    <c:if test="${item.mainCode eq 'METAL_CODE'}">
-                                                        <option value="${item.subCode}"}>${item.codeDcone}</option>
-                                                    </c:if>
+                                                <c:forEach var="item" items="${metalList}">
+                                                    <option value="${item.subCode}"}>${item.codeDcone}</option>
                                                 </c:forEach>
                                             </select>
                                         </td>
@@ -77,14 +75,14 @@
                                         <td>
                                             <div class="form-set">
                                                 <select class="form-select select-sm" id="brand-group-select">
-                                                    <c:forEach var="item" items="${boCommCdList}">
+                                                    <c:forEach var="item" items="${brandGroupList}">
                                                         <c:if test="${item.mainCode eq 'BRAND_GROUP_CODE'}">
                                                             <option value="${item.subCode}">${item.codeDctwo}</option>
                                                         </c:if>
                                                     </c:forEach>
                                                 </select>
-                                                <select class="form-select select-sm" id="brand-select">
-                                                    <c:forEach var="item" items="${boBdBrandGrpList}">
+                                                <select class="form-select" id="brand-select">
+                                                    <c:forEach var="item" items="${brandList}">
                                                         <option value="${item.brandCode}">${item.brandNm}</option>
                                                     </c:forEach>
                                                 </select>
@@ -95,7 +93,7 @@
                                         <th scope="row">아이템 상품명<i class="icon icon-required"></i></th>
                                         <td>
                                             <select class="form-select" id="item-select">
-                                                <c:forEach var="item" items="${boBdItemList}">
+                                                <c:forEach var="item" items="${itemList}">
                                                     <option value="${item.itmSn}">${item.goodsNm}</option>
                                                 </c:forEach>
                                             </select>
@@ -547,7 +545,11 @@
 
         $('#metal-select').on('change', () => {
             boBdPbln.metalCode = $('#metal-select').val()
+            initModal()
+        })
 
+        $('#brand-group-select').on('change', () => {
+            boBdPbln.brandGroupCode = $('#brand-group-select').val()
             initModal()
         })
 

@@ -6,9 +6,7 @@ import com.m2m.fo.bo.model.BoBdPblnVO;
 import com.m2m.fo.bo.model.BoCoCommCdVO;
 import com.m2m.fo.bo.service.BoBdPblnService;
 import com.m2m.fo.comm.model.CoCommCdVO;
-import com.m2m.fo.login.model.LoginVO;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -116,32 +112,49 @@ public class BoBdPblnController {
         //공통코드리스트
         List<BoCoCommCdVO> boCommCdList = boBdPblnService.getBoCommCdList();
         //브랜드코드
-        List<BoBdPblnVO> boBdBrandGrpList = boBdPblnService.getBoBdBrandGrpList();
+        List<BoBdPblnVO> brandList = boBdPblnService.getBoBdBrandGrpList();
         //아이템상품명
-        List<BoBdPblnVO> boBdItemList = boBdPblnService.getBoBdItemList();
+        List<BoBdPblnVO> itemList = boBdPblnService.getBoBdItemList();
 
+        // 메탈 리스트 필터링
+        List<BoCoCommCdVO> metalList = boCommCdList.stream()
+                .filter(item -> "METAL_CODE".equals(item.getMainCode()))
+                .collect(Collectors.toList());
+
+        String metalCode;
         if (bdPblnVO.getMetalCode() != null && !bdPblnVO.getMetalCode().isEmpty()) {
-            String metalCode = bdPblnVO.getMetalCode();
-
-            // 브랜드 그룹 코드 필터링
-            boCommCdList = boCommCdList.stream()
-                    .filter(item -> !"BRAND_GROUP_CODE".equals(item.getMainCode()) || metalCode.equals(item.getCodeDcone()))
-                    .collect(Collectors.toList());
-
-            // 브랜드 코드 필터링
-            boBdBrandGrpList = boBdBrandGrpList.stream()
-                    .filter(item -> metalCode.equals(item.getMetalCode()))
-                    .collect(Collectors.toList());
-
-            // 아이템 필터링
-            boBdItemList = boBdItemList.stream()
-                    .filter(item -> metalCode.equals(item.getMetalCode()))
-                    .collect(Collectors.toList());
+            metalCode = bdPblnVO.getMetalCode();
+        } else {
+            metalCode = metalList.get(0).getSubCode();
         }
 
+        // 브랜드 그룹 코드 필터링
+        List<BoCoCommCdVO> brandGroupList = boCommCdList.stream()
+                .filter(item -> "BRAND_GROUP_CODE".equals(item.getMainCode()) && metalCode.equals(item.getCodeDcone()))
+                .collect(Collectors.toList());
+
+        String brandGroupCode;
+        if(bdPblnVO.getBrandGroupCode() != null && !bdPblnVO.getBrandGroupCode().isEmpty()) {
+            brandGroupCode = bdPblnVO.getBrandGroupCode();
+        } else {
+            brandGroupCode = brandGroupList.get(0).getSubCode();
+        }
+
+        // 브랜드 코드 필터링
+        brandList = brandList.stream()
+                .filter(item -> brandGroupCode.equals(item.getBrandGroupCode()))
+                .collect(Collectors.toList());
+
+        // 아이템 필터링
+        itemList = itemList.stream()
+                .filter(item -> metalCode.equals(item.getMetalCode()))
+                .collect(Collectors.toList());
+
+        model.addAttribute("metalList", metalList);
+        model.addAttribute("brandGroupList", brandGroupList);
+        model.addAttribute("brandList", brandList);
+        model.addAttribute("itemList", itemList);
         model.addAttribute("boCommCdList", boCommCdList);
-        model.addAttribute("boBdBrandGrpList", boBdBrandGrpList);
-        model.addAttribute("boBdItemList", boBdItemList);
 
 
         return "boModal/boBdCreate";

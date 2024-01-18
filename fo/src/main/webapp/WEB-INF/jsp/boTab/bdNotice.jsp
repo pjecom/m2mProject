@@ -47,7 +47,6 @@
             <section class="dashboard2">
                 <div class="main-title">
                     <h2 class="dashboard2-title">※ 주문 접수 현황</h2>
-<%--                    <button type="button" class="btn" id="createBtn">입찰 공고 등록</button>--%>
                     <button type="button" class="btn" onclick="openBdCreateModal()">입찰 공고 등록</button>
                 </div>
                 <div class="amount-list row">

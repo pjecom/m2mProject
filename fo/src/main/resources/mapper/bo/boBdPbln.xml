@@ -146,7 +146,6 @@
 		ON IBIB.BRAND_GROUP_CODE =CCC.SUB_CODE
 		WHERE 1=1 
 		AND CCC.MAIN_CODE = 'BRAND_GROUP_CODE'
- 
 	</select>
 	<select id="getBoBdItemList" resultType="com.m2m.fo.bo.model.BoBdPblnVO">
 		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
