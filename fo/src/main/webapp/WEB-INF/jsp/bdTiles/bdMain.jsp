@@ -621,7 +621,7 @@ var params = {
                     sessionStorage.setItem("entrpsNm", response.member.entrpsNm);
                     location.href = "/";
                 } else if (response.result === "blocked") {
-                	alert('투찰 취소 3회 초과로 로그인이 차단되었습니다.\n고객센터로 문의해주세요');
+                	alert('차단된 회원입니다.\n고객센터로 문의해주세요');
                 } else if (response.result === "pending") {
                 	alert('관리자 승인 대기상태입니다.\n승인 후 로그인 가능합니다.');
                 } else if(response.result === "failed"){
