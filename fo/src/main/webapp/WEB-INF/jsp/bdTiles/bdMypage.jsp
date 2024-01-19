@@ -80,7 +80,7 @@
 				                    <label class="radio-btn" id="threeMonth"><input name="bdPeriod" type="radio" value="3"><span>최근 3개월</span></label>
 				                    <label class="radio-btn" id="sixMonth"><input name="bdPeriod" type="radio" value="6"><span>최근 6개월</span></label>
 				                </div>
-				                <button class="btn-blue">조회</button>
+				                <button class="btn-blue" onclick=selectBdMainInfoList(); >조회</button>
 				            </div>
 				            <!-- FILTER AREA :: END -->
 							<!-- TAB BUTTON :: START -->
@@ -518,29 +518,28 @@
 		}
 
 		function comAjaxMyPage(_type, _url, _data, _dataType, _contentType, _processData, _isAsync, callback) {
-	if(!validationIsEmpty(_type) && !validationIsEmpty(_url)) {
-		$.ajax({
-				type : _type,
-				url : _url,
-				data : _data,
-				dataType : _dataType,
-				contentType : _contentType,
-				processData : _processData,
-				async: _isAsync,
-				success : function(data) {
-					callback(data);
-				},
-				error : function(request, status, error) {
-					var url = "/bo";
-					
-				}
-			});
-	}
+		if(!validationIsEmpty(_type) && !validationIsEmpty(_url)) {
+			$.ajax({
+					type : _type,
+					url : _url,
+					data : _data,
+					dataType : _dataType,
+					contentType : _contentType,
+					processData : _processData,
+					async: _isAsync,
+					success : function(data) {
+						callback(data);
+					},
+					error : function(request, status, error) {
+						var url = "/bo";
+						
+					}
+				});
+		}
 }
 
 	// 입찰 공고 목록 axios 요청
 	function getMyPageList1(bidSttusCode, scsbidAt) {
-		debugger;
         const url = "/bdMypageAjax"
 
 		var params = {
@@ -603,7 +602,6 @@
         // })
     }
 	function getMyPageList3(bidSttusCode, scsbidAt) {
-		debugger;
         const url = "/bdMypageAjax"
 
 		var params = {
@@ -635,7 +633,6 @@
         // })
     }
 	function getMyPageList4(bidSttusCode, scsbidAt) {
-		debugger;
         const url = "/bdMypageAjax"
 
 		var params = {
@@ -834,5 +831,34 @@ $(".btn-period > .radio-btn").click(function() {
             pageMove( "/detail/bdDetail", JSON.stringify(params), 'application/json');
 	   		
     });
+
+	function selectBdMainInfoList() {
+		var bidSttusCode = $(".item.on").val();
+		var scsbidAt = ''
+		if(bidSttusCode = '2'){
+					scsbidAt = ("Y");
+		}else if(bidSttusCode = '3'){
+					scsbidAt = ("N");
+        }
+
+		var params = {
+			
+			"bidSttusCode" : bidSttusCode,
+			"scsbidAt" : scsbidAt,
+			"filter" : $('#filter').val(),
+			"searchDateFrom" : $('#searchDateFrom').val().replaceAll("-", ""),
+			"searchDateTo" : $('#searchDateTo').val().replaceAll("-", ""),
+			"bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo")
+		}
+		$.ajax({
+            type: 'POST',
+            url: '/bdMypageAjax',
+            contentType: 'application/json', 
+			data: JSON.stringify(params),
+            success: function(data) {
+				callback(data);
+            }
+        });
+	}
 	</script>
 </body>
