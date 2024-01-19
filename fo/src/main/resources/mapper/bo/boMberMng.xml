@@ -17,6 +17,7 @@
                 WHERE
                     SUB_CODE = BID_MBER_STTUS_CODE
                     AND MAIN_CODE = 'BID_MBER_STTUS_CODE'
+                    AND beib.DELETE_AT = 'N'
             ) AS CODE_LT
         FROM CO_CMMN_CD
     </select>

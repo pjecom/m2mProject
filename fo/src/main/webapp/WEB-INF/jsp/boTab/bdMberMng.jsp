@@ -167,7 +167,7 @@
 							<th scope="row">ID</th>
 							<th scope="col">사업자번호</th>
 							<th scope="row">이메일</th>
-							<th scope="row">폰 번호</th>
+							<th scope="row">휴대전화번호</th>
 							<th scope="row">외국기업유무</th>
 							<th scope="row">승인요청일</th>
 							<th scope="row">승인처리일</th>
@@ -193,9 +193,24 @@
 								<td align="center">${vo.rowNum}</td>
 								<td>${vo.entrpsNm}</td>
 								<td>${vo.bidMberId}</td>
-								<td>${vo.bsnmRegistNo}</td>
+								<c:choose>
+									<c:when test="${vo.bsnmRegistNo eq ''}"><td align="center">-</td></c:when>
+									<c:otherwise><td>
+										<script>
+											var registNo = '${vo.bsnmRegistNo}';
+											var formattedRegistNo = registNo.replace(/(\d{3})(\d{2})(\d{5})/, '$1-$2-$3');
+											document.write(formattedRegistNo);
+										</script>
+									</td></c:otherwise>
+								</c:choose>
 								<td>${vo.bidMberEmail}</td>
-								<td>${vo.moblphonNo2}</td>
+								<td>
+									<script>
+										var phoneNumber = '${vo.moblphonNo2}';
+										var formattedPhoneNumber = phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+										document.write(formattedPhoneNumber);
+									</script>
+								</td>
 								<c:choose>
 									<c:when test="${vo.frntnEntrpsAt eq 'Y'}"><td align="center">O</td></c:when>
 									<c:when test="${vo.frntnEntrpsAt eq 'N'}"><td align="center">-</td></c:when>
