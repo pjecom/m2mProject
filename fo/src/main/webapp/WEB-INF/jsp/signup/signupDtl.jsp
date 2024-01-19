@@ -220,6 +220,7 @@ $(function() {
 	var checkBsnFlag  = false;
 	var frntnEntrpsAt = "N";
 	var checkEmailFlag = false;
+	var checkTelFlag = false;
 	
 	$(".hidden-file").each(function(){
 		$(this).on('change',function(){
@@ -395,6 +396,11 @@ $(function() {
 		        value = value.slice(0, 13); // 최대 11자 제한
 		    }
 		    this.value = value;
+		    if (value.length === 13) {
+	            checkTelFlag = true;
+	        }else {
+	        	checkTelFlag = false;
+	        }
 		});
 	
 	//위 정보와 동일 적용
@@ -450,7 +456,7 @@ $(function() {
 	    		$("#bidMberEmail").focus();
 	    		return false;
 	        }
-			if($("#moblphonNo2").val() == null || $("#moblphonNo2").val() == ''){
+			if(checkTelFlag == false){
 	            alert('휴대폰 번호를 다시 입력해주세요');
 	    		$("#moblphonNo2").focus();
 	    		return false;
