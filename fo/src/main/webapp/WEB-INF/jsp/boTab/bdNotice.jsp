@@ -74,7 +74,7 @@
 
             <div class="form-set">
                 <span class="label">상태</span>
-                <select class="form-select" id="bid-sub-code">
+                <select class="form-select" id="bid-sub-code-select">
                     <option value="">전체</option>
                     <c:forEach var="vo" items="${bidSttusList}">
                         <option value="${vo.subCode}"
@@ -204,7 +204,7 @@
                                         <c:when test="${vo.dspyAt eq 'N'}"><td>비활성</td></c:when>
                                         <c:otherwise><td></td></c:otherwise>
                                     </c:choose>
-                                    <fmt:formatDate value="${vo.frstRegistDt}" pattern = "yyyy-MM-dd HH:mm:ss" var = "frstRegistDt"/>
+                                    <fmt:formatDate value="${vo.frstRegistDt}" pattern="yyyy-MM-dd HH:mm:ss" var="frstRegistDt"/>
                                     <td>${frstRegistDt}(${vo.frstRegisterId})</td>
                                     <td>${vo.bidSttus}</td>
                                     <td>${vo.partcptnEntrpsQy}</td>
@@ -262,7 +262,7 @@
         const url = "/bo/bidNotice"
 
         postSetDataTypeBo(url, JSON.stringify(bdBidBas), "html", true, (res) => {
-            eleRedendering("#bid-sub-code", res)
+            eleRedendering("#bid-sub-code-select", res)
             inputRedendering("#bid-pblanc-id", res)
             inputRedendering("#list-bddpr-begin-dt", res)
             inputRedendering("#list-bddpr-end-dt", res)
@@ -328,7 +328,7 @@
         tempBdBidBas = {...bdBidBas};
 
         $("#bid-notice-search-form").each(function() {
-            bdBidBas.bidSttusCode = ($(this).find("#bid-sub-code").val())
+            bdBidBas.bidSttusCode = ($(this).find("#bid-sub-code-select").val())
             bdBidBas.bidPblancId = ($(this).find("#bid-pblanc-id").val())
             bdBidBas.bddprBeginDt = ($(this).find("#list-bddpr-begin-dt").val())
             bdBidBas.bddprEndDt = ($(this).find("#list-bddpr-end-dt").val())

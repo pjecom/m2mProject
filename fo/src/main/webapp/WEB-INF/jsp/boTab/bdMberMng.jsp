@@ -47,8 +47,8 @@
 		</div>
 		<!-- // 입찰 회원 대시보드 끝 -->
 		<div class="tab-button templeteRegister tab-expand" id="menuList">
-			<button type="button" class="btn active" id="list">입찰회원목록</button>
-			<button type="button" class="btn" id="app">가입승인대기</button>
+			<button type="button" class="btn active" onclick="setBidSttus('')">입찰회원목록</button>
+			<button type="button" class="btn" onclick="setBidSttus('03')">가입승인대기</button>
 		</div>
 		<script type="text/javascript">
 		$(function() {
@@ -56,28 +56,28 @@
 			tab(".templeteRegister", 0);
 		});
 		</script>
-		<div class="search-control">
+		<div class="search-control" id="bid-mber-search-form">
 			<form id="searchForm" name="searchForm" action="/bo/bd/selectBidMberList" method="post" onsubmit="return false">
-				<input type="hidden" id="excelYn" name="excelYn" value="N" />
-				<input type="hidden" id="bidEntrpsNo2" name="bidEntrpsNo2" value="" />
 				<div class="form-set">
 					<span class="label">상태</span>
 					<select class="form-select select-md" id="bid-mber-sttus-select">
 						<option value="">전체</option>
 						<c:forEach var="item" items="${boCommCdList}">
-							<c:if test="${item.mainCode eq 'BID_MBER_STTUS_CODE'}">
+							<c:if test="${item.mainCode eq 'BID_MBER_STTUS_CODE' && item.subCode ne '03'}">
 								<option value="${item.subCode}">${item.codeDctwo}</option>
 							</c:if>
 						</c:forEach>
 					</select>
 				</div>
 				<div class="form-set" name="formset">
-					<span class="label">검색구분</span> <select class="form-select select-md" id="srhGubun" name="srhGubun">
+					<span class="label">검색구분</span>
+					<select class="form-select select-md" id="bid-mber-sch-gubun">
 						<option value="">전체</option>
 						<option value="entrpsNm">회사명</option>
 						<option value="bsnmRegistNo">사업자번호</option>
 						<option value="bidMberId">ID</option>
 					</select>
+					<input type="text" class="input" id="bid-mber-sch-data">
 				</div>
 				<div class="form-set form-expand">
 					<span class="label">일시</span>
@@ -94,18 +94,17 @@
 							</div>
 						</div>
 						<div class="btn-box btn-period btnGrp2">
-							<button type="button" class="btn active" id="btn_d">전체</button>
-							<button type="button" class="btn " id="btn_d_0">오늘</button>
-							<button type="button" class="btn" id="btn_d_7">일주일</button>
-							<button type="button" class="btn " id="btn_d_30">1개월</button>
-							<button type="button" class="btn" id="btn_d_180">6개월</button>
-							<button type="button" class="btn" id="btn_d_365">1년</button>
-							<button type="button" class="btn" id="btn_d_730">2년</button>
+							<button type="button" class="btn set-date-picker" onclick="getFormerDate(0, 0, this)">오늘</button>
+							<button type="button" class="btn set-date-picker" onclick="getFormerDate(7, 0, this)">일주일</button>
+							<button type="button" class="btn set-date-picker" onclick="getFormerDate(30, 0, this)">1개월</button>
+							<button type="button" class="btn set-date-picker" onclick="getFormerDate(180, 0, this)">6개월</button>
+							<button type="button" class="btn set-date-picker" onclick="getFormerDate(365, 0, this)">1년</button>
+							<button type="button" class="btn set-date-picker" onclick="getFormerDate(730, 0, this)">2년</button>
 						</div>
 					</div>
 				</div>
 				<div class="search-btn">
-					<button type='button' id='searchBtn' class='btn btn-blue btn-search'>검색</button>
+					<button type="button" class="btn btn-blue" onclick="searchFunc()">검색</button>
 				</div>
 			</form>
 		</div>
@@ -155,7 +154,7 @@
 					</c:if>
 					<c:if test="${mberList.size() != 0}">
 						<c:forEach var="vo" items="${mberList}">
-<%--							<tr onclick="redirectToDetailPage('${vo.bidEntrpsNo}')">--%>
+<%--							<tr onclick="redirectToDetailPage('${vo.bidEntrpsNo}')">--%> <!-- 열 클릭 이벤트 -->
 							<tr>
 								<td align="center">${vo.rowNum}</td>
 								<td>${vo.entrpsNm}</td>
@@ -168,9 +167,9 @@
 									<c:when test="${vo.frntnEntrpsAt eq 'N'}"><td align="center">-</td></c:when>
 									<c:otherwise><td></td></c:otherwise>
 								</c:choose>
-								<td>${vo.etrConfmRequstDt}</td>
-								<td>${vo.etrConfmProcessDt}</td>
-								<td>${vo.bidMberIntrcpDt}</td>
+								<td><fmt:formatDate value="${vo.etrConfmRequstDt}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+								<td><fmt:formatDate value="${vo.etrConfmProcessDt}" pattern = "yyyy-MM-dd HH:mm:ss"/></td>
+								<td><fmt:formatDate value="${vo.bidMberIntrcpDt}" pattern = "yyyy-MM-dd HH:mm:ss"/></td>
 								<td>${vo.bdScsCnt}</td>
 								<td>${vo.bdfailCnt}</td>
 								<td>${vo.bidMberSttus}</td>
@@ -198,3 +197,90 @@
 
 <script type="text/javascript" src="/js/jquery.validationEngine.js"></script>
 <script type="text/javascript" src="/js/jquery.validationEngine-ko.js"></script>
+
+<script>
+	let bdMberVO = {
+		bidMberSttusCode: null,
+		schGubun: null,
+		schData: null,
+		etrConfmRequstDt: null,
+		etrConfmProcessDt: null
+	}
+
+	function searchFunc() {
+		$("#bid-mber-search-form").each(function() {
+			bdMberVO = {
+				"bidMberSttusCode" : ($(this).find("#bid-mber-sttus-select").val()),
+				"schGubun": ($(this).find("#bid-mber-sch-gubun").val()),
+				"schData": ($(this).find("#bid-mber-sch-data").val()),
+				"etrConfmRequstDt" : ($(this).find("#mber-etr-confm-requst-dt").val()),
+				"etrConfmProcessDt": ($(this).find("#mber-etr-confm-process-dt").val())
+			}
+		})
+
+		getBidMberList()
+	}
+	
+	function getBidMberList() {
+		const url = "/boMber/mberMng"
+
+		postSetDataTypeBo(url, JSON.stringify(bdMberVO), "html", true, (res) => {
+			eleRedendering("#realgrid", res)
+
+			// $(".bid-sttus-tab").removeClass("active")
+			// $("#bid-sttus-tab-" + bdBidBas.bidSttusCode).addClass("active")
+		})
+	}
+
+	function setBidSttus(data) {
+		bdMberVO.bidMberSttusCode = data
+
+		getBidMberList()
+	}
+
+	// Data 변경 시 rerendering
+	function inputRedendering(elementNm, res) {
+		const element = $(elementNm)
+
+		element.val('');
+		element.val($(res).find(elementNm).val());
+	}
+
+	// Data 변경 시 rerendering
+	function eleRedendering(elementNm, res) {
+		const element = $(elementNm)
+
+		element.html('');
+		element.html($(res).find(elementNm).html());
+	}
+
+	// 날짜 자동 선택
+	function getFormerDate(num1, num2, button) {
+		$(".set-date-picker").removeClass("active")
+		$(button).addClass("active")
+
+		var today = new Date();
+
+		const beginDt = new Date(today.getFullYear(), today.getMonth(), today.getDate() - num1)
+		const endDt = new Date(today.getFullYear(), today.getMonth(), today.getDate() - num2)
+		$("#mber-etr-confm-requst-dt").val(dateFormat(beginDt));
+		$("#mber-etr-confm-process-dt").val(dateFormat(endDt));
+	}
+
+	$("#mber-etr-confm-requst-dt, #mber-etr-confm-process-dt").datepicker({
+		format: "yyyy-mm-dd",
+		keyboardNavigation: false,
+		forceParse: false,
+		autoclose: true,
+		todayHighlight: true,
+		language:"ko"
+	});
+
+	function dateFormat(date) {
+		const year = date.getFullYear();
+		const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+		const day = String(date.getDate()).padStart(2, '0');
+
+		return year + "-" + month + "-" + day
+	}
+</script>

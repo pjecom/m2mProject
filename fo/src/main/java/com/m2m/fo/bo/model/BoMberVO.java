@@ -10,6 +10,12 @@ public class BoMberVO {
     // 순번
     private int rowNum;
 
+    // 검색 구분
+    private String schGubun;
+
+    // 검색 내용
+    private String schData;
+
     // 입찰 업체 번호(PK)
     private String bidEntrpsNo;
 

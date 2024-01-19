@@ -53,6 +53,44 @@
             ) as BID_MBER_STTUS                             -- 입찰 회원 상태 코드
         FROM BD_ENTRPS_INFO_BAS beib
         where 1=1
+        <choose>
+            <when test='bidMberSttusCode == null || bidMberSttusCode.equals("")'>
+                AND beib.BID_MBER_STTUS_CODE != '03'
+            </when>
+            <otherwise>
+                AND beib.BID_MBER_STTUS_CODE = #{bidMberSttusCode}
+            </otherwise>
+        </choose>
+        <if test="schGubun != null">
+            <choose>
+                <when test='schGubun.equals("entrpsNm")'>
+                    AND ENTRPS_NM LIKE '%' + #{schData} + '%'
+                </when>
+                <when test='schGubun.equals("bsnmRegistNo")'>
+                    AND BSNM_REGIST_NO LIKE '%' + #{schData} + '%'
+                </when>
+                <when test='schGubun.equals("bidMberId")'>
+                    AND BID_MBER_ID LIKE '%' + #{schData} + '%'
+                </when>
+                <otherwise>
+                    AND (
+                    ENTRPS_NM LIKE '%' + #{schData} + '%'
+                    OR BSNM_REGIST_NO LIKE '%' + #{schData} + '%'
+                    OR BID_MBER_ID LIKE '%' + #{schData} + '%'
+                    )
+                </otherwise>
+            </choose>
+        </if>
+        <if test="etrConfmRequstDt != null">
+            <![CDATA[
+                AND ETR_CONFM_REQUST_DT >= #{etrConfmRequstDt}
+            ]]>
+        </if>
+        <if test="etrConfmProcessDt != null">
+            <![CDATA[
+                AND ETR_CONFM_REQUST_DT <= #{etrConfmProcessDt}
+            ]]>
+        </if>
         ORDER BY ETR_CONFM_REQUST_DT DESC
     </select>
 </mapper>

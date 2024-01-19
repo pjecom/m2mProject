@@ -26,6 +26,10 @@ public class BoMberMngController {
 
         if (vo == null) {
             vo = new BoMberVO();
+        } else if (vo.getEtrConfmRequstDt() != null){
+            vo.getEtrConfmRequstDt().setHours(0);
+        } else if (vo.getEtrConfmProcessDt() != null){
+            vo.getEtrConfmProcessDt().setHours(0);
         }
 
         //공통코드리스트
