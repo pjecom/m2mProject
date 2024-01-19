@@ -72,8 +72,8 @@
                 <c:otherwise>
                 <div class="login_container" id="formId1">
                     <p>Welcome to Sorin.com</p>
-                    <input type="text" title="아이디" placeholder="Enter your ID" id="id" name="id" class="validate[required]" desc="아이디">
-                    <input type="password" title="비밀번호" placeholder="Enter your password" id="password" name="password" class="validate[required]" desc="비밀번호">
+                    <input type="text" title="아이디" placeholder="Enter your ID" id="id" name="id" class="validate[required]" desc="아이디" onkeyup="enterkey(this)">
+                    <input type="password" title="비밀번호" placeholder="Enter your password" id="password" name="password" class="validate[required]" desc="비밀번호" onkeyup="enterkey(this)">
                     <button type="button" class="btn primary_bg">Login</button>
                     <div class="sub_area">
                         <div class="checkbox-container" >
@@ -601,46 +601,60 @@ var params = {
 //------------------------------------- 공지사항 최근 게시글 제목 4개 조회-------------------------------------//
 /* 로그인 버튼 클릭 메서드 */
     $(function() {
+    	 $(".primary_bg").click(function(){
+    	    // 버튼 클릭 시 로그인 수행
+    	        performLogin();
+    	    });
 
+    	    // 엔터키 입력 시 로그인 수행
+    	    $('#id, #password').keypress(function(event){
+    	        if(event.keyCode === 13){
+    	            performLogin();
+    	        }
+    	    });
+
+    	    // select2 초기화
+    	    $('.filter').select2({
+    	        width: 'element',
+    	        placeholder: '공고일',
+    	        minimumResultsForSearch: Infinity,
+    	        selectOnClose: true
+    	    });
+
+    	    // 로그인 수행 함수
+    	    function performLogin() {
+    	        var userId = $("#id").val(); 
+    	        var userPassword = $("#password").val(); 
+
+    	        $.ajax({
+    	            type: 'POST',
+    	            url: '/login',
+    	            data: { 
+    	                bidMberId: userId,
+    	                bidMberSecretNo: userPassword
+    	            },
+    	            success: function(response) {
+    	                if (response.result === "success") {
+    	                    sessionStorage.setItem("bidEntrpsNo", response.member.bidEntrpsNo);
+    	                    sessionStorage.setItem("bidMberId", response.member.bidMberId);
+    	                    sessionStorage.setItem("entrpsNm", response.member.entrpsNm);
+    	                    location.href = "/";
+    	                } else if (response.result === "blocked") {
+    	                    alert('차단된 회원입니다.\n고객센터로 문의해주세요');
+    	                } else if (response.result === "pending") {
+    	                    alert('관리자 승인 대기상태입니다.\n승인 후 로그인 가능합니다.');
+    	                } else if(response.result === "failed"){
+    	                    alert('계정 정보를 확인해주세요');
+    	                }
+    	            },
+    	            error: function(xhr, status, error) {
+    	                console.log('로그인 요청이 실패했습니다.');
+    	            }
+    	        });
+    	    }
     });    
-    $(".primary_bg").click(function(){
-        var userId = $("#id").val(); // 아이디 입력란의 값을 가져옴
-        var userPassword = $("#password").val(); // 비밀번호 입력란의 값을 가져옴
-
-        // 서버로 데이터를 전송하는 AJAX 요청
-        $.ajax({
-            type: 'POST',
-            url: '/login',
-            data: { 
-                bidMberId: userId,
-                bidMberSecretNo: userPassword
-            },
-            success: function(response) {
-                if (response.result === "success") {
-                    sessionStorage.setItem("bidEntrpsNo", response.member.bidEntrpsNo);
-                    sessionStorage.setItem("bidMberId", response.member.bidMberId);
-                    sessionStorage.setItem("entrpsNm", response.member.entrpsNm);
-                    location.href = "/";
-                } else if (response.result === "blocked") {
-                	alert('차단된 회원입니다.\n고객센터로 문의해주세요');
-                } else if (response.result === "pending") {
-                	alert('관리자 승인 대기상태입니다.\n승인 후 로그인 가능합니다.');
-                } else if(response.result === "failed"){
-                	alert('계정 정보를 확인해주세요');
-                }
-            },
-            error: function(xhr, status, error) {
-                console.log('로그인 요청이 실패했습니다.');
-            }
-        });
-    });
     
-    $('.filter').select2({
-	    width: 'element',
-	    placeholder: '공고일',
-	    minimumResultsForSearch: Infinity,
-	    selectOnClose: true
-	});
+    
 </script>
 
 <!-- 공지사항 & FAQ :: START -->
