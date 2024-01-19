@@ -195,21 +195,10 @@
 								<td>${vo.bidMberId}</td>
 								<c:choose>
 									<c:when test="${vo.bsnmRegistNo eq ''}"><td align="center">-</td></c:when>
-									<c:otherwise><td>
-										<script>
-											var registNo = '${vo.bsnmRegistNo}';
-											var formattedRegistNo = registNo.replace(/(\d{3})(\d{2})(\d{5})/, '$1-$2-$3');
-											document.write(formattedRegistNo);
-										</script>
-									</td></c:otherwise>
+									<c:otherwise><td>${vo.bsnmRegistNo}</td></c:otherwise>
 								</c:choose>
 								<td>${vo.bidMberEmail}</td>
-								<td>
-									<script>
-										var phoneNumber = '${vo.moblphonNo2}';
-										var formattedPhoneNumber = phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
-										document.write(formattedPhoneNumber);
-									</script>
+								<td>${vo.moblphonNo2}
 								</td>
 								<c:choose>
 									<c:when test="${vo.frntnEntrpsAt eq 'Y'}"><td align="center">O</td></c:when>
