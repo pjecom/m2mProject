@@ -156,7 +156,7 @@
 				                                                        <td>
 				                                                            <div class="form-set">
 				                                                                <input type="text" class="input stdr-pc" value="0" readonly="readonly">
-				                                                                <select class="form-select select-sm premium-pc">
+				                                                                <select class="form-select select-sm premium-pc" id="optionDelyCnd01premiumPc">
 				                                                                    <c:forEach var="count" begin="1000" end="3000" step="1000">
 				                                                                        <option value="${count}">${count}</option>
 				                                                                    </c:forEach>
@@ -172,7 +172,7 @@
 				                                                        <td>
 				                                                            <div class="form-set">
 				                                                                <input type="text" class="input stdr-pc" value="10000" readonly="readonly">
-				                                                                <select class="form-select select-sm premium-pc">
+				                                                                <select class="form-select select-sm premium-pc" id="optionDelyCnd02premiumPc">
 				                                                                    <c:forEach var="count" begin="1000" end="3000" step="1000">
 				                                                                        <option value="${count}">${count}</option>
 				                                                                    </c:forEach>
@@ -188,7 +188,7 @@
 				                                                        <td>
 				                                                            <div class="form-set">
 				                                                                <input type="text" class="input stdr-pc" value="20000" readonly="readonly">
-				                                                                <select class="form-select select-sm premium-pc">
+				                                                                <select class="form-select select-sm premium-pc" id="optionDelyCnd03premiumPc">
 				                                                                    <c:forEach var="count" begin="1000" end="3000" step="1000">
 				                                                                        <option value="${count}">${count}</option>
 				                                                                    </c:forEach>
@@ -520,7 +520,10 @@ function saveBdData() {
 	var bddprEnddateAmPm = $('#bddprEnddateAmPm').val();
 	var bddprCanclH = $('#bddprCanclH').val();
 	var bddprCancldateAmPm = $('#bddprCancldateAmPm').val();
-
+	var optionDelyCnd01premiumPc = $('#optionDelyCnd01premiumPc').val();
+	var optionDelyCnd02premiumPc = $('#optionDelyCnd02premiumPc').val();
+	var optionDelyCnd03premiumPc = $('#optionDelyCnd03premiumPc').val();
+	
 	if (bddprBegindateAmPm === 'pm' && bddprBeginH < 12) {
 	    bddprBeginH = String(Number(bddprBeginH) + 12); // pm이면 12시간을 더해줍니다.
 	} else if (bddprBegindateAmPm === 'am' && bddprBeginH == 12) {
@@ -557,9 +560,9 @@ function saveBdData() {
    		"bidWt" : $('#bid-wt-select').val(),                    // 수량(톤)
    		"permWtRate" : $('#perm-wt-select').val(),              // 중량허용공차
    		
-   		"delyCnd01premiumPc" : $('#dely-cnd-01 .stdr-pc').val(),// 인도조건 01프리미엄가격 
-   		"delyCnd02premiumPc" : $('#dely-cnd-02 .stdr-pc').val(),// 인도조건 01프리미엄가격 
-   		"delyCnd03premiumPc" : $('#dely-cnd-03 .stdr-pc').val(),// 인도조건 01프리미엄가격 
+   		"delyCnd01premiumPc" : optionDelyCnd01premiumPc,// 인도조건 01프리미엄가격 
+   		"delyCnd02premiumPc" : optionDelyCnd02premiumPc,// 인도조건 01프리미엄가격 
+   		"delyCnd03premiumPc" : optionDelyCnd03premiumPc,// 인도조건 01프리미엄가격 
    		
    		"delyBeginDe" :  delyBeginDe,           				// 인도기한시작
    		"delyEndDe" :  delyEndDe,           					// 인도기한종료

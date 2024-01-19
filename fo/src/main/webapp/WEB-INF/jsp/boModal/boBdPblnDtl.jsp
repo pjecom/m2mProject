@@ -319,7 +319,7 @@
 															<td>서린상사 지정 보세창고 도착도(FCA 서린상사 지정 보세창고)</td>
 															<td>
 																<input type="text" value="0" class="input" style="width: 50%; background-color: #fafafa;" readonly="readonly"> &nbsp;&nbsp; 
-																<span class="color-red">+USD 15.0</span>
+																<span>${boBdPblnDtl.delyCnd01premiumPc}</span>
 															</td>
 														</tr>
 														<tr>
@@ -327,7 +327,7 @@
 															<td>기타 부산/인천 보세창고 상차도(FCA BUSAN/INCHEON)</td>
 															<td>
 																<input type="text" value="100" class="input" style="width: 50%; background-color: #fafafa;" readonly="readonly"> &nbsp;&nbsp; 
-																<span class="color-red">+USD 15.0</span>
+																<span>${boBdPblnDtl.delyCnd02premiumPc}</span>
 															</td>
 														</tr>
 														<tr>
@@ -335,7 +335,7 @@
 															<td>CIF INCHEON / CIF BUSAN</td>
 															<td>
 																<input type="text" value="200" class="input" style="width: 50%; background-color: #fafafa;" readonly="readonly"> &nbsp;&nbsp; 
-																<span class="color-red">+USD 15.0</span>
+																<span>${boBdPblnDtl.delyCnd03premiumPc}</span>
 															</td>
 														</tr>
 													</tbody>

@@ -137,6 +137,12 @@
             <if test="scsbidAt != null and scsbidAt != ''">
                 AND BBD.SCSBID_AT = #{scsbidAt} -- Y: 낙찰, N: 패찰
             </if>
+             <if test="filter == '01' and searchDateFrom != null and searchDateFrom != '' and searchDateTo != null and searchDateTo != ''">
+              AND BB.BDDPR_BEGIN_DT between ${searchDateFrom}000000 and ${searchDateTo}235959                                                                 /* 공고(마감) 날짜 */
+             </if>
+             <if test="filter == '02' and searchDateFrom != null and searchDateFrom != '' and searchDateTo != null and searchDateTo != ''">
+              AND BB.BDDPR_END_DT between ${searchDateFrom}000000 and ${searchDateTo}235959                                                                   /* 공고(마감) 날짜 */
+             </if>
             ORDER BY BID_PBLANC_ID
      </select>
      
