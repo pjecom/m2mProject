@@ -4,21 +4,19 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<body>
-	<div class="web-wrapper">
-		<section class="web-container">
+
 <style>
-.multiline-editor {
-	white-space: pre;
-}
+	.multiline-editor {
+		white-space: pre;
+	}
 
-.bid-amount {
-	background-color: #fff;
-}
+	.bid-amount {
+		background-color: #fff;
+	}
 
-.search-control {
-	margin-top: 10px;
-}
+	.search-control {
+		margin-top: 10px;
+	}
 </style>
 
 <div class="main-content">
@@ -49,33 +47,28 @@
 		</div>
 		<!-- // 입찰 회원 대시보드 끝 -->
 		<div class="tab-button templeteRegister tab-expand" id="menuList">
-			<button type="button" class="btn active"  id = "list">입찰회원목록</button>
-			<button type="button" class="btn" id = "app">가입승인대기</button>
+			<button type="button" class="btn active" id="list">입찰회원목록</button>
+			<button type="button" class="btn" id="app">가입승인대기</button>
 		</div>
 		<script type="text/javascript">
-        $(function() {
-        	//탭 기능
-            tab(".templeteRegister", 0);
-        });
-    	</script>
+		$(function() {
+			//탭 기능
+			tab(".templeteRegister", 0);
+		});
+		</script>
 		<div class="search-control">
 			<form id="searchForm" name="searchForm" action="/bo/bd/selectBidMberList" method="post" onsubmit="return false">
 				<input type="hidden" id="excelYn" name="excelYn" value="N" />
 				<input type="hidden" id="bidEntrpsNo2" name="bidEntrpsNo2" value="" />
 				<div class="form-set">
-					<span class="label">상태</span> 
-					<select class="form-select select-md" id="bidMberSttusCode" name="bidMberSttusCode">
+					<span class="label">상태</span>
+					<select class="form-select select-md" id="bid-mber-sttus-select">
 						<option value="">전체</option>
-						
-							<option value="01">OK
-							</option>
-						
-							<option value="02">Blocked
-							</option>
-						
-							<option value="03">Awaiting Approval
-							</option>
-						
+						<c:forEach var="item" items="${boCommCdList}">
+							<c:if test="${item.mainCode eq 'BID_MBER_STTUS_CODE'}">
+								<option value="${item.subCode}">${item.codeDctwo}</option>
+							</c:if>
+						</c:forEach>
 					</select>
 				</div>
 				<div class="form-set" name="formset">
@@ -84,20 +77,20 @@
 						<option value="entrpsNm">회사명</option>
 						<option value="bsnmRegistNo">사업자번호</option>
 						<option value="bidMberId">ID</option>
-					</select> 
+					</select>
 				</div>
 				<div class="form-set form-expand">
 					<span class="label">일시</span>
 					<div class="form-period-set">
 						<div class="form-period-box">
 							<div class="input-group date form-date">
-								<input type="text" class="validate[dateRange] input" id="datepicker1" maxlength="10"  oninput="this.value = this.value.replace(/[^0-9-]/g, '').replace(/(\..*)\./g, '$1');" />
-								<label for="datepicker1" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
+								<input type="text" class="validate[dateRange] input" id="mber-etr-confm-requst-dt" maxlength="10"  oninput="this.value = this.value.replace(/[^0-9-]/g, '').replace(/(\..*)\./g, '$1');" />
+								<label for="mber-etr-confm-requst-dt" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
 							</div>
 							<span>~</span>
 							<div class="input-group date form-date">
-								<input type="text" class="validate[dateRange] input" id="datepicker2" maxlength="10"  oninput="this.value = this.value.replace(/[^0-9-]/g, '').replace(/(\..*)\./g, '$1');" />
-								<label for="datepicker2" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
+								<input type="text" class="validate[dateRange] input" id="mber-etr-confm-process-dt" maxlength="10"  oninput="this.value = this.value.replace(/[^0-9-]/g, '').replace(/(\..*)\./g, '$1');" />
+								<label for="mber-etr-confm-process-dt" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
 							</div>
 						</div>
 						<div class="btn-box btn-period btnGrp2">
@@ -116,7 +109,78 @@
 				</div>
 			</form>
 		</div>
-		<div id="realgrid" class="realgrid-wrap"></div>
+		<div id="realgrid" class="realgrid-wrap">
+			<div class="table table-list">
+				<table>
+					<colgroup>
+						<col width="*">
+						<col width="*">
+						<col width="*">
+						<col width="*">
+						<col width="*">
+						<col width="*">
+						<col width="*">
+						<col width="*">
+						<col width="*">
+						<col width="*">
+						<col width="*">
+						<col width="*">
+						<col width="*">
+					</colgroup>
+					<thead>
+						<tr>
+							<th scope="row">순번</th>
+							<th scope="row">기업명</th>
+							<th scope="row">ID</th>
+							<th scope="col">사업자번호</th>
+							<th scope="row">이메일</th>
+							<th scope="row">폰 번호</th>
+							<th scope="row">외국기업유무</th>
+							<th scope="row">승인요청일</th>
+							<th scope="row">승인처리일</th>
+							<th scope="row">차단일</th>
+							<th scope="row">낙찰건수</th>
+							<th scope="row">패찰건수</th>
+							<th scope="row">상태</th>
+						</tr>
+					</thead>
+					<tbody>
+					<c:if test="${mberList.size() == 0 }">
+						<tr>
+							<td colspan="15" align="center">
+								<img class="mt-8" src="/bo_images/error/prohibit.png" alt="noMber"/>
+								<h5 class="mt-8 mb-4">입찰 회원이 존재하지 않습니다.</h5>
+							</td>
+						</tr>
+					</c:if>
+					<c:if test="${mberList.size() != 0}">
+						<c:forEach var="vo" items="${mberList}">
+<%--							<tr onclick="redirectToDetailPage('${vo.bidEntrpsNo}')">--%>
+							<tr>
+								<td align="center">${vo.rowNum}</td>
+								<td>${vo.entrpsNm}</td>
+								<td>${vo.bidMberId}</td>
+								<td>${vo.bsnmRegistNo}</td>
+								<td>${vo.bidMberEmail}</td>
+								<td>${vo.moblphonNo2}</td>
+								<c:choose>
+									<c:when test="${vo.frntnEntrpsAt eq 'Y'}"><td align="center">O</td></c:when>
+									<c:when test="${vo.frntnEntrpsAt eq 'N'}"><td align="center">-</td></c:when>
+									<c:otherwise><td></td></c:otherwise>
+								</c:choose>
+								<td>${vo.etrConfmRequstDt}</td>
+								<td>${vo.etrConfmProcessDt}</td>
+								<td>${vo.bidMberIntrcpDt}</td>
+								<td>${vo.bdScsCnt}</td>
+								<td>${vo.bdfailCnt}</td>
+								<td>${vo.bidMberSttus}</td>
+							</tr>
+						</c:forEach>
+					</c:if>
+					</tbody>
+				</table>
+			</div>
+		</div>
 		<div class="paging-row">
 			<div class="paging">
 				<div id="mberListPaging"></div>
@@ -131,14 +195,6 @@
 		<div class="modal-content"></div>
 	</div>
 </div>
+
 <script type="text/javascript" src="/js/jquery.validationEngine.js"></script>
 <script type="text/javascript" src="/js/jquery.validationEngine-ko.js"></script>
-<script>
-
-</script>
-
-<!-- realgridCommon.js 선언 (필수) -->
-		</section>
-	</div>
-</body>
-

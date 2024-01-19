@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "C:\m2m_project\workspace\mybatis-3-mapper.dtd">
+
+<mapper namespace="com.m2m.fo.bo.mapper.BoMberMngMapper">
+    <select id="getBoCommCdList" resultType="com.m2m.fo.bo.model.BoCoCommCdVO">
+        SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+        /* com.m2m.fo.bo.mapper.BoMberMngMapper.getBoCommCdList */
+        SELECT　
+            MAIN_CODE
+            ,SUB_CODE
+            ,CODE_NM
+            ,CODE_DCONE
+            ,CODE_DCTWO
+        FROM CO_CMMN_CD
+    </select>
+    <select id="getMberList" parameterType="com.m2m.fo.bo.model.BoMberVO" resultType="com.m2m.fo.bo.model.BoMberVO">
+        SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+        /* com.m2m.fo.bo.mapper.BoMberMngMapper.getMberList */
+        SELECT
+            ROW_NUMBER() OVER(
+                ORDER BY ETR_CONFM_REQUST_DT DESC
+            ) AS ROW_NUM,                                   -- 순번
+            BID_ENTRPS_NO,                                  -- 입찰 업체 번호
+            ENTRPS_NM,                                      -- 업체 명
+            BID_MBER_ID,                                    -- 입찰 회원 아이디
+            BSNM_REGIST_NO,                                 -- 사업자 번호
+            BID_MBER_EMAIL,                                 -- 입찰 회원 이메일
+            MOBLPHON_NO2,                                   -- 휴대폰 번호
+            FRNTN_ENTRPS_AT,                                -- 외국 업체 여부
+            ETR_CONFM_REQUST_DT,                            -- 승인요청일
+            ETR_CONFM_PROCESS_DT,                           -- 승인처리일
+            beib.BID_MBER_INTRCP_DT,                        -- 차단일
+            (
+                SELECT COUNT(*)
+                FROM BD_BDDPR_DTL bbd
+                WHERE
+                    beib.BID_ENTRPS_NO = bbd.BID_ENTRPS_NO
+                    AND SCSBID_AT = 'Y'
+            ) as BD_SCS_CNT,                                -- 낙찰 건수
+            (
+                SELECT COUNT(*)
+                FROM BD_BDDPR_DTL bbd
+                WHERE
+                    beib.BID_ENTRPS_NO = bbd.BID_ENTRPS_NO
+                    AND SCSBID_AT = 'N'
+            ) as BD_FAIL_CNT,                               -- 패찰 건수
+            (
+                SELECT CODE_DCTWO
+                FROM CO_CMMN_CD ccc
+                WHERE
+                    ccc.MAIN_CODE = 'BID_MBER_STTUS_CODE'
+                    AND ccc.SUB_CODE = beib.BID_MBER_STTUS_CODE
+            ) as BID_MBER_STTUS                             -- 입찰 회원 상태 코드
+        FROM BD_ENTRPS_INFO_BAS beib
+        where 1=1
+        ORDER BY ETR_CONFM_REQUST_DT DESC
+    </select>
+</mapper>
