@@ -592,6 +592,7 @@ function saveBdData() {
                 // 사용자가 확인 버튼을 누른 경우 modalClose 함수 호출
                 getBidNoticeList()
                 modalClose();
+                location.reload();
             }
 			
 		},
