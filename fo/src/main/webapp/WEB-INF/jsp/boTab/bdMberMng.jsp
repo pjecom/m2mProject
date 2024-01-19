@@ -79,10 +79,14 @@
 				<div class="form-set">
 					<span class="label">상태</span>
 					<select class="form-select select-md" id="bid-mber-sttus-select">
-						<option value="">전체</option>
+						<option value="" selected>전체</option>
 						<c:forEach var="item" items="${boCommCdList}">
 							<c:if test="${item.mainCode eq 'BID_MBER_STTUS_CODE'}">
-								<option value="${item.subCode}">${item.codeDctwo}</option>
+								<option value="${item.subCode}"
+									<c:if test='${item.subCode eq mberVO.bidMberSttusCode}'>
+										selected
+									</c:if>
+								>${item.codeDctwo}</option>
 							</c:if>
 						</c:forEach>
 					</select>
@@ -255,6 +259,7 @@
 		const url = "/boMber/mberMng"
 
 		postSetDataTypeBo(url, JSON.stringify(bdMberVO), "html", true, (res) => {
+			eleRedendering("#bid-mber-sttus-select", res)
 			eleRedendering("#bid-mber-amount", res)
 			eleRedendering("#bid-mber-sch-gubun", res)
 			inputRedendering("#bid-mber-sch-data", res)

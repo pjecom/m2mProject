@@ -59,7 +59,7 @@
                     AND ccc.SUB_CODE = beib.BID_MBER_STTUS_CODE
             ) as BID_MBER_STTUS                             -- 입찰 회원 상태 코드
         FROM BD_ENTRPS_INFO_BAS beib
-        where 1=1
+        where DELETE_AT = 'N'
         <choose>
             <when test='bidMberSttusCode == null || bidMberSttusCode.equals("")'>
                 AND beib.BID_MBER_STTUS_CODE != '03'
