@@ -24,30 +24,48 @@
 		<!-- 입찰 회원 대시보드 시작 -->
 		<div class="main-title">
 			<h2 class="lt">입찰 회원 관리</h2>
-			<div class="rt amount-list bid-amount">
+			<div class="rt amount-list bid-amount" id="bid-mber-amount">
 				<dl class="amount-item">
 					<dt class="title">정상 회원</dt>
 					<dd class="desc">
-						<span class="amount">6</span>
+						<span class="amount">
+							<c:out value="${
+								boCommCdList.stream()
+											.filter(item -> item.mainCode eq 'BID_MBER_STTUS_CODE' && item.subCode eq '01')
+											.map(item -> item.codeLt).findFirst().orElse('')}"
+							/>
+						</span>
 					</dd>
 				</dl>
 				<dl class="amount-item">
 					<dt class="title">차단 회원</dt>
 					<dd class="desc">
-						<span class="amount">0</span>
+						<span class="amount">
+							<c:out value="${
+								boCommCdList.stream()
+											.filter(item -> item.mainCode eq 'BID_MBER_STTUS_CODE' && item.subCode eq '02')
+											.map(item -> item.codeLt).findFirst().orElse('')}"
+							/>
+						</span>
 					</dd>
 				</dl>
 				<dl class="amount-item">
 					<dt class="title">가입승인대기</dt>
 					<dd class="desc">
-						<span class="amount amount-price">9</span>
+						<span class="amount amount-price">
+							<c:out value="${
+								boCommCdList.stream()
+											.filter(item -> item.mainCode eq 'BID_MBER_STTUS_CODE' && item.subCode eq '03')
+											.map(item -> item.codeLt).findFirst().orElse('')}"
+							/>
+						</span>
 					</dd>
 				</dl>
 			</div>
 		</div>
 		<!-- // 입찰 회원 대시보드 끝 -->
 		<div class="tab-button templeteRegister tab-expand" id="menuList">
-			<button type="button" class="btn active" onclick="setBidSttus('')">입찰회원목록</button>
+			<button type="button" class="btn active" id="m" onclick="setBidSttus('')">입찰회원목록</button>
 			<button type="button" class="btn" onclick="setBidSttus('03')">가입승인대기</button>
 		</div>
 		<script type="text/javascript">
@@ -63,7 +81,7 @@
 					<select class="form-select select-md" id="bid-mber-sttus-select">
 						<option value="">전체</option>
 						<c:forEach var="item" items="${boCommCdList}">
-							<c:if test="${item.mainCode eq 'BID_MBER_STTUS_CODE' && item.subCode ne '03'}">
+							<c:if test="${item.mainCode eq 'BID_MBER_STTUS_CODE'}">
 								<option value="${item.subCode}">${item.codeDctwo}</option>
 							</c:if>
 						</c:forEach>
@@ -72,24 +90,36 @@
 				<div class="form-set" name="formset">
 					<span class="label">검색구분</span>
 					<select class="form-select select-md" id="bid-mber-sch-gubun">
-						<option value="">전체</option>
-						<option value="entrpsNm">회사명</option>
-						<option value="bsnmRegistNo">사업자번호</option>
-						<option value="bidMberId">ID</option>
+						<option value="" selected>전체</option>
+						<option value="entrpsNm"
+							<c:if test='${"entrpsNm" eq mberVO.schGubun}'>
+								selected
+							</c:if>
+						>회사명</option>
+						<option value="bsnmRegistNo"
+							<c:if test='${"bsnmRegistNo" eq mberVO.schGubun}'>
+								selected
+							</c:if>
+						>사업자번호</option>
+						<option value="bidMberId"
+							<c:if test='${"bidMberId" eq mberVO.schGubun}'>
+								selected
+							</c:if>
+						>ID</option>
 					</select>
-					<input type="text" class="input" id="bid-mber-sch-data">
+					<input type="text" class="input" id="bid-mber-sch-data" value="${mberVO.schData}">
 				</div>
 				<div class="form-set form-expand">
 					<span class="label">일시</span>
 					<div class="form-period-set">
 						<div class="form-period-box">
 							<div class="input-group date form-date">
-								<input type="text" class="validate[dateRange] input" id="mber-etr-confm-requst-dt" maxlength="10"  oninput="this.value = this.value.replace(/[^0-9-]/g, '').replace(/(\..*)\./g, '$1');" />
+								<input type="text" class="validate[dateRange] input" id="mber-etr-confm-requst-dt" value='<fmt:formatDate value="${mberVO.etrConfmRequstDt}" pattern="yyyy-MM-dd"/>' maxlength="10"  oninput="this.value = this.value.replace(/[^0-9-]/g, '').replace(/(\..*)\./g, '$1');" />
 								<label for="mber-etr-confm-requst-dt" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
 							</div>
 							<span>~</span>
 							<div class="input-group date form-date">
-								<input type="text" class="validate[dateRange] input" id="mber-etr-confm-process-dt" maxlength="10"  oninput="this.value = this.value.replace(/[^0-9-]/g, '').replace(/(\..*)\./g, '$1');" />
+								<input type="text" class="validate[dateRange] input" id="mber-etr-confm-process-dt" value='<fmt:formatDate value="${mberVO.etrConfmProcessDt}" pattern="yyyy-MM-dd"/>' maxlength="10"  oninput="this.value = this.value.replace(/[^0-9-]/g, '').replace(/(\..*)\./g, '$1');" />
 								<label for="mber-etr-confm-process-dt" class="btn has-icon"><i class="icon icon-calendar">달력</i></label>
 							</div>
 						</div>
@@ -225,15 +255,32 @@
 		const url = "/boMber/mberMng"
 
 		postSetDataTypeBo(url, JSON.stringify(bdMberVO), "html", true, (res) => {
+			eleRedendering("#bid-mber-amount", res)
+			eleRedendering("#bid-mber-sch-gubun", res)
+			inputRedendering("#bid-mber-sch-data", res)
+			inputRedendering("#mber-etr-confm-requst-dt", res)
+			inputRedendering("#mber-etr-confm-process-dt", res)
 			eleRedendering("#realgrid", res)
 
-			// $(".bid-sttus-tab").removeClass("active")
+			if (bdMberVO.bidMberSttusCode === '03') {
+				$('.templeteRegister button:eq(0)').removeClass("active");
+				$('.templeteRegister button:eq(1)').addClass("active");
+				$('#bid-mber-sttus-select').attr("disabled", true)
+			} else {
+				$('.templeteRegister button:eq(1)').removeClass("active");
+				$('.templeteRegister button:eq(0)').addClass("active");
+				$('#bid-mber-sttus-select').attr("disabled", false)
+			}
+
+ 			// $(".bid-sttus-tab").removeClass("active")
 			// $("#bid-sttus-tab-" + bdBidBas.bidSttusCode).addClass("active")
 		})
 	}
 
 	function setBidSttus(data) {
-		bdMberVO.bidMberSttusCode = data
+		bdMberVO = {
+			"bidMberSttusCode" : data
+		}
 
 		getBidMberList()
 	}

@@ -35,8 +35,10 @@ public class BoMberMngController {
         //공통코드리스트
         List<BoCoCommCdVO> boCommCdList = mberMngService.getBoCommCdList();
 
+        // 회원 목록
         List<BoMberVO> mberList = mberMngService.getMberList(vo);
 
+        model.addAttribute("mberVO", vo);
         model.addAttribute("mberList", mberList);
         model.addAttribute("boCommCdList", boCommCdList);
 

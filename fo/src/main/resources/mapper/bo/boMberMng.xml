@@ -11,6 +11,13 @@
             ,CODE_NM
             ,CODE_DCONE
             ,CODE_DCTWO
+            ,(
+                SELECT COUNT(*)
+                FROM BD_ENTRPS_INFO_BAS beib
+                WHERE
+                    SUB_CODE = BID_MBER_STTUS_CODE
+                    AND MAIN_CODE = 'BID_MBER_STTUS_CODE'
+            ) AS CODE_LT
         FROM CO_CMMN_CD
     </select>
     <select id="getMberList" parameterType="com.m2m.fo.bo.model.BoMberVO" resultType="com.m2m.fo.bo.model.BoMberVO">
