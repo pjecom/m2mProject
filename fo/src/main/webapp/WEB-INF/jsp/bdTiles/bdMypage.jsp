@@ -85,16 +85,16 @@
 				            <!-- FILTER AREA :: END -->
 							<!-- TAB BUTTON :: START -->
 							<ul class="tab_btn_group">
-								<li class="item on" data-tab="tab-1" value="1" onclick="getMyPageList1('13', '');">
+								<li class="item on" data-tab="tab-1" id="tab1" value="1" onclick="getMyPageList1('13', '');">
 									<a href="javascript:;">투찰 건 (<span class="totalCnt">${bdCnt.biddingCnt}</span>) </a>
 								</li>
-								<li class="item" data-tab="tab-2" value="2" onclick="getMyPageList2('31', 'Y');">
+								<li class="item" data-tab="tab-2" id="tab2" value="2" onclick="getMyPageList2('31', 'Y');">
 									<a href="javascript:;">낙찰 건 (<span id="expectCnt">${bdCnt.approvedCnt}</span>)</a>
 								</li>
-								<li class="item" data-tab="tab-3"  value="3"  onclick="getMyPageList3('31', 'N');">
+								<li class="item" data-tab="tab-3"  id="tab3" value="3"  onclick="getMyPageList3('31', 'N');">
 									<a href="javascript:;">패찰 건 (<span id="bidingCnt">${bdCnt.rejectedCnt}</span>)</a>
 								</li>
-								<li class="item" data-tab="tab-4" value="4"  onclick="getMyPageList4('32', '');">
+								<li class="item" data-tab="tab-4" id="tab4" value="4"  onclick="getMyPageList4('32', '');">
 									<a href="javascript:;">유찰 건 (<span id="endCnt">${bdCnt.auctionCnt}</span>) </a>
 								</li>
 							</ul>
@@ -510,8 +510,27 @@
 	<!-- script custom :: END -->
 	<script type="text/javascript">
 		$(function() {
-			getMyPageList1('13', '');
-		})
+			// $(this).attr('data-tab');
+			var tab = "${tabNo}";
+			console.log("태태탭"+tab);
+			var bbb = ('#tab'+tab);
+			console.log("태태탭2"+bbb);
+			document.getElementById(bbb).click();
+			switch(tab){
+                case '1':
+				getMyPageList1('13', '');
+				break;
+                case '2':
+					getMyPageList2('31', 'Y');
+                    break;
+                case '3':
+                getMyPageList3('31', 'N');
+                    break;
+                case '':
+				getMyPageList1('13', '');
+                    break;
+            }
+		});
 		function setBidSttus(code) {
 			bdBidBas.bidSttusCode = code
 
@@ -672,26 +691,26 @@
         tbody.html('');
         tbody.html(htmlContent);
     }
-	let tempBdBidBas = {}
-    let bdBidBas = {
-        bidSttusCode: '',
-        bidPblancId: '',
-        bddprBeginDt: '',
-        bddprEndDt: ''
-    }
+	// let tempBdBidBas = {}
+    // let bdBidBas = {
+    //     bidSttusCode: '',
+    //     bidPblancId: '',
+    //     bddprBeginDt: '',
+    //     bddprEndDt: ''
+    // }
 
     // bdBidBas.bidSttusCode 값 변경 감지
-    Object.defineProperty(bdBidBas, 'bidSttusCode', {
-        get: function() {
-            return this._bidSttusCode;
-        },
-        set: function(newValue) {
-            this._bidSttusCode = newValue;
+    // Object.defineProperty(bdBidBas, 'bidSttusCode', {
+    //     get: function() {
+    //         return this._bidSttusCode;
+    //     },
+    //     set: function(newValue) {
+    //         this._bidSttusCode = newValue;
 
-            $(".bid-sttus-tab").removeClass("active")
-            $("#bid-sttus-tab-" + newValue).addClass("active")
-        }
-    });
+    //         $(".bid-sttus-tab").removeClass("active")
+    //         $("#bid-sttus-tab-" + newValue).addClass("active")
+    //     }
+    // });
 	// =============== SELECT BOX ==================
 	$('.brand').select2({
 	    width: 'element',
@@ -736,6 +755,7 @@
 	    $(this).addClass('active');
 	    $("#"+tab_id).addClass('on');
 	})
+	
 
 	// =============== BTN.LIKE ==================
 	$('.ico.like').click(function(e){
@@ -842,7 +862,7 @@ $(".btn-period > .radio-btn").click(function() {
         }
 
 		var params = {
-			
+
 			"bidSttusCode" : bidSttusCode,
 			"scsbidAt" : scsbidAt,
 			"filter" : $('#filter').val(),

@@ -40,22 +40,22 @@
 			<c:choose>                                                                                                                                                                 
                 <c:when test="${member.entrpsNm != null}">
                     <div class="login_container log_on">
-                        <a href="javascript:;"  class="btn_nav" onclick="moveMyPage('13', '')"><span class="bold">${member.entrpsNm}</span>님 입찰현황</a>
+                        <a href="javascript:;"  class="btn_nav" onclick="moveMyPage('13', '',1)"><span class="bold">${member.entrpsNm}</span>님 입찰현황</a>
                         <div class="dashboard">
                                 <div class="item mypage">
-                                    <a href="javascript:;" onclick="moveMyPage('13', '');" >
+                                    <a href="javascript:;" onclick="moveMyPage('13', '',1);" >
                                         <h4>투찰건</h4>
                                         <p class="bid bddprCnt biddingCnt"></p>						   	 	
                                     </a>
                                 </div>
                                 <div class="item mypage">
-                                    <a href="javascript:;" onclick="moveMyPage('31', 'Y');" > 
+                                    <a href="javascript:;" onclick="moveMyPage('31', 'Y',2);" > 
                                         <h4>낙찰건</h4>
                                         <p class="lose defeatCnt approvedCnt"></p>
                                 </a> 	
                                 </div>		
                                 <div class="item mypage">
-                                    <a href="javascript:;" onclick="moveMyPage('31', 'N');" >						   	 
+                                    <a href="javascript:;" onclick="moveMyPage('31', 'N',3);" >						   	 
                                         <h4>패찰건</h4>
                                         <p class="lose defeatCnt rejectedCnt"></p>
                                 </a> 								   	 	
@@ -359,11 +359,12 @@ function getMypageInfo(bidEntrpsNo)
             }
         });
  }
-function moveMyPage(bidSttusCode, scsbidAt) {
+function moveMyPage(bidSttusCode, scsbidAt,tabNo) {
     var params = {
         "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
                  "bidSttusCode" : bidSttusCode,
-                 "scsbidAt" : scsbidAt
+                 "scsbidAt" : scsbidAt,
+                 "tabNo" : tabNo
 		}
     pageMove( "/bdMypageAjax", JSON.stringify(params), 'application/json');
 }

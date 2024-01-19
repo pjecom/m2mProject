@@ -43,7 +43,8 @@ public class BdMypageController {
     public String mypageAjaxList(@RequestBody(required = false) BdListVO bdListVO , ModelMap model, HttpServletRequest request) throws Exception {
 		List<BdListVO> list = bdMainService.mypageList(bdListVO);
         BdListVO bdCnt = bdMainService.bdMypageCount(bdListVO);
- 
+        log.info("탭탭탭"+bdListVO.getTabNo());
+        model.addAttribute("tabNo", bdListVO.getTabNo());
         model.addAttribute("bdCnt", bdCnt);
 		model.addAttribute("bdList", list);
         return "bdTiles/bdMypage";
