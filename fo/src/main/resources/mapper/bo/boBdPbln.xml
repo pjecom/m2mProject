@@ -40,6 +40,9 @@
             	 AND SUB_CODE = BBD.DSTRCT_LCLSF_CODE) AS DSTRCT_NM                             /*권역*/
             , BBD.BID_WT                                                                        /*입찰중량*/
             , BBD.PERM_WT_RATE                                                                  /*허용중량비율*/
+            , BBD.DELY_CND_01_PREMIUM_PC
+            , BBD.DELY_CND_02_PREMIUM_PC
+            , BBD.DELY_CND_03_PREMIUM_PC
             , BBD.DELY_BEGIN_DE                                                                 /*인도기간시작*/
             , BBD.DELY_END_DE                                                                   /*인도기간종료*/
             , BBD.PC_APPN_BEGIN_DE                                                              /*가격지정기간시작*/
@@ -287,6 +290,9 @@
 		   ,DSTRCT_LCLSF_CODE            = #{dstrctLclsfCode}          /*권역대분류코드*/
 		   ,BID_WT                       = #{bidWt}                    /*수량*/
 		   ,PERM_WT_RATE                 = #{permWtRate}               /*중량허용공차*/
+		   ,DELY_CND_01_PREMIUM_PC		 = #{delyCnd01premiumPc}	   /*인도조건 01프리미엄가격 */
+		   ,DELY_CND_02_PREMIUM_PC		 = #{delyCnd02premiumPc}	   /*인도조건 02프리미엄가격 */
+		   ,DELY_CND_03_PREMIUM_PC		 = #{delyCnd03premiumPc}	   /*인도조건 03프리미엄가격 */
 		   ,DELY_BEGIN_DE             	 = #{delyBeginDe}              /*인도시작일자*/
 		   ,DELY_End_DE               	 = #{delyEndDe}                /*인도종료일자*/
 		   ,PC_APPN_BEGIN_DE             = #{pcAppnBeginDe}            /*가격지정기간시작*/
