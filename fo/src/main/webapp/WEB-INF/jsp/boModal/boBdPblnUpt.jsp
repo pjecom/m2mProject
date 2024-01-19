@@ -97,7 +97,7 @@
                                                     <td>
                                                          <select class="form-select" id="selectItem" >
                                                             <c:forEach var="item" items="${boBdItemList}">
-                                                              <option value="${item.itmSn}">${item.goodsNm}</option>                                                    
+                                                              <option value="${item.itmSn}"${item.goodsNm eq boBdPblnDtl.dspyGoodsNm ? 'selected' : ''}>${item.goodsNm}</option>                                              
                                                             </c:forEach>
                                                          </select>
                                                     </td>
