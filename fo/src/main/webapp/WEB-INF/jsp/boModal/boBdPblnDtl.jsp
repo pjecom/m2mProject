@@ -63,24 +63,6 @@
     	countDownTimer('allDday', formatEndDt);
 	});
 	
-	function updateBtnSelect() {
-		event.preventDefault();
-			//$('#bdNoticeDetailModal').modal('hide');
-			var url = "/bo/boBdPblnUpdateModal";
-       		var params = {
-            	"bidPblancId" : "${boBdPblnDtl.bidPblancId}",
-            	"popupSe"     : "update"
-        	};
-
-        	postSetDataTypeBo(url, JSON.stringify(params), "html", true, function(result) {
-        		if(!sorin.validation.isNull(result)) {
-        			$("#bdNoticeDetailModal .modal2").html('');
-        			$("#bdNoticeDetailModal .modal2").html(result);
-        			$('#bdNoticeDetailModal').modal();
-        		}
-    		});
-	}
-	
 	function formatDate(inputDate) {
 	    const year = inputDate.substring(0, 4);
 	    const month = inputDate.substring(4, 6);
@@ -132,7 +114,32 @@
 
         timer = setInterval(showRemaining, 1000);
     }
-	
+	//공고 수정 업데이트
+	function updateBtnSelect() {
+		event.preventDefault();
+			//$('#bdNoticeDetailModal').modal('hide');
+			var url = "/bo/boBdPblnUpdateModal";
+       		var params = {
+            	"bidPblancId" : $("#bidPblancId").val(),
+            	"popupSe"     : "update"
+        	};
+
+        	postSetDataTypeBo(url, JSON.stringify(params), "html", true, function(result) {
+        		if(!sorin.validation.isNull(result)) {
+        			$("#bdNoticeDetailModal .modal2").html('');
+        			$("#bdNoticeDetailModal .modal2").html(result);
+        			$('#bdNoticeDetailModal').modal();
+        		}
+    		});
+	}
+	//공고 취소 
+	$(function() {
+		$("#deleteBtn").click(function(event) {
+          
+        showConfirmation();
+        // 여기에서 필요한 추가 로직을 수행할 수 있습니다.
+      });
+    });
 	function showConfirmation() {
 		var result = confirm('해당 공고 건은 입찰 예정 건입니다.\n 공고 취소 시 노출되지 않습니다.\n 취소하시겠습니다.?');
 
@@ -143,17 +150,7 @@
 	    } else {
 	      // 닫기를 선택한 경우 아무 작업 없이 현재 페이지에 머무름
 	    }
-    }
-	
-	$(function() {
-      // 공고 업데이트
-		$("#deleteBtn").click(function(event) {
-          
-        showConfirmation();
-        // 여기에서 필요한 추가 로직을 수행할 수 있습니다.
-      });
-    });
-		
+    }	
 	function modalClose() {
 		$('#bdNoticeDetailModal').modal('hide');
 	}
@@ -189,10 +186,6 @@
             }
         });
     }
-/* 	function dateviewfmt(date){
-	    return date.substring(2,4) + '.' +date.substring(4,6)+ '.' +date.substring(6,8)+ ' ' +date.substring(8,10)+ ':' +date.substring(10,12)+ ':' +date.substring(12,14);
-	}
- */
 </script>
 </head>
 
@@ -206,10 +199,11 @@
 				<div class="inner">
 					<!-- Button trigger modal -->
 					<div class="modal-header">
+						<input type="hidden" value="${boBdPblnDtl.bidPblancId}" id="bidPblancId" />
 						<input type="hidden" value="${boBdPblnDtl.bddprEndDt}" id="bddprEndDt" />
 						<h5 class="modal-title" id="exampleModalLabel">
 							입찰 공고 상세&nbsp;&nbsp;&gt;&nbsp;
-							<span style="background-color: black; color: white; font-weight: normal;">&nbsp;&nbsp;
+							<span style="background-color: black; color: white; font-weight: normal;" class="bidPblancIdSpan">&nbsp;&nbsp;
 								입찰공고번호 ${boBdPblnDtl.bidPblancId} &nbsp;&nbsp;
 							</span>
 						</h5>
@@ -569,33 +563,6 @@
 											</c:choose>
 										</tr>
 									</c:forEach>
-									<!-- <tr>
-										<td class="text-center"><b>1</b></td>
-										<td><a href="#" class="rg-link-renderer">엠투엠글로벌</a></td>
-										<td>2022.01.02. 10:10:10</td>
-										<td>서린상사 지정 보세창고 도착도(FCA서린상사 지정보세창고)</td>
-										<td class="text-center">11</td>
-										<td class="text-center">투찰 중</td>
-										<td class="text-center">-</td>
-									</tr>
-									<tr>
-										<td class="text-center"><b>2</b></td>
-										<td><a href="#" class="rg-link-renderer">반진메탈</a></td>
-										<td>2022.01.02. 10:11:25</td>
-										<td>기타 부산/인천 보세창고 상차도(FCA BUSAN/INCHEON)</td>
-										<td class="text-center">111</td>
-										<td class="text-center">투찰 중</td>
-										<td class="text-center">-</td>
-									</tr>
-									<tr>
-										<td class="text-center"><b>3</b></td>
-										<td><a href="#" class="rg-link-renderer">기업명칭</a></td>
-										<td>2022.01.03. 11:11:20</td>
-										<td>CIF INCHEON / CIF BUSAN</td>
-										<td class="text-center">112</td>
-										<td class="text-center">투찰 중</td>
-										<td class="text-center">-</td>
-									</tr> -->
 								</tbody>
 							</table>
 						</div>

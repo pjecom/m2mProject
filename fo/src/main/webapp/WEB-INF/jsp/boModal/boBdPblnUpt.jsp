@@ -331,6 +331,34 @@
                                             </tbody>
                                         </table>
                                     </div>
+									<div class="sub-title">
+										<h3 class="">활성여부</h3>
+									</div>
+									<div class="table table-view">
+										<table>
+											<colgroup>
+												<col class="col-md" />
+												<col width="*" />
+											</colgroup>
+											<tbody>
+												<tr>
+												<th scope="row">활성여부<i class="icon icon-required"></i></th>
+			                                        <td>
+			                                            <div class="radio-group" id = 'dspyAt'>
+			                                                <div class="form-radio">
+			                                                    <input type="radio" id="dspy-yn-01" name="dspyYn" value = 'Y' ${boBdPblnDtl.dspyAt eq 'Y' ? 'checked="checked"' : ''} />
+			                                                    <label for="dspy-yn-01"><span>활성</span></label>
+			                                                </div>
+			                                                <div class="form-radio">
+			                                                    <input type="radio" id="dspy-yn-02" name="dspyYn" value = 'N' ${boBdPblnDtl.dspyAt eq 'N' ? 'checked="checked"' : ''}/>
+			                                                    <label for="dspy-yn-02"><span>비활성</span></label>
+			                                                </div>
+			                                            </div>
+			                                        </td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
                                     <div class="sub-title">
                                         <h3 class="">투찰 기간 설정</h3>
                                     </div>
@@ -567,6 +595,7 @@ function saveBdData() {
 	var pcAppnEndDe = $("#pcAppnEndDe").val().replace(/-/g, '')
 	var delyBeginDe = $("#delyBeginDe").val().replace(/-/g, '')
 	var delyEndDe = $("#delyEndDe").val().replace(/-/g, '')
+	var dspyAt = $("input[name='dspyYn']:checked").val();  
 		var params = {
 		"bidPblancId" : "${boBdPblnDtl.bidPblancId}",           // 입찰 공고아이디 
    		"metalCode" : $('#metal-select').val(),                    // 메탈구분 
@@ -592,9 +621,12 @@ function saveBdData() {
    		"etcCn" :  $('#etcCn').val(),                           // 기타코멘트 
    		"bddprBeginDt" :  bddprBeginDt,           				// 투찰시작일시
    		"bddprEndDt" :  bddprEndDt,               				// 투찰종료일시
-   		"bddprCanclLmttDe" : bddprCanclLmttDe   				// 투찰취소제한일자 
+   		"bddprCanclLmttDe" : bddprCanclLmttDe,   				// 투찰취소제한일자 
+   		"dspyAt" :  dspyAt           				// 전시여부
+   		//"dspyAt" : ${boBdPblnDtl.dspyAt}           				// 전시여부
 		}
-		console.log("goodsNm: ", $('#selectItem').val()); 
+		console.log($('#dspyAt').val());
+	    console.log("params:>>>>>" + JSON.stringify(params));
 	$.ajax({
 		url: '/bo/updateBoBdPblnDtl',
 		method: 'POST', 
@@ -607,7 +639,7 @@ function saveBdData() {
 			// 공고수정확인
             if (confirm('공고 건이 수정되었습니다.')) {
                 // 사용자가 확인 버튼을 누른 경우 modalClose 함수 호출
-                getBidNoticeList()
+                getBidNoticeList();
                 modalClose();
             }
 			

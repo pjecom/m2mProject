@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.Console;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -224,6 +225,8 @@ public class BoBdPblnController {
         if (boBdPblnDtls != null && !boBdPblnDtls.isEmpty()) {
             //입찰상세
         	BoBdPblnVO boBdPblnDtl = boBdPblnDtls.get(0);
+        	
+        	//log.info("getDspyAt >>> ::: {}",boBdPblnDtl.getDspyAt());
             model.addAttribute("boBdPblnDtl", boBdPblnDtl);
         } else {
             log.warn("Error");

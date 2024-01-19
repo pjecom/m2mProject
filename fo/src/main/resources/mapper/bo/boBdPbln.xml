@@ -306,7 +306,8 @@
 		   ,BDDPR_CANCL_LMTT_DE          = #{bddprCanclLmttDe}         /*투찰취소제한일자*/
 		   ,LAST_CHANGER_ID              = #{lastChangerId}            /*최종변경자아이디*/
            ,LAST_CHANGE_DT               = GETDATE()                   /*최종변경일시*/
-		   
+		   ,DSPY_AT                      = #{dspyAt}                   /*전시여부*/
+
 		WHERE BID_PBLANC_ID = #{bidPblancId} 
 	</update>
     <insert id="istboBdPbln" parameterType="com.m2m.fo.bo.model.BoBdPblnVO">
