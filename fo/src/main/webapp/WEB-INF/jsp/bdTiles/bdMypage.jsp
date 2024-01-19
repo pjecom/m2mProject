@@ -85,16 +85,16 @@
 				            <!-- FILTER AREA :: END -->
 							<!-- TAB BUTTON :: START -->
 							<ul class="tab_btn_group">
-								<li class="item on" data-tab="tab-1" id="tab1" value="1" onclick="getMyPageList1('13', '');">
+								<li class="item1 on" data-tab="tab-1" id="tab1" value="1" onclick="getMyPageList1('13', '');">
 									<a href="javascript:;">투찰 건 (<span class="totalCnt">${bdCnt.biddingCnt}</span>) </a>
 								</li>
-								<li class="item" data-tab="tab-2" id="tab2" value="2" onclick="getMyPageList2('31', 'Y');">
+								<li class="item2" data-tab="tab-2" id="tab2" value="2" onclick="getMyPageList2('31', 'Y');">
 									<a href="javascript:;">낙찰 건 (<span id="expectCnt">${bdCnt.approvedCnt}</span>)</a>
 								</li>
-								<li class="item" data-tab="tab-3"  id="tab3" value="3"  onclick="getMyPageList3('31', 'N');">
+								<li class="item3" data-tab="tab-3"  id="tab3" value="3"  onclick="getMyPageList3('31', 'N');">
 									<a href="javascript:;">패찰 건 (<span id="bidingCnt">${bdCnt.rejectedCnt}</span>)</a>
 								</li>
-								<li class="item" data-tab="tab-4" id="tab4" value="4"  onclick="getMyPageList4('32', '');">
+								<li class="item4" data-tab="tab-4" id="tab4" value="4"  onclick="getMyPageList4('32', '');">
 									<a href="javascript:;">유찰 건 (<span id="endCnt">${bdCnt.auctionCnt}</span>) </a>
 								</li>
 							</ul>
@@ -146,7 +146,7 @@
 				                                    </div>
 				                                    <p class="pd-unit-price">
 								          				<span class="label-orange">투찰가</span>
-						                                <span class="u-price realTimePrice up">{vo.bddprPremiumPc} (원/MT)</span>
+						                                <span class="u-price realTimePrice up" >${vo.totalCost} (원/MT)</span>
 						                            </p>
 				                                    <div class="pd-period">
 				                                        <span class="qty">수량<span class="highlight">${vo.bidWt}</span></span>	
@@ -206,7 +206,7 @@
 				                                    </div>
 				                                    <p class="pd-unit-price">
 								          				<span class="label-orange">투찰가</span>
-						                                <span class="u-price realTimePrice up">3,428,000 (원/MT)</span>
+						                                <span class="u-price realTimePrice up">${vo.totalCost} (원/MT)</span>
 						                            </p>
 				                                    <div class="pd-period">
 				                                        <span class="qty">수량<span class="highlight">${vo.bidWt}</span></span>	
@@ -265,7 +265,7 @@
 				                                    </div>
 				                                    <p class="pd-unit-price">
 								          				<span class="label-orange">투찰가</span>
-						                                <span class="u-price realTimePrice up">3,428,000 (원/MT)</span>
+						                                <span class="u-price realTimePrice up">${vo.totalCost} (원/MT)</span>
 						                            </p>
 				                                    <div class="pd-period">
 				                                        <span class="qty">수량<span class="highlight">${vo.bidWt}</span></span>	
@@ -324,7 +324,7 @@
 				                                    </div>
 				                                    <p class="pd-unit-price">
 								          				<span class="label-orange">투찰가</span>
-						                                <span class="u-price realTimePrice up">3,428,000 (원/MT)</span>
+						                                <span class="u-price realTimePrice up">${vo.totalCost} (원/MT)</span>
 						                            </p>
 				                                    <div class="pd-period">
 				                                        <span class="qty">수량<span class="highlight">${vo.bidWt}</span></span>	
@@ -512,19 +512,23 @@
 		$(function() {
 			// $(this).attr('data-tab');
 			var tab = "${tabNo}";
-			console.log("태태탭"+tab);
-			var bbb = ('#tab'+tab);
-			console.log("태태탭2"+bbb);
-			document.getElementById(bbb).click();
+			// console.log("태태탭"+tab);
+			// var bbb = ('#tab'+tab);
+			// console.log("태태탭2"+bbb);
+			// document.getElementById(bbb).click();
+			
 			switch(tab){
                 case '1':
 				getMyPageList1('13', '');
 				break;
                 case '2':
-					getMyPageList2('31', 'Y');
+				getMyPageList2('31', 'Y');
                     break;
                 case '3':
                 getMyPageList3('31', 'N');
+                    break;
+				case '4':
+                getMyPageList4('32', '');
                     break;
                 case '':
 				getMyPageList1('13', '');
@@ -576,6 +580,10 @@
 						dataType: 'html', 
 						success: function(res) {
 							//console.log('데이터 정상', data);
+							$('.tab_btn_group li').removeClass('on');
+                            $('.tab-content').removeClass('on');
+                            $('.item1').addClass('on');
+                            $('#tab-1').addClass('on');
 							updateTable("#tab-1", $(res).find("#tab-1 .myPageData").html());
 						},
 						error: function(error) {
@@ -607,6 +615,10 @@
 						dataType: 'html', 
 						success: function(res) {
 							//console.log('데이터 정상', data);
+							$('.tab_btn_group li').removeClass('on');
+                            $('.tab-content').removeClass('on');
+                            $('.item2').addClass('on');
+                            $('#tab-2').addClass('on');
 							updateTable("#tab-2", $(res).find("#tab-2 .myPageData").html());
 						},
 						error: function(error) {
@@ -638,6 +650,10 @@
 						dataType: 'html', 
 						success: function(res) {
 							//console.log('데이터 정상', data);
+							$('.tab_btn_group li').removeClass('on');
+                            $('.tab-content').removeClass('on');
+                            $('.item3').addClass('on');
+                            $('#tab-3').addClass('on');
 							updateTable("#tab-3", $(res).find("#tab-3 .myPageData").html());
 						},
 						error: function(error) {
@@ -669,6 +685,10 @@
 						dataType: 'html', 
 						success: function(res) {
 							//console.log('데이터 정상', data);
+							$('.tab_btn_group li').removeClass('on');
+                            $('.tab-content').removeClass('on');
+                            $('.item4').addClass('on');
+                            $('#tab-4').addClass('on');
 							updateTable("#tab-4", $(res).find("#tab-4 .myPageData").html());
 						},
 						error: function(error) {

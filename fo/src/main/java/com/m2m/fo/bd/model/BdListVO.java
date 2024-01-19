@@ -91,5 +91,6 @@ public class BdListVO {
 	private String subCode;					 //공통코드(코드2)
 	
 	private String tabNo; //탭번호
+	private String totalCost;
 	
 }

@@ -101,6 +101,7 @@
 	            ,BBD.DELY_CND_STDR_PC                                                                                                                      /*인도조건 기준가격*/
 	            ,BBD.CNVRS_PREMIUM_AMOUNT                                                                                                                  /*전환 프리미엄 금액*/
 	            ,BBD.BDDPR_PREMIUM_PC                                                                                                                      /*투찰 프리미엄 가격*/
+	            ,FORMAT((ISNULL(BBD.DELY_CND_STDR_PC, 0) + ISNULL(BBD.CNVRS_PREMIUM_AMOUNT,0) + ISNULL(BBD.BDDPR_PREMIUM_PC,0)), N'#,0.#####') AS TOTAL_COST	/*투찰총금액*/
 	            ,BB.METAL_CODE                                                                                                                             /* 금속 코드 */
 	            ,(SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'METAL_CODE'  AND SUB_CODE = BB.METAL_CODE) AS METAL_CODE_NM                         /* 금속 구분 */
 	            ,(SELECT CODE_DCONE FROM CO_CMMN_CD WHERE MAIN_CODE = 'METAL_CODE'  AND SUB_CODE = BB.METAL_CODE) AS METAL_CODE_NMA                        /* 금속 코드 */
@@ -134,6 +135,8 @@
                 ON BB.BID_PBLANC_ID= BBD.BID_PBLANC_ID 
             WHERE BBD.BID_ENTRPS_NO = #{bidEntrpsNo}
                 AND BB.BID_STTUS_CODE = #{bidSttusCode} -- 13: 투찰중, 31: 낙찰, 32: 유찰
+                AND BB.PBLANC_CANCL_AT = 'N'                                                                                                                /* 공고 취소 여부 */
+                AND BB.DELETE_AT ='N'                                                                                                                       /* 삭제 여부 */
             <if test="scsbidAt != null and scsbidAt != ''">
                 AND BBD.SCSBID_AT = #{scsbidAt} -- Y: 낙찰, N: 패찰
             </if>
@@ -159,6 +162,9 @@
        INNER JOIN BD_BDDPR_DTL BBD
           ON BB.BID_PBLANC_ID= BBD.BID_PBLANC_ID 
        WHERE BBD.BID_ENTRPS_NO = #{bidEntrpsNo}
+             AND BB.PBLANC_CANCL_AT = 'N'                                                                                                                /* 공고 취소 여부 */
+             AND BB.DELETE_AT ='N'                                                                                                                       /* 삭제 여부 */
+             
      </select>
      
      <select id="selectbdDelyCndList" parameterType="com.m2m.fo.bd.model.BdListVO" resultType="com.m2m.fo.bd.model.BdListVO">
