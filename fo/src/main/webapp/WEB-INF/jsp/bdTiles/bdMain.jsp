@@ -104,7 +104,7 @@
 <div class="section prod-list-wrap bid">
 	<div class="inwrap">
 		<!-- ITEM TITLE :: START  -->
-		<h2 class="h2-new">알루미늄</h2>
+		<h2 class="h2-new"></h2>
 		<!-- ITEM TITLE :: END  -->
 		<!-- FILTER AREA :: START -->
         <form name="searchFrm">
@@ -411,8 +411,6 @@ function selectBdMainInfoList(bidSttusCode) {
 if(bidSttusCode == '-1'){
     var bidSttusCode = $(".item.on").val();
 }
-console.log("brand ::::::::"+$('#brand').val());
-console.log("area ::::::::"+$('#area').val());
 
 var params = {
 			"bidSttusCode" : bidSttusCode,
@@ -510,7 +508,7 @@ var params = {
 					html += '			</span>';
 				} else if (result.mainBdList[i].bidSttusCode == "31" || result.mainBdList[i].bidSttusCode == "22" || result.mainBdList[i].bidSttusCode == "23" || result.mainBdList[i].bidSttusCode == "32" ) {
 				html += '				<div class="btns">';
-					html += '				<a href="javascript:;" name="selectBid" id ="'+result.mainBdList[i].bidPblancId+'"  class="btn-bid-black">마감</a>';
+					html += '				<a href="javascript:;" name="selectBid" value="'+result.mainBdList[i].bidSttusCode+'" id ="'+result.mainBdList[i].bidPblancId+'"  class="btn-bid-black">마감</a>';
 					html += '			</div>';
 					if(result.mainBdList[i].bidSttusCode == "32"){
 						html += '		<span class="t-info abs-info">유찰공고</span>';
@@ -546,12 +544,19 @@ var params = {
     }
     $(document).on( 'click', "a[name='selectBid']", function(event) {
         if (sessionStorage.getItem("bidEntrpsNo") != null && sessionStorage.getItem("bidEntrpsNo") != '') {
-            var params = {
-            "bidPblancId" : this.id,
-            "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo")
-        }
-            pageMove( "/detail/bdDetail", JSON.stringify(params), 'application/json');
-	   		
+            var value = $(this).attr('value')
+            if(value != null && this.value != '' ){
+                alertPopup('마감된 공고는 마이페이지에서 확인할 수 있습니다', function () {
+	                return true;
+	            });
+            }else{
+                var params = {
+                "bidPblancId" : this.id,
+                "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo")
+                }
+                pageMove( "/detail/bdDetail", JSON.stringify(params), 'application/json');
+
+            }          
 	   	} else {
 	   	    	alertPopup('입찰서비스는 입찰 회원 전용 서비스입니다. 로그인 또는 가입 후 참여해주세요. 감사합니다', function () {
 	                return true;
@@ -616,7 +621,7 @@ var params = {
                     sessionStorage.setItem("entrpsNm", response.member.entrpsNm);
                     location.href = "/";
                 } else if (response.result === "blocked") {
-                	alert('차단된 회원입니다.\n고객센터로 문의해주세요');
+                	alert('투찰 취소 3회 초과로 로그인이 차단되었습니다.\n고객센터로 문의해주세요');
                 } else if (response.result === "pending") {
                 	alert('관리자 승인 대기상태입니다.\n승인 후 로그인 가능합니다.');
                 } else if(response.result === "failed"){
