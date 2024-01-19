@@ -263,14 +263,21 @@
 
         postSetDataTypeBo(url, JSON.stringify(bdBidBas), "html", true, (res) => {
             eleRedendering("#bid-sub-code", res)
-            eleRedendering("#bid-pblanc-id", res)
-            eleRedendering("#list-bddpr-begin-dt", res)
-            eleRedendering("#list-bddpr-end-dt", res)
+            inputRedendering("#bid-pblanc-id", res)
+            inputRedendering("#list-bddpr-begin-dt", res)
+            inputRedendering("#list-bddpr-end-dt", res)
             eleRedendering("#realgrid", res)
 
             $(".bid-sttus-tab").removeClass("active")
             $("#bid-sttus-tab-" + bdBidBas.bidSttusCode).addClass("active")
         })
+    }
+    // Data 변경 시 rerendering
+    function inputRedendering(elementNm, res) {
+        const element = $(elementNm)
+
+        element.val('');
+        element.val($(res).find(elementNm).val());
     }
 
     // Data 변경 시 rerendering
