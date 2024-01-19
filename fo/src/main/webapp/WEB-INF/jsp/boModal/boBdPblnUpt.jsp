@@ -66,7 +66,7 @@
                                             <tr>
                                               <th scope="row">메탈 구분<i class="icon icon-required"  ></i></th>
                                                  <td>
-                                                   <select class="form-select select-sm" id="metalCode">
+                                                   <select class="form-select select-sm" id="metal-select">
                                                        <c:forEach var="item" items="${boCommCdList}">
                                                             <c:if test="${item.mainCode eq 'METAL_CODE'}">
                                                             	<option value="${item.subCode}" ${item.subCode eq boBdPblnDtl.metalCode ? 'selected' : ''}>${item.codeDcone}</option>
@@ -77,14 +77,14 @@
                                               <th scope="row">브랜드<i class="icon icon-required" ></i></th>
                                                     <td>
                                                         <div class="form-set">
-                                                            <select class="form-select select-sm" id="brandGroupCode">
+                                                            <select class="form-select select-sm" id="brand-group-select">
                                                              <c:forEach var="item" items="${boCommCdList}">
                                                                <c:if test="${item.mainCode eq 'BRAND_GROUP_CODE'}">
                                                                  <option value="${item.subCode}"${item.subCode eq boBdPblnDtl.brandGroupCode ? 'selected' : ''}>${item.codeDctwo}</option>
                                                                </c:if>                                                   
                                                              </c:forEach>
                                                             </select>
-                                                            <<select class="form-select select-sm" id="brandCode">
+                                                            <select class="form-select select-sm" id="brand-select">
                                                              <c:forEach var="item" items="${boBdBrandGrpList}">
                                                                <option value="${item.brandCode}">${item.brandNm}</option>                                                    
                                                              </c:forEach>
@@ -95,7 +95,7 @@
                                                 <tr>
                                                     <th scope="row">아이템 상품명<i class="icon icon-required" ></i></th>
                                                     <td>
-                                                         <select class="form-select" id="selectItem" >
+                                                         <select class="form-select" id="item-select" >
                                                             <c:forEach var="item" items="${boBdItemList}">
                                                               <option value="${item.itmSn}"${item.goodsNm eq boBdPblnDtl.dspyGoodsNm ? 'selected' : ''}>${item.goodsNm}</option>                                              
                                                             </c:forEach>
@@ -445,6 +445,16 @@ $("#delyBeginDate, #delyEndDeDate, #pcAppnBegindate, #pcAppnEnddate, #bddprBegin
 });
 
 $(function(){
+    $('#metal-select').on('change', () => {
+        boBdPbln.metalCode = $('#metal-select').val()
+        initModal()
+    })
+
+    $('#brand-group-select').on('change', () => {
+        boBdPbln.brandGroupCode = $('#brand-group-select').val()
+        initModal()
+    })
+    
 	//투찰 시작일
 	var bddprBeginDt ="${boBdPblnDtl.bddprBeginDt}";
 	var bddprBeginDay = bddprBeginDt.substring(0, 8);
@@ -511,8 +521,16 @@ $(function(){
 function modalClose() {
 	$('#bdNoticeDetailModal').modal('hide');
 }
-
-
+function initModal() {
+    var url = "/bo/initBdCrtModal";
+    postSetDataTypeBo(url, JSON.stringify(boBdPbln), "html", true, function(result) {
+        if(!sorin.validation.isNull(result)) {
+            eleRedendering("#brand-group-select", result)
+            eleRedendering("#brand-select", result)
+            eleRedendering("#item-select", result)
+        }
+    });
+}
 function saveBdData() {
 	var bddprBeginH = $('#bddprBeginH').val();
 	var bddprBegindateAmPm = $('#bddprBegindateAmPm').val();
@@ -549,13 +567,12 @@ function saveBdData() {
 	var pcAppnEndDe = $("#pcAppnEndDe").val().replace(/-/g, '')
 	var delyBeginDe = $("#delyBeginDe").val().replace(/-/g, '')
 	var delyEndDe = $("#delyEndDe").val().replace(/-/g, '')
-	debugger;
 		var params = {
 		"bidPblancId" : "${boBdPblnDtl.bidPblancId}",           // 입찰 공고아이디 
-   		"metalCode" : $('#metalCode').val(),                    // 메탈구분 
-   		"brandGroupCode" : $('#brandGroupCode').val(),          // 브랜드그룹
-   		"brandCode" : $('#brandCode').val(),                    // 브랜드
-   		"itmSn" : $('#selectItem').val(),                       // 아이템순번 
+   		"metalCode" : $('#metal-select').val(),                    // 메탈구분 
+   		"brandGroupCode" : $('#brand-group-select').val(),          // 브랜드그룹
+   		"brandCode" : $('#brand-select').val(),                    // 브랜드
+   		"itmSn" : $('#item-select').val(),                       // 아이템순번 
    		"dstrctLclsfCode" : $('#dstrctLclsfCode').val(),        // 권역
    		"bidWt" : $('#bid-wt-select').val(),                    // 수량(톤)
    		"permWtRate" : $('#perm-wt-select').val(),              // 중량허용공차
