@@ -78,4 +78,10 @@ public class BoBdPblnServiceImpl implements BoBdPblnService{
 	public void istboBdPbln(BoBdPblnVO boBdPblnVO) {
 		boBdPblnMapper.istboBdPbln(boBdPblnVO);
 	}
+
+	@Override
+	public void cancelBoBdPbln(BoBdPblnVO boBdPblnVO) {
+		boBdPblnMapper.cancelBoBdPbln(boBdPblnVO);
+		
+	}
 }

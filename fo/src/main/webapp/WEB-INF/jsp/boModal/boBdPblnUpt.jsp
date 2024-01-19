@@ -559,6 +559,7 @@ function initModal() {
         }
     });
 }
+//공고수정내용 저장
 function saveBdData() {
 	var bddprBeginH = $('#bddprBeginH').val();
 	var bddprBegindateAmPm = $('#bddprBegindateAmPm').val();

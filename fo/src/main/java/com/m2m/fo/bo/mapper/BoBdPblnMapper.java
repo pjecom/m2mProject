@@ -30,4 +30,6 @@ public interface BoBdPblnMapper {
 	void updateBoBdPblnDtl(BoBdPblnVO boBdPblnVO);
 
 	void istboBdPbln(BoBdPblnVO boBdPblnVO);
+
+	void cancelBoBdPbln(BoBdPblnVO boBdPblnVO);
 }

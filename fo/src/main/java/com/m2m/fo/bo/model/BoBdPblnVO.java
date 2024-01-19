@@ -77,7 +77,7 @@ public class BoBdPblnVO extends BoCoCommCdVO{
 
 	private int partcptnEntrpsQy; // 참여업체수량
 	private int intrstEntrpsQy; // 관심업체수량
-	private String DspyAt; // 전시여부
+	private String dspyAt; // 전시여부
 	private String PblancCanclAt; // 공고취소여부
 	private String opengDt; // 개찰일시
 	private String deleteAt; // 삭제여부

@@ -70,7 +70,7 @@
  -->      
       
       WHERE 1=1
-         AND BBD.BID_PBLANC_ID          =   #{bidPblancId}                                      /*입찰공고아이디*/                                               /*삭제여부*/
+         AND BBD.BID_PBLANC_ID          =   #{bidPblancId}                                      /*입찰공고아이디*/        
 	</select>
 	<select id="getBobdUptHist" parameterType="com.m2m.fo.bo.model.BoBdPblnVO" resultType="com.m2m.fo.bo.model.BoBdPblnUpdtVO">
         SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
@@ -283,7 +283,8 @@
 		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 		UPDATE BD_BID_BAS
 		SET 
-		    METAL_CODE                   = #{metalCode}                /*메탈코드*/
+			BID_STTUS_CODE               = #{bidSttusCode}             /*입찰상태코드*/
+		   ,METAL_CODE                   = #{metalCode}                /*메탈코드*/
 		   ,BRAND_CODE                   = #{brandCode}                /*브랜드코드*/
 		   ,BRAND_GROUP_CODE             = #{brandGroupCode}           /*브랜드그룹코드*/
 		   ,ITM_SN                       = #{itmSn}                    /*아이템순번*/
@@ -308,6 +309,16 @@
            ,LAST_CHANGE_DT               = GETDATE()                   /*최종변경일시*/
 		   ,DSPY_AT                      = #{dspyAt}                   /*전시여부*/
 
+		WHERE BID_PBLANC_ID = #{bidPblancId} 
+	</update>
+	<update id="cancelBoBdPbln" parameterType="com.m2m.fo.bo.model.BoBdPblnVO">
+	/* com.m2m.fo.bd.mapper.BoBdPblnMapper.cancelBoBdPbln * 공고취소처리/
+		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+		UPDATE BD_BID_BAS
+		SET 
+			BID_STTUS_CODE               = '33'                        /*입찰상태코드*/
+		   ,DSPY_AT                      = 'N'                         /*전시여부*/
+		
 		WHERE BID_PBLANC_ID = #{bidPblancId} 
 	</update>
     <insert id="istboBdPbln" parameterType="com.m2m.fo.bo.model.BoBdPblnVO">

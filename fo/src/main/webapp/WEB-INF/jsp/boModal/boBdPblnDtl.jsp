@@ -115,7 +115,7 @@
         timer = setInterval(showRemaining, 1000);
     }
 	//공고 수정 업데이트
-	function updateBtnSelect() {
+	function updateBtnClick() {
 		event.preventDefault();
 			//$('#bdNoticeDetailModal').modal('hide');
 			var url = "/bo/boBdPblnUpdateModal";
@@ -132,25 +132,44 @@
         		}
     		});
 	}
-	//공고 취소 
-	$(function() {
-		$("#deleteBtn").click(function(event) {
-          
-        showConfirmation();
-        // 여기에서 필요한 추가 로직을 수행할 수 있습니다.
-      });
-    });
-	function showConfirmation() {
+	
+	function cancleBtnClick() {
 		var result = confirm('해당 공고 건은 입찰 예정 건입니다.\n 공고 취소 시 노출되지 않습니다.\n 취소하시겠습니다.?');
+		
+        var bidSttusCode = '${boBdPblnDtl.bidSttusCode}';
+        var dspyAt = 'N';
 
-	    if (result) {
-	      // 삭제 처리 후 팝업 표시
-	      alert('글이 삭제되었습니다.');
-	      // 여기에 실제 삭제 처리를 추가할 수 있습니다.
-	    } else {
-	      // 닫기를 선택한 경우 아무 작업 없이 현재 페이지에 머무름
-	    }
-    }	
+        //console.log("bidSttusCode"+bidSttusCode);
+        var params = {
+            "bidPblancId": $("#bidPblancId").val(),     // 입찰 공고아이디 
+            "bidSttusCode" : $('#bidSttusCode').val(),  // 입찰 상태코드 
+            "dspyAt" : dspyAt                           // 전시여부
+        };
+        $.ajax({
+    		url: '/bo/cancelBoBdPbln',
+    		method: 'POST', 
+    		contentType: 'application/json',
+    		data: JSON.stringify(params),
+    		dataType: 'json', 
+    		success: function(data) {
+    			console.log('데이터 정상1', data);
+		    if (result) {
+		      // 삭제 처리 후 팝업 표시
+		      alert('공고 건이 취소되었습니다.');
+		      // 여기에 실제 삭제 처리를 추가할 수 있습니다.
+		    } else {
+		      // 닫기를 선택한 경우 아무 작업 없이 현재 페이지에 머무름	
+		    }
+		    getBidNoticeList();
+            modalClose();
+    	},
+    	error: function(error) {
+			// 에러 발생 시의 처리
+			console.error('서버 요청 중 에러 발생:', error);
+		}
+    	});
+	}
+	
 	function modalClose() {
 		$('#bdNoticeDetailModal').modal('hide');
 	}
@@ -468,7 +487,7 @@
                                                         </c:if> <c:if
 												test="${boBdPblnDtl.dspyAt eq 'N'}">
                                                           비활성
-                                                        </c:if></td>
+                                                   </c:if></td>
 									</tr>
 								</tbody>
 							</table>
@@ -507,8 +526,8 @@
 							<c:choose>
 								<c:when
 									test="${boBdPblnDtl.bidSttusCode eq '11' or boBdPblnDtl.bidSttusCode eq '12' or boBdPblnDtl.bidSttusCode eq '13'}">
-									<button type="button" class="btn" id="updateBtn" onclick="updateBtnSelect()">공고 수정</button>
-									<button type="button" class="btn" id="deleteBtn">공고 취소</button>
+									<button type="button" class="btn" id="updateBtn" onclick="updateBtnClick()">공고 수정</button>
+									<button type="button" class="btn" id="deleteBtn" onclick="cancleBtnClick()">공고 취소</button>
 								</c:when>
 								<c:when
 									test="${boBdPblnDtl.bidSttusCode eq '20' or boBdPblnDtl.bidSttusCode eq '21' or boBdPblnDtl.bidSttusCode eq '22' or boBdPblnDtl.bidSttusCode eq '23' or boBdPblnDtl.bidSttusCode eq '30'}">
