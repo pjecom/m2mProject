@@ -235,8 +235,10 @@
         <!-- 날짜 검색 -->
         <if test="bddprBeginDt != null and bddprBeginDt != ''">
             <![CDATA[
-                AND BDDPR_BEGIN_DT > #{bddprBeginDt}
-                AND BDDPR_END_DT< #{bddprEndDt}
+                AND (
+                    (BDDPR_BEGIN_DT >= #{bddprBeginDt} AND BDDPR_BEGIN_DT <= #{bddprEndDt})
+                    OR (BDDPR_END_DT >= #{bddprBeginDt} AND BDDPR_END_DT <= #{bddprEndDt})
+                )
             ]]>
         </if>
         ORDER BY FRST_REGIST_DT DESC

@@ -43,7 +43,7 @@ public class BoBdPblnController {
             }
 
             if (vo.getBddprEndDt() != null && !vo.getBddprEndDt().isEmpty()) {
-                vo.setBddprEndDt(vo.getBddprEndDt().replaceAll("-", "") + "000000");
+                vo.setBddprEndDt(vo.getBddprEndDt().replaceAll("-", "") + "235959");
             }
         }
 
@@ -91,8 +91,6 @@ public class BoBdPblnController {
 
         vo.setBddprBeginDt(tempBeginDt);
         vo.setBddprEndDt(tempEndDt);
-
-        System.out.println(vo);
 
         model.addAttribute("BdPblnVO", vo);
         model.addAttribute("bdList", list);

@@ -324,7 +324,7 @@
             bdBidBas.bidSttusCode = ($(this).find("#bid-sub-code").val())
             bdBidBas.bidPblancId = ($(this).find("#bid-pblanc-id").val())
             bdBidBas.bddprBeginDt = ($(this).find("#list-bddpr-begin-dt").val())
-            bdBidBas.bddprEndDt = ($(this).find("#list-bddpr-begin-dt").val())
+            bdBidBas.bddprEndDt = ($(this).find("#list-bddpr-end-dt").val())
         })
 
         getBidNoticeList()
