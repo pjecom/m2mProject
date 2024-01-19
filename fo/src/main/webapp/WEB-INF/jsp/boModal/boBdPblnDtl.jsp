@@ -95,7 +95,7 @@
 	}
 	
 	const countDownTimer = function (id, date) {
-		if(document.getElementById(id) == "" || document.getElementById(id) == null || document.getElementById(id) === undefiend)
+		if(document.getElementById(id) == "" || document.getElementById(id) == null || document.getElementById(id) === undefined)
 			return;
         var _vDate = new Date(date); // 전달 받은 일자
         var _second = 1000;
