@@ -58,9 +58,13 @@
 <!-- 퍼블 작성 -->
 <script>
 	$(function() {
-		//공고 업데이트
-		$("#updateBtn").click(function(event){
-			event.preventDefault();
+    	var endDt = $("#bddprEndDt").val();
+    	var formatEndDt = formatDate(endDt);
+    	countDownTimer('allDday', formatEndDt);
+	});
+	
+	function updateBtnSelect() {
+		event.preventDefault();
 			//$('#bdNoticeDetailModal').modal('hide');
 			var url = "/bo/boBdPblnUpdateModal";
        		var params = {
@@ -75,11 +79,7 @@
         			$('#bdNoticeDetailModal').modal();
         		}
     		});
-    	});
-    	var endDt = $("#bddprEndDt").val();
-    	var formatEndDt = formatDate(endDt);
-    	countDownTimer('allDday', formatEndDt);
-	});
+	}
 	
 	function formatDate(inputDate) {
 	    const year = inputDate.substring(0, 4);
@@ -513,7 +513,7 @@
 							<c:choose>
 								<c:when
 									test="${boBdPblnDtl.bidSttusCode eq '11' or boBdPblnDtl.bidSttusCode eq '12' or boBdPblnDtl.bidSttusCode eq '13'}">
-									<button type="button" class="btn" id="updateBtn">공고 수정</button>
+									<button type="button" class="btn" id="updateBtn" onclick="updateBtnSelect()">공고 수정</button>
 									<button type="button" class="btn" id="deleteBtn">공고 취소</button>
 								</c:when>
 								<c:when
