@@ -38,6 +38,15 @@ public class BoMberMngController {
         // 회원 목록
         List<BoMberVO> mberList = mberMngService.getMberList(vo);
 
+        mberList.forEach(mberVO -> {
+            if (mberVO.getBsnmRegistNo() != null && !mberVO.getBsnmRegistNo().isEmpty()) {
+                mberVO.setBsnmRegistNo(mberVO.getBsnmRegistNo().replaceAll("(\\d{3})(\\d{2})(\\d{5})", "$1-$2-$3"));
+            }
+            if (mberVO.getMoblphonNo2() != null && !mberVO.getMoblphonNo2().isEmpty()) {
+                mberVO.setMoblphonNo2(mberVO.getMoblphonNo2().replaceAll("(\\d{3})(\\d{4})(\\d{4})", "$1-$2-$3"));
+            }
+        });
+
         model.addAttribute("mberVO", vo);
         model.addAttribute("mberList", mberList);
         model.addAttribute("boCommCdList", boCommCdList);

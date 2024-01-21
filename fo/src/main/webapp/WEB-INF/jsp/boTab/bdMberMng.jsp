@@ -79,10 +79,14 @@
 				<div class="form-set">
 					<span class="label">상태</span>
 					<select class="form-select select-md" id="bid-mber-sttus-select">
-						<option value="">전체</option>
+						<option value="" selected>전체</option>
 						<c:forEach var="item" items="${boCommCdList}">
 							<c:if test="${item.mainCode eq 'BID_MBER_STTUS_CODE'}">
-								<option value="${item.subCode}">${item.codeDctwo}</option>
+								<option value="${item.subCode}"
+									<c:if test='${item.subCode eq mberVO.bidMberSttusCode}'>
+										selected
+									</c:if>
+								>${item.codeDctwo}</option>
 							</c:if>
 						</c:forEach>
 					</select>
@@ -163,7 +167,7 @@
 							<th scope="row">ID</th>
 							<th scope="col">사업자번호</th>
 							<th scope="row">이메일</th>
-							<th scope="row">폰 번호</th>
+							<th scope="row">휴대전화번호</th>
 							<th scope="row">외국기업유무</th>
 							<th scope="row">승인요청일</th>
 							<th scope="row">승인처리일</th>
@@ -189,9 +193,13 @@
 								<td align="center">${vo.rowNum}</td>
 								<td>${vo.entrpsNm}</td>
 								<td>${vo.bidMberId}</td>
-								<td>${vo.bsnmRegistNo}</td>
+								<c:choose>
+									<c:when test="${vo.bsnmRegistNo eq ''}"><td align="center">-</td></c:when>
+									<c:otherwise><td>${vo.bsnmRegistNo}</td></c:otherwise>
+								</c:choose>
 								<td>${vo.bidMberEmail}</td>
-								<td>${vo.moblphonNo2}</td>
+								<td>${vo.moblphonNo2}
+								</td>
 								<c:choose>
 									<c:when test="${vo.frntnEntrpsAt eq 'Y'}"><td align="center">O</td></c:when>
 									<c:when test="${vo.frntnEntrpsAt eq 'N'}"><td align="center">-</td></c:when>
@@ -255,6 +263,7 @@
 		const url = "/boMber/mberMng"
 
 		postSetDataTypeBo(url, JSON.stringify(bdMberVO), "html", true, (res) => {
+			eleRedendering("#bid-mber-sttus-select", res)
 			eleRedendering("#bid-mber-amount", res)
 			eleRedendering("#bid-mber-sch-gubun", res)
 			inputRedendering("#bid-mber-sch-data", res)
