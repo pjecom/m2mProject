@@ -58,9 +58,9 @@
 <!-- 퍼블 작성 -->
 <script>
 	$(function() {
-    	var endDt = $("#bddprEndDt").val();
-    	var formatEndDt = formatDate(endDt);
-    	countDownTimer('allDday', formatEndDt);
+    	//var endDt = $("#bddprEndDt").val();
+    	//var formatEndDt = formatDate(endDt);
+    	//countDownTimer('allDday', formatEndDt);
 	});
 	
 	function formatDate(inputDate) {
@@ -211,6 +211,7 @@
     	});
 	}
 	function modalClose() {
+		clearInterval(timer);
 		$('#bdNoticeDetailModal').modal('hide');
 	}
 	

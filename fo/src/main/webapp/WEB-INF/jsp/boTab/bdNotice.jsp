@@ -25,6 +25,10 @@
                 if (!sorin.validation.isNull(result)) {
                     $("#bdNoticeDetailModal .modal2").html(result);
                     $('#bdNoticeDetailModal').modal('show');
+                    
+                    var endDt = $("#bddprEndDt").val();
+    				var formatEndDt = formatDate(endDt);
+    				countDownTimer('allDday', formatEndDt);
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
