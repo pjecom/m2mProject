@@ -360,6 +360,38 @@
 										</table>
 									</div>
                                     <div class="sub-title">
+                                        <h3 class="">공고 수정 이력</h3>
+                                    </div>
+                                    <div class="table table-view">
+                                        <table>
+                                            <colgroup>
+                                                <col width="20%" />
+                                                <col width="*" />
+                                                <col width="40%" />
+                                            </colgroup>
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">수정일시</th>
+                                                    <th scope="row">수정 내용</th>
+                                                    <th scope="row">수정 사유</th>
+                                                </tr>
+                                                <c:forEach var="updateHistory" items="${bobdUptHist}" >
+                                                    <tr>
+                                                    <td>
+                                                     ${updateHistory.lastChangeDt}
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="input" value="${updateHistory.bidUpdtCn}"/>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="input" value="${updateHistory.bidUpdtResn}"/>
+                                                    </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="sub-title">
                                         <h3 class="">투찰 기간 설정</h3>
                                     </div>
                                     <div class="table table-view">
@@ -599,58 +631,164 @@ function saveBdData() {
 	var dspyAt = $("input[name='dspyYn']:checked").val();  
 		var params = {
 		"bidPblancId" : "${boBdPblnDtl.bidPblancId}",           // 입찰 공고아이디 
-   		"metalCode" : $('#metal-select').val(),                    // 메탈구분 
-   		"brandGroupCode" : $('#brand-group-select').val(),          // 브랜드그룹
-   		"brandCode" : $('#brand-select').val(),                    // 브랜드
-   		"itmSn" : $('#item-select').val(),                       // 아이템순번 
-   		"dstrctLclsfCode" : $('#dstrctLclsfCode').val(),        // 권역
-   		"bidWt" : $('#bid-wt-select').val(),                    // 수량(톤)
-   		"permWtRate" : $('#perm-wt-select').val(),              // 중량허용공차
-   		
-   		"delyCnd01premiumPc" : optionDelyCnd01premiumPc,// 인도조건 01프리미엄가격 
-   		"delyCnd02premiumPc" : optionDelyCnd02premiumPc,// 인도조건 01프리미엄가격 
-   		"delyCnd03premiumPc" : optionDelyCnd03premiumPc,// 인도조건 01프리미엄가격 
-   		
-   		"delyBeginDe" :  delyBeginDe,           				// 인도기한시작
-   		"delyEndDe" :  delyEndDe,           					// 인도기한종료
-   		"pcAppnBeginDe" :  pcAppnBeginDe,           			// 가격지정시작
-   		"pcAppnEndDe" :  pcAppnEndDe,           				// 가격지정종료
-   		"pcAppnMthCode" :  $('#pcAppnMthCode').val(),           // 가격지정방법코드
-   		"setleCrncyCode" :  $('#setleCrncyCode').val(),         // 결제통화코드
-   		"setleMthCode" :  $('#setleMthCode').val(),             // 결제방법코드
-   		"setlePdCode" :  $('#setlePdCode').val(),               // 결제기간코드
-   		"etcCn" :  $('#etcCn').val(),                           // 기타코멘트 
-   		"bddprBeginDt" :  bddprBeginDt,           				// 투찰시작일시
-   		"bddprEndDt" :  bddprEndDt,               				// 투찰종료일시
-   		"bddprCanclLmttDe" : bddprCanclLmttDe,   				// 투찰취소제한일자 
-   		"dspyAt" :  dspyAt           				// 전시여부
-   		//"dspyAt" : ${boBdPblnDtl.dspyAt}           				// 전시여부
-		}
-		console.log($('#dspyAt').val());
-	    console.log("params:>>>>>" + JSON.stringify(params));
-	$.ajax({
-		url: '/bo/updateBoBdPblnDtl',
-		method: 'POST', 
-		contentType: 'application/json',
-		data: JSON.stringify(params),
-		dataType: 'json', 
-		success: function(data) {
-			console.log('데이터 정상', data);
+		"bidSttusCode": "${boBdPblnDtl.bidSttusCode}",          // 입찰 상태코드
+  		"metalCode" : $('#metal-select').val(),                 // 메탈구분 
+  		"brandGroupCode" : $('#brand-group-select').val(),      // 브랜드그룹
+  		"brandCode" : $('#brand-select').val(),                 // 브랜드
+  		"itmSn" : $('#item-select').val(),                      // 아이템순번 
+  		"dstrctLclsfCode" : $('#dstrctLclsfCode').val(),        // 권역
+  		"bidWt" : $('#bid-wt-select').val(),                    // 수량(톤)
+  		"permWtRate" : $('#perm-wt-select').val(),              // 중량허용공차
+  		
+  		"delyCnd01premiumPc" : optionDelyCnd01premiumPc,// 인도조건 01프리미엄가격 
+  		"delyCnd02premiumPc" : optionDelyCnd02premiumPc,// 인도조건 01프리미엄가격 
+  		"delyCnd03premiumPc" : optionDelyCnd03premiumPc,// 인도조건 01프리미엄가격 
+  		
+  		"delyBeginDe" :  delyBeginDe,           				// 인도기한시작
+  		"delyEndDe" :  delyEndDe,           					// 인도기한종료
+  		"pcAppnBeginDe" :  pcAppnBeginDe,           			// 가격지정시작
+  		"pcAppnEndDe" :  pcAppnEndDe,           				// 가격지정종료
+  		"pcAppnMthCode" :  $('#pcAppnMthCode').val(),           // 가격지정방법코드
+  		"setleCrncyCode" :  $('#setleCrncyCode').val(),         // 결제통화코드
+  		"setleMthCode" :  $('#setleMthCode').val(),             // 결제방법코드
+  		"setlePdCode" :  $('#setlePdCode').val(),               // 결제기간코드
+  		"etcCn" :  $('#etcCn').val(),                           // 기타코멘트 
+  		"bddprBeginDt" :  bddprBeginDt,           				// 투찰시작일시
+  		"bddprEndDt" :  bddprEndDt,               				// 투찰종료일시
+  		"bddprCanclLmttDe" : bddprCanclLmttDe,   				// 투찰취소제한일자 
+  		"dspyAt" :  dspyAt,           							// 전시여부
+  		"bidUpdtCn" :  $('#bidUpdtCn').val(),					// 공고수정내용 
+  		"bidUpdtResn" :  $('#bidUpdtResn').val()				// 공고수정사유 
+	}
+	console.log($('#dspyAt').val());
+    console.log("params:>>>>>" + JSON.stringify(params));
+    
+    function updateBoBdPblnDtl(params) {
+    	$.ajax({
+	   		url: '/bo/updateBoBdPblnDtl',
+	   		method: 'POST', 
+	   		contentType: 'application/json',
+	   		data: JSON.stringify(params),
+	   		dataType: 'json', 
+	   		success: function(data) {
+	   			console.log('데이터 정상', data);
+	   		},
+	   		error: function(error) {
+	   			// 에러 발생 시의 처리
+	   			console.error('서버 요청 중 에러 발생:', error);
+   			}
+	   		
+    	});
+    }
+    	
+   	const date = formatDate(bddprBeginDt)			
+	const [datePart, timePart] = date.split(' ');
+	const [year, month, day] = datePart.split('-');
+	const [hour, minute, second] = timePart.split(':');			
+	const parsedbddprBeginDt = new Date(year, month - 1, day, hour, minute, second);
+	const bidYear = parsedbddprBeginDt.getFullYear();
+	const bidMonth = parsedbddprBeginDt.getMonth();
+	const bidDay = parsedbddprBeginDt.getDate();
+
+	var now = new Date();
+	const nowYear = now.getFullYear();
+	const nowMonth = now.getMonth();
+	const nowDay = now.getDate();
+	
+	console.log(bidYear, bidMonth, bidDay);
+	console.log(nowYear, nowMonth, nowDay);
+
+	var bidDspyAt = '${boBdPblnDtl.dspyAt}';
+	
+	if (bidDspyAt === 'Y' && dspyAt === 'N') {
+		alert("예정 상태로 노출된 입찰 건을\n비활성으로 전환 시 노출되지 않습니다.")
+            
+        alert('공고 건이 수정되었습니다.')
+        
+        updateBoBdPblnDtl(params);
+
+        // 사용자가 확인 버튼을 누른 경우 modalClose 함수 호출	                 
+        modalClose();                 
+        setBidSttus(11);
+        getBidNoticeList();
+	}
+	else if (dspyAt === 'Y' && (bidYear === nowYear && bidMonth === nowMonth && bidDay === nowDay))
+	{
+		// 날짜 기준으로 하는 것이 이상하다. 시간으로는 투찰 시간이 안 되었는데, 투찰 날짜가 되는 경우가 모순적이다.
+		if (confirm("시작일이 당일이며 상태가 활성입니다. \n해당 정보로 저장 시 투찰이 시작됩니다.\n진행하시겠습니까?"))
+		{
+			alert('공고 건이 수정되었습니다.');
 			
-			// 공고수정확인
-            if (confirm('공고 건이 수정되었습니다.')) {
-                // 사용자가 확인 버튼을 누른 경우 modalClose 함수 호출
-                getBidNoticeList();
-                modalClose();
-            }
-			
-		},
-		error: function(error) {
-			// 에러 발생 시의 처리
-			console.error('서버 요청 중 에러 발생:', error);
+			updateBoBdPblnDtl(params);
+			modalClose();
+			getBidNoticeList();
 		}
-	});
-}
+		else 
+		{
+			// 수정 화면에 그대로 있는다.
+		}
+	}
+	else 
+	{
+		updateBoBdPblnDtl(params);
+		modalClose();
+		getBidNoticeList();
+	};
+};
+
+//공고수정내용 취소 
+$(function() {
+ $("#cancelBtn").click(function(event) {
+     var bidSttusCode = '${boBdPblnDtl.bidSttusCode}';
+     var params = {
+         "bidPblancId": bidPblancId,                // 입찰 공고아이디 
+         "bidSttusCode" : $('#bidSttusCode').val()  // 입찰 상태코드 
+     };
+
+     // bidSttusCode에 따라 다른 확인 메시지 출력
+     if (bidSttusCode === '12') {
+         // bidSttusCode가 12인 경우의 확인 메시지
+         if (confirm('예정 상태로 노출 된 입찰 건을 비활성으로 전환 시 노출되지 않습니다.?')) {
+             sendCancelRequest(params);
+         }
+     } else if (bidSttusCode === '13') {
+         // bidSttusCode가 13인 경우의 확인 메시지
+         if (confirm('다른 상태에 대한 메시지를 여기에 입력하세요.')) {
+             sendCancelRequest(params);
+         }
+     } else {
+         // 기타 상황에 대한 확인 메시지
+         if (confirm('일반적인 메시지를 여기에 입력하세요.')) {
+             sendCancelRequest(params);
+         }
+     }
+ });
+
+ function sendCancelRequest(params) {
+     $.ajax({
+         type: "POST",
+         url: modifyPageUrl,
+         data: JSON.stringify(params),
+         contentType: "application/json",
+         dataType: "html",
+         success: function(data) {
+             console.log('데이터 정상', data);
+             
+             // 공고취소확인
+             if (confirm('공고 건이 수정되었습니다.')) {
+                 // 사용자가 확인 버튼을 누른 경우 modalClose 함수 호출
+                 getBidNoticeList();
+                 modalClose();
+             }
+         },
+         error: function(error) {
+             // 에러 발생 시의 처리
+             console.error('서버 요청 중 에러 발생:', error);
+         }
+     });
+ }
+});
+
 </script>
 	
 

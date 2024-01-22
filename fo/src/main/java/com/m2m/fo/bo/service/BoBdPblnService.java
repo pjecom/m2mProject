@@ -34,4 +34,7 @@ public interface BoBdPblnService {
 	void cancelBoBdPbln(BoBdPblnVO boBdPblnVO);
 
 	void failBoBdPbln(BoBdPblnVO boBdPblnVO);
+
+	void updateBobdUptHist(BoBdPblnVO boBdPblnVO);
+
 }

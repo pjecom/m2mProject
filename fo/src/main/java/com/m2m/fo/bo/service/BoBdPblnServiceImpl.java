@@ -90,4 +90,10 @@ public class BoBdPblnServiceImpl implements BoBdPblnService{
 		boBdPblnMapper.failBoBdPbln(boBdPblnVO);
 		
 	}
+
+	@Override
+	public void updateBobdUptHist(BoBdPblnVO boBdPblnVO) {
+		boBdPblnMapper.updateBobdUptHist(boBdPblnVO);
+		
+	}
 }
