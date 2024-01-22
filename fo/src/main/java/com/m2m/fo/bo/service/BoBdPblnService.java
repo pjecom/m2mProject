@@ -32,4 +32,6 @@ public interface BoBdPblnService {
 	void istboBdPbln(BoBdPblnVO boBdPblnVO);
 
 	void cancelBoBdPbln(BoBdPblnVO boBdPblnVO);
+
+	void failBoBdPbln(BoBdPblnVO boBdPblnVO);
 }

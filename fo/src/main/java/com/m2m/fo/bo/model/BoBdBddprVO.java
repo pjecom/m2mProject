@@ -30,5 +30,6 @@ public class BoBdBddprVO {
 	private Date frstRegistDt;                   //최초등록일시
 	private String lastChangerId;                //최종변경자아이디
 	private Date lastChangeDt;                   //최종변경일시
-	
+	private int entrpsRank;                      //투찰기업순위
+	private String delyCndCnt;                   //인도조건
 }

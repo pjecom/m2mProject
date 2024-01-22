@@ -290,4 +290,23 @@ public class BoBdPblnController {
 			return new ResponseEntity<>("Error.", HttpStatus.BAD_REQUEST);
 		}
 	}
+    @RequestMapping("/failBoBdPbln")    
+    @ResponseBody
+	public ResponseEntity<?> failBoBdPbln(@RequestBody BoBdPblnVO boBdPblnVO) throws Exception {
+    	Map<String, Object> map = new HashMap<String, Object>();
+
+		try {
+			//공고유찰처리
+			boBdPblnService.failBoBdPbln(boBdPblnVO);
+			
+			map.put("result", "success");
+
+			return new ResponseEntity<>(map, HttpStatus.OK); // ajax success 데이터 전달
+
+		} catch (Exception e) {
+
+			log.error(e.getMessage());
+			return new ResponseEntity<>("Error.", HttpStatus.BAD_REQUEST);
+		}
+	}
 }

@@ -96,6 +96,7 @@
 		    ,BEIB.ENTRPS_NM                                                                    /*투찰업체명*/
 		    ,BBD.BID_PBLANC_ID                                                                 /*입찰공고아이디*/
 		    ,BBD.DELY_CND_CODE                                                                 /*인도조건코드*/
+		    ,CCC.CODE_DCTWO AS DELY_CND_CNT                                                    /*인도조건내용*/
 		    ,BBD.DELY_CND_STDR_PC                                                              /*인도조건기준가격*/
 		    ,BBD.CNVRS_PREMIUM_AMOUNT                                                          /*전환프리미엄금액*/
 		    ,BBD.BDDPR_PREMIUM_PC                                                              /*투찰프리미엄가격*/
@@ -116,13 +117,16 @@
 		    ,BBD.FRST_REGIST_DT                                                                /*최초등록 일시*/
 		    ,BBD.LAST_CHANGER_ID                                                               /*최종변경자아이디*/
 		    ,BBD.LAST_CHANGE_DT                                                                /*최종변경일시*/
+		    ,DENSE_RANK() OVER (ORDER BY BBD.BDDPR_PREMIUM_PC) AS ENTRPSRANK                   /*투찰기업순위*/
 		FROM BD_BDDPR_DTL AS BBD                                                               /*입찰투찰상세*/
 			INNER JOIN BD_ENTRPS_INFO_BAS AS BEIB                                              /*회원업체정보기본*/
-			ON BBD.BID_ENTRPS_NO = BEIB.BID_ENTRPS_NO 
-			WHERE 1=1
-			 AND BID_PBLANC_ID          =   #{bidPblancId}                                   /*입찰공고아이디*/
-			 AND BBD.DELETE_AT              =    'N'                                             /*삭제여부*/
-			 AND BBD.CANCL_AT               =    'N'                                             /*취소여부*/
+			ON BBD.BID_ENTRPS_NO = BEIB.BID_ENTRPS_NO 		
+			INNER JOIN CO_CMMN_CD AS CCC                                                       /*공통코드*/
+			ON CCC.MAIN_CODE = 'BID_DELY_CND' AND CCC.CODE_DCONE = BBD.DELY_CND_CODE	
+		WHERE 1=1
+			 AND BID_PBLANC_ID          =   #{bidPblancId}                                     /*입찰공고아이디*/
+			 AND BBD.DELETE_AT              =    'N'                                           /*삭제여부*/
+			 AND BBD.CANCL_AT               =    'N'                                           /*취소여부*/
 	</select>
 	<select id="getBoCommCdList" resultType="com.m2m.fo.bo.model.BoCoCommCdVO">
 		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
@@ -312,12 +316,21 @@
 		WHERE BID_PBLANC_ID = #{bidPblancId} 
 	</update>
 	<update id="cancelBoBdPbln" parameterType="com.m2m.fo.bo.model.BoBdPblnVO">
-	/* com.m2m.fo.bd.mapper.BoBdPblnMapper.cancelBoBdPbln * 공고취소처리/
+	/* com.m2m.fo.bd.mapper.BoBdPblnMapper.cancelBoBdPbln 공고취소처리 */
 		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 		UPDATE BD_BID_BAS
 		SET 
 			BID_STTUS_CODE               = '33'                        /*입찰상태코드*/
 		   ,DSPY_AT                      = 'N'                         /*전시여부*/
+		
+		WHERE BID_PBLANC_ID = #{bidPblancId} 
+	</update>
+	<update id="failBoBdPbln" parameterType="com.m2m.fo.bo.model.BoBdPblnVO">
+	/* com.m2m.fo.bd.mapper.BoBdPblnMapper.failBoBdPbln 공고유찰처리 */
+		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+		UPDATE BD_BID_BAS
+		SET 
+			BID_STTUS_CODE               = '32'                        /*입찰상태코드*/
 		
 		WHERE BID_PBLANC_ID = #{bidPblancId} 
 	</update>

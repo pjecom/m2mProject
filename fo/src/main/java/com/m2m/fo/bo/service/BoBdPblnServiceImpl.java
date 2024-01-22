@@ -84,4 +84,10 @@ public class BoBdPblnServiceImpl implements BoBdPblnService{
 		boBdPblnMapper.cancelBoBdPbln(boBdPblnVO);
 		
 	}
+
+	@Override
+	public void failBoBdPbln(BoBdPblnVO boBdPblnVO) {
+		boBdPblnMapper.failBoBdPbln(boBdPblnVO);
+		
+	}
 }

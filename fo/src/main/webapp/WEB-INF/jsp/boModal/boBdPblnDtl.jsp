@@ -134,18 +134,25 @@
 	}
 	// 공고취소처리
 	function cancleBtnClick() {
-	    var result = confirm('해당 공고 건은 입찰 예정 건입니다.\n 공고 취소 시 노출되지 않습니다.\n 취소하시겠습니다.?');
-
+	    var result; 
 	    var bidSttusCode = '${boBdPblnDtl.bidSttusCode}';
 	    var dspyAt = '${boBdPblnDtl.dspyAt}';
-
+	    
+	    // 입찰 상태에 따라 다른 메시지의 confirm 창을 표시
+	    if (bidSttusCode === '12') {
+	        result = confirm('해당 공고 건은 입찰 예정 건입니다.\n 공고 취소 시 노출되지 않습니다.\n 취소하시겠습니다.?');
+	    } else if (bidSttusCode === '13') {
+	        result = confirm('해당 공고 건은 투찰 진행 중입니다.\n 공고 취소 시 비활성 상태로 전환되며\n회원의 공고 목록에서 삭제 처리됩니다.\n 공고 취소하시겠습니까?');
+	    } else {
+	        result = false;
+	    }
 	    // 확인을 눌렀을 때만 쿼리를 실행
 	    if (result) {
 	        var params = {
 	            "bidPblancId": $("#bidPblancId").val(),     // 입찰 공고아이디 
 	            "bidSttusCode" : $('#bidSttusCode').val(),  // 입찰 상태코드
-	            "dspyAt": '${boBdPblnDtl.dspyAt}'           // 전시여부
-	        };
+	            "dspyAt": (bidSttusCode === '13') ? 'N' : '${boBdPblnDtl.dspyAt}' // 입찰 상태가 '13'일 때만 'N', 그 외에는 기존 값 사용
+	        }
 
 	        $.ajax({
 	            url: '/bo/cancelBoBdPbln',
@@ -170,6 +177,38 @@
             getBidNoticeList();
             modalClose();
 	    }
+	}
+
+	//공고유찰처리
+	function failBdBtnClick() {
+		var result = confirm('유찰할 경우, 유찰처리하기 클릭시\n모든 과정이 무효처리됩니다. 정말로 유찰처리 하시겠습니까?.');
+
+        var params = {
+            "bidPblancId": $("#bidPblancId").val(),     // 입찰 공고아이디 
+        };
+        $.ajax({
+    		url: '/bo/failBoBdPbln',
+    		method: 'POST', 
+    		contentType: 'application/json',
+    		data: JSON.stringify(params),
+    		dataType: 'json', 
+    		success: function(data) {
+    			console.log('데이터 정상', data);
+		    if (result) {
+		      // 삭제 처리 후 팝업 표시
+		      alert('유찰 처리 되었습니다.');
+		      // 여기에 실제 삭제 처리를 추가할 수 있습니다.
+		    } else {
+		      // 닫기를 선택한 경우 아무 작업 없이 현재 페이지에 머무름	
+		    }
+		    getBidNoticeList();
+            modalClose();
+    	},
+    	error: function(error) {
+			// 에러 발생 시의 처리
+			console.error('서버 요청 중 에러 발생:', error);
+		}
+    	});
 	}
 	function modalClose() {
 		$('#bdNoticeDetailModal').modal('hide');
@@ -532,6 +571,7 @@
 								</c:when>
 								<c:when
 									test="${boBdPblnDtl.bidSttusCode eq '20' or boBdPblnDtl.bidSttusCode eq '21' or boBdPblnDtl.bidSttusCode eq '22' or boBdPblnDtl.bidSttusCode eq '23' or boBdPblnDtl.bidSttusCode eq '30'}">
+									<button type="button" class="btn" id="failBdBtn" onclick="failBdBtnClick()"">유찰 처리</button>
 								</c:when>
 								<c:otherwise>
 								</c:otherwise>
@@ -564,10 +604,12 @@
 									</tr>
 									<c:forEach var="item" items="${bdEntrpsList}">
 										<tr>
+											<td>${item.entrpsRank}</td>
 											<td>${item.entrpsNm}</td>
 												<fmt:parseDate value="${item.bddprDt}" var="bddprDt" pattern="yyyyMMddHHmmss"/>
 												<fmt:formatDate value="${bddprDt}" var="formattedprDt" pattern="yyyy.MM.dd. HH:mm:ss"/>
 											<td>${formattedprDt}</td>
+											<td>${item.delyCndCnt}</td>
 											<td>${item.bddprPremiumPc}</td>
 											<td>${boBdPblnDtl.bidSttus}</td>
 											<c:choose> 
