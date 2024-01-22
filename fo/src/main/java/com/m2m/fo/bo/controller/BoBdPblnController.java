@@ -201,7 +201,7 @@ public class BoBdPblnController {
             model.addAttribute("boBdPblnDtl", boBdPblnDtl);
             
             //수정이력
-            List<BoBdPblnUpdtVO> bobdUptHist = boBdPblnService.getBobdUptHist(boBdPblnVO);            
+            List<BoBdPblnUpdtVO> bobdUptHist = boBdPblnService.getBobdUptHist(boBdPblnVO); 
             model.addAttribute("bobdUptHist", bobdUptHist);
             
             //투찰기업리스트 
@@ -255,7 +255,7 @@ public class BoBdPblnController {
 			//공고수정내용업데이트
 			boBdPblnService.updateBoBdPblnDtl(boBdPblnVO);
 			//공고수정이력업데이트
-			boBdPblnService.updateBobdUptHist(boBdPblnVO);
+			boBdPblnService.insertBobdUptHist(boBdPblnVO);
 			map.put("result", "success");
 
 			//넣은데이터 조회

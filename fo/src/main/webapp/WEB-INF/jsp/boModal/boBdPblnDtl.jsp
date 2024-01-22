@@ -551,7 +551,7 @@
 									</tr>
 									<c:forEach var="updateHistory" items="${bobdUptHist}">
 										<tr>
-											<td>${updateHistory.lastChangeDt}</td>
+											<td>${updateHistory.lastChangeDtString}</td>
 											<td>${updateHistory.bidUpdtCn}</td>
 											<td>${updateHistory.bidUpdtResn}</td>
 										</tr>

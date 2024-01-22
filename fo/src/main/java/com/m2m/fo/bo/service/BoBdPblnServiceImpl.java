@@ -1,5 +1,8 @@
 package com.m2m.fo.bo.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +31,20 @@ public class BoBdPblnServiceImpl implements BoBdPblnService{
 	
 	@Override
 	public List<BoBdPblnUpdtVO> getBobdUptHist(BoBdPblnVO vo) throws Exception {
-		return boBdPblnMapper.getBobdUptHist(vo);
+		
+		List<BoBdPblnUpdtVO> BoBdPblnUpdtList = boBdPblnMapper.getBobdUptHist(vo); 
+		
+		// 날짜 포맷 수정
+		for(BoBdPblnUpdtVO boBdPblnUpdtVO : BoBdPblnUpdtList) {
+			Date lastChangeDt = boBdPblnUpdtVO.getLastChangeDt();
+			
+			SimpleDateFormat dateToString = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+            String lastChangeDtString = dateToString.format(lastChangeDt);
+            
+            boBdPblnUpdtVO.setLastChangeDtString(lastChangeDtString);
+		}
+		
+		return BoBdPblnUpdtList;
 	}
 	
 	@Override
@@ -92,8 +108,7 @@ public class BoBdPblnServiceImpl implements BoBdPblnService{
 	}
 
 	@Override
-	public void updateBobdUptHist(BoBdPblnVO boBdPblnVO) {
-		boBdPblnMapper.updateBobdUptHist(boBdPblnVO);
-		
+	public void insertBobdUptHist(BoBdPblnVO boBdPblnVO) {
+		boBdPblnMapper.insertBobdUptHist(boBdPblnVO);	
 	}
 }

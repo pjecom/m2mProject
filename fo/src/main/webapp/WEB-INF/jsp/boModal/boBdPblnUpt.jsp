@@ -365,29 +365,18 @@
                                     <div class="table table-view">
                                         <table>
                                             <colgroup>
-                                                <col width="20%" />
-                                                <col width="*" />
-                                                <col width="40%" />
+                                                <col width="50%" />
+                                                <col width="50%" />
                                             </colgroup>
                                             <tbody>
                                                 <tr>
-                                                    <th scope="row">수정일시</th>
                                                     <th scope="row">수정 내용</th>
                                                     <th scope="row">수정 사유</th>
                                                 </tr>
-                                                <c:forEach var="updateHistory" items="${bobdUptHist}" >
-                                                    <tr>
-                                                    <td>
-                                                     ${updateHistory.lastChangeDt}
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" class="input" value="${updateHistory.bidUpdtCn}"/>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" class="input" value="${updateHistory.bidUpdtResn}"/>
-                                                    </td>
-                                                    </tr>
-                                                </c:forEach>
+												<tr>
+													<td><input type="text"  id="addBidUpdtCn" placeholder="수정내용을 입력해주세요"/></td>
+													<td><input type="text"  id="addBidUpdtResn" placeholder="사유를 입력해주세요"/></td>
+												</tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -495,6 +484,31 @@
 </html>
 
 <script>
+// START : 현재 시간을 가져오는 함수
+function getCurrentDateTime() {
+	var currentDate = new Date();
+	var year = currentDate.getFullYear();
+	var month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+	var day = currentDate.getDate().toString().padStart(2, '0');
+	var hours = currentDate.getHours().toString().padStart(2, '0');
+	var minutes = currentDate.getMinutes().toString().padStart(2, '0');
+	var seconds = currentDate.getSeconds().toString().padStart(2, '0');
+
+	// 날짜와 시간을 문자열로 반환
+	return year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+}
+
+$(function(){
+	$("#addLastChangeDt").text(getCurrentDateTime());
+
+	// 1초마다 현재 시간 업데이트
+	setInterval(function() {
+		$("#addLastChangeDt").text(getCurrentDateTime());
+	}, 1000);
+})
+// END : 현재 시간을 가져오는 함수
+
+
 $("#delyBeginDate, #delyEndDeDate, #pcAppnBegindate, #pcAppnEnddate, #bddprBegindate, #bddprEnddate, #bddprCancldate").datepicker({
     format: "yyyy-mm-dd",
     keyboardNavigation: false,
@@ -593,6 +607,12 @@ function initModal() {
 }
 //공고수정내용 저장
 function saveBdData() {
+	var bidUpdtCn = $('#addBidUpdtCn').val();	//공고수정내용
+	console.log(bidUpdtCn);	
+	var nowDate = $('#addLastChangeDt').text();	//공고수정시간
+	console.log(nowDate);
+	var addBidUpdtResn = $('#addBidUpdtResn').val();	//공고수정사유
+	console.log(bidUpdtCn);
 	var bddprBeginH = $('#bddprBeginH').val();
 	var bddprBegindateAmPm = $('#bddprBegindateAmPm').val();
 	var bddprEndH = $('#bddprEndH').val();
@@ -657,8 +677,8 @@ function saveBdData() {
   		"bddprEndDt" :  bddprEndDt,               				// 투찰종료일시
   		"bddprCanclLmttDe" : bddprCanclLmttDe,   				// 투찰취소제한일자 
   		"dspyAt" :  dspyAt,           							// 전시여부
-  		"bidUpdtCn" :  $('#bidUpdtCn').val(),					// 공고수정내용 
-  		"bidUpdtResn" :  $('#bidUpdtResn').val()				// 공고수정사유 
+  		"bidUpdtCn" :  bidUpdtCn,								// 공고수정내용 
+  		"bidUpdtResn" : addBidUpdtResn							// 공고수정사유 
 	}
 	console.log($('#dspyAt').val());
     console.log("params:>>>>>" + JSON.stringify(params));

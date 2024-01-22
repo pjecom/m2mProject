@@ -14,4 +14,5 @@ public class BoBdPblnUpdtVO {
 	private Date frstRegistDt;                //최초등록일시
 	private String lastChangerId;             //최종변경자ID
 	private Date lastChangeDt;                //최종변경일시
+	private String lastChangeDtString;		  //최종변경일시(날짜포맷)
 }
