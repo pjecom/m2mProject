@@ -598,11 +598,13 @@ var params = {
         // var intrstEntrpsQy = $(".intrstEntrpsQy").val();
 
         // console.log("intrstEntrpsQy :::::::::"+intrstEntrpsQy)
+        debugger;
         e.preventDefault(); // 기본 동작을 막음
         // 현재 버튼에 active 클래스가 있는지 확인
         var isActive = $(this).hasClass("active");
         var likeYn = '';
         var likeCnt = 1;
+        var intrstEntrpsQyElement = $(this).closest('li').find('.intrstEntrpsQy');
         // 만약 active 클래스가 있으면 제거, 없으면 추가
         if (isActive) {
             // 이미 활성화된 경우, 비활성화로 변경
@@ -614,6 +616,9 @@ var params = {
             $("#interestCount").text(interestCount);
             console.log("몇개"+interestCount);
             likeCnt = -1;
+            
+            var currentCount = parseInt(intrstEntrpsQyElement.text());
+		    intrstEntrpsQyElement.text(currentCount - 1);
 
         } else {
             // 비활성화된 경우, 활성화로 변경
@@ -624,6 +629,9 @@ var params = {
             interestCount ++;
             $("#interestCount").text(interestCount);
             console.log("몇개++"+interestCount);
+            
+            var currentCount = parseInt(intrstEntrpsQyElement.text());
+		    intrstEntrpsQyElement.text(currentCount + 1);
         }
 
         var params = {
@@ -638,12 +646,7 @@ var params = {
                 contentType: 'application/json', 
                 data: JSON.stringify(params),
                 success: function(data) {
-                    debugger;
-                    if(likeYn = "N"){
-                        $(this).addClass('active');
-                    }else {
-                        $(this).removeClass('active')
-                    }
+                    
                 }
         });
     }
