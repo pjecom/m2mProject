@@ -130,4 +130,42 @@
         FROM BD_ENTRPS_INFO_BAS beib
         where BID_ENTRPS_NO = #{bidEntrpsNo}
     </select>
+    <select id="beforeIntrcpMber" parameterType="String" resultType="int">
+        <![CDATA[
+            SELECT count(*)
+            FROM BD_BDDPR_DTL bbd
+            WHERE
+                bbd.BID_ENTRPS_NO  = #{bidEntrpsNo}
+                AND BDDPR_NRMLT_AT = 'Y'      	        -- 투찰 정상 여부
+                AND (
+                    SCSBID_AT = 'N'				        -- 낙찰 여부
+                        OR (
+                            SCSBID_AT = 'Y'
+                        AND (					        -- 심사 완료 체크
+                                SELECT JDGMN_COMPT_DT
+                                FROM BD_SCSBID_DTL bsd
+                                WHERE bsd.BID_ENTRPS_NO = #{bidEntrpsNo}
+                        ) < getDate()
+                    )
+                )
+                AND CANCL_AT = 'N'				        -- 취소 여부
+                AND DELETE_AT = 'N'				        -- 삭제 여부
+        ]]>
+    </select>
+    <update id="intrcpMber" parameterType="String">
+        UPDATE
+            BD_ENTRPS_INFO_BAS
+        SET
+            BID_MBER_STTUS_CODE = '02',
+            BID_MBER_INTRCP_DT = getDate()
+        WHERE BID_ENTRPS_NO = #{bidEntrpsNo}
+    </update>
+    <update id="unlockMber" parameterType="String">
+        UPDATE
+            BD_ENTRPS_INFO_BAS
+        SET
+            BID_MBER_STTUS_CODE = '01',
+            BID_MBER_INTRCP_DT = null
+        WHERE BID_ENTRPS_NO = #{bidEntrpsNo}
+    </update>
 </mapper>

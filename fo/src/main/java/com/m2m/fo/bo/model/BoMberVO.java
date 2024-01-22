@@ -67,6 +67,9 @@ public class BoMberVO {
     // 입찰 승인 상태 코드
     private String bidConfmSttusCode;
 
+    // 입찰 승인 상태 명
+    private String bidConfmSttus;
+
     // 입찰 승인 상세 상태 코드
     private String bidConfmDetailSttusCode;
 

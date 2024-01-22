@@ -12,4 +12,10 @@ public interface BoMberMngMapper {
     List<BoMberVO> getMberList(BoMberVO vo);
 
     BoMberVO getMberDtl(String bidEntrpsNo);
+
+    int beforeIntrcpMber(String bidEntrpsNo);
+
+    void intrcpMber(String bidEntrpsNo);
+
+    void unlockMber(String bidEntrpsNo);
 }

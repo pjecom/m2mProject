@@ -225,7 +225,7 @@
 		<div id="realgridForExcel" class="realgrid-wrap" style="display: none"></div>
 	</div>
 </div>
-<%--<!-- 입찰 회원 삭세-->--%>
+<%--<!-- 입찰 회원 상세 -->--%>
 <div class="modal fade" id="bd-mber-detail-modal" tabindex="-1" role="dialog" data-keyboard="false" aria-labelledby="bd-mber-detail-modal-label" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-full" role="document">
 		<div class="modal-content modal2">
@@ -280,9 +280,6 @@
 				$('.templeteRegister button:eq(0)').addClass("active");
 				$('#bid-mber-sttus-select').attr("disabled", false)
 			}
-
- 			// $(".bid-sttus-tab").removeClass("active")
-			// $("#bid-sttus-tab-" + bdBidBas.bidSttusCode).addClass("active")
 		})
 	}
 
@@ -340,10 +337,7 @@
 		return year + "-" + month + "-" + day
 	}
 
-    function redirectToDetailPage(bidEntrpsNo, clickedElement) {
-
-        console.log("클릭한 행의 bidEntrpsNo:", bidEntrpsNo);
-
+    function redirectToDetailPage(bidEntrpsNo) {
         var url = "/boMber/mberDtlModal";
         var params = {
             "bidEntrpsNo": bidEntrpsNo
@@ -356,4 +350,8 @@
 			}
 		})
     }
+
+	function closeModal() {
+		$('#bd-mber-detail-modal').modal('hide');
+	}
 </script>

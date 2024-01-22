@@ -36,7 +36,6 @@
     .ps-text {
         color: #aaa;
     }
-
     .ml-3 {
         margin-left: 3px;
     }
@@ -64,10 +63,10 @@
                             <c:if test="${mberDtl.bidMberSttus ne '승인대기'}">
                                 <div style="display: flex">
                                     <c:if test="${mberDtl.bidMberSttus eq '차단'}">
-                                        <button type="button" class="btn" onclick="unlockMber()">해제하기</button>
+                                        <button type="button" class="btn" onclick="unlockMber('${mberDtl.bidEntrpsNo}')">해제하기</button>
                                     </c:if>
                                     <c:if test="${mberDtl.bidMberSttus eq '정상'}">
-                                        <button type="button" class="btn" onclick="intrcpMber()">차단하기</button>
+                                        <button type="button" class="btn" onclick="intrcpMber('${mberDtl.bidEntrpsNo}')">차단하기</button>
                                     </c:if>
                                     <button type="button" class="btn ml-3" onclick="closeModal()">목록</button>
                                 </div>
@@ -86,7 +85,7 @@
                                         <th scope="row">ID</th>
                                         <td>${mberDtl.bidEntrpsNo}</td>
                                         <th scope="row">PW</th>
-                                        <td>${mberDtl.bidMberId}</td>
+                                        <td>*********</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">기업명</th>
@@ -149,7 +148,12 @@
                         </div>
 
                         <div class="sub-title mt-3">
-                            <h3 class="">* 가입 날짜</h3>
+                            <h3 class="">
+                                <c:choose>
+                                    <c:when test="${mberDtl.bidMberSttus eq '승인대기'}">* 가입 승인 요청</c:when>
+                                    <c:otherwise>* 가입 날짜</c:otherwise>
+                                </c:choose>
+                            </h3>
                         </div>
                         <div class="table table-view">
                             <table>
@@ -204,20 +208,75 @@
                 </div>
             </div>
         </section>
+
+    <%--    <div class="popup modal confirm" id="mber-func-confm" style="z-index:9998">--%>
+    <%--        <div class="modal-content w490px">--%>
+    <%--            <div class="modal-header">--%>
+    <%--                <h1>알림메세지</h1>--%>
+    <%--            </div>--%>
+    <%--            <div class="max-width">--%>
+    <%--                <div class="alert-con">confirm text</div>--%>
+    <%--            </div>--%>
+    <%--            <div class="modal-btns">--%>
+    <%--                <button type="button" class="btn-gray-big modal-cancel">취소</button>--%>
+    <%--                <button type="button" class="btn-blue-big modal-ok">차단</button>--%>
+    <%--            </div>--%>
+    <%--        </div>--%>
+    <%--    </div>--%>
     </div>
 </body>
 
 <script>
-    function closeModal() {
-        $('#bd-mber-detail-modal').modal('hide');
+    function unlockMber(bidEntrpsNo) {
+        var url = "/boMber/unlockMber";
+        var params = {
+            "bidEntrpsNo": bidEntrpsNo
+        };
+
+        postSetDataTypeBo(url, JSON.stringify(params), "html", true, (res) => {
+            alert('해제되었습니다.')
+            $("#bd-mber-detail-modal .modal2").html(res);
+
+            reloadList();
+        })
     }
-    
-    function unlockMber() {
-        
+
+    function intrcpMber(bidEntrpsNo) {
+        var url = "/boMber/beforeIntrcpMber";
+        var params = {
+            "bidEntrpsNo": bidEntrpsNo
+        };
+
+        postSetDataTypeBo(url, JSON.stringify(params), "html", true, (res) => {
+            if (JSON.parse(res)) {
+                var result = confirm('해당사를 차단하시겠습니까?\n차단 시 차단 시점부터\n입찰 참여가 불가능해집니다.');
+                if (result) {
+                    var url = "/boMber/intrcpMber";
+                    var params = {
+                        "bidEntrpsNo": bidEntrpsNo
+                    };
+
+                    postSetDataTypeBo(url, JSON.stringify(params), "html", true, (res) => {
+                        alert('차단되었습니다.')
+                        $("#bd-mber-detail-modal .modal2").html(res);
+
+                        reloadList();
+                    });
+                } else {
+                    return
+                }
+            } else {
+                alert('해당사는 입찰 진행 중 건이 있습니다.' +
+                    '\n입찰 중이거나, 마감 후 심사중인 경우\n는 차단이 불가능합니다.')
+            }
+        })
     }
-    
-    function intrcpMber() {
-        
+
+    function reloadList() {
+        postSetDataTypeBo("/boMber/mberMng", JSON.stringify(bdMberVO), "html", true, (res) => {
+            eleRedendering("#bid-mber-amount", res)
+            eleRedendering("#realgrid", res)
+        })
     }
 </script>
 

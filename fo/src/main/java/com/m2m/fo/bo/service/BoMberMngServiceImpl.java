@@ -30,4 +30,20 @@ public class BoMberMngServiceImpl implements BoMberMngService{
 	public BoMberVO getMberDtl(String bidEntrpsNo) {
 		return boMberMngMapper.getMberDtl(bidEntrpsNo);
 	}
+
+	@Override
+	public int beforeIntrcpMber(String bidEntrpsNo) {
+		return boMberMngMapper.beforeIntrcpMber(bidEntrpsNo);
+	}
+
+	@Override
+	public void intrcpMber(String bidEntrpsNo) {
+		boMberMngMapper.intrcpMber(bidEntrpsNo);
+	}
+
+	@Override
+	public void unlockMber(String bidEntrpsNo) {
+		boMberMngMapper.unlockMber(bidEntrpsNo);
+
+	}
 }
