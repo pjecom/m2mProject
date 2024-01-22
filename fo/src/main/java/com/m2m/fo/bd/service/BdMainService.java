@@ -22,4 +22,6 @@ public interface BdMainService {
 	public List<BdListVO> selectbdDelyCndList(BdListVO vo);
 	public List<BdListVO> selectbdDelyList(BdListVO vo);
 	
+	public BdListVO likeUpdate(BdListVO vo) throws Exception;
+	
 }

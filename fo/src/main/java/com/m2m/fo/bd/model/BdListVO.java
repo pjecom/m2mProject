@@ -92,5 +92,6 @@ public class BdListVO {
 	
 	private String tabNo; //탭번호
 	private String totalCost;
+	private String likeYn;
 	
 }
