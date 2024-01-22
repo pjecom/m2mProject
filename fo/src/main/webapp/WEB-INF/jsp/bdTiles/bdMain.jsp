@@ -234,7 +234,7 @@
                                                 <span>${vo.intrstEntrpsQy}</span>
                                             </li>
                                         </ul>
-                                        <a href="#" class="ico like active">
+                                        <a href="javascript:;" class="ico like active"  id="${vo.bidPblancId}" value="Y">
                                             <span class="material-symbols-outlined">favorite</span>
                                             <span>관심추가</span>
                                         </a>
@@ -471,7 +471,7 @@ var params = {
 				html += '	                				<li> <span><span id="intrstEntrpsQy">' + result.mainBdList[i].intrstEntrpsQy + '</span><span>관심기업</span></li>';
 				html += '	            				</ul>';
 			
-					html += '<a href="javascript:void(0);" class="ico like" data-bid-pblanc-id="' + result.mainBdList[i].bidPblancId + '"> ';
+					html += '<a href="javascript:void(0);" class="ico like" id="' + result.mainBdList[i].bidPblancId + '"> ';
 					html += '	<span class="material-symbols-outlined">favorite</span> <span>관심추가</span>';
 					html += '</a>';
 				html += '	    					</div>';
@@ -535,7 +535,7 @@ var params = {
 										+'</div>');
 			
 		}
-		$(".ico.like").click(intrstBtnClickHandler);
+		$(".ico.like").click(likeUpdate);
 		
 		//클릭된 공고 별 숫자가져오기		
 		$("#selectTotalCnt").empty();
@@ -587,6 +587,29 @@ var params = {
             }
         });
 
+    function likeUpdate() {
+        var likeYn = $(this).attr('value')
+        console.log("좋아요면 N 아니면 Y (삭제여부기떄문) :::::")
+        var params = {
+            "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
+            "bidPblancId" : this.id,
+            "likeYn" : likeYn
+		}
+        $.ajax({
+                type: 'POST',
+                url: '/likeUpdate',
+                contentType: 'application/json', 
+                data: JSON.stringify(params),
+                success: function(data) {
+                    console.log("2222좋아요면 N 아니면 Y (삭제여부기떄문) :::::")
+                    if(likeYn = "N"){
+                        $(this).addClass('active');
+                    }else {
+                        $(this).removeClass('active')
+                    }
+                }
+            });
+    }
     function getFormerDate(num1, num2) {
         var today = new Date();
         

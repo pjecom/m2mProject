@@ -163,12 +163,17 @@
           ON BB.BID_PBLANC_ID= BBD.BID_PBLANC_ID 
        WHERE BBD.BID_ENTRPS_NO = #{bidEntrpsNo}
              AND BB.PBLANC_CANCL_AT = 'N'                                                                                                                /* 공고 취소 여부 */
-             AND BB.DELETE_AT ='N'                                                                                                                       /* 삭제 여부 */
-             
+             AND BB.DELETE_AT ='N'         
+             <if test="filter == '01' and searchDateFrom != null and searchDateFrom != '' and searchDateTo != null and searchDateTo != ''">
+              AND BDDPR_BEGIN_DT between ${searchDateFrom}000000 and ${searchDateTo}235959                                                                 /* 공고(마감) 날짜 */
+             </if>
+             <if test="filter == '02' and searchDateFrom != null and searchDateFrom != '' and searchDateTo != null and searchDateTo != ''">
+              AND BDDPR_END_DT between ${searchDateFrom}000000 and ${searchDateTo}235959                                                                   /* 공고(마감) 날짜 */
+             </if>                                                                                                              /* 삭제 여부 */
      </select>
      
      <select id="selectbdDelyCndList" parameterType="com.m2m.fo.bd.model.BdListVO" resultType="com.m2m.fo.bd.model.BdListVO">
-	  /* com.m2m.fo.bd.mapper.BdDetailMapper.selectbdDelyCndList */
+	  /* com.m2m.fo.bd.mapper.BdMainMapper.selectbdDelyCndList */
 		SELECT 
 			SUB_CODE,
 			CODE_DCONE,
@@ -181,8 +186,8 @@
 		 ORDER BY SUB_CODE 
     </select>
     
-         <select id="selectbdDelyList" parameterType="com.m2m.fo.bd.model.BdListVO" resultType="com.m2m.fo.bd.model.BdListVO">
-	  /* com.m2m.fo.bd.mapper.BdDetailMapper.selectbdDelyCndList */
+     <select id="selectbdDelyList" parameterType="com.m2m.fo.bd.model.BdListVO" resultType="com.m2m.fo.bd.model.BdListVO">
+	  /* com.m2m.fo.bd.mapper.BdMainMapper.selectbdDelyCndList */
 		 SELECT 
 			SUB_CODE,
 			CODE_DCTWO,
@@ -194,5 +199,34 @@
 		   AND DELETE_AT = 'N'
 		 ORDER BY CODE_ORDR
     </select>
-  
+    
+    <update id="likeUpdate" parameterType="com.m2m.fo.bd.model.BdListVO">
+	  /* com.m2m.fo.bd.mapper.BdMainMapper.likeUpdate */
+			MERGE INTO BD_INTRST_DTL AS C
+			USING (SELECT 1 AS DUAL) AS D 
+			ON (C.BID_ENTRPS_NO = #{bidEntrpsNo} AND C.BID_PBLANC_ID = #{bidPblancId})
+			WHEN MATCHED THEN 
+			    UPDATE SET     
+					 C.DELETE_AT = #{likeYn}     
+					 ,C.LAST_CHANGER_ID = #{bidEntrpsNo}
+			         ,C.LAST_CHANGE_DT = GETDATE()
+			  WHEN NOT MATCHED THEN
+			    INSERT 
+			(		BID_ENTRPS_NO
+					,BID_PBLANC_ID
+					,DELETE_AT
+					,DELETE_DT
+					,FRST_REGISTER_ID
+					,FRST_REGIST_DT
+					)     
+			    VALUES
+				   (#{bidEntrpsNo}
+				   ,#{bidPblancId}
+				   ,#{likeYn}
+				   ,GETDATE()
+				   ,#{bidEntrpsNo}
+				   ,GETDATE()
+				   );   
+	</update>
+    
 </mapper>

@@ -111,6 +111,19 @@ public class BdMainController {
 	}
 	
 	
+	@RequestMapping("/likeUpdate")
+	public ResponseEntity<?> likeUpdate(@RequestBody BdListVO bdBidVO, Model model) throws Exception {
+		try {
+	        bdMainService.likeUpdate(bdBidVO);
+			return new ResponseEntity<>(HttpStatus.OK);
+
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	
 
 
 }
