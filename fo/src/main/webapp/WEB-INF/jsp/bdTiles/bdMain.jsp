@@ -89,7 +89,7 @@
                         </div>
                     </div>
                     <!--                               <hr> -->
-                    <a href="javascript:;" onclick="pageMove('/signup/signup');" class="btn text ico">
+                    <a href="javascript:;" onclick="pageMove('/signup/signup');" class="btn text ico"> 
                         <span class="material-symbols-outlined">person</span>
                         <span>Become a member</span>
                     </a>
@@ -231,10 +231,10 @@
                                             </li>
                                             <li>
                                                 <span>관심기업</span>
-                                                <span>${vo.intrstEntrpsQy}</span>
+                                                <span class="intrstEntrpsQy" value="${vo.intrstEntrpsQy}">${vo.intrstEntrpsQy}</span>
                                             </li>
                                         </ul>
-                                        <a href="javascript:;" class="ico like active"  id="${vo.bidPblancId}" value="Y">
+                                        <a href="javascript:;" class="ico like active"  id="${vo.bidPblancId}">
                                             <span class="material-symbols-outlined">favorite</span>
                                             <span>관심추가</span>
                                         </a>
@@ -468,12 +468,18 @@ var params = {
                 html += '	    					<div class="pd-like">';
 				html += '	            				<ul class="company">';
 				html += '	             	   				<li> <span>' + result.mainBdList[i].partcptnEntrpsQy + '</span><span>참여기업</span></li>';
-				html += '	                				<li> <span><span id="intrstEntrpsQy">' + result.mainBdList[i].intrstEntrpsQy + '</span><span>관심기업</span></li>';
+				html += '	                				<li> <span><span  value="'+result.mainBdList[i].intrstEntrpsQy+'" class="intrstEntrpsQy" >' + result.mainBdList[i].intrstEntrpsQy + '</span><span>관심기업</span></li>';
 				html += '	            				</ul>';
 			
-					html += '<a href="javascript:void(0);" class="ico like" id="' + result.mainBdList[i].bidPblancId + '"> ';
+                if (result.mainBdList[i].likeYn == "N") {
+					html += '<a href="javascript:void(0);"  value="'+result.mainBdList[i].likeYn+'" class="ico like active" id="' + result.mainBdList[i].bidPblancId + '"> ';
 					html += '	<span class="material-symbols-outlined">favorite</span> <span>관심추가</span>';
-					html += '</a>';
+                    html += '</a>';
+                }else {
+                    html += '<a href="javascript:void(0);"  value="'+result.mainBdList[i].likeYn+'" class="ico like" id="' + result.mainBdList[i].bidPblancId + '"> ';
+					html += '	<span class="material-symbols-outlined">favorite</span> <span>관심추가</span>';
+                    html += '</a>';
+                }
 				html += '	    					</div>';
 				html += '						</div>';
 				
@@ -587,13 +593,44 @@ var params = {
             }
         });
 
-    function likeUpdate() {
-        var likeYn = $(this).attr('value')
-        console.log("좋아요면 N 아니면 Y (삭제여부기떄문) :::::")
+    function likeUpdate(e) {
+        // var interestCount = '';
+        // var intrstEntrpsQy = $(".intrstEntrpsQy").val();
+
+        // console.log("intrstEntrpsQy :::::::::"+intrstEntrpsQy)
+        e.preventDefault(); // 기본 동작을 막음
+        // 현재 버튼에 active 클래스가 있는지 확인
+        var isActive = $(this).hasClass("active");
+        var likeYn = '';
+        var likeCnt = 1;
+        // 만약 active 클래스가 있으면 제거, 없으면 추가
+        if (isActive) {
+            // 이미 활성화된 경우, 비활성화로 변경
+            $(this).removeClass("active");
+            likeYn = 'Y';
+             // 초기 관심 기업 수 증가
+            var interestCount = parseInt("${vo.intrstEntrpsQy}");
+            interestCount = Math.max(0, interestCount - 1);
+            $("#interestCount").text(interestCount);
+            console.log("몇개"+interestCount);
+            likeCnt = -1;
+
+        } else {
+            // 비활성화된 경우, 활성화로 변경
+            $(this).addClass("active");
+            likeYn = 'N';
+            // 초기 관심 기업 수 증가
+            var interestCount = parseInt("${vo.intrstEntrpsQy}");
+            interestCount ++;
+            $("#interestCount").text(interestCount);
+            console.log("몇개++"+interestCount);
+        }
+
         var params = {
             "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
             "bidPblancId" : this.id,
-            "likeYn" : likeYn
+            "likeYn" : likeYn,
+            "likeCnt" : likeCnt
 		}
         $.ajax({
                 type: 'POST',
@@ -601,14 +638,14 @@ var params = {
                 contentType: 'application/json', 
                 data: JSON.stringify(params),
                 success: function(data) {
-                    console.log("2222좋아요면 N 아니면 Y (삭제여부기떄문) :::::")
+                    debugger;
                     if(likeYn = "N"){
                         $(this).addClass('active');
                     }else {
                         $(this).removeClass('active')
                     }
                 }
-            });
+        });
     }
     function getFormerDate(num1, num2) {
         var today = new Date();

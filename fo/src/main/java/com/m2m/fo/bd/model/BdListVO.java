@@ -92,6 +92,9 @@ public class BdListVO {
 	
 	private String tabNo; //탭번호
 	private String totalCost;
-	private String likeYn;
+	private String likeYn;		// 관심여부
+	private int likeCnt;		// 관심수
+	private int updateCnt;
 	
+	private String Action;
 }

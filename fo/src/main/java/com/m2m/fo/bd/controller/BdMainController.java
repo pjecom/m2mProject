@@ -115,7 +115,7 @@ public class BdMainController {
 	public ResponseEntity<?> likeUpdate(@RequestBody BdListVO bdBidVO, Model model) throws Exception {
 		try {
 	        bdMainService.likeUpdate(bdBidVO);
-			return new ResponseEntity<>(HttpStatus.OK);
+	        return new ResponseEntity<>(HttpStatus.OK);
 
 		} catch (Exception e) {
 			log.error(e.getMessage());

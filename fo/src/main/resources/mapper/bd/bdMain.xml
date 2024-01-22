@@ -35,7 +35,10 @@
              ,OPENG_DT                                                                                                                                  /* 개찰 일시 */
              ,DELETE_AT                                                                                                                                 /* 삭제 여부 */
              ,BID_WT                                                                                                                                    /* 수량 */
-        FROM dbo.BD_BID_BAS BB                                                                                                                          /* 입찰기본 */
+        	<if test="bidEntrpsNo != null and bidEntrpsNo != ''">
+				,ISNULL((SELECT BID.DELETE_AT FROM BD_INTRST_DTL BID WHERE BID.BID_PBLANC_ID = BB.BID_PBLANC_ID AND BID.BID_ENTRPS_NO = #{bidEntrpsNo} AND BID.DELETE_AT ='N'),'Y') AS LIKE_YN
+			</if>
+            FROM dbo.BD_BID_BAS BB
         WHERE 1=1
                 AND DSPY_AT = 'Y'                                                                                                                        /* 전시 여부 */
                 AND PBLANC_CANCL_AT = 'N'                                                                                                                /* 공고 취소 여부 */
@@ -227,6 +230,13 @@
 				   ,#{bidEntrpsNo}
 				   ,GETDATE()
 				   );   
+			
 	</update>
     
+    <update id="likeUpdateCnt" parameterType="com.m2m.fo.bd.model.BdListVO">
+	  /* com.m2m.fo.bd.mapper.BdMainMapper.bidLikeUpdate */
+		UPDATE BD_BID_BAS
+		SET INTRST_ENTRPS_QY = (SELECT INTRST_ENTRPS_QY FROM BD_BID_BAS WHERE BID_PBLANC_ID = #{bidPblancId}) + #{likeCnt}
+		WHERE BID_PBLANC_ID = #{bidPblancId}
+	</update>
 </mapper>

@@ -18,5 +18,9 @@ public interface BdMainMapper {
 
 	public List<BdListVO> selectbdDelyList(BdListVO vo);
 	
-	public BdListVO  likeUpdate(BdListVO vo) throws Exception;
+	public void  likeUpdate(BdListVO vo) throws Exception;
+	
+	public void likeUpdateCnt(BdListVO vo) throws Exception;
+	
+
 }

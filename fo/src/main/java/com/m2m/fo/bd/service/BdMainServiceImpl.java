@@ -74,9 +74,11 @@ public class BdMainServiceImpl implements BdMainService {
 		return bdMainMapper.selectbdDelyList(vo);
 	}
 	
-	public BdListVO likeUpdate(BdListVO vo) throws Exception {
-		// TODO Auto-generated method stub
-		return bdMainMapper.likeUpdate(vo);
+	public void likeUpdate(BdListVO vo) throws Exception {
+		bdMainMapper.likeUpdate(vo);
+		bdMainMapper.likeUpdateCnt(vo);
+		
+		
 	}
 	
 
