@@ -1,6 +1,5 @@
 package com.m2m.fo.bo.controller;
 
-import com.m2m.fo.bo.model.BoBdPblnVO;
 import com.m2m.fo.bo.model.BoCoCommCdVO;
 import com.m2m.fo.bo.model.BoMberVO;
 import com.m2m.fo.bo.service.BoMberMngService;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
@@ -39,12 +39,8 @@ public class BoMberMngController {
         List<BoMberVO> mberList = mberMngService.getMberList(vo);
 
         mberList.forEach(mberVO -> {
-            if (mberVO.getBsnmRegistNo() != null && !mberVO.getBsnmRegistNo().isEmpty()) {
-                mberVO.setBsnmRegistNo(mberVO.getBsnmRegistNo().replaceAll("(\\d{3})(\\d{2})(\\d{5})", "$1-$2-$3"));
-            }
-            if (mberVO.getMoblphonNo2() != null && !mberVO.getMoblphonNo2().isEmpty()) {
-                mberVO.setMoblphonNo2(mberVO.getMoblphonNo2().replaceAll("(\\d{3})(\\d{4})(\\d{4})", "$1-$2-$3"));
-            }
+            mberVO.setBsnmRegistNo(formatBsnmRegistNo(mberVO.getBsnmRegistNo()));
+            mberVO.setMoblphonNo2(formatPhoneNumber(mberVO.getMoblphonNo2()));
         });
 
         model.addAttribute("mberVO", vo);
@@ -53,5 +49,46 @@ public class BoMberMngController {
 
         return "boTab/bdMberMng";
 
+    }
+
+    @RequestMapping(value = "/mberDtlModal", method = RequestMethod.POST)
+    public String mberDtlModal(@RequestBody BoMberVO mberVO, ModelMap model) throws Exception {
+
+        BoMberVO mberDtl = mberMngService.getMberDtl(mberVO.getBidEntrpsNo());
+
+        // 결과가 최소한 하나 이상인지 확인
+        if (mberDtl != null) {
+
+            mberDtl.setBsnmRegistNo(formatBsnmRegistNo(mberDtl.getBsnmRegistNo()));
+            mberDtl.setMoblphonNo2(formatPhoneNumber(mberDtl.getMoblphonNo2()));
+            mberDtl.setVrscBsnmRegistNo(formatBsnmRegistNo(mberDtl.getVrscBsnmRegistNo()));
+            mberDtl.setVrscMoblphonNo(formatPhoneNumber(mberDtl.getVrscMoblphonNo()));
+
+            // 회원 정보
+            model.addAttribute("mberDtl", mberDtl);
+
+        } else {
+            log.warn("Error");
+        }
+
+        System.out.println(mberDtl);
+
+        return "boModal/boBdMberDtl";
+    }
+
+    private String formatPhoneNumber(String phonNo) {
+        if (phonNo != null && !phonNo.isEmpty()) {
+            phonNo = phonNo.replaceAll("(\\d{3})(\\d{4})(\\d{4})", "$1-$2-$3");
+        }
+
+        return phonNo;
+    }
+
+    private String formatBsnmRegistNo(String bsnmRegistNo) {
+        if (bsnmRegistNo != null && !bsnmRegistNo.isEmpty()) {
+            bsnmRegistNo = bsnmRegistNo.replaceAll("(\\d{3})(\\d{2})(\\d{5})", "$1-$2-$3");
+        }
+
+        return bsnmRegistNo;
     }
 }

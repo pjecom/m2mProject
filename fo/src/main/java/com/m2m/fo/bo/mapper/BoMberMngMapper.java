@@ -10,4 +10,6 @@ public interface BoMberMngMapper {
     List<BoCoCommCdVO> getBoCommCdList();
 
     List<BoMberVO> getMberList(BoMberVO vo);
+
+    BoMberVO getMberDtl(String bidEntrpsNo);
 }

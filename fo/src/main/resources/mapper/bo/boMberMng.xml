@@ -101,4 +101,33 @@
         </if>
         ORDER BY ETR_CONFM_REQUST_DT DESC
     </select>
+    <select id="getMberDtl" parameterType="String" resultType="com.m2m.fo.bo.model.BoMberVO">
+        SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+        /* com.m2m.fo.bo.mapper.BoMberMngMapper.getMberDtl */
+        SELECT
+            BID_ENTRPS_NO,                      -- 입찰 업체 번호
+            ENTRPS_NM,                          -- 업체 명
+            FRNTN_ENTRPS_AT,                    -- 외국 업체 여부
+            BSNM_REGIST_NO,                     -- 사업자 번호
+            BID_MBER_ID,                        -- 입찰 회원 아이디
+            BID_MBER_EMAIL,                     -- 입찰 회원 이메일
+            MOBLPHON_NO2,                       -- 휴대폰 번호
+            VRSC_ENTRPS_NM,                     -- 대행 업체 명
+            VRSC_BSNM_REGIST_NO,                -- 대행 사업자등록번호
+            VRSC_BID_MBER_EMAIL,                -- 대행 이메일
+            VRSC_MOBLPHON_NO,                   -- 대행 휴대폰번호
+            ETR_CONFM_REQUST_DT,                -- 승인요청일
+            ETR_CONFM_PROCESS_DT,               -- 승인처리일
+            (
+                SELECT CODE_DCTWO
+                FROM CO_CMMN_CD ccc
+                WHERE
+                    ccc.MAIN_CODE = 'BID_MBER_STTUS_CODE'
+                    AND ccc.SUB_CODE = beib.BID_MBER_STTUS_CODE
+            ) as BID_MBER_STTUS,                -- 입찰 회원 상태명
+            beib.BID_MBER_INTRCP_DT,            -- 차단일
+            BID_MBER_INTRCP_CN                  -- 차단 내용
+        FROM BD_ENTRPS_INFO_BAS beib
+        where BID_ENTRPS_NO = #{bidEntrpsNo}
+    </select>
 </mapper>

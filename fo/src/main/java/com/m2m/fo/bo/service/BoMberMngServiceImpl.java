@@ -25,4 +25,9 @@ public class BoMberMngServiceImpl implements BoMberMngService{
 	public List<BoMberVO> getMberList(BoMberVO vo) {
 		return boMberMngMapper.getMberList(vo);
 	}
+
+	@Override
+	public BoMberVO getMberDtl(String bidEntrpsNo) {
+		return boMberMngMapper.getMberDtl(bidEntrpsNo);
+	}
 }

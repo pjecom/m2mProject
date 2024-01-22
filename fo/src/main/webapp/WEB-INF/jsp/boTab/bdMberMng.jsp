@@ -188,8 +188,7 @@
 					</c:if>
 					<c:if test="${mberList.size() != 0}">
 						<c:forEach var="vo" items="${mberList}">
-<%--							<tr onclick="redirectToDetailPage('${vo.bidEntrpsNo}')">--%> <!-- 열 클릭 이벤트 -->
-							<tr>
+							<tr onclick="redirectToDetailPage('${vo.bidEntrpsNo}')">
 								<td align="center">${vo.rowNum}</td>
 								<td>${vo.entrpsNm}</td>
 								<td>${vo.bidMberId}</td>
@@ -226,10 +225,11 @@
 		<div id="realgridForExcel" class="realgrid-wrap" style="display: none"></div>
 	</div>
 </div>
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<%--<!-- 입찰 회원 삭세-->--%>
+<div class="modal fade" id="bd-mber-detail-modal" tabindex="-1" role="dialog" data-keyboard="false" aria-labelledby="bd-mber-detail-modal-label" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-full" role="document">
-		<div class="modal-content"></div>
+		<div class="modal-content modal2">
+		</div>
 	</div>
 </div>
 
@@ -339,4 +339,21 @@
 
 		return year + "-" + month + "-" + day
 	}
+
+    function redirectToDetailPage(bidEntrpsNo, clickedElement) {
+
+        console.log("클릭한 행의 bidEntrpsNo:", bidEntrpsNo);
+
+        var url = "/boMber/mberDtlModal";
+        var params = {
+            "bidEntrpsNo": bidEntrpsNo
+        };
+
+		postSetDataTypeBo(url, JSON.stringify(params), "html", true, (res) => {
+			if (!sorin.validation.isNull(res)) {
+				$("#bd-mber-detail-modal .modal2").html(res);
+				$('#bd-mber-detail-modal').modal('show');
+			}
+		})
+    }
 </script>
