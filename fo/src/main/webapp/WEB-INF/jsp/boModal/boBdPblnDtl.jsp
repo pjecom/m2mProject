@@ -132,44 +132,45 @@
         		}
     		});
 	}
-	
+	// 공고취소처리
 	function cancleBtnClick() {
-		var result = confirm('해당 공고 건은 입찰 예정 건입니다.\n 공고 취소 시 노출되지 않습니다.\n 취소하시겠습니다.?');
-		
-        var bidSttusCode = '${boBdPblnDtl.bidSttusCode}';
-        var dspyAt = 'N';
+	    var result = confirm('해당 공고 건은 입찰 예정 건입니다.\n 공고 취소 시 노출되지 않습니다.\n 취소하시겠습니다.?');
 
-        //console.log("bidSttusCode"+bidSttusCode);
-        var params = {
-            "bidPblancId": $("#bidPblancId").val(),     // 입찰 공고아이디 
-            "bidSttusCode" : $('#bidSttusCode').val(),  // 입찰 상태코드 
-            "dspyAt" : dspyAt                           // 전시여부
-        };
-        $.ajax({
-    		url: '/bo/cancelBoBdPbln',
-    		method: 'POST', 
-    		contentType: 'application/json',
-    		data: JSON.stringify(params),
-    		dataType: 'json', 
-    		success: function(data) {
-    			console.log('데이터 정상1', data);
-		    if (result) {
-		      // 삭제 처리 후 팝업 표시
-		      alert('공고 건이 취소되었습니다.');
-		      // 여기에 실제 삭제 처리를 추가할 수 있습니다.
-		    } else {
-		      // 닫기를 선택한 경우 아무 작업 없이 현재 페이지에 머무름	
-		    }
-		    getBidNoticeList();
+	    var bidSttusCode = '${boBdPblnDtl.bidSttusCode}';
+	    var dspyAt = '${boBdPblnDtl.dspyAt}';
+
+	    // 확인을 눌렀을 때만 쿼리를 실행
+	    if (result) {
+	        var params = {
+	            "bidPblancId": $("#bidPblancId").val(),     // 입찰 공고아이디 
+	            "bidSttusCode" : $('#bidSttusCode').val(),  // 입찰 상태코드
+	            "dspyAt": '${boBdPblnDtl.dspyAt}'           // 전시여부
+	        };
+
+	        $.ajax({
+	            url: '/bo/cancelBoBdPbln',
+	            method: 'POST',
+	            contentType: 'application/json',
+	            data: JSON.stringify(params),
+	            dataType: 'json',
+	            success: function (data) {
+	                console.log('데이터 정상', data);
+	                // 삭제 처리 후 팝업 표시
+	                alert('공고 건이 취소되었습니다.');
+	                getBidNoticeList();
+	                modalClose();
+	            },
+	            error: function (error) {
+	                // 에러 발생 시의 처리
+	                console.error('서버 요청 중 에러 발생:', error);
+	            }
+	        });
+	    } else {
+	        // 취소를 선택한 경우 아무 작업 없이 현재 페이지에 머무름	
+            getBidNoticeList();
             modalClose();
-    	},
-    	error: function(error) {
-			// 에러 발생 시의 처리
-			console.error('서버 요청 중 에러 발생:', error);
-		}
-    	});
+	    }
 	}
-	
 	function modalClose() {
 		$('#bdNoticeDetailModal').modal('hide');
 	}
@@ -531,7 +532,6 @@
 								</c:when>
 								<c:when
 									test="${boBdPblnDtl.bidSttusCode eq '20' or boBdPblnDtl.bidSttusCode eq '21' or boBdPblnDtl.bidSttusCode eq '22' or boBdPblnDtl.bidSttusCode eq '23' or boBdPblnDtl.bidSttusCode eq '30'}">
-									<button type="button" class="btn">유찰 처리</button>
 								</c:when>
 								<c:otherwise>
 								</c:otherwise>
@@ -564,12 +564,10 @@
 									</tr>
 									<c:forEach var="item" items="${bdEntrpsList}">
 										<tr>
-											<td>${item.opengRank}</td>
 											<td>${item.entrpsNm}</td>
 												<fmt:parseDate value="${item.bddprDt}" var="bddprDt" pattern="yyyyMMddHHmmss"/>
 												<fmt:formatDate value="${bddprDt}" var="formattedprDt" pattern="yyyy.MM.dd. HH:mm:ss"/>
 											<td>${formattedprDt}</td>
-											<td>인도조건</td>
 											<td>${item.bddprPremiumPc}</td>
 											<td>${boBdPblnDtl.bidSttus}</td>
 											<c:choose> 
