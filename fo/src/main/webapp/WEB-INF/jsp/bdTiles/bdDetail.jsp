@@ -73,7 +73,7 @@
 			                                            </li>
 			                                            <li>
 			                                                <span>관심기업</span>
-			                                                <span>${bdDetailVO.intrstEntrpsQy}</span>
+			                                                <span id="interestCount">${bdDetailVO.intrstEntrpsQy}</span>
 			                                            </li>
 			                                        </ul>
 			                                        <a href="#" class="ico like active">
@@ -597,6 +597,79 @@
 	<!-- script custom :: END -->
 	<script type="text/javascript"> 
 
+	// =============== 관심목록 ==================
+	$(function() {
+        // 현재 버튼에 active 클래스가 있는지 확인
+        var isActive = "${bdDetailVO.conCheck}"
+
+        // 만약 active 클래스가 있으면 제거, 없으면 추가
+        if (isActive === 'N') {
+            // 이미 활성화된 경우, 비활성화로 변경
+            $(".ico.like").removeClass("active");
+            // 여기에 UNCHECKED 상태에 대한 추가 로직을 넣을 수 있습니다.
+        } else {
+            // 비활성화된 경우, 활성화로 변경
+            $(".ico.like").addClass("active");
+            // 여기에 CHECKED 상태에 대한 추가 로직을 넣을 수 있습니다.
+        }
+    });
+
+	    // '관심추가' 버튼에 대한 클릭 이벤트 처리
+	$(".ico.like").click(function(e) {
+        e.preventDefault(); // 기본 동작을 막음
+
+        // 현재 버튼에 active 클래스가 있는지 확인
+        var isActive = $(this).hasClass("active");
+		var conCheck = '';
+
+        // 만약 active 클래스가 있으면 제거, 없으면 추가
+        if (isActive) {
+            // 이미 활성화된 경우, 비활성화로 변경
+            $(this).removeClass("active");
+            // 여기에 UNCHECKED 상태에 대한 추가 로직을 넣을 수 있습니다.
+			console.log("active 제거");
+			conCheck = 'N';
+			
+			 // 초기 관심 기업 수 증가
+			var interestCount = parseInt("${bdDetailVO.intrstEntrpsQy}");
+			interestCount = Math.max(0, interestCount - 1);
+			$("#interestCount").text(interestCount);
+
+            // 클릭 시 값이 'N'으로 변경되었음을 서버로 전송하거나 다른 작업 수행
+            // 예: updateValueToServer('N');
+        } else {
+            // 비활성화된 경우, 활성화로 변경
+            $(this).addClass("active");
+            // 여기에 CHECKED 상태에 대한 추가 로직을 넣을 수 있습니다.
+			console.log("active 추가");
+			conCheck = 'Y';
+
+			// 초기 관심 기업 수 증가
+			var interestCount = parseInt("${bdDetailVO.intrstEntrpsQy}");
+			interestCount ++;
+			$("#interestCount").text(interestCount);
+            // 클릭 시 값이 다른 값으로 변경되었음을 서버로 전송하거나 다른 작업 수행
+            // 예: updateValueToServer('다른값');
+        }
+		console.log(conCheck);
+
+		// var params = {
+		// 	"bidEntrpsNo" : "${bdDetailVO.bidEntrpsNo}",	// 업체번호(세션값)
+		// 	"bidPblancId" : "${bdDetailVO.bidPblancId}",	// 입찰 공고아이디 
+        //     "likeYn" : conCheck
+		// }
+        // $.ajax({
+        //         type: 'POST',
+        //         url: '/likeUpdate',
+        //         contentType: 'application/json', 
+        //         data: JSON.stringify(params),
+        //         success: function(data) {
+
+        //         }
+    	// });
+    });
+
+
 	// =============== 페이지 이동 ==================
 	$(function() {
     	var currentEntrpsNm = sessionStorage.getItem("entrpsNm");
@@ -996,10 +1069,10 @@
 	})
 
 	// =============== BTN.LIKE ==================
-	$('.ico.like').click(function(e){
-	    e.preventDefault();
-	    $(this).toggleClass('active');
-	})
+	// $('.ico.like').click(function(e){
+	//     e.preventDefault();
+	//     $(this).toggleClass('active');
+	// })
 	    
 	// =============== DATEPICKER ==================
 	</script>

@@ -222,6 +222,25 @@ public class BdDetailServiceImpl implements BdDetailService {
 	
     /**
      * <pre>
+     * 처리내용: 관심목록 조회(관찰 상세 테이블)
+     * </pre>
+     *  @date 2024. 01. 12.
+     * @author SH
+     * @history
+     * ------------------------------------------------
+     * 변경일					작성자				변경내용
+     * ------------------------------------------------
+     * 2024. 01. 12.		SH    			최초작성
+     * ------------------------------------------------
+     **/
+	@Override
+	public BdDetailVO selectConList(BdDetailVO bdDetailVO) {
+		// TODO Auto-generated method stub
+		return bdDetailMapper.selectConList(bdDetailVO);
+	}
+	
+    /**
+     * <pre>
      * 처리내용: 비밀번호 확인(업체정보기본 테이블)
      * </pre>
      *  @date 2024. 01. 11.
@@ -402,7 +421,6 @@ public class BdDetailServiceImpl implements BdDetailService {
 
 	    return outputFormat.format(ChangeDate);
 	}
-
 
 }
 

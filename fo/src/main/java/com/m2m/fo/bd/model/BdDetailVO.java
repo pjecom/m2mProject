@@ -65,6 +65,7 @@ public class BdDetailVO {
 	private String nationUrl;					 //국가코드
 	private String bddrBeginDate;				 //투찰기간시작일(포맷)
 	private String bddrEndDate;				     //투찰기간종료일(포맷)
+	private String conCheck;					 //관심목록 Flag 값
 	
 	
 	// 업체정보 기본

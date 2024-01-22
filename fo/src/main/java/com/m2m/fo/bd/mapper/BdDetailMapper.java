@@ -31,5 +31,7 @@ public interface BdDetailMapper {
 	public List<BdBddprVO> bdBidResultList(BdDetailVO bdDetailVO);
 
 	public BdDetailVO selectFailReason(BdDetailVO bdDetailVO);
+
+	public BdDetailVO selectConList(BdDetailVO bdDetailVO);
 	
 }

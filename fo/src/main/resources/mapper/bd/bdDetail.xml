@@ -144,6 +144,19 @@
 			) AS AA
 		ORDER BY TOTAL_COST ASC, BDDPR_DT　ASC
 	</select>
+	
+	<select id="selectConList" parameterType="com.m2m.fo.bd.model.BdDetailVO" resultType="com.m2m.fo.bd.model.BdDetailVO">
+	  /* com.m2m.fo.bd.mapper.BdDetailMapper.selectConList */
+      SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+		SELECT 
+			BID_ENTRPS_NO	/*입찰업체 번호*/
+			,BID_PBLANC_ID	/*입찰공고 아이디*/
+		FROM BD_INTRST_DTL
+		WHERE 1=1
+		AND DELETE_AT = 'N'
+		AND BID_ENTRPS_NO = #{bidEntrpsNo}
+		AND BID_PBLANC_ID = #{bidPblancId}
+    </select>
     
     <select id="passwordCheck" parameterType="com.m2m.fo.bd.model.BdDetailVO" resultType="String">
 	  /* com.m2m.fo.bd.mapper.BdDetailMapper.passwordCheck */

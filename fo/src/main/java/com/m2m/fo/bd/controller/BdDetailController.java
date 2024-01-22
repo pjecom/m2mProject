@@ -55,6 +55,20 @@ public class BdDetailController {
 		
 		//vo에 업체번호 주입
 		detailVO.setBidEntrpsNo(bdDetailVO.getBidEntrpsNo());
+		
+		// 관심목록조회
+		BdDetailVO conList =  bdDetailService.selectConList(bdDetailVO);
+		String conCheck = "N";
+		
+		// 관심목록 값이 없으면 Flag 값 N 있으면 Flag값 Y
+		if(conList == null){
+			log.info("관심목록을 체크하지 않았습니다.");
+			conCheck = "N";
+		}else {
+			conCheck = "Y";
+		}
+		detailVO.setConCheck(conCheck);
+		
 		model.addAttribute("bdDetailVO", detailVO);
 		
 		// 인도조건 리스트
