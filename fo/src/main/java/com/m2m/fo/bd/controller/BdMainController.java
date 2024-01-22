@@ -42,7 +42,6 @@ public class BdMainController {
         
 		List<BdListVO> bdDelyCndList = bdMainService.selectbdDelyCndList(bdListVO);
 		model.addAttribute("bdDelyCndList", bdDelyCndList);
-		
 		List<BdListVO> bdDelyList = bdMainService.selectbdDelyList(bdListVO);
 		model.addAttribute("bdDelyList", bdDelyList);
 		

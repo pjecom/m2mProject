@@ -23,5 +23,10 @@ public interface BdMainService {
 	public List<BdListVO> selectbdDelyList(BdListVO vo);
 	
 	public void likeUpdate(BdListVO vo) throws Exception;
+
+	public List<BdListVO> mypageLikeList(BdListVO bdListVO) throws Exception;
+
+	public BdListVO bdMypageLikeCnt(BdListVO bdListVO)  throws Exception;
+
 	
 }

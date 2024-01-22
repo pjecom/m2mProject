@@ -21,6 +21,10 @@ public interface BdMainMapper {
 	public void  likeUpdate(BdListVO vo) throws Exception;
 	
 	public void likeUpdateCnt(BdListVO vo) throws Exception;
+
+	public List<BdListVO> bdMypageLikeList(BdListVO vo);
+	
+	public BdListVO  bdMypageLikeCnt(BdListVO vo) throws Exception;
 	
 
 }

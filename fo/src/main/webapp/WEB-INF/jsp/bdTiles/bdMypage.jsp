@@ -42,9 +42,8 @@
 			        	<!-- LEFT WING :: START -->
 			        	<div class="left-wing">
 			        		<ul>
-			        			<li class="item active" data-tab="nav-1"><a href="#">투찰 목록</a></li>
-			        			<li class="item" data-tab="nav-2"><a href="#">관심 공고</a></li>
-			        			<li class="item" data-tab="nav-3"><a href="#">내정보관리</a></li>
+			        			<li class="item active" data-tab="nav-1"><a href="javascript:;">투찰 목록</a></li>
+			        			<li class="item" data-tab="nav-2" onclick="bdMypageLikeList();"><a href="javascript:;">관심 공고</a></li>
 			        		</ul>
 			        	</div>
 			        	<!-- LEFT WING :: END -->
@@ -354,7 +353,11 @@
 				                <div class="cont-sub-tit">
 									All <span class="fc-red">2</span>개
 				                </div>
-				                <ul class="list t2">
+				                <ul class="list t2 likeData">
+									<c:if test="${empty likeList}">
+										<div class="no-data empty-content">Could not find any matches. 왜비었어 </div>
+									</c:if>
+									<c:forEach items="${likeList}" var="vo">
 				                    <!-- item 1 관심공고 :: START -->
 				                    <li>
 				                        <div class="cart-item-wrap type3">
@@ -363,102 +366,75 @@
 				                            </figure>
 				                            <div class="figure-con">
 				                                <div class="pd-brand-info">
-				                                	<h3 class="pd-bid-no">BID20221020-6</h3>
+				                                	<h3 class="pd-bid-no">${vo.bidPblancId}</h3>
 				                                    <div class="pd-wrap">
 				                                        <div class="pd-brand">
-				                                            <div class="pd-label">AL</div>
-				                                            <div class="brand-nation">
-				                                                <img src="https://sorincorp.blob.core.windows.net/secs-t/odflag/flag_mcht_australia.png">
-				                                            </div>
-				                                            TOMAGO
+				                                            <div class="pd-label">${vo.metalCodeNma}</div>
+															<div class="brand-nation">
+																<c:if test="${empty vo.nationCode}">
+																	<img src="https://sorincorp.blob.core.windows.net/secs/odflag/flag_mcht_default.png">
+																</c:if>
+																<c:if test="${not empty vo.nationCode}">
+																	<img src="${vo.nationUrl}">
+																</c:if>
+															</div>
+				                                            <c:if test="${empty vo.brandCode}">
+																브랜드 무관
+															</c:if>
+															<c:if test="${not empty vo.brandCode}">
+																${vo.brandCode}
+															</c:if>
 				                                        </div>
 				                                        <div class="pd-like">
-				                                            <ul class="company">
-				                                                <li>
-				                                                    <span>참여기업</span>
-				                                                    <span>16</span>
-				                                                </li>
-				                                                <li>
-				                                                    <span>관심기업</span>
-				                                                    <span>26</span>
-				                                                </li>
-				                                            </ul>
-				                                            <a href="#" class="ico like active">
-				                                                <span class="material-symbols-outlined">favorite</span>
-				                                                <span class="tit">관심해제</span>
-                                                				<span class="ico-txt">관심 해제합니다.</span>
-				                                            </a>
-			                                        	</div>
+															<ul class="company">
+																<li>
+																	<span>참여기업</span>
+																	<span>${vo.partcptnEntrpsQy}</span>
+																</li>
+																<li>
+																	<span>관심기업</span>
+																	<span class="intrstEntrpsQy" value="${vo.intrstEntrpsQy}">${vo.intrstEntrpsQy}</span>
+																</li>
+															</ul>
+															<a href="javascript:;" class="ico like active"  onclick="likeUpdate(e);" id="${vo.bidPblancId}">
+																<span class="material-symbols-outlined">favorite</span>
+																<span class="tit">관심해제</span>
+																<span class="ico-txt">관심 해제합니다.</span>
+															</a>
+														</div>
 				                                    </div>
-				                                    <div class="pd-name">
-				                                        <span class="item">PRIMARY AL INGOT P1020</span>
-				                                        <span class="brand-group">알루미늄(비서구산)</span>
-				                                        <span class="wrhous">출고권역 - 인천</span>
-				                                    </div>
-				                                    <div class="pd-period">
-				                                        <span class="qty">수량<span class="highlight">${vo.bidWt}</span></span>
-				                                        <span class="date">22.10.20 11:00:00 ~ 22.10.30 18:00:00</span>
-				                                    </div>
+													<div class="pd-name">
+														<span class="item">${vo.dspyGoodsNm}</span>
+														<span class="wrhous">출고권역 - ${vo.dstrctLclsfCode}</span>
+														<span class="brand-group">${vo.brandGroupCodeNm}</span>
+													</div>
+													<div class="pd-period">
+														<span class="qty">수량<span class="highlight">${vo.bidWt}</span></span>	
+														<span class="date">투찰기간 <span class="highlight">${vo.bddprBeginDt} ~ ${vo.bddprEndDt}</span></span> 
+														<c:if test="${vo.bidSttusCode != 30}">
+															<span class="t-info">개찰결과 : 투찰 기한 마감과 동시에 발표함</span>
+														</c:if>
+													</div>
 				                                </div>
 				                            </div>
-				                            <div class="btns">
-				                                <a href="#" class="btn-gray-md">상세보기</a>
-				                            </div>
+				                            <div class="btns moveList" id="moveList" value="${vo.bidPblancId}">
+												<c:choose>
+													<c:when test="${vo.bidSttusCode == 13}">
+														<div class="btn-bid-blue">투찰중</div>
+													</c:when>
+													<c:when test="${vo.bidSttusCode == 30}">
+														<div class="btn-bid-black">마감</div>
+														<span class="t-info abs-info">개찰완료</span>
+													</c:when>
+													<c:otherwise>
+														<div class="btn-bid-stroke">입찰예정</div>
+													</c:otherwise>
+												</c:choose>
+											</div>
 				                        </div>
 				                    </li>
+									</c:forEach>
 				                    <!-- item 1 관심공고 :: END -->
-				                    <!-- item 2 관심공고 :: START -->
-				                    <li>
-				                        <div class="cart-item-wrap type3">
-				                            <figure class="figure figure1">
-				                                <img src="/images/my/al_sum.jpg" alt="알루미늄" class="w">
-				                            </figure>
-				                            <div class="figure-con">
-				                                <div class="pd-brand-info">
-				                                	<h3 class="pd-bid-no">BID20221020-6</h3>
-				                                    <div class="pd-wrap">
-				                                        <div class="pd-brand">
-				                                            <div class="pd-label">AL</div>
-				                                            <div class="brand-nation">
-				                                                <img src="https://sorincorp.blob.core.windows.net/secs-t/odflag/flag_mcht_australia.png">
-				                                            </div>
-				                                            TOMAGO
-				                                        </div>
-				                                        <div class="pd-like">
-				                                            <ul class="company">
-				                                                <li>
-				                                                    <span>참여기업</span>
-				                                                    <span>16</span>
-				                                                </li>
-				                                                <li>
-				                                                    <span>관심기업</span>
-				                                                    <span>26</span>
-				                                                </li>
-				                                            </ul>
-				                                            <a href="#" class="ico like active">
-				                                                <span class="material-symbols-outlined">favorite</span>
-				                                                <span class="tit">관심해제</span>
-				                                                <span class="ico-txt">관심 해제합니다.</span>
-				                                            </a>
-			                                        	</div>
-				                                    </div>
-				                                    <div class="pd-name">
-				                                        <span class="item">PRIMARY AL INGOT P1020</span>
-				                                        <span class="brand-group">알루미늄(비서구산)</span>
-				                                        <span class="wrhous">출고권역 - 인천</span>
-				                                    </div>
-				                                    <div class="pd-period">
-				                                        <span class="qty">수량<span class="highlight">${vo.bidWt}</span></span>
-				                                        <span class="date">22.10.20 11:00:00 ~ 22.10.30 18:00:00</span>
-				                                    </div>
-				                                </div>
-				                            </div>
-				                            <div class="btns">
-				                                <a href="#" class="btn-gray-md">상세보기</a>
-				                            </div>
-				                        </div>
-				                    </li>
-				                    <!-- item 2 관심공고 :: END -->
 				                </ul>
 				            </div>
 				            <!-- TAB-1 :: END -->
@@ -535,6 +511,7 @@
                     break;
             }
 		});
+
 		function setBidSttus(code) {
 			bdBidBas.bidSttusCode = code
 
@@ -568,7 +545,11 @@
 		var params = {
 		         "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
                  "bidSttusCode" : bidSttusCode,
-                 "scsbidAt" : scsbidAt
+                 "scsbidAt" : scsbidAt,
+				"filter" : $('#filter').val(),
+				"searchDateFrom" : $('#searchDateFrom').val().replaceAll("-", ""),
+				"searchDateTo" : $('#searchDateTo').val().replaceAll("-", ""),
+				"bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo")
 		}
 
 
@@ -603,7 +584,10 @@
 		var params = {
 		         "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
                  "bidSttusCode" : bidSttusCode,
-                 "scsbidAt" : scsbidAt
+                 "scsbidAt" : scsbidAt,
+				"filter" : $('#filter').val(),
+				"searchDateFrom" : $('#searchDateFrom').val().replaceAll("-", ""),
+				"searchDateTo" : $('#searchDateTo').val().replaceAll("-", "")
 		}
 
 
@@ -638,7 +622,10 @@
 		var params = {
 		         "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
                  "bidSttusCode" : bidSttusCode,
-                 "scsbidAt" : scsbidAt
+                 "scsbidAt" : scsbidAt,
+				"filter" : $('#filter').val(),
+				"searchDateFrom" : $('#searchDateFrom').val().replaceAll("-", ""),
+				"searchDateTo" : $('#searchDateTo').val().replaceAll("-", "")
 		}
 
 
@@ -673,7 +660,10 @@
 		var params = {
 		         "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
                  "bidSttusCode" : bidSttusCode,
-                 "scsbidAt" : scsbidAt
+                 "scsbidAt" : scsbidAt,
+				"filter" : $('#filter').val(),
+				"searchDateFrom" : $('#searchDateFrom').val().replaceAll("-", ""),
+				"searchDateTo" : $('#searchDateTo').val().replaceAll("-", "")
 		}
 
 
@@ -706,6 +696,15 @@
 	function updateTable(tabId, htmlContent) {
         // Find the table body element
         const tbody = $(tabId + " .myPageData");
+
+        // Replace the content of the table body with the new HTML
+        tbody.html('');
+        tbody.html(htmlContent);
+    }
+
+	function updateLikeTable(htmlContent) {
+        // Find the table body element
+        const tbody = $(".likeData");
 
         // Replace the content of the table body with the new HTML
         tbody.html('');
@@ -874,31 +873,98 @@ $(".btn-period > .radio-btn").click(function() {
 
 	function selectBdMainInfoList() {
 		var bidSttusCode = $(".item.on").val();
-		var scsbidAt = ''
-		if(bidSttusCode = '2'){
-					scsbidAt = ("Y");
-		}else if(bidSttusCode = '3'){
-					scsbidAt = ("N");
+		switch(bidSttusCode){
+                case '1':
+				getMyPageList1('13', '');
+				break;
+                case '2':
+				getMyPageList2('31', 'Y');
+                    break;
+                case '3':
+                getMyPageList3('31', 'N');
+                    break;
+				case '4':
+                getMyPageList4('32', '');
+                    break;
+                case '':
+				getMyPageList1('13', '');
+                    break;
+            }
+	}
+
+	function likeUpdate(e) {
+        // var interestCount = '';
+        // var intrstEntrpsQy = $(".intrstEntrpsQy").val();
+
+        // console.log("intrstEntrpsQy :::::::::"+intrstEntrpsQy)
+        e.preventDefault(); // 기본 동작을 막음
+        // 현재 버튼에 active 클래스가 있는지 확인
+        var isActive = $(this).hasClass("active");
+        var likeYn = '';
+        var likeCnt = 1;
+        var intrstEntrpsQyElement = $(this).closest('li').find('.intrstEntrpsQy');
+        // 만약 active 클래스가 있으면 제거, 없으면 추가
+        if (isActive) {
+            // 이미 활성화된 경우, 비활성화로 변경
+            $(this).removeClass("active");
+            likeYn = 'Y';
+             // 초기 관심 기업 수 증가
+            var interestCount = parseInt("${vo.intrstEntrpsQy}");
+            interestCount = Math.max(0, interestCount - 1);
+            $("#interestCount").text(interestCount);
+            console.log("몇개"+interestCount);
+            likeCnt = -1;
+            
+            var currentCount = parseInt(intrstEntrpsQyElement.text());
+		    intrstEntrpsQyElement.text(currentCount - 1);
+
+        } else {
+            // 비활성화된 경우, 활성화로 변경
+            $(this).addClass("active");
+            likeYn = 'N';
+            // 초기 관심 기업 수 증가
+            var interestCount = parseInt("${vo.intrstEntrpsQy}");
+            interestCount ++;
+            $("#interestCount").text(interestCount);
+            console.log("몇개++"+interestCount);
+            
+            var currentCount = parseInt(intrstEntrpsQyElement.text());
+		    intrstEntrpsQyElement.text(currentCount + 1);
         }
 
-		var params = {
-
-			"bidSttusCode" : bidSttusCode,
-			"scsbidAt" : scsbidAt,
-			"filter" : $('#filter').val(),
-			"searchDateFrom" : $('#searchDateFrom').val().replaceAll("-", ""),
-			"searchDateTo" : $('#searchDateTo').val().replaceAll("-", ""),
-			"bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo")
+        var params = {
+            "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
+            "bidPblancId" : this.id,
+            "likeYn" : likeYn,
+            "likeCnt" : likeCnt
 		}
-		$.ajax({
-            type: 'POST',
-            url: '/bdMypageAjax',
-            contentType: 'application/json', 
-			data: JSON.stringify(params),
-            success: function(data) {
-				callback(data);
-            }
+        $.ajax({
+                type: 'POST',
+                url: '/likeUpdate',
+                contentType: 'application/json', 
+                data: JSON.stringify(params),
+                success: function(data) {
+                    
+                }
         });
+    }
+
+	function bdMypageLikeList(){
+		var params = {
+            "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo")
+		}
+		
+		$.ajax({
+				type: 'POST',
+                url: '/bdMypageLikeList',
+                contentType: 'application/json', 
+                data: JSON.stringify(params),
+                success: function(res) {
+					updateLikeTable($(res).find(".likeData").html());
+    	        },
+    	});
 	}
+
+	
 	</script>
 </body>

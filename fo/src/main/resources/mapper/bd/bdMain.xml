@@ -43,12 +43,13 @@
                 AND DSPY_AT = 'Y'                                                                                                                        /* 전시 여부 */
                 AND PBLANC_CANCL_AT = 'N'                                                                                                                /* 공고 취소 여부 */
                 AND DELETE_AT ='N'                                                                                                                       /* 삭제 여부 */
+             	AND BID_STTUS_CODE != '11'
              <if test="bidSttusCode != null and bidSttusCode != '' and bidSttusCode != '-1'">
               	<if test="bidSttusCode != '30'">
                   AND BID_STTUS_CODE = #{bidSttusCode}                                                                                                   /* 입찰 상태 코드 */
                  </if>
                 <if test="bidSttusCode == '30'">
-                  AND BID_STTUS_CODE between 20 and 40                                                                                                   /* 입찰 상태 코드 */
+                  AND BID_STTUS_CODE IN ('31', '32')                                                                                                   /* 입찰 상태 코드 */
                  </if>
              </if>
              <if test="brand != null and brand != ''">
@@ -74,7 +75,7 @@
              COUNT(*) AS TotalCnt                                                    /* 입찰 전체 목록 */
             ,COUNT(CASE WHEN BID_STTUS_CODE=12 THEN 1 END) AS ExpectCnt              /* 입찰상태:입찰예정 */
             ,COUNT(CASE WHEN BID_STTUS_CODE=13 THEN 1 END) AS BidingCnt              /* 입찰상태:투찰중 */
-            ,COUNT(CASE WHEN BID_STTUS_CODE BETWEEN 20 AND 40 THEN 1 END) AS EndCnt  /* 입찰상태:마감 */
+            ,COUNT(CASE WHEN BID_STTUS_CODE IN ('31', '32') THEN 1 END) AS EndCnt  /* 입찰상태:마감 */
         FROM dbo.BD_BID_BAS                                                          /* 입찰 기본 */
         WHERE 1=1
                 AND DSPY_AT = 'Y'                                                                                                                        /* 전시 여부 */
@@ -137,9 +138,11 @@
                 INNER JOIN BD_BDDPR_DTL BBD
                 ON BB.BID_PBLANC_ID= BBD.BID_PBLANC_ID 
             WHERE BBD.BID_ENTRPS_NO = #{bidEntrpsNo}
-                AND BB.BID_STTUS_CODE = #{bidSttusCode} -- 13: 투찰중, 31: 낙찰, 32: 유찰
                 AND BB.PBLANC_CANCL_AT = 'N'                                                                                                                /* 공고 취소 여부 */
                 AND BB.DELETE_AT ='N'                                                                                                                       /* 삭제 여부 */
+            <if test="bidSttusCode != null and bidSttusCode != ''">
+                AND BB.BID_STTUS_CODE = #{bidSttusCode} -- 13: 투찰중, 31: 낙찰, 32: 유찰
+             </if>
             <if test="scsbidAt != null and scsbidAt != ''">
                 AND BBD.SCSBID_AT = #{scsbidAt} -- Y: 낙찰, N: 패찰
             </if>
@@ -221,11 +224,15 @@
 					,DELETE_DT
 					,FRST_REGISTER_ID
 					,FRST_REGIST_DT
+					,LAST_CHANGER_ID
+					,LAST_CHANGE_DT
 					)     
 			    VALUES
 				   (#{bidEntrpsNo}
 				   ,#{bidPblancId}
 				   ,#{likeYn}
+				   ,GETDATE()
+				   ,#{bidEntrpsNo}
 				   ,GETDATE()
 				   ,#{bidEntrpsNo}
 				   ,GETDATE()
@@ -239,4 +246,58 @@
 		SET INTRST_ENTRPS_QY = (SELECT INTRST_ENTRPS_QY FROM BD_BID_BAS WHERE BID_PBLANC_ID = #{bidPblancId}) + #{likeCnt}
 		WHERE BID_PBLANC_ID = #{bidPblancId}
 	</update>
+	
+    
+    <select id="bdMypageLikeList" parameterType="com.m2m.fo.bd.model.BdListVO" resultType="com.m2m.fo.bd.model.BdListVO">
+        SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+        /* com.m2m.fo.bd.mapper.BdMainMapper.bdMypageLikeList 마이페이지 목록 조회 */
+         SELECT 
+				BID.BID_ENTRPS_NO                                                                                                                          /*입찰업체 번호*/
+	            ,BID.BID_PBLANC_ID                                                                                                                         /*입찰공고 아이디*/
+	         	,BB.METAL_CODE                                                                                                                             /* 금속 코드 */
+	            ,(SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'METAL_CODE'  AND SUB_CODE = BB.METAL_CODE) AS METAL_CODE_NM                         /* 금속 구분 */
+	            ,(SELECT CODE_DCONE FROM CO_CMMN_CD WHERE MAIN_CODE = 'METAL_CODE'  AND SUB_CODE = BB.METAL_CODE) AS METAL_CODE_NMA                        /* 금속 코드 */
+	            ,BB.BRAND_GROUP_CODE                                                                                                                       /* 브랜드 그룹 코드 */
+	            ,ISNULL((SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'BRAND_GROUP_CODE'  AND SUB_CODE = BB.BRAND_GROUP_CODE),'ANY BRAND') AS BRAND_GROUP_CODE_NM	/* 브랜드 그룹 코드명 */
+	            ,BB.BRAND_CODE                                                                                                                             /* 브랜드 코드 */
+	            ,(SELECT BRAND_NM FROM IT_BRAND_INFO_BAS IB WHERE IB.BRAND_CODE = BB.BRAND_CODE ) AS BRAND_NM                                              /* 브랜드 명 */
+	            ,(SELECT NATION_CODE FROM IT_BRAND_INFO_BAS IB WHERE IB.BRAND_CODE = BB.BRAND_CODE ) AS NATION_CODE                                        /* 국가코드 */
+	            ,(SELECT CODE_DCTWO FROM IT_BRAND_INFO_BAS IB 
+	                 INNER JOIN CO_CMMN_CD CC
+	                 ON IB.NATION_CODE= CC.SUB_CODE
+	              WHERE IB.BRAND_CODE = BB.BRAND_CODE
+	             ) AS NATION_URL                                                                                                                           /* 국가 이미지 */
+	            ,BB.FRST_REGIST_DT                                                                                                                         /* 최초등록일시 */
+	            ,BB.ITM_SN                                                                                                                                 /* 아이템 순번 */
+	            , (SELECT GOODS_NM FROM IT_ITM_INFO_BAS WHERE 1=1 AND BB.ITM_SN = ITM_SN AND DELETE_AT = 'N') AS DSPY_GOODS_NM	                           /* 아이템상품명*/
+	            ,(SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'DSTRCT_LCLSF_CODE'  AND SUB_CODE = BB.DSTRCT_LCLSF_CODE) AS DSTRCT_LCLSF_CODE       /* 권역 대분류 코드 */
+	            ,BB.BDDPR_BEGIN_DT                                                                                                                         /* 투찰 시작 일시 */
+	            ,BB.BDDPR_END_DT                                                                                                                           /* 투찰 종료 일시 */
+	            ,BB.BID_STTUS_CODE                                                                                                                         /* 입찰 상태 코드 */
+	            ,(SELECT CODE_DCONE FROM CO_CMMN_CD WHERE MAIN_CODE = 'BID_STTUS_CODE'  AND SUB_CODE = BB.BID_STTUS_CODE) AS BID_STTUS_CODE_NM             /* 입찰 상태명 */
+	            ,PARTCPTN_ENTRPS_QY                                                                                                                        /* 참여 업체 수량 */
+	            ,INTRST_ENTRPS_QY                                                                                                                          /* 관심 업체 수량 */
+	            ,DSPY_AT                                                                                                                                   /* 전시 여부 */
+	            ,PBLANC_CANCL_AT                                                                                                                           /* 공고 취소 여부 */
+	            ,BB.OPENG_DT                                                                                                                               /* 개찰 일시 */
+	            ,BB.DELETE_AT                                                                                                                              /* 삭제 여부 */
+	            ,BB.BID_WT
+                ,ISNULL(BID.DELETE_AT,'Y') AS LIKE_YN
+            FROM dbo.BD_BID_BAS BB
+                INNER JOIN BD_INTRST_DTL BID
+                ON BB.BID_PBLANC_ID= BID.BID_PBLANC_ID 
+            WHERE BID.BID_ENTRPS_NO = #{bidEntrpsNo}
+                AND BB.DELETE_AT ='N'                                                                                                                       /* 삭제 여부 */
+            	AND BID.DELETE_AT='N'
+            ORDER BY BID.LAST_CHANGE_DT
+     </select>
+     
+     <select id="bdMypageLikeCnt" parameterType="com.m2m.fo.bd.model.BdListVO" resultType="com.m2m.fo.bd.model.BdListVO">
+		 /* com.m2m.fo.bd.mapper.BdMainMapper.bdMypageLikeCnt 마이페이지 목록 조회 */
+		SELECT  ISNULL(COUNT(*),0)  AS TOTAL_COUNT
+		FROM BD_INTRST_DTL
+		WHERE BID_ENTRPS_NO = #{bidEntrpsNo}
+			AND DELETE_AT='N'
+	 </select>
+     
 </mapper>
