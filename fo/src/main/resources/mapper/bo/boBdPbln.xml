@@ -88,6 +88,7 @@
         FROM BD_BID_UPDT_HST 
         WHERE 1=1 
            AND BID_PBLANC_ID          =   #{bidPblancId}                                    /*입찰공고아이디*/
+        ORDER BY FRST_REGIST_DT ASC
 	</select>
  	<select id="getBdEntrpsList" parameterType="com.m2m.fo.bo.model.BoBdPblnVO" resultType="com.m2m.fo.bo.model.BoBdBddprVO">
         SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
@@ -351,7 +352,7 @@
 			   )
 	     VALUES
 	           (
-			   (SELECT MAX(BID_UPDT_HST_SN)+1 AS CNT FROM BD_BID_UPDT_HST WHERE 1=1 AND BID_PBLANC_ID = #{bidPblancId})
+			   ISNULL((SELECT MAX(BID_UPDT_HST_SN)+1 AS CNT FROM BD_BID_UPDT_HST WHERE BID_PBLANC_ID = #{bidPblancId}), 1)
 	           ,#{bidPblancId}
 	           ,#{bidUpdtCn}
 	           ,#{bidUpdtResn}

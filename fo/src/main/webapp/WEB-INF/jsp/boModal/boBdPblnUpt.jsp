@@ -631,9 +631,7 @@ function updateBoBdPblnDtl(params) {
 //공고수정내용 저장
 function saveBdData() {
 	var bidUpdtCn = $('#addBidUpdtCn').val();	//공고수정내용
-	console.log(bidUpdtCn);	
 	var addBidUpdtResn = $('#addBidUpdtResn').val();	//공고수정사유
-	console.log(bidUpdtCn);
 	var bddprBeginH = $('#bddprBeginH').val();
 	var bddprBegindateAmPm = $('#bddprBegindateAmPm').val();
 	var bddprEndH = $('#bddprEndH').val();
@@ -719,17 +717,21 @@ function saveBdData() {
 	const nowDay = now.getDate();
 	
 	if(parsedbddprBeginDt >= now) {
-		debugger;
+		//debugger;
 	} else if (parsedbddprBeginDt < now){
-		debugger;
+		//debugger;
 	}
 	console.log(bidYear, bidMonth, bidDay);
 	console.log(nowYear, nowMonth, nowDay);
 
 	var bidDspyAt = '${boBdPblnDtl.dspyAt}';
 	
+	console.log(params.dspyAt);
+	console.log(params.bidSttusCode);
+	console.log(params.bidUpdtCn);
 	// 입찰 기간 미래이면서, 활성 -> 비활성화로 수정인 경우
-	if (bidDspyAt === 'Y' && dspyAt === 'N' && parsedbddprBeginDt >= now) {
+	debugger;
+	if (bidDspyAt === 'Y' && dspyAt === 'N' && parsedbddprBeginDt >= now && params.bidSttusCode != '13') {
 		alert("예정 상태로 노출된 입찰 건을\n비활성으로 전환 시 노출되지 않습니다.")
             
         alert('공고 건이 수정되었습니다.')
@@ -750,6 +752,33 @@ function saveBdData() {
 			updateBoBdPblnDtl(params);
 		}
 		else 
+		{
+			// 수정 화면에 그대로 있는다.
+		}
+	}
+	else if (params.bidSttusCode == '13' && params.dspyAt == 'Y' && (params.bidUpdtCn != null || params.bidUpdtCn != ''))
+	{
+		if (confirm("해당 공고 건은 투찰 진행중입니다. \n저장 시, 이미 투찰 중인 공고 건 내용도 \n함께 변경됩니다. 공고내용을 수정하시겠습니까?"))
+		{
+			params.bidSttusCode = '13';
+			
+			updateBoBdPblnDtl(params);
+		}
+		else
+		{
+			// 수정 화면에 그대로 있는다.
+		}
+	}
+	else if (params.bidSttusCode == '13' && params.dspyAt == 'N')
+	{
+		if (confirm("투찰 중인 건입니다. \n비활성 전화 시, 공고 취소가 됩니다. \n공고 내용을 수정하시겠습니까?"))
+		{
+			params.bidSttusCode = '11';
+			params.dspyAt == 'N';
+
+			updateBoBdPblnDtl(params);
+		}
+		else
 		{
 			// 수정 화면에 그대로 있는다.
 		}
