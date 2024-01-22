@@ -53,12 +53,26 @@
                     AND SCSBID_AT = 'N'
             ) as BD_FAIL_CNT,                               -- 패찰 건수
             (
+                SELECT SUB_CODE
+                FROM CO_CMMN_CD ccc
+                WHERE
+                    ccc.MAIN_CODE = 'BID_MBER_STTUS_CODE'
+                    AND ccc.SUB_CODE = beib.BID_MBER_STTUS_CODE
+            ) as BID_MBER_STTUS_CODE,                       -- 입찰 회원 상태 코드
+            (
                 SELECT CODE_DCTWO
                 FROM CO_CMMN_CD ccc
                 WHERE
                     ccc.MAIN_CODE = 'BID_MBER_STTUS_CODE'
                     AND ccc.SUB_CODE = beib.BID_MBER_STTUS_CODE
             ) as BID_MBER_STTUS,                            -- 입찰 회원 상태 명
+            (
+                SELECT SUB_CODE
+                FROM CO_CMMN_CD ccc
+                WHERE
+                    ccc.MAIN_CODE = 'BID_CONFM_STTUS_CODE'
+                    AND ccc.SUB_CODE = beib.BID_CONFM_STTUS_CODE
+            ) AS BID_CONFM_STTUS_CODE,                      -- 입찰 승인 상태 코드
             (
                 SELECT CODE_DCTWO
                 FROM CO_CMMN_CD ccc
@@ -126,6 +140,13 @@
             ETR_CONFM_REQUST_DT,                -- 승인요청일
             ETR_CONFM_PROCESS_DT,               -- 승인처리일
             (
+                SELECT SUB_CODE
+                FROM CO_CMMN_CD ccc
+                WHERE
+                    ccc.MAIN_CODE = 'BID_MBER_STTUS_CODE'
+                    AND ccc.SUB_CODE = beib.BID_MBER_STTUS_CODE
+            ) as BID_MBER_STTUS_CODE,       	-- 입찰 회원 상태 코드
+            (
                 SELECT CODE_DCTWO
                 FROM CO_CMMN_CD ccc
                 WHERE
@@ -133,6 +154,14 @@
                     AND ccc.SUB_CODE = beib.BID_MBER_STTUS_CODE
             ) as BID_MBER_STTUS, 				-- 입찰 회원 상태명
             beib.BID_MBER_INTRCP_DT, 			-- 차단일
+            beib.BID_MBER_INTRCP_CN, 			-- 차단 내용
+            (
+                SELECT SUB_CODE
+                FROM CO_CMMN_CD ccc
+                WHERE
+                    ccc.MAIN_CODE = 'BID_CONFM_STTUS_CODE'
+                    AND ccc.SUB_CODE = beib.BID_CONFM_STTUS_CODE
+            ) AS BID_CONFM_STTUS_CODE,			-- 입찰 승인 상태 코드
             (
                 SELECT CODE_DCTWO
                 FROM CO_CMMN_CD ccc

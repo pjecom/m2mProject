@@ -211,7 +211,7 @@
 								<td>${vo.bdfailCnt}</td>
 								<td>
 									<c:choose>
-										<c:when test="${vo.bidMberSttus eq '승인대기'}">${vo.bidConfmSttus}</c:when>
+										<c:when test="${vo.bidMberSttusCode eq '03'}">${vo.bidConfmSttus}</c:when>
 										<c:otherwise>${vo.bidMberSttus}</c:otherwise>
 									</c:choose>
 								</td>

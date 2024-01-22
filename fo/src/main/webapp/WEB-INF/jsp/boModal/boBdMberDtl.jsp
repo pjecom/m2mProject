@@ -49,7 +49,7 @@
                     <div class="modal-header">
                         <h5 class="modal-title" id="bd-mber-detail-modal-label">
                             <c:choose>
-                                <c:when test="${mberDtl.bidMberSttus eq '승인대기'}">${mberDtl.entrpsNm} ( ${mberDtl.bidConfmSttus} )</c:when>
+                                <c:when test="${mberDtl.bidMberSttusCode eq '03'}">${mberDtl.entrpsNm} ( ${mberDtl.bidConfmSttus} )</c:when>
                                 <c:otherwise>회원 관리 > ${mberDtl.entrpsNm}</c:otherwise>
                             </c:choose>
                         </h5>
@@ -60,12 +60,12 @@
                     <div class="modal-body">
                         <div class="sub-title mt-3">
                             <h3 class="">* 회사 기본 정보</h3>
-                            <c:if test="${mberDtl.bidMberSttus ne '승인대기'}">
+                            <c:if test="${mberDtl.bidMberSttusCode ne '03'}">
                                 <div style="display: flex">
-                                    <c:if test="${mberDtl.bidMberSttus eq '차단'}">
+                                    <c:if test="${mberDtl.bidMberSttusCode eq '02'}">
                                         <button type="button" class="btn" onclick="unlockMber('${mberDtl.bidEntrpsNo}')">해제하기</button>
                                     </c:if>
-                                    <c:if test="${mberDtl.bidMberSttus eq '정상'}">
+                                    <c:if test="${mberDtl.bidMberSttusCode eq '01'}">
                                         <button type="button" class="btn" onclick="intrcpMber('${mberDtl.bidEntrpsNo}')">차단하기</button>
                                     </c:if>
                                     <button type="button" class="btn ml-3" onclick="closeModal()">목록</button>
@@ -150,7 +150,7 @@
                         <div class="sub-title mt-3">
                             <h3 class="">
                                 <c:choose>
-                                    <c:when test="${mberDtl.bidMberSttus eq '승인대기'}">* 가입 승인 요청</c:when>
+                                    <c:when test="${mberDtl.bidMberSttusCode eq '03'}">* 가입 승인 요청</c:when>
                                     <c:otherwise>* 가입 날짜</c:otherwise>
                                 </c:choose>
                             </h3>
@@ -171,20 +171,20 @@
                                         <td><fmt:formatDate value="${mberDtl.etrConfmRequstDt}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                                         <th scope="row">
                                             <c:choose>
-                                                <c:when test="${mberDtl.bidConfmSttus eq '승인 거절'}">
+                                                <c:when test="${mberDtl.bidConfmSttusCode eq '02'}">
                                                     가입불가처리일
                                                 </c:when>
                                                 <c:otherwise>
                                                     가입 승인일
                                                 </c:otherwise>
                                             </c:choose>
-                                            <c:if test="${mberDtl.bidMberSttus eq '차단'}">
+                                            <c:if test="${mberDtl.bidMberSttusCode eq '02'}">
                                                 <p class="ps-text">(차단일)</p>
                                             </c:if>
                                         </th>
                                         <td>
                                             <fmt:formatDate value="${mberDtl.etrConfmProcessDt}" pattern = "yyyy-MM-dd HH:mm:ss"/>
-                                            <c:if test="${mberDtl.bidMberSttus eq '차단'}">
+                                            <c:if test="${mberDtl.bidMberSttusCode eq '02'}">
                                                 <p class="ps-text">
                                                     (<fmt:formatDate value="${mberDtl.bidMberIntrcpDt}" pattern = "yyyy-MM-dd HH:mm:ss"/>)
                                                 </p>
@@ -193,7 +193,7 @@
                                         <th scope="row">상태</th>
                                         <td>
                                             <c:choose>
-                                                <c:when test="${mberDtl.bidMberSttus eq '승인대기'}">
+                                                <c:when test="${mberDtl.bidMberSttusCode eq '03'}">
                                                     ${mberDtl.bidConfmSttus}
                                                 </c:when>
                                                 <c:otherwise>
@@ -202,7 +202,7 @@
                                             </c:choose>
                                         </td>
                                     </tr>
-                                    <c:if test="${mberDtl.bidMberSttus eq '차단' && mberDtl.bidMberIntrcpCn ne null}">
+                                    <c:if test="${mberDtl.bidMberSttusCode eq '02' && mberDtl.bidMberIntrcpCn ne null}">
                                         <tr>
                                             <th scope="row">비고</th>
                                             <td colspan="5">${mberDtl.bidMberIntrcpCn}</td>
@@ -214,17 +214,19 @@
 
                     </div>
                     <div class="modal-footer">
-                        <div class="btn-box mt-20">
-                            <c:choose>
-                                <c:when test="${mberDtl.bidMberSttus eq '승인대기' && mberDtl.bidConfmSttus ne '승인 거절'}">
-                                    <button type="button" class="btn" onclick="confmMber('${mberDtl.bidEntrpsNo}')">가입 승인</button>
-                                    <button type="button" class="btn" onclick="rejectMber('${mberDtl.bidEntrpsNo}')">가입 거절</button>
-                                </c:when>
-                                <c:otherwise>
-                                    <button type="button" class="btn" onclick="closeModal()">확인</button>
-                                </c:otherwise>
-                            </c:choose>
-                        </div>
+                        <c:if test="${mberDtl.bidMberSttusCode eq '03'}">
+                            <div class="btn-box mt-20">
+                                <c:choose>
+                                    <c:when test="${mberDtl.bidConfmSttusCode ne '02'}">
+                                        <button type="button" class="btn" onclick="confmMber('${mberDtl.bidEntrpsNo}')">가입 승인</button>
+                                        <button type="button" class="btn" onclick="rejectMber('${mberDtl.bidEntrpsNo}')">가입 거절</button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <button type="button" class="btn" onclick="closeModal()">확인</button>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                        </c:if>
                     </div>
                 </div>
             </div>
