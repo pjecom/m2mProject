@@ -605,12 +605,33 @@ function initModal() {
         }
     });
 }
+
+function updateBoBdPblnDtl(params) {
+	setBidSttus('');
+	$.ajax({
+   		url: '/bo/updateBoBdPblnDtl',
+   		method: 'POST', 
+   		contentType: 'application/json',
+   		data: JSON.stringify(params),
+   		dataType: 'json', 
+   		success: function(data) {
+   			alert('공고 건이 수정되었습니다.');
+   			modalClose();                 
+   			
+   	        getBidNoticeList();
+   			console.log('데이터 정상', data);
+   		},
+   		error: function(error) {
+   			// 에러 발생 시의 처리
+   			console.log('서버 요청 중 에러 발생:', error);
+			}
+   		
+	});
+}
 //공고수정내용 저장
 function saveBdData() {
 	var bidUpdtCn = $('#addBidUpdtCn').val();	//공고수정내용
 	console.log(bidUpdtCn);	
-	var nowDate = $('#addLastChangeDt').text();	//공고수정시간
-	console.log(nowDate);
 	var addBidUpdtResn = $('#addBidUpdtResn').val();	//공고수정사유
 	console.log(bidUpdtCn);
 	var bddprBeginH = $('#bddprBeginH').val();
@@ -682,24 +703,6 @@ function saveBdData() {
 	}
 	console.log($('#dspyAt').val());
     console.log("params:>>>>>" + JSON.stringify(params));
-    
-    function updateBoBdPblnDtl(params) {
-    	$.ajax({
-	   		url: '/bo/updateBoBdPblnDtl',
-	   		method: 'POST', 
-	   		contentType: 'application/json',
-	   		data: JSON.stringify(params),
-	   		dataType: 'json', 
-	   		success: function(data) {
-	   			console.log('데이터 정상', data);
-	   		},
-	   		error: function(error) {
-	   			// 에러 발생 시의 처리
-	   			console.error('서버 요청 중 에러 발생:', error);
-   			}
-	   		
-    	});
-    }
     	
    	const date = formatDate(bddprBeginDt)			
 	const [datePart, timePart] = date.split(' ');
@@ -715,33 +718,36 @@ function saveBdData() {
 	const nowMonth = now.getMonth();
 	const nowDay = now.getDate();
 	
+	if(parsedbddprBeginDt >= now) {
+		debugger;
+	} else if (parsedbddprBeginDt < now){
+		debugger;
+	}
 	console.log(bidYear, bidMonth, bidDay);
 	console.log(nowYear, nowMonth, nowDay);
 
 	var bidDspyAt = '${boBdPblnDtl.dspyAt}';
 	
-	if (bidDspyAt === 'Y' && dspyAt === 'N') {
+	// 입찰 기간 미래이면서, 활성 -> 비활성화로 수정인 경우
+	if (bidDspyAt === 'Y' && dspyAt === 'N' && parsedbddprBeginDt >= now) {
 		alert("예정 상태로 노출된 입찰 건을\n비활성으로 전환 시 노출되지 않습니다.")
             
         alert('공고 건이 수정되었습니다.')
         
+        params.bidSttusCode = '11';
         updateBoBdPblnDtl(params);
 
         // 사용자가 확인 버튼을 누른 경우 modalClose 함수 호출	                 
-        modalClose();                 
-        setBidSttus(11);
-        getBidNoticeList();
+        
 	}
-	else if (dspyAt === 'Y' && (bidYear === nowYear && bidMonth === nowMonth && bidDay === nowDay))
+	else if (dspyAt === 'Y' && (bidYear === nowYear && bidMonth === nowMonth && bidDay === nowDay) && params.bidSttusCode == '12')
 	{
 		// 날짜 기준으로 하는 것이 이상하다. 시간으로는 투찰 시간이 안 되었는데, 투찰 날짜가 되는 경우가 모순적이다.
 		if (confirm("시작일이 당일이며 상태가 활성입니다. \n해당 정보로 저장 시 투찰이 시작됩니다.\n진행하시겠습니까?"))
 		{
-			alert('공고 건이 수정되었습니다.');
+			params.bidSttusCode = '13';
 			
 			updateBoBdPblnDtl(params);
-			modalClose();
-			getBidNoticeList();
 		}
 		else 
 		{

@@ -255,7 +255,7 @@ public class BoBdPblnController {
 			//공고수정내용업데이트
 			boBdPblnService.updateBoBdPblnDtl(boBdPblnVO);
 			//공고수정이력업데이트
-			boBdPblnService.insertBobdUptHist(boBdPblnVO);
+			//boBdPblnService.updateBobdUptHist(BoBdPblnUpdtVO);
 			map.put("result", "success");
 
 			//넣은데이터 조회
