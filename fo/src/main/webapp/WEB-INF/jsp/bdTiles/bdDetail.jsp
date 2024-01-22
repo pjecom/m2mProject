@@ -44,7 +44,7 @@
 				<div class="section prod-detail-wrap bid">
 					<div class="inwrap">
 			            <!-- ITEM TITLE :: START  -->
-			            <h2 class="h2-new">공고 상세 정보 </h2>
+			            <h2 class="h2-new">공고 상세 정보</h2>
 			            <!-- ITEM TITLE :: END  -->	            
 			            <!-- ITEM DETAIL AREA :: START -->
 						<ul class="list t2">
@@ -605,11 +605,11 @@
         // 만약 active 클래스가 있으면 제거, 없으면 추가
         if (isActive === 'N') {
             // 이미 활성화된 경우, 비활성화로 변경
-            $(".ico.like").removeClass("active");
+			$(".ico.like").addClass("active");
             // 여기에 UNCHECKED 상태에 대한 추가 로직을 넣을 수 있습니다.
         } else {
             // 비활성화된 경우, 활성화로 변경
-            $(".ico.like").addClass("active");
+			$(".ico.like").removeClass("active");
             // 여기에 CHECKED 상태에 대한 추가 로직을 넣을 수 있습니다.
         }
     });
@@ -621,6 +621,8 @@
         // 현재 버튼에 active 클래스가 있는지 확인
         var isActive = $(this).hasClass("active");
 		var conCheck = '';
+        var likeCnt = 1;
+		var intrstEntrpsQyElement = $(this).closest('li').find('.intrstEntrpsQy');
 
         // 만약 active 클래스가 있으면 제거, 없으면 추가
         if (isActive) {
@@ -628,45 +630,43 @@
             $(this).removeClass("active");
             // 여기에 UNCHECKED 상태에 대한 추가 로직을 넣을 수 있습니다.
 			console.log("active 제거");
-			conCheck = 'N';
+			conCheck = 'Y';
 			
 			 // 초기 관심 기업 수 증가
 			var interestCount = parseInt("${bdDetailVO.intrstEntrpsQy}");
 			interestCount = Math.max(0, interestCount - 1);
-			$("#interestCount").text(interestCount);
+			$("#interestCount").text(interestCount);	
 
-            // 클릭 시 값이 'N'으로 변경되었음을 서버로 전송하거나 다른 작업 수행
-            // 예: updateValueToServer('N');
+            likeCnt = -1;    
         } else {
             // 비활성화된 경우, 활성화로 변경
             $(this).addClass("active");
             // 여기에 CHECKED 상태에 대한 추가 로직을 넣을 수 있습니다.
 			console.log("active 추가");
-			conCheck = 'Y';
+			conCheck = 'N';
 
 			// 초기 관심 기업 수 증가
 			var interestCount = parseInt("${bdDetailVO.intrstEntrpsQy}");
 			interestCount ++;
-			$("#interestCount").text(interestCount);
-            // 클릭 시 값이 다른 값으로 변경되었음을 서버로 전송하거나 다른 작업 수행
-            // 예: updateValueToServer('다른값');
+			$("#interestCount").text(interestCount);            
         }
-		console.log(conCheck);
+		console.log(conCheck); 
 
-		// var params = {
-		// 	"bidEntrpsNo" : "${bdDetailVO.bidEntrpsNo}",	// 업체번호(세션값)
-		// 	"bidPblancId" : "${bdDetailVO.bidPblancId}",	// 입찰 공고아이디 
-        //     "likeYn" : conCheck
-		// }
-        // $.ajax({
-        //         type: 'POST',
-        //         url: '/likeUpdate',
-        //         contentType: 'application/json', 
-        //         data: JSON.stringify(params),
-        //         success: function(data) {
+		var params = {
+			"bidEntrpsNo" : "${bdDetailVO.bidEntrpsNo}",	// 업체번호(세션값)
+			"bidPblancId" : "${bdDetailVO.bidPblancId}",	// 입찰 공고아이디 
+            "likeYn" : conCheck,
+            "likeCnt" : likeCnt			
+		}
+        $.ajax({
+                type: 'POST',
+                url: '/likeUpdate',
+                contentType: 'application/json', 
+                data: JSON.stringify(params),
+                success: function(data) {
 
-        //         }
-    	// });
+                }
+    	});
     });
 
 

@@ -60,12 +60,12 @@ public class BdDetailController {
 		BdDetailVO conList =  bdDetailService.selectConList(bdDetailVO);
 		String conCheck = "N";
 		
-		// 관심목록 값이 없으면 Flag 값 N 있으면 Flag값 Y
+		// 관심목록 값이 없으면 Flag 값 N (켜진것) 있으면 Flag값 Y(꺼진것)
 		if(conList == null){
 			log.info("관심목록을 체크하지 않았습니다.");
-			conCheck = "N";
-		}else {
 			conCheck = "Y";
+		}else {
+			conCheck = "N";
 		}
 		detailVO.setConCheck(conCheck);
 		
