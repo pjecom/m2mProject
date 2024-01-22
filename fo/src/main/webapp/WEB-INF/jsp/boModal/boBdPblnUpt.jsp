@@ -729,8 +729,9 @@ function saveBdData() {
 	console.log(params.dspyAt);
 	console.log(params.bidSttusCode);
 	console.log(params.bidUpdtCn);
+	console.log(params.addBidUpdtResn);
 	// 입찰 기간 미래이면서, 활성 -> 비활성화로 수정인 경우
-	debugger;
+	//debugger;
 	if (bidDspyAt === 'Y' && dspyAt === 'N' && parsedbddprBeginDt >= now && params.bidSttusCode != '13') {
 		alert("예정 상태로 노출된 입찰 건을\n비활성으로 전환 시 노출되지 않습니다.")
             
@@ -756,8 +757,12 @@ function saveBdData() {
 			// 수정 화면에 그대로 있는다.
 		}
 	}
-	else if (params.bidSttusCode == '13' && params.dspyAt == 'Y' && (params.bidUpdtCn != null || params.bidUpdtCn != ''))
+	else if (params.bidSttusCode == '13' && params.dspyAt == 'Y')
 	{
+		if ((params.bidUpdtCn == "") || (params.bidUpdtResn == "")) {	
+			alert("공고 수정 이력을 입력해주세요")
+			return;
+		}
 		if (confirm("해당 공고 건은 투찰 진행중입니다. \n저장 시, 이미 투찰 중인 공고 건 내용도 \n함께 변경됩니다. 공고내용을 수정하시겠습니까?"))
 		{
 			params.bidSttusCode = '13';
