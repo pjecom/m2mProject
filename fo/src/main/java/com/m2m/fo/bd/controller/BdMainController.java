@@ -58,9 +58,11 @@ public class BdMainController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 	        BdListVO bdCnt = bdMainService.bdMypageCount(bdBidVO);
+	        BdListVO favoritesCnt = bdMainService.bdMypageLikeCnt(bdBidVO);
 			map.put("biddingCnt", bdCnt.getBiddingCnt());
 			map.put("approvedCnt", bdCnt.getApprovedCnt());
 			map.put("rejectedCnt", bdCnt.getRejectedCnt());
+			map.put("favoritesCnt", favoritesCnt.getFavoritesCnt());
 			return new ResponseEntity<>(map, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -100,7 +102,10 @@ public class BdMainController {
 			map.put("expectCnt", bdListCnt.getExpectCnt());
 			map.put("bidingCnt", bdListCnt.getBidingCnt());
 			map.put("endCnt", bdListCnt.getEndCnt());
-
+	        //BdListVO bdCnt = bdMainService.bdMypageCount(bdListVO);
+//	        BdListVO favoritesCnt = bdMainService.bdMypageLikeCnt(bdBidVO);
+//	        log.info("favoritesCnt1111"+favoritesCnt.getFavoritesCnt());
+//			map.put("favoritesCnt", favoritesCnt.getFavoritesCnt());
 			return new ResponseEntity<>(map, HttpStatus.OK);
 
 		} catch (Exception e) {

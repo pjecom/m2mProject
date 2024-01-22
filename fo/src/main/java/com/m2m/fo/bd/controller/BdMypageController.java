@@ -53,9 +53,10 @@ public class BdMypageController {
 	@RequestMapping(value = "/bdMypageLikeList", method = RequestMethod.POST)
     public String mypageLikeList(@RequestBody(required = false) BdListVO bdListVO , ModelMap model, HttpServletRequest request) throws Exception {
 		List<BdListVO> list = bdMainService.mypageLikeList(bdListVO);
-        //BdListVO totalCnt = bdMainService.bdMypageLikeCnt(bdListVO);
+        BdListVO favoritesCnt = bdMainService.bdMypageLikeCnt(bdListVO);
         //BdListVO bdCnt = bdMainService.bdMypageCount(bdListVO);
-		//model.addAttribute("totalCnt", totalCnt.getTotalCnt());
+		model.addAttribute("favoritesCnt", favoritesCnt.getFavoritesCnt());
+        log.info("favoritesCnt22222"+favoritesCnt.getFavoritesCnt());
 		model.addAttribute("likeList", list);
         return "bdTiles/bdMypage";
     }

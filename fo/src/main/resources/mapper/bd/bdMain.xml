@@ -49,7 +49,7 @@
                   AND BID_STTUS_CODE = #{bidSttusCode}                                                                                                   /* 입찰 상태 코드 */
                  </if>
                 <if test="bidSttusCode == '30'">
-                  AND BID_STTUS_CODE IN ('31', '32')                                                                                                   /* 입찰 상태 코드 */
+                  AND BID_STTUS_CODE IN ('30','31', '32')                                                                                                   /* 입찰 상태 코드 */
                  </if>
              </if>
              <if test="brand != null and brand != ''">
@@ -75,7 +75,7 @@
              COUNT(*) AS TotalCnt                                                    /* 입찰 전체 목록 */
             ,COUNT(CASE WHEN BID_STTUS_CODE=12 THEN 1 END) AS ExpectCnt              /* 입찰상태:입찰예정 */
             ,COUNT(CASE WHEN BID_STTUS_CODE=13 THEN 1 END) AS BidingCnt              /* 입찰상태:투찰중 */
-            ,COUNT(CASE WHEN BID_STTUS_CODE IN ('31', '32') THEN 1 END) AS EndCnt  /* 입찰상태:마감 */
+            ,COUNT(CASE WHEN BID_STTUS_CODE IN ('30','31', '32') THEN 1 END) AS EndCnt  /* 입찰상태:마감 */
         FROM dbo.BD_BID_BAS                                                          /* 입찰 기본 */
         WHERE 1=1
                 AND DSPY_AT = 'Y'                                                                                                                        /* 전시 여부 */
@@ -138,11 +138,11 @@
                 INNER JOIN BD_BDDPR_DTL BBD
                 ON BB.BID_PBLANC_ID= BBD.BID_PBLANC_ID 
             WHERE BBD.BID_ENTRPS_NO = #{bidEntrpsNo}
-                AND BB.PBLANC_CANCL_AT = 'N'                                                                                                                /* 공고 취소 여부 */
                 AND BB.DELETE_AT ='N'                                                                                                                       /* 삭제 여부 */
-            <if test="bidSttusCode != null and bidSttusCode != ''">
-                AND BB.BID_STTUS_CODE = #{bidSttusCode} -- 13: 투찰중, 31: 낙찰, 32: 유찰
-             </if>
+            	AND BB.BID_STTUS_CODE = #{bidSttusCode} -- 13: 투찰중, 31: 낙찰, 32: 유찰
+             <if test="pblancCanclAt != null and pblancCanclAt != ''">
+                AND PBLANC_CANCL_AT = #{pblancCanclAt} -- Y: 낙찰, N: 패찰
+            </if>
             <if test="scsbidAt != null and scsbidAt != ''">
                 AND BBD.SCSBID_AT = #{scsbidAt} -- Y: 낙찰, N: 패찰
             </if>
@@ -168,8 +168,10 @@
        INNER JOIN BD_BDDPR_DTL BBD
           ON BB.BID_PBLANC_ID= BBD.BID_PBLANC_ID 
        WHERE BBD.BID_ENTRPS_NO = #{bidEntrpsNo}
-             AND BB.PBLANC_CANCL_AT = 'N'                                                                                                                /* 공고 취소 여부 */
              AND BB.DELETE_AT ='N'         
+            <if test="pblancCanclAt != null and pblancCanclAt != ''">
+                AND PBLANC_CANCL_AT = #{pblancCanclAt} -- Y: 낙찰, N: 패찰
+            </if>
              <if test="filter == '01' and searchDateFrom != null and searchDateFrom != '' and searchDateTo != null and searchDateTo != ''">
               AND BDDPR_BEGIN_DT between ${searchDateFrom}000000 and ${searchDateTo}235959                                                                 /* 공고(마감) 날짜 */
              </if>
@@ -294,7 +296,7 @@
      
      <select id="bdMypageLikeCnt" parameterType="com.m2m.fo.bd.model.BdListVO" resultType="com.m2m.fo.bd.model.BdListVO">
 		 /* com.m2m.fo.bd.mapper.BdMainMapper.bdMypageLikeCnt 마이페이지 목록 조회 */
-		SELECT  ISNULL(COUNT(*),0)  AS TOTAL_COUNT
+		SELECT  ISNULL(COUNT(*),0)  AS FAVORITES_CNT
 		FROM BD_INTRST_DTL
 		WHERE BID_ENTRPS_NO = #{bidEntrpsNo}
 			AND DELETE_AT='N'

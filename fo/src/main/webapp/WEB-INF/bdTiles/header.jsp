@@ -41,7 +41,7 @@ function moveMyPage() {
 		         "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
                  "bidSttusCode" : '13'
 		}
-    pageMove( "/bdMypage", JSON.stringify(params), 'application/json');
+    pageMove( "/bdMypageAjax", JSON.stringify(params), 'application/json');
 }
 
 function logout() {

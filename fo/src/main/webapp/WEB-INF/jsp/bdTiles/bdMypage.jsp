@@ -101,9 +101,9 @@
 				            <!-- TAB-1 :: START -->
 				            <div id="tab-1" class="tab-content on">
 				                <div class="custom_radio">
-								  <input type="radio" id="featured-1" name="featuredGroup1" checked><label for="featured-1">전체</label>
-								  <input type="radio" id="featured-2" name="featuredGroup1"><label for="featured-2">투찰 중건</label>
-								  <input type="radio" id="featured-3" name="featuredGroup1"><label for="featured-3">투찰접수 취소건</label>
+								  <input type="radio" id="featured-1" value="" name="featuredGroup1" checked><label for="featured-1">전체</label>
+								  <input type="radio" id="featured-2" value="N" name="featuredGroup1"><label for="featured-2">투찰 중건</label>
+								  <input type="radio" id="featured-3" value="Y" name="featuredGroup1"><label for="featured-3">투찰접수 취소건</label>
 				                </div>
 				                <ul class="list t2 myPageData">
 									<c:if test="${empty bdList}">
@@ -351,7 +351,7 @@
 			                </div>
 				            <div class="tab-content type2">
 				                <div class="cont-sub-tit">
-									All <span class="fc-red">2</span>개
+									All <span class="fc-red">${favoritesCnt}</span>개
 				                </div>
 				                <ul class="list t2 likeData">
 									<c:if test="${empty likeList}">
@@ -396,7 +396,7 @@
 																	<span class="intrstEntrpsQy" value="${vo.intrstEntrpsQy}">${vo.intrstEntrpsQy}</span>
 																</li>
 															</ul>
-															<a href="javascript:;" class="ico like active"  onclick="likeUpdate(e);" id="${vo.bidPblancId}">
+															<a href="javascript:;" class="ico like active"  id="${vo.bidPblancId}">
 																<span class="material-symbols-outlined">favorite</span>
 																<span class="tit">관심해제</span>
 																<span class="ico-txt">관심 해제합니다.</span>
@@ -486,12 +486,7 @@
 	<!-- script custom :: END -->
 	<script type="text/javascript">
 		$(function() {
-			// $(this).attr('data-tab');
 			var tab = "${tabNo}";
-			// console.log("태태탭"+tab);
-			// var bbb = ('#tab'+tab);
-			// console.log("태태탭2"+bbb);
-			// document.getElementById(bbb).click();
 			
 			switch(tab){
                 case '1':
@@ -545,7 +540,7 @@
 		var params = {
 		         "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
                  "bidSttusCode" : bidSttusCode,
-                 "scsbidAt" : scsbidAt,
+                 "pblancCanclAt" : scsbidAt,
 				"filter" : $('#filter').val(),
 				"searchDateFrom" : $('#searchDateFrom').val().replaceAll("-", ""),
 				"searchDateTo" : $('#searchDateTo').val().replaceAll("-", ""),
@@ -872,27 +867,45 @@ $(".btn-period > .radio-btn").click(function() {
     });
 
 	function selectBdMainInfoList() {
-		var bidSttusCode = $(".item.on").val();
-		switch(bidSttusCode){
-                case '1':
-				getMyPageList1('13', '');
-				break;
-                case '2':
-				getMyPageList2('31', 'Y');
-                    break;
-                case '3':
-                getMyPageList3('31', 'N');
-                    break;
-				case '4':
-                getMyPageList4('32', '');
-                    break;
-                case '':
-				getMyPageList1('13', '');
-                    break;
-            }
-	}
+		var bidSttusCode1 = $(".item1.on").val();
+		var bidSttusCode2 = $(".item2.on").val();
+		var bidSttusCode3 = $(".item3.on").val();
+		var bidSttusCode4 = $(".item4.on").val();
 
-	function likeUpdate(e) {
+		if(bidSttusCode1 !== undefined){
+			getMyPageList1('13', '');
+		}
+		else if(bidSttusCode2 !== undefined) {
+			getMyPageList2('31', 'Y');
+		}
+		else if(bidSttusCode3 !== undefined) {
+			getMyPageList3('31', 'N');
+		}
+		else if(bidSttusCode4 !== undefined) {
+			getMyPageList4('32', '');
+		} else {
+			getMyPageList1('13', '');
+		}
+
+		// switch(bidSttusCode){
+        //         case '1':
+		// 		getMyPageList1('13', '');
+		// 		break;
+        //         case '2':
+		// 		getMyPageList2('31', 'Y');
+        //             break;
+        //         case '3':
+        //         getMyPageList3('31', 'N');
+        //             break;
+		// 		case '4':
+        //         getMyPageList4('32', '');
+        //             break;
+        //         case '':
+		// 		getMyPageList1('13', '');
+        //             break;
+        //     }
+	}
+	$(document).on( 'click', ".ico.like", function(e) {
         // var interestCount = '';
         // var intrstEntrpsQy = $(".intrstEntrpsQy").val();
 
@@ -947,9 +960,12 @@ $(".btn-period > .radio-btn").click(function() {
                     
                 }
         });
-    }
+    });
 
 	function bdMypageLikeList(){
+		//$(".tabs > .item").removeClass("active");
+		// let tabb =  $(this).attr('data-tab');
+        // $('#'+tabb).addClass("active");
 		var params = {
             "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo")
 		}
@@ -960,11 +976,16 @@ $(".btn-period > .radio-btn").click(function() {
                 contentType: 'application/json', 
                 data: JSON.stringify(params),
                 success: function(res) {
+					// $(".favoritesCnt").text(favoritesCnt); //관심
 					updateLikeTable($(res).find(".likeData").html());
     	        },
     	});
 	}
 
+	$(document).on( 'click', "[name='featuredGroup1']", function(e) {
+		var scsbidAt = $(this).attr('value');
+		getMyPageList1('13',scsbidAt);
+	});
 	
 	</script>
 </body>

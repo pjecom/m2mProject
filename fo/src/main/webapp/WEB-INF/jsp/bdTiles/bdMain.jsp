@@ -60,10 +60,10 @@
                                         <p class="lose defeatCnt rejectedCnt"></p>
                                 </a> 								   	 	
                                 </div>		
-                                <div class="item">
-                                    <a href="javascript:;" onclick="pageMove('/bdMypage')">
+                                <div class="item mypage">
+                                    <a href="javascript:;" onclick="bdMypageLikeList();" >
                                         <h4>관심건</h4>
-                                        <p id="intrstBidCnt" class="keep intrstBidCnt" id="favoritesCnt">00</p>
+                                        <p class="lose defeatCnt favoritesCnt"></p>
                                     </a> 								   	 	
                                 </div>							   	 						   	 					   	 
                         </div>
@@ -356,6 +356,7 @@ function getMypageInfo(bidEntrpsNo)
                     $(".biddingCnt").text(data.biddingCnt); //투찰
                     $(".approvedCnt").text(data.approvedCnt); //낙찰
                     $(".rejectedCnt").text(data.rejectedCnt); //패찰
+                    $(".favoritesCnt").text(data.favoritesCnt); //관심
             }
         });
  }
@@ -367,6 +368,12 @@ function moveMyPage(bidSttusCode, scsbidAt,tabNo) {
                  "tabNo" : tabNo
 		}
     pageMove( "/bdMypageAjax", JSON.stringify(params), 'application/json');
+}
+function bdMypageLikeList() {
+    var params = {
+            "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
+		}
+    pageMove( "/bdMypageLikeList", JSON.stringify(params), 'application/json');
 }
 
 function dateviewfmt(date){
@@ -513,7 +520,7 @@ var params = {
 					html += '			</div>';
 					html += '			<span class="bid-d-day pre abs-info">투찰마감까지<span class="time" style="color: #1D5FD0;" id=time'+result.mainBdList[i].bidPblancId+'>'+fmtDate(result.mainBdList[i].bddprBeginDt, result.mainBdList[i].bddprEndDt, "time"+result.mainBdList[i].bidPblancId, result.mainBdList[i].bidSttusCode);+'</span>';
 					html += '			</span>';
-				} else if (result.mainBdList[i].bidSttusCode == "31" || result.mainBdList[i].bidSttusCode == "22" || result.mainBdList[i].bidSttusCode == "23" || result.mainBdList[i].bidSttusCode == "32" ) {
+				} else if (result.mainBdList[i].bidSttusCode == "31" || result.mainBdList[i].bidSttusCode == "22" || result.mainBdList[i].bidSttusCode == "23" || result.mainBdList[i].bidSttusCode == "32" ||result.mainBdList[i].bidSttusCode == "30") {
 				html += '				<div class="btns">';
 					html += '				<a href="javascript:;" name="selectBid" value="'+result.mainBdList[i].bidSttusCode+'" id ="'+result.mainBdList[i].bidPblancId+'"  class="btn-bid-black">마감</a>';
 					html += '			</div>';
