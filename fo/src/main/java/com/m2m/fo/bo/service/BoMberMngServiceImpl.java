@@ -46,4 +46,15 @@ public class BoMberMngServiceImpl implements BoMberMngService{
 		boMberMngMapper.unlockMber(bidEntrpsNo);
 
 	}
+
+	@Override
+	public void rejectMber(String bidEntrpsNo) {
+		boMberMngMapper.rejectMber(bidEntrpsNo);
+	}
+
+	@Override
+	public void confmMber(String bidEntrpsNo) {
+		boMberMngMapper.confmMber(bidEntrpsNo);
+
+	}
 }

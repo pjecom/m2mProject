@@ -18,4 +18,8 @@ public interface BoMberMngMapper {
     void intrcpMber(String bidEntrpsNo);
 
     void unlockMber(String bidEntrpsNo);
+
+    void rejectMber(String bidEntrpsNo);
+
+    void confmMber(String bidEntrpsNo);
 }

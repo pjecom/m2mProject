@@ -91,53 +91,48 @@ public class BoMberMngController {
     }
 
     @RequestMapping(value = "/intrcpMber", method = RequestMethod.POST)
-    public String intrcpMber(@RequestBody BoMberVO mberVO, ModelMap model) throws Exception {
+    public ResponseEntity<?> intrcpMber(@RequestBody BoMberVO mberVO, ModelMap model) throws Exception {
 
-        mberMngService.intrcpMber(mberVO.getBidEntrpsNo());
-
-        BoMberVO mberDtl = mberMngService.getMberDtl(mberVO.getBidEntrpsNo());
-
-        // 결과가 최소한 하나 이상인지 확인
-        if (mberDtl != null) {
-
-            mberDtl.setBsnmRegistNo(formatBsnmRegistNo(mberDtl.getBsnmRegistNo()));
-            mberDtl.setMoblphonNo2(formatPhoneNumber(mberDtl.getMoblphonNo2()));
-            mberDtl.setVrscBsnmRegistNo(formatBsnmRegistNo(mberDtl.getVrscBsnmRegistNo()));
-            mberDtl.setVrscMoblphonNo(formatPhoneNumber(mberDtl.getVrscMoblphonNo()));
-
-            // 회원 정보
-            model.addAttribute("mberDtl", mberDtl);
-
-        } else {
-            log.warn("Error");
+        try {
+            mberMngService.intrcpMber(mberVO.getBidEntrpsNo());
+            return ResponseEntity.ok(true);  // ajax success 데이터 전달
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();  // ajax success 데이터 전달
         }
 
-        return "boModal/boBdMberDtl";
     }
 
     @RequestMapping(value = "/unlockMber", method = RequestMethod.POST)
-    public String unlockMber(@RequestBody BoMberVO mberVO, ModelMap model) throws Exception {
+    public ResponseEntity<?> unlockMber(@RequestBody BoMberVO mberVO, ModelMap model) throws Exception {
 
-        mberMngService.unlockMber(mberVO.getBidEntrpsNo());
-
-        BoMberVO mberDtl = mberMngService.getMberDtl(mberVO.getBidEntrpsNo());
-
-        // 결과가 최소한 하나 이상인지 확인
-        if (mberDtl != null) {
-
-            mberDtl.setBsnmRegistNo(formatBsnmRegistNo(mberDtl.getBsnmRegistNo()));
-            mberDtl.setMoblphonNo2(formatPhoneNumber(mberDtl.getMoblphonNo2()));
-            mberDtl.setVrscBsnmRegistNo(formatBsnmRegistNo(mberDtl.getVrscBsnmRegistNo()));
-            mberDtl.setVrscMoblphonNo(formatPhoneNumber(mberDtl.getVrscMoblphonNo()));
-
-            // 회원 정보
-            model.addAttribute("mberDtl", mberDtl);
-
-        } else {
-            log.warn("Error");
+        try {
+            mberMngService.unlockMber(mberVO.getBidEntrpsNo());
+            return ResponseEntity.ok(true);  // ajax success 데이터 전달
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();  // ajax success 데이터 전달
         }
+    }
 
-        return "boModal/boBdMberDtl";
+    @RequestMapping(value = "/rejectMber", method = RequestMethod.POST)
+    public ResponseEntity<?> rejectMber(@RequestBody BoMberVO mberVO, ModelMap model) throws Exception {
+
+        try {
+            mberMngService.rejectMber(mberVO.getBidEntrpsNo());
+            return ResponseEntity.ok(true);  // ajax success 데이터 전달
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();  // ajax success 데이터 전달
+        }
+    }
+
+    @RequestMapping(value = "/confmMber", method = RequestMethod.POST)
+    public ResponseEntity<?> confmMber(@RequestBody BoMberVO mberVO, ModelMap model) throws Exception {
+
+        try {
+            mberMngService.confmMber(mberVO.getBidEntrpsNo());
+            return ResponseEntity.ok(true);  // ajax success 데이터 전달
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();  // ajax success 데이터 전달
+        }
     }
 
     private String formatPhoneNumber(String phonNo) {

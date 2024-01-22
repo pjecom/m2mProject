@@ -49,7 +49,7 @@
                     <div class="modal-header">
                         <h5 class="modal-title" id="bd-mber-detail-modal-label">
                             <c:choose>
-                                <c:when test="${mberDtl.bidMberSttus eq '승인대기'}">${mberDtl.entrpsNm}</c:when>
+                                <c:when test="${mberDtl.bidMberSttus eq '승인대기'}">${mberDtl.entrpsNm} ( ${mberDtl.bidConfmSttus} )</c:when>
                                 <c:otherwise>회원 관리 > ${mberDtl.entrpsNm}</c:otherwise>
                             </c:choose>
                         </h5>
@@ -167,10 +167,17 @@
                                 </colgroup>
                                 <tbody>
                                     <tr>
-                                        <th scope="row">가입접수일</th>
+                                        <th scope="row">가입 접수일</th>
                                         <td><fmt:formatDate value="${mberDtl.etrConfmRequstDt}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                                         <th scope="row">
-                                            가입승인일
+                                            <c:choose>
+                                                <c:when test="${mberDtl.bidConfmSttus eq '승인 거절'}">
+                                                    가입불가처리일
+                                                </c:when>
+                                                <c:otherwise>
+                                                    가입 승인일
+                                                </c:otherwise>
+                                            </c:choose>
                                             <c:if test="${mberDtl.bidMberSttus eq '차단'}">
                                                 <p class="ps-text">(차단일)</p>
                                             </c:if>
@@ -184,9 +191,18 @@
                                             </c:if>
                                         </td>
                                         <th scope="row">상태</th>
-                                        <td>${mberDtl.bidMberSttus}</td>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${mberDtl.bidMberSttus eq '승인대기'}">
+                                                    ${mberDtl.bidConfmSttus}
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${mberDtl.bidMberSttus}
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
                                     </tr>
-                                    <c:if test="${mberDtl.bidMberSttus eq '차단'}">
+                                    <c:if test="${mberDtl.bidMberSttus eq '차단' && mberDtl.bidMberIntrcpCn ne null}">
                                         <tr>
                                             <th scope="row">비고</th>
                                             <td colspan="5">${mberDtl.bidMberIntrcpCn}</td>
@@ -198,12 +214,17 @@
 
                     </div>
                     <div class="modal-footer">
-                        <c:if test="${mberDtl.bidMberSttus eq '승인대기'}">
-                            <div class="btn-box mt-20">
-                                <button type="button" class="btn" onclick="createBdNotice()">가입 승인</button>
-                                <button type="button" class="btn" data-dismiss="modal">가입 거절</button>
-                            </div>
-                        </c:if>
+                        <div class="btn-box mt-20">
+                            <c:choose>
+                                <c:when test="${mberDtl.bidMberSttus eq '승인대기' && mberDtl.bidConfmSttus ne '승인 거절'}">
+                                    <button type="button" class="btn" onclick="confmMber('${mberDtl.bidEntrpsNo}')">가입 승인</button>
+                                    <button type="button" class="btn" onclick="rejectMber('${mberDtl.bidEntrpsNo}')">가입 거절</button>
+                                </c:when>
+                                <c:otherwise>
+                                    <button type="button" class="btn" onclick="closeModal()">확인</button>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -234,10 +255,11 @@
         };
 
         postSetDataTypeBo(url, JSON.stringify(params), "html", true, (res) => {
-            alert('해제되었습니다.')
-            $("#bd-mber-detail-modal .modal2").html(res);
-
-            reloadList();
+            if(JSON.parse(res)) {
+                alert('해제되었습니다.')
+                redirectToDetailPage(bidEntrpsNo)
+                reloadList();
+            }
         })
     }
 
@@ -257,10 +279,11 @@
                     };
 
                     postSetDataTypeBo(url, JSON.stringify(params), "html", true, (res) => {
-                        alert('차단되었습니다.')
-                        $("#bd-mber-detail-modal .modal2").html(res);
-
-                        reloadList();
+                        if(JSON.parse(res)) {
+                            alert('차단되었습니다.')
+                            redirectToDetailPage(bidEntrpsNo)
+                            reloadList();
+                        }
                     });
                 } else {
                     return
@@ -272,10 +295,45 @@
         })
     }
 
+    function rejectMber(bidEntrpsNo) {
+        var url = "/boMber/rejectMber";
+        var params = {
+            "bidEntrpsNo": bidEntrpsNo
+        };
+
+        postSetDataTypeBo(url, JSON.stringify(params), "html", true, (res) => {
+            if(JSON.parse(res)) {
+                alert('가입 거절 처리 되었습니다.')
+                redirectToDetailPage(bidEntrpsNo)
+                reloadList();
+            }
+        })
+    }
+
+    function confmMber(bidEntrpsNo) {
+        var url = "/boMber/confmMber";
+        var params = {
+            "bidEntrpsNo": bidEntrpsNo
+        };
+
+        postSetDataTypeBo(url, JSON.stringify(params), "html", true, (res) => {
+            if(JSON.parse(res)) {
+                alert('승인 되었습니다.')
+                bdMberVO = {
+                    "bidMberSttusCode" : '01'
+                }
+                closeModal()
+                getBidMberList()
+            }
+        })
+    }
+
     function reloadList() {
         postSetDataTypeBo("/boMber/mberMng", JSON.stringify(bdMberVO), "html", true, (res) => {
-            eleRedendering("#bid-mber-amount", res)
-            eleRedendering("#realgrid", res)
+            if (!sorin.validation.isNull(res)) {
+                eleRedendering("#bid-mber-amount", res)
+                eleRedendering("#realgrid", res)
+            }
         })
     }
 </script>

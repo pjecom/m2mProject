@@ -18,4 +18,8 @@ public interface BoMberMngService {
     void intrcpMber(String bidEntrpsNo);
 
     void unlockMber(String bidEntrpsNo);
+
+    void confmMber(String bidEntrpsNo);
+
+    void rejectMber(String bidEntrpsNo);
 }

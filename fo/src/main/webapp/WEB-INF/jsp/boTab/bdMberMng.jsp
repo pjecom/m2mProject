@@ -209,7 +209,12 @@
 								<td><fmt:formatDate value="${vo.bidMberIntrcpDt}" pattern = "yyyy-MM-dd HH:mm:ss"/></td>
 								<td>${vo.bdScsCnt}</td>
 								<td>${vo.bdfailCnt}</td>
-								<td>${vo.bidMberSttus}</td>
+								<td>
+									<c:choose>
+										<c:when test="${vo.bidMberSttus eq '승인대기'}">${vo.bidConfmSttus}</c:when>
+										<c:otherwise>${vo.bidMberSttus}</c:otherwise>
+									</c:choose>
+								</td>
 							</tr>
 						</c:forEach>
 					</c:if>
