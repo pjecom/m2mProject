@@ -14,7 +14,7 @@
 			<ul id="login-header">
 				<li><a href="javascript:;"><p class="username topUserName" id="myInfo">${member.entrpsNm}님</p></a></li>
 				<li><a href="javascript:;" class="mypage" onclick="moveMyPage()" >My Page</a></li>
-				<li><a class="fc-lgray header-logout bdLogout" href="javascript:;" id="btnLogout">Logout</a></li>
+				<li><a class="fc-lgray header-logout bdLogout" href="javascript:;" id="btnLogout" onclick="logout()">Logout</a></li>
 			</ul>
             </c:if>
 		</div>
@@ -44,8 +44,8 @@ function moveMyPage() {
     pageMove( "/bdMypage", JSON.stringify(params), 'application/json');
 }
 
-$("#btnLogout").click(function(){
-    // 서버로 로그아웃을 요청하는 AJAX 요청
+function logout() {
+// 서버로 로그아웃을 요청하는 AJAX 요청
     $.ajax({
         type: 'POST',
         url: '/logout',  // 로그아웃을 처리하는 서버의 엔드포인트 주소
@@ -65,5 +65,6 @@ $("#btnLogout").click(function(){
             console.log('로그아웃 요청이 실패했습니다.');
         }
     });
-});
+}
+
 </script>
