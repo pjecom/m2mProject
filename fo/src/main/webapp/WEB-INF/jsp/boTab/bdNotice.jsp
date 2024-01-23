@@ -84,11 +84,13 @@
                 <select class="form-select" id="bid-sub-code-select">
                     <option value="">전체</option>
                     <c:forEach var="vo" items="${bidSttusList}">
-                        <option value="${vo.subCode}"
-                            <c:if test="${vo.subCode eq BdPblnVO.bidSttusCode}">
-                                selected
-                            </c:if>
-                        >${vo.codeDctwo}</option>
+                        <c:if test="${vo.subCode ne '10'}">
+                            <option value="${vo.subCode}"
+                                <c:if test="${vo.subCode eq BdPblnVO.bidSttusCode}">
+                                    selected
+                                </c:if>
+                            >${vo.codeDctwo}</option>
+                        </c:if>
                     </c:forEach>
                 </select>
             </div>
