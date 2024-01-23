@@ -502,8 +502,11 @@
 				case '4':
                 getMyPageList4('32', '');
                     break;
+                case '5':
+                $("#tabLike").click();
+                    break;
                 case '':
-				$("#tabLike").click();
+				getMyPageList1('13', '');
                     break;
             }
 		});
