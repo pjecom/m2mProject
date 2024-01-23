@@ -456,7 +456,7 @@
             #{bidSttusCode},
             0,
             0,
-            #{DspyAt},
+            #{dspyAt},
             'N',
             NULL,
             'N',
