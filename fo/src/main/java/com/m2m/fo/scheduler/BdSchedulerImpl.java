@@ -51,6 +51,7 @@ public class BdSchedulerImpl implements BdScheduler {
 				
 				// vo에 입찰공고아이디 주입
 				schedulerVO.setBidPblancId(bidPblancIdbd);
+				schedulerVO.setLastChangerId("admin");
 				
 				String bddprEndDt = bdSchedulerVO.getBddprEndDt();	//투찰종료시간			
 				
@@ -95,6 +96,11 @@ public class BdSchedulerImpl implements BdScheduler {
 								bdSchedulerMapper.updateOtherCom(cmpVO);
 							}
 						}	
+					}else {
+						log.info("투찰한 기업이 존재하지 않습니다.");
+						// 마감
+						bdSchedulerMapper.updateNonCom(schedulerVO);
+						
 					}
 				}
 			}	

@@ -21,5 +21,7 @@ public interface BdSchedulerMapper {
 	List<BdSchedulerVO> selectPlanList();
 
 	void updateBidPlan(BdSchedulerVO schedulerVO);
+
+	void updateNonCom(BdSchedulerVO schedulerVO);
 	
 }

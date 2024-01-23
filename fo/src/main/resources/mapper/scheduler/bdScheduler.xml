@@ -112,6 +112,18 @@
 			,LAST_CHANGE_DT = GETDATE()
 		WHERE 1=1 
 		AND BID_PBLANC_ID = #{bidPblancId}
+	</update>
+	
+	<update id="updateNonCom" parameterType="com.m2m.fo.scheduler.BdSchedulerVO">
+		/* com.m2m.fo.scheduler.mapper.updateNonCom */
+		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+		UPDATE BD_BID_BAS 
+		SET 
+			BID_STTUS_CODE = '30'	/*입찰 상태코드 : 마감*/
+			,LAST_CHANGER_ID = #{lastChangerId}
+			,LAST_CHANGE_DT = GETDATE()
+		WHERE 1=1 
+		AND BID_PBLANC_ID = #{bidPblancId}
 
 	</update>
 	 
