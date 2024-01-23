@@ -10,7 +10,7 @@
         color: white !important;
     }
     .realgrid-wrap {
-        min-height: calc(100% - 10px);
+        min-height: calc(100% - 100px);
     }
     .mt-5 {
         margin-top: 5px;
