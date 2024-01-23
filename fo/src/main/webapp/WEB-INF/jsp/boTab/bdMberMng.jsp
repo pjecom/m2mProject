@@ -111,7 +111,7 @@
 							</c:if>
 						>ID</option>
 					</select>
-					<input type="text" class="input" id="bid-mber-sch-data" value="${mberVO.schData}">
+					<input type="text" class="input" id="bid-mber-sch-data" value="${mberVO.schData}" onkeyup="if(event.keyCode==13) {searchFunc()}">
 				</div>
 				<div class="form-set form-expand">
 					<span class="label">일시</span>

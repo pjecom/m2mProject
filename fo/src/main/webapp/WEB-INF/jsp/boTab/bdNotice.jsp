@@ -97,7 +97,7 @@
 
             <div class="form-set">
                 <span class="label">입찰 공고 번호</span>
-                <input type="text" class="input" id="bid-pblanc-id" value="${BdPblnVO.bidPblancId}">
+                <input type="text" class="input" id="bid-pblanc-id" value="${BdPblnVO.bidPblancId}" onkeyup="if(event.keyCode==13) {searchFunc()}">
             </div>
 
             <div class="form-set form-expand">
