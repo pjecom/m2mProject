@@ -624,31 +624,32 @@
         var likeCnt = 1;
 		var intrstEntrpsQyElement = $(this).closest('li').find('.intrstEntrpsQy');
 
-        // 만약 active 클래스가 있으면 제거, 없으면 추가
         if (isActive) {
-            // 이미 활성화된 경우, 비활성화로 변경
             $(this).removeClass("active");
-            // 여기에 UNCHECKED 상태에 대한 추가 로직을 넣을 수 있습니다.
 			console.log("active 제거");
 			conCheck = 'Y';
-			
-			 // 초기 관심 기업 수 증가
+		
+			 // 초기 관심 기업 수 감소
 			var interestCount = parseInt("${bdDetailVO.intrstEntrpsQy}");
 			interestCount = Math.max(0, interestCount - 1);
 			$("#interestCount").text(interestCount);	
 
             likeCnt = -1;    
+
+			// 관심 추가/제거 텍스트 변경
+			$(this).find('span:last-child').text("관심추가");
         } else {
-            // 비활성화된 경우, 활성화로 변경
             $(this).addClass("active");
-            // 여기에 CHECKED 상태에 대한 추가 로직을 넣을 수 있습니다.
 			console.log("active 추가");
 			conCheck = 'N';
 
 			// 초기 관심 기업 수 증가
 			var interestCount = parseInt("${bdDetailVO.intrstEntrpsQy}");
 			interestCount ++;
-			$("#interestCount").text(interestCount);            
+			$("#interestCount").text(interestCount); 
+			
+			// 관심 추가/제거 텍스트 변경
+			$(this).find('span:last-child').text("관심해제");
         }
 		console.log(conCheck); 
 
