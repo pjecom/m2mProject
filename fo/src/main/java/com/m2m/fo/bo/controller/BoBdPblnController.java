@@ -51,7 +51,6 @@ public class BoBdPblnController {
             vo = new BoBdPblnVO();
         }
 
-        List<BoBdPblnVO> list = boBdPblnService.getBoBdPblnList(vo);
         List<CoCommCdVO> bidSttusList = boBdPblnService.getbidSttusList("BID_STTUS_CODE");
 
         // 필요한 상태 값 필터링 및 정렬
@@ -62,12 +61,12 @@ public class BoBdPblnController {
 
 
         // 상태 별 카운트 (검색 내용 O)
-        BoBdPblnVO searchVo = vo;
+        BoBdPblnVO searchVo = (BoBdPblnVO) vo.clone();
         Map<String, Integer> cntByBidSttus = bidSttusList.stream()
                 .collect(Collectors.toMap(
                         CoCommCdVO::getSubCode,
                         cdVO -> {
-                            searchVo.setSubCode(cdVO.getSubCode());
+                            searchVo.setBidSttusCode(cdVO.getSubCode());
                             return boBdPblnService.getCntByBidSttus(searchVo);
                         }
                 ));
@@ -78,13 +77,17 @@ public class BoBdPblnController {
                 .collect(Collectors.toMap(
                         CoCommCdVO::getSubCode,
                         cdVO -> {
-                            noSearchVo.setSubCode(cdVO.getSubCode());
+                            noSearchVo.setBidSttusCode(cdVO.getSubCode());
                             return boBdPblnService.getCntByBidSttus(noSearchVo);
                         }
                 ));
 
-//        vo.getPagingVO().calPaging(list.size());
-//        System.out.println(vo.getPagingVO());
+        if (vo.getBidSttusCode() == null || (vo.getBidSttusCode()).isEmpty()) {
+            vo.setBidSttusCode("10");
+        }
+
+        vo.getPagingVO().calPaging(cntByBidSttus.get(vo.getBidSttusCode()));
+        List<BoBdPblnVO> list = boBdPblnService.getBoBdPblnList(vo);
 
         for (BoBdPblnVO bbpVo : list) {
             String begin = bbpVo.getBddprBeginDt();

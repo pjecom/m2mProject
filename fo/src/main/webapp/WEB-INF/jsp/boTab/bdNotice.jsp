@@ -4,7 +4,18 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-
+<style>
+    .paging .active {
+        background: #38466c;
+        color: white !important;
+    }
+    .realgrid-wrap {
+        min-height: calc(100% - 150px);
+    }
+    .mt-5 {
+        margin-top: 5px;
+    }
+</style>
 <script>
     function redirectToDetailPage(bidPblancId, clickedElement) {
 
@@ -238,6 +249,51 @@
         <div class="paging-row">
             <div class="paging">
                 <div id="paging">
+                    <table class="pagebutton" align="center" border="0" cellpadding="0" cellspacing="0" height="30">
+                        <tr>
+                            <td>
+                                <button type="button" onclick="setCrtPage(1)"
+                                        <c:if test="${BdPblnVO.pagingVO.currentPage == 1 }">disabled</c:if>
+                                >
+                                    <img src="/bo_images/lg/paging-first.png" class="mt-5" />
+                                </button>
+                            </td>
+
+                            <td>
+                                <button type="button" onclick="minusCrtPage(1)"
+                                        <c:if test="${BdPblnVO.pagingVO.currentPage <= 1}">disabled</c:if>
+                                >
+                                    <img src="/bo_images/lg/paging-prev.png" class="mt-5" />
+                                </button>
+                            </td>
+
+                            <c:forEach var="i" begin="${BdPblnVO.pagingVO.startPage}" end="${BdPblnVO.pagingVO.totalPage}">
+                                <td><a onclick="setCrtPage(${i})"
+                                        <c:if test="${i == BdPblnVO.pagingVO.currentPage}">
+                                            class="active"
+                                        </c:if>
+                                >${i}</a></td>
+                            </c:forEach>
+                            
+                            <td>
+                                <button type="button" onclick="plusCrtPage(1)"
+                                        <c:if test="${BdPblnVO.pagingVO.currentPage >= BdPblnVO.pagingVO.totalPage}">disabled</c:if>
+                                >
+                                    <img src="/bo_images/lg/paging-next.png" class="mt-5" />
+                                </button>
+                            </td>
+
+                            <td>
+                                <button type="button" onclick="setCrtPage(${BdPblnVO.pagingVO.totalPage})"
+                                        <c:if test="${BdPblnVO.pagingVO.currentPage == BdPblnVO.pagingVO.totalPage}">disabled</c:if>
+                                >
+                                    <img src="/bo_images/lg/paging-last.png" class="mt-5" />
+
+                                </button>
+                            </td>
+                        </tr>
+
+                    </table>
                 </div>
             </div>
         </div>
@@ -268,7 +324,8 @@
         bidSttusCode: '',
         bidPblancId: '',
         bddprBeginDt: '',
-        bddprEndDt: ''
+        bddprEndDt: '',
+        pagingVO: {}
     }
 
     // 입찰 공고 목록 axios 요청
@@ -283,6 +340,7 @@
             inputRedendering("#list-bddpr-begin-dt", res)
             inputRedendering("#list-bddpr-end-dt", res)
             eleRedendering("#realgrid", res)
+            eleRedendering("#paging", res)
 
             $(".bid-sttus-tab").removeClass("active")
             $("#bid-sttus-tab-" + bdBidBas.bidSttusCode).addClass("active")
@@ -336,6 +394,25 @@
 
     function setBidSttus(code) {
         bdBidBas.bidSttusCode = code
+        bdBidBas.pagingVO = {}
+
+        getBidNoticeList()
+    }
+
+    function setCrtPage(pageNum) {
+        bdBidBas.pagingVO.currentPage = pageNum
+
+        getBidNoticeList()
+    }
+
+    function plusCrtPage(num) {
+        bdBidBas.pagingVO.currentPage = Number($('#paging .active').eq(0).text()) + num
+
+        getBidNoticeList()
+    }
+
+    function minusCrtPage(num) {
+        bdBidBas.pagingVO.currentPage = Number($('#paging .active').eq(0).text()) - num
 
         getBidNoticeList()
     }
@@ -349,12 +426,14 @@
             bdBidBas.bddprBeginDt = ($(this).find("#list-bddpr-begin-dt").val())
             bdBidBas.bddprEndDt = ($(this).find("#list-bddpr-end-dt").val())
         })
+        bdBidBas.pagingVO = {}
 
         getBidNoticeList()
     }
 
     function returnBeforeSearch() {
         bdBidBas = {...tempBdBidBas};
+        bdBidBas.pagingVO = {}
 
         getBidNoticeList()
     }

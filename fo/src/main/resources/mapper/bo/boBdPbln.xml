@@ -227,6 +227,9 @@
         <!-- 공고 상태 검색 -->
         <if test="bidSttusCode != null and bidSttusCode != ''">
             <choose>
+                <when test='bidSttusCode.equals("10")'>
+                    AND 1 = 1
+                </when>
                 <when test='bidSttusCode.equals("30")'>
                    AND BID_STTUS_CODE in ('30','31','32')
                 </when>
@@ -250,9 +253,8 @@
             ]]>
         </if>
         ORDER BY FRST_REGIST_DT DESC
-        <!-- 페이징 -->
-<!--        OFFSET #{pagingVO.startNo} ROWS-->
-<!--        FETCH NEXT #{pagingVO.pageSize} ROWS ONLY-->
+        OFFSET #{pagingVO.startNo} ROWS
+        FETCH NEXT #{pagingVO.pageSize} ROWS ONLY
     </select>
     <select id="getbidSttusList" resultType="com.m2m.fo.comm.model.CoCommCdVO">
         SELECT
@@ -272,14 +274,14 @@
         FROM BD_BID_BAS
         WHERE
         <choose>
-            <when test='subCode.equals("10")'>
+            <when test='bidSttusCode.equals("10")'>
                 1 = 1
             </when>
-            <when test='subCode.equals("30")'>
+            <when test='bidSttusCode.equals("30")'>
                 BID_STTUS_CODE in ('30','31','32')
             </when>
             <otherwise>
-                BID_STTUS_CODE = #{subCode}
+                BID_STTUS_CODE = #{bidSttusCode}
             </otherwise>
         </choose>
         AND DELETE_AT = 'N'

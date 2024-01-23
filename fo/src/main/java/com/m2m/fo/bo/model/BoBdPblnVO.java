@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class BoBdPblnVO extends BoCoCommCdVO{
+public class BoBdPblnVO extends BoCoCommCdVO implements Cloneable{
 	private String bidPblancId; // 입찰공고아이디
 	private String bidSttusCode; // 입찰상태코드
 	private String bidSttus;     // 입찰상태
@@ -21,7 +21,7 @@ public class BoBdPblnVO extends BoCoCommCdVO{
 	private String brandNm; // 브랜드이름 
 	
 	private int itm; // 아이템순번
-	private String	itmNm; //아이템명
+	private String itmNm; //아이템명
 	private String dspyGoodsNm; // 아이템상품명
 	
 	private int itmSn; // 아이템순번
@@ -92,4 +92,9 @@ public class BoBdPblnVO extends BoCoCommCdVO{
 	private String rejectBidResnDt;// 유찰일시 
 	
 	private PagingVO pagingVO = new PagingVO();
+
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
+	}
 }
