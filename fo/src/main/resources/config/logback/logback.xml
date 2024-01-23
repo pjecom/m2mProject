@@ -8,7 +8,7 @@
 	<property name="LOG_PATH" value="./logs" />
 
 	<springProfile name="!prod">
-		<property name="ROOT_LEVEL" value="DEBUG" />
+		<property name="ROOT_LEVEL" value="DEBUG"/>
 		<!-- SQL문만을 로그로 남기며, PreparedStatement일 경우 관련된 argument 값으로 대체된 SQL문이 보여진다. -->
 		<logger name="jdbc.sqlonly" level="DEBUG"/>
 	</springProfile>
@@ -63,7 +63,7 @@
 	<logger name="jdbc.resultset" level="WARN"/>
 	<logger name="jdbc.resultsettable" level="WARN"/>
  	<logger name="jdbc.sqlonly" level="${ROOT_LEVEL}"/>
-	<logger name="jdbc.sqltiming" level="DEBUG"/>
+	<logger name="jdbc.sqltiming" level="DEBUG" additivity="false"/>
 
 	<logger name="net.sf.ehcache" level="${ROOT_LEVEL}"/>
 
