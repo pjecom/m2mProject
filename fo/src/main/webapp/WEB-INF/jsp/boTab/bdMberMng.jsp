@@ -6,10 +6,6 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
 <style>
-	.multiline-editor {
-		white-space: pre;
-	}
-
 	.bid-amount {
 		background-color: #fff;
 	}
@@ -138,7 +134,10 @@
 					</div>
 				</div>
 				<div class="search-btn">
-					<button type="button" class="btn btn-blue" onclick="searchFunc()">검색</button>
+					<div class="btn-box">
+						<button type="button" class="btn btn-blue" onclick="searchFunc()">검색</button>
+						<button type="button" class="btn btn-blue" onclick="returnBeforeSearch()">검색이전</button>
+					</div>
 				</div>
 			</form>
 		</div>
@@ -242,6 +241,8 @@
 <script type="text/javascript" src="/js/jquery.validationEngine-ko.js"></script>
 
 <script>
+	let tempBdMberVO = {}
+
 	let bdMberVO = {
 		bidMberSttusCode: null,
 		schGubun: null,
@@ -251,6 +252,8 @@
 	}
 
 	function searchFunc() {
+		tempBdMberVO = {...bdMberVO};
+
 		$("#bid-mber-search-form").each(function() {
 			bdMberVO = {
 				"bidMberSttusCode" : ($(this).find("#bid-mber-sttus-select").val()),
@@ -260,6 +263,12 @@
 				"etrConfmProcessDt": ($(this).find("#mber-etr-confm-process-dt").val())
 			}
 		})
+
+		getBidMberList()
+	}
+
+	function returnBeforeSearch() {
+		bdMberVO = {...tempBdMberVO};
 
 		getBidMberList()
 	}
