@@ -676,7 +676,7 @@
 												<fmt:formatDate value="${bddprDt}" var="formattedprDt" pattern="yyyy.MM.dd. HH:mm:ss"/>
 											<td>${formattedprDt}</td>
 											<td>${item.delyCndCnt}</td>
-											<td>${item.bddprPremiumPc}</td>
+											<td>${item.bddprTotalPc}</td>
 											<td>${boBdPblnDtl.bidSttus}</td>
 											<c:choose> 
 												<c:when test="${boBdPblnDtl.bidSttusCode eq '30'}">
