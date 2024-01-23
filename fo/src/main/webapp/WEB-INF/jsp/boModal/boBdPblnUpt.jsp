@@ -667,7 +667,8 @@ function saveBdData() {
 	var pcAppnEndDe = $("#pcAppnEndDe").val().replace(/-/g, '')
 	var delyBeginDe = $("#delyBeginDe").val().replace(/-/g, '')
 	var delyEndDe = $("#delyEndDe").val().replace(/-/g, '')
-	var dspyAt = $("input[name='dspyYn']:checked").val();  
+	var dspyAt = $("input[name='dspyYn']:checked").val(); 
+	var preDspyAt = "${boBdPblnDtl.dspyAt}" 
 		var params = {
 		"bidPblancId" : "${boBdPblnDtl.bidPblancId}",           // 입찰 공고아이디 
 		"bidSttusCode": "${boBdPblnDtl.bidSttusCode}",          // 입찰 상태코드
@@ -726,10 +727,8 @@ function saveBdData() {
 
 	var bidDspyAt = '${boBdPblnDtl.dspyAt}';
 	
-	console.log(params.dspyAt);
-	console.log(params.bidSttusCode);
-	console.log(params.bidUpdtCn);
-	console.log(params.addBidUpdtResn);
+	console.log("preDspyAt ::: ", preDspyAt);
+
 	// 입찰 기간 미래이면서, 활성 -> 비활성화로 수정인 경우
 	//debugger;
 	if (bidDspyAt === 'Y' && dspyAt === 'N' && parsedbddprBeginDt >= now && params.bidSttusCode != '13') {
@@ -757,6 +756,7 @@ function saveBdData() {
 			// 수정 화면에 그대로 있는다.
 		}
 	}
+	// 투찰중 + 활성상태 + 내용수정
 	else if (params.bidSttusCode == '13' && params.dspyAt == 'Y')
 	{
 		if ((params.bidUpdtCn == "") || (params.bidUpdtResn == "")) {	
@@ -774,6 +774,7 @@ function saveBdData() {
 			// 수정 화면에 그대로 있는다.
 		}
 	}
+	// 투찰중 + 비활성화상태
 	else if (params.bidSttusCode == '13' && params.dspyAt == 'N')
 	{
 		if (confirm("투찰 중인 건입니다. \n비활성 전화 시, 공고 취소가 됩니다. \n공고 내용을 수정하시겠습니까?"))
@@ -784,6 +785,36 @@ function saveBdData() {
 			updateBoBdPblnDtl(params);
 		}
 		else
+		{
+			// 수정 화면에 그대로 있는다.
+		}
+	}
+	//공고대기 + 당일 + (비활성상태 -> 활성상태)
+	else if ((bidYear === nowYear && bidMonth === nowMonth && bidDay === nowDay) && params.bidSttusCode == '11' && preDspyAt === 'N' && dspyAt === 'Y')
+	{
+		// 날짜 기준으로 하는 것이 이상하다. 시간으로는 투찰 시간이 안 되었는데, 투찰 날짜가 되는 경우가 모순적이다.
+		if (confirm("시작일이 당일이며 상태가 활성입니다. \n해당 정보로 수정 저장 시, 입찰 시작됩\n니다. 진행하시겠습니까?"))
+		{
+			params.bidSttusCode = '13';
+			
+			updateBoBdPblnDtl(params);
+		}
+		else 
+		{
+			// 수정 화면에 그대로 있는다.
+		}
+	}
+	//공고대기 + 미래 + (비활성상태 -> 활성상태)
+	else if (params.bidSttusCode == '11' && preDspyAt === 'N' && dspyAt === 'Y' && (bidYear >= nowYear && bidMonth >= nowMonth && bidDay > nowDay))
+	{
+		// 날짜 기준으로 하는 것이 이상하다. 시간으로는 투찰 시간이 안 되었는데, 투찰 날짜가 되는 경우가 모순적이다.
+		if (confirm("시작일이 미래이며, 상태가 활성입니다. \n해당 정보로 수정 저장 시, 입찰예정으로\n노출됩니다. 진행하시겠습니까?"))
+		{
+			params.bidSttusCode = '12';
+			
+			updateBoBdPblnDtl(params);
+		}
+		else 
 		{
 			// 수정 화면에 그대로 있는다.
 		}
