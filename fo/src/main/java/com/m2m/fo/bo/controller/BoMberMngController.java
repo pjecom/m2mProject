@@ -29,10 +29,16 @@ public class BoMberMngController {
 
         if (vo == null) {
             vo = new BoMberVO();
-        } else if (vo.getEtrConfmRequstDt() != null){
+        }
+
+        if (vo.getEtrConfmRequstDt() != null){
             vo.getEtrConfmRequstDt().setHours(0);
-        } else if (vo.getEtrConfmProcessDt() != null){
-            vo.getEtrConfmProcessDt().setHours(0);
+        }
+
+        if (vo.getEtrConfmProcessDt() != null){
+            vo.getEtrConfmProcessDt().setHours(23);
+            vo.getEtrConfmProcessDt().setMinutes(59);
+            vo.getEtrConfmProcessDt().setSeconds(59);
         }
 
         //공통코드리스트
