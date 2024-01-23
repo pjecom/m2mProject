@@ -724,14 +724,12 @@ function saveBdData() {
     //console.log(bidYear, bidMonth, bidDay);
     //console.log(nowYear, nowMonth, nowDay);
 
-	var bidDspyAt = '${boBdPblnDtl.dspyAt}';
+	var preDspyAt = '${boBdPblnDtl.dspyAt}';
 	
 	// 입찰 기간 미래이면서, 활성 -> 비활성화로 수정인 경우
 	//debugger;
-	if (bidDspyAt === 'Y' && dspyAt === 'N' && parsedbddprBeginDt >= now && params.bidSttusCode != '13') {
+	if (preDspyAt === 'Y' && dspyAt === 'N' && parsedbddprBeginDt >= now && params.bidSttusCode != '13') {
 		alert("예정 상태로 노출된 입찰 건을\n비활성으로 전환 시 노출되지 않습니다.")
-            
-        alert('공고 건이 수정되었습니다.')
         
         params.bidSttusCode = '11';
         updateBoBdPblnDtl(params);
@@ -783,13 +781,13 @@ function saveBdData() {
 		}
 		else
 		{
-			// 수정 화면에 그대로 있는다.
+
 		}
 	}
 	//공고대기 + 당일 + (비활성상태 -> 활성상태)
 	else if ((bidYear === nowYear && bidMonth === nowMonth && bidDay === nowDay) && params.bidSttusCode == '11' && preDspyAt === 'N' && dspyAt === 'Y')
 	{
-		// 날짜 기준으로 하는 것이 이상하다. 시간으로는 투찰 시간이 안 되었는데, 투찰 날짜가 되는 경우가 모순적이다.
+		
 		if (confirm("시작일이 당일이며 상태가 활성입니다. \n해당 정보로 수정 저장 시, 입찰 시작됩\n니다. 진행하시겠습니까?"))
 		{
 			params.bidSttusCode = '13';
@@ -804,7 +802,7 @@ function saveBdData() {
 	//공고대기 + 미래 + (비활성상태 -> 활성상태)
 	else if (params.bidSttusCode == '11' && preDspyAt === 'N' && dspyAt === 'Y' && (bidYear >= nowYear && bidMonth >= nowMonth && bidDay > nowDay))
 	{
-		// 날짜 기준으로 하는 것이 이상하다. 시간으로는 투찰 시간이 안 되었는데, 투찰 날짜가 되는 경우가 모순적이다.
+		
 		if (confirm("시작일이 미래이며, 상태가 활성입니다. \n해당 정보로 수정 저장 시, 입찰예정으로\n노출됩니다. 진행하시겠습니까?"))
 		{
 			params.bidSttusCode = '12';
