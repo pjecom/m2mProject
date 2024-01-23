@@ -100,6 +100,7 @@
 		    ,BBD.DELY_CND_STDR_PC                                                              /*인도조건기준가격*/
 		    ,BBD.CNVRS_PREMIUM_AMOUNT                                                          /*전환프리미엄금액*/
 		    ,BBD.BDDPR_PREMIUM_PC                                                              /*투찰프리미엄가격*/
+		    ,(ISNULL(DELY_CND_STDR_PC, 0) + ISNULL(CNVRS_PREMIUM_AMOUNT,0) + ISNULL(BDDPR_PREMIUM_PC,0)) AS BDDPR_TOTAL_PC	/*투찰총금액*/
 		    ,BBD.BDDPR_WT                                                                      /*투찰중량*/
 		    ,BBD.PARTCPTN_AGRE_AT                                                              /*참여동의여부*/
 		    ,BBD.BDDPR_DT                                                                      /*투찰일시*/

@@ -32,4 +32,5 @@ public class BoBdBddprVO {
 	private Date lastChangeDt;                   //최종변경일시
 	private int entrpsRank;                      //투찰기업순위
 	private String delyCndCnt;                   //인도조건
+	private String bddprTotalPc;				 //투찰최종가격
 }
