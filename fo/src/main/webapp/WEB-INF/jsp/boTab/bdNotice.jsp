@@ -53,10 +53,10 @@
                     <h2 class="dashboard2-title"></h2>
                     <button type="button" class="btn" onclick="openBdCreateModal()">입찰 공고 등록</button>
                 </div>
-                <div class="amount-list row">
+                <div class="amount-list row" id="bid-notice-amount">
                     <div class="amount-item">
                         <p class="title">전체 등록 공고 건</p>
-                        <p class="desc"><span class="amount">${bdList.size()}</span></p>
+                        <p class="desc"><span class="amount">${cntByBidSttus.get("")}</span></p>
                     </div>
                     <div class="amount-item">
                         <p class="title">입찰 예정</p>
@@ -134,8 +134,8 @@
 
         <div class="table-control">
             <div class="form-set">
-                <div class="tab-button">
-                    <a class="btn bid-sttus-tab active" id="bid-sttus-tab-" onclick="setBidSttus('')">전체(${bdList.size()})</a>
+                <div class="tab-button" id="bid-sttus-tab-div">
+                    <a class="btn bid-sttus-tab active" id="bid-sttus-tab-" onclick="setBidSttus('')">전체(${cntByBidSttus.get("")})</a>
                     <c:forEach var="vo" items="${bidSttusList}">
                         <a class="btn bid-sttus-tab" id="bid-sttus-tab-${vo.subCode}" onclick="setBidSttus(${vo.subCode})">${vo.codeDctwo}(${cntByBidSttus[vo.subCode]})</a>
                     </c:forEach>
@@ -147,19 +147,20 @@
             <div class="table table-list">
                 <table>
                     <colgroup>
-                        <col width="*">
-                        <col width="*">
-                        <col width="*">
-                        <col width="*">
-                        <col width="*">
-                        <col width="*">
-                        <col width="*">
-                        <col width="*">
-                        <col width="*">
-                        <col width="*">
-                        <col width="*">
-                        <col width="*">
-                        <col width="*">
+                        <col width="130">
+                        <col width="110">
+                        <col width="250">
+                        <col width="90">
+                        <col width="150">
+                        <col width="80">
+                        <col width="80">
+                        <col width="80">
+                        <col width="280">
+                        <col width="90">
+                        <col width="170">
+                        <col width="150">
+                        <col width="90">
+                        <col width="150">
                     </colgroup>
                     <thead>
                         <tr>
@@ -209,7 +210,7 @@
                                         <c:otherwise><td></td></c:otherwise>
                                     </c:choose>
                                     <fmt:formatDate value="${vo.frstRegistDt}" pattern="yyyy-MM-dd HH:mm:ss" var="frstRegistDt"/>
-                                    <td>${frstRegistDt}(${vo.frstRegisterId})</td>
+                                    <td>${frstRegistDt}<br/>(${vo.frstRegisterId})</td>
                                     <td>${vo.bidSttus}</td>
                                     <td>${vo.partcptnEntrpsQy}</td>
                                     <td>${vo.minPremiumPc}</td>
@@ -266,7 +267,9 @@
         const url = "/bo/bidNotice"
 
         postSetDataTypeBo(url, JSON.stringify(bdBidBas), "html", true, (res) => {
+            eleRedendering("#bid-sttus-tab-div", res)
             eleRedendering("#bid-sub-code-select", res)
+            eleRedendering("#bid-notice-amount", res)
             inputRedendering("#bid-pblanc-id", res)
             inputRedendering("#list-bddpr-begin-dt", res)
             inputRedendering("#list-bddpr-end-dt", res)

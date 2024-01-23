@@ -65,8 +65,8 @@ public class BoBdPblnServiceImpl implements BoBdPblnService{
 	}
 
 	@Override
-	public int getCntByBidSttus(BoBdPblnVO bdPblnVO) {
-		return boBdPblnMapper.getCntByBidSttus(bdPblnVO);
+	public int getCntByBidSttus(String subCode) {
+		return boBdPblnMapper.getCntByBidSttus(subCode);
 	}
 
 	@Override

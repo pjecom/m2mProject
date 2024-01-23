@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.Console;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -54,19 +53,23 @@ public class BoBdPblnController {
 
         List<BoBdPblnVO> list = boBdPblnService.getBoBdPblnList(vo);
         List<CoCommCdVO> bidSttusList = boBdPblnService.getbidSttusList("BID_STTUS_CODE");
-        BoBdPblnVO finalVo = new BoBdPblnVO();
-        Map<String, Object> cntByBidSttus = bidSttusList.stream()
-                .collect(Collectors.toMap(
-                        CoCommCdVO::getSubCode,
-                        cdVO -> {
-                            finalVo.setSubCode(cdVO.getSubCode());
-                            return boBdPblnService.getCntByBidSttus(finalVo);
-                        }
-                ));
+
+        // 필요한 상태 값 필터링 및 정렬
         bidSttusList = bidSttusList.stream()
                 .filter(bslVo -> showBidSttusList.contains(bslVo.getSubCode()))
                 .sorted(Comparator.comparing(bslVo -> bslVo.getSubCode().equals("11")))
                 .collect(Collectors.toList());
+
+
+        // 상태 별 카운트
+        Map<String, Integer> cntByBidSttus = bidSttusList.stream()
+                .collect(Collectors.toMap(
+                        CoCommCdVO::getSubCode,
+                        cdVO -> boBdPblnService.getCntByBidSttus(cdVO.getSubCode())
+                ));
+        cntByBidSttus.put("", cntByBidSttus.values().stream()
+                        .mapToInt(Integer::intValue)
+                        .sum());
 
 //        vo.getPagingVO().calPaging(list.size());
 //        System.out.println(vo.getPagingVO());

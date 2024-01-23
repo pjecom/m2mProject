@@ -225,7 +225,7 @@
                     AND DELETE_AT = 'N'
             ) AS MIN_PREMIUM_PC --최저프리미엄가
         FROM BD_BID_BAS BB
-        where 1=1
+        where DELETE_AT = 'N'
         <!-- 공고 상태 검색 -->
         <if test="bidSttusCode != null and bidSttusCode != ''">
             <choose>
@@ -256,7 +256,7 @@
 <!--        OFFSET #{pagingVO.startNo} ROWS-->
 <!--        FETCH NEXT #{pagingVO.pageSize} ROWS ONLY-->
     </select>
-    <select id="getbidSttusList" parameterType="String" resultType="com.m2m.fo.comm.model.CoCommCdVO">
+    <select id="getbidSttusList" resultType="com.m2m.fo.comm.model.CoCommCdVO">
         SELECT
             MAIN_CODE
             ,SUB_CODE
@@ -264,25 +264,24 @@
             ,CODE_DCTWO
         FROM CO_CMMN_CD
         WHERE
-            MAIN_CODE = #{mainCode}
+            MAIN_CODE = 'BID_STTUS_CODE'
             AND USE_AT = 'Y'
             AND DELETE_AT = 'N'
         ORDER BY CODE_ORDR ASC
     </select>
-    <select id="getCntByBidSttus" parameterType="com.m2m.fo.bo.model.BoBdPblnVO" resultType="int">
+    <select id="getCntByBidSttus" parameterType="String" resultType="int">
         SELECT count(*)
         FROM BD_BID_BAS
         WHERE
-            <choose>
-                <when test='subCode.equals("30")'>
-                    BID_STTUS_CODE in ('30','31','32')
-                </when>
-                <otherwise>
-                    BID_STTUS_CODE = #{subCode}
-                </otherwise>
-            </choose>
-<!--            BID_STTUS_CODE = #{subCode}-->
-            AND DELETE_AT = 'N'
+        <choose>
+            <when test='_parameter.equals("30")'>
+                BID_STTUS_CODE in ('30','31','32')
+            </when>
+            <otherwise>
+                BID_STTUS_CODE = #{_parameter}
+            </otherwise>
+        </choose>
+        AND DELETE_AT = 'N'
     </select>
     <update id="updateBoBdPblnDtl" parameterType="com.m2m.fo.bo.model.BoBdPblnVO">
 		/* com.m2m.fo.bd.mapper.BoBdPblnMapper.updateBoBdPblnDtl */
