@@ -42,8 +42,8 @@
 			        	<!-- LEFT WING :: START -->
 			        	<div class="left-wing">
 			        		<ul>
-			        			<li class="item active" data-tab="nav-1"><a href="javascript:;">투찰 목록</a></li>
-			        			<li class="item" data-tab="nav-2" onclick="bdMypageLikeList();"><a href="javascript:;">관심 공고</a></li>
+			        			<li class="item active" data-tab="nav-1" onclick="selectBdMainInfoList();"><a href="javascript:;">투찰 목록</a></li>
+			        			<li class="item" data-tab="nav-2" onclick="bdMypageLikeList();" id="tabLike"><a href="javascript:;">관심 공고</a></li>
 			        		</ul>
 			        	</div>
 			        	<!-- LEFT WING :: END -->
@@ -502,7 +502,7 @@
                 getMyPageList4('32', '');
                     break;
                 case '':
-				getMyPageList1('13', '');
+				$("#tabLike").click();
                     break;
             }
 		});
@@ -546,7 +546,6 @@
 				"searchDateTo" : $('#searchDateTo').val().replaceAll("-", ""),
 				"bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo")
 		}
-
 
 		$.ajax({
 						url: url, 
@@ -759,7 +758,6 @@
 	    $(this).addClass('on');
 	    $("#"+tab_id).addClass('on');
 	})
-
 	// =============== LEFT WING NAV ==================
 	$('.left-wing li').click(function(e){
 	    e.preventDefault();
