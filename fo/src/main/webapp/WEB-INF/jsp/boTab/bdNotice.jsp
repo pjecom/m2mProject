@@ -10,10 +10,13 @@
         color: white !important;
     }
     .realgrid-wrap {
-        min-height: calc(100% - 150px);
+        min-height: calc(100% - 10px);
     }
     .mt-5 {
         margin-top: 5px;
+    }
+    .table {
+        text-wrap: nowrap;
     }
 </style>
 <script>
@@ -232,7 +235,7 @@
                                         <c:otherwise><td></td></c:otherwise>
                                     </c:choose>
                                     <fmt:formatDate value="${vo.frstRegistDt}" pattern="yyyy-MM-dd HH:mm:ss" var="frstRegistDt"/>
-                                    <td>${frstRegistDt}<br/>(${vo.frstRegisterId})</td>
+                                    <td align="center">${frstRegistDt}<br/>(${vo.frstRegisterId})</td>
                                     <td>${vo.bidSttus}</td>
                                     <td>${vo.partcptnEntrpsQy}</td>
                                     <td>${vo.minPremiumPc}</td>
