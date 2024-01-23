@@ -707,8 +707,22 @@ function saveBdData() {
 	const [year, month, day] = datePart.split('-');
 	const [hour, minute, second] = timePart.split(':');			
 	const parsedbddprBeginDt = new Date(year, month - 1, day, hour, minute, second);
+    const bidYear = parsedbddprBeginDt.getFullYear();
+    const bidMonth = parsedbddprBeginDt.getMonth();
+    const bidDay = parsedbddprBeginDt.getDate();
 
-	var now = new Now();
+    var now = new Date();
+    const nowYear = now.getFullYear();
+    const nowMonth = now.getMonth();
+    const nowDay = now.getDate();
+    
+    if(parsedbddprBeginDt >= now) {
+        //debugger;
+    } else if (parsedbddprBeginDt < now){
+        //debugger;
+    }
+    //console.log(bidYear, bidMonth, bidDay);
+    //console.log(nowYear, nowMonth, nowDay);
 
 	var bidDspyAt = '${boBdPblnDtl.dspyAt}';
 	
