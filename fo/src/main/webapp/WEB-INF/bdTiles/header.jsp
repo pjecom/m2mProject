@@ -39,7 +39,8 @@ $(document).ready(function(){
 function moveMyPage() {
     var params = {
 		         "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
-                 "bidSttusCode" : '13'
+                 "bidSttusCode" : '13',
+                 "tabNo" : '1'
 		}
     pageMove( "/bdMypageAjax", JSON.stringify(params), 'application/json');
 }

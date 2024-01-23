@@ -371,10 +371,11 @@ function moveMyPage(bidSttusCode, scsbidAt,tabNo) {
 		}
     pageMove( "/bdMypageAjax", JSON.stringify(params), 'application/json');
 }
-function bdMypageLikeList() {
+function bdMypageLikeList(tabNo) {
     var params = {
             "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
-		}
+            "tabNo" : tabNo
+        }
     pageMove( "/bdMypageLikeList", JSON.stringify(params), 'application/json');
 }
 
@@ -482,7 +483,7 @@ var params = {
 			
                 if (result.mainBdList[i].likeYn == "N") {
 					html += '<a href="javascript:void(0);"  value="'+result.mainBdList[i].likeYn+'" class="ico like active" id="' + result.mainBdList[i].bidPblancId + '"> ';
-					html += '	<span class="material-symbols-outlined">favorite</span> <span>관심추가</span>';
+					html += '	<span class="material-symbols-outlined">favorite</span> <span>관심해제</span>';
                     html += '</a>';
                 }else {
                     html += '<a href="javascript:void(0);"  value="'+result.mainBdList[i].likeYn+'" class="ico like" id="' + result.mainBdList[i].bidPblancId + '"> ';

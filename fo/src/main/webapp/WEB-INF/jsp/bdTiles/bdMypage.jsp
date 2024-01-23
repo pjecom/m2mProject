@@ -486,6 +486,7 @@
 	<!-- script custom :: END -->
 	<script type="text/javascript">
 		$(function() {
+			debugger;
 			var tab = "${tabNo}";
 			
 			switch(tab){
@@ -961,9 +962,6 @@ $(".btn-period > .radio-btn").click(function() {
     });
 
 	function bdMypageLikeList(){
-		//$(".tabs > .item").removeClass("active");
-		// let tabb =  $(this).attr('data-tab');
-        // $('#'+tabb).addClass("active");
 		var params = {
             "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo")
 		}
