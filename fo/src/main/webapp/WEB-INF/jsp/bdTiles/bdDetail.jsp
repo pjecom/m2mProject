@@ -73,7 +73,7 @@
 			                                            </li>
 			                                            <li>
 			                                                <span>관심기업</span>
-			                                                <span id="interestCount">${bdDetailVO.intrstEntrpsQy}</span>
+			                                                <span class="intrstEntrpsQy">${bdDetailVO.intrstEntrpsQy}</span>
 			                                            </li>
 			                                        </ul>
 			                                        <a href="#" class="ico like active">
@@ -599,23 +599,23 @@
 
 	// =============== 관심목록 ==================
 	$(function() {
-        // 현재 버튼에 active 클래스가 있는지 확인
         var isActive = "${bdDetailVO.conCheck}"
 
         // 만약 active 클래스가 있으면 제거, 없으면 추가
         if (isActive === 'N') {
             // 이미 활성화된 경우, 비활성화로 변경
 			$(".ico.like").addClass("active");
-            // 여기에 UNCHECKED 상태에 대한 추가 로직을 넣을 수 있습니다.
+			$(".ico.like").find('span:last-child').text("관심해제");
         } else {
             // 비활성화된 경우, 활성화로 변경
 			$(".ico.like").removeClass("active");
-            // 여기에 CHECKED 상태에 대한 추가 로직을 넣을 수 있습니다.
+			$(".ico.like").find('span:last-child').text("관심추가");
         }
     });
 
 	    // '관심추가' 버튼에 대한 클릭 이벤트 처리
 	$(".ico.like").click(function(e) {
+		debugger;
         e.preventDefault(); // 기본 동작을 막음
 
         // 현재 버튼에 active 클래스가 있는지 확인
@@ -628,11 +628,9 @@
             $(this).removeClass("active");
 			console.log("active 제거");
 			conCheck = 'Y';
-		
-			 // 초기 관심 기업 수 감소
-			var interestCount = parseInt("${bdDetailVO.intrstEntrpsQy}");
-			interestCount = Math.max(0, interestCount - 1);
-			$("#interestCount").text(interestCount);	
+
+            var currentCount = parseInt(intrstEntrpsQyElement.text());
+		    intrstEntrpsQyElement.text(currentCount - 1);
 
             likeCnt = -1;    
 
@@ -643,11 +641,8 @@
 			console.log("active 추가");
 			conCheck = 'N';
 
-			// 초기 관심 기업 수 증가
-			var interestCount = parseInt("${bdDetailVO.intrstEntrpsQy}");
-			interestCount ++;
-			$("#interestCount").text(interestCount); 
-			
+			var currentCount = parseInt(intrstEntrpsQyElement.text());
+		    intrstEntrpsQyElement.text(currentCount + 1);
 			// 관심 추가/제거 텍스트 변경
 			$(this).find('span:last-child').text("관심해제");
         }
