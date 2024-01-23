@@ -5,7 +5,7 @@
 <mapper namespace="com.m2m.fo.bo.mapper.BoBdPblnMapper">
 	<select id="getBoBdPblnDtl" parameterType="com.m2m.fo.bo.model.BoBdPblnVO" resultType="com.m2m.fo.bo.model.BoBdPblnVO">
 		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
-        	/* com.m2m.fo.bo.mapper.BoBdPblnMapper.boBdPblnDtl */
+        	/* com.m2m.fo.bo.mapper.BoBdPblnMapper.boBdPblnDtl 입찰공고상세*/
         SELECT
               BBD.BID_PBLANC_ID                                                                 /*입찰공고아이디*/
             , BBD.BID_STTUS_CODE                                                                /*입찰상태코드*/
@@ -73,7 +73,7 @@
 	</select>
 	<select id="getBobdUptHist" parameterType="com.m2m.fo.bo.model.BoBdPblnVO" resultType="com.m2m.fo.bo.model.BoBdPblnUpdtVO">
         SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
-        /* com.m2m.fo.bo.mapper.BoBdPblnMapper.getBobdUpdateHistroy */
+        /* com.m2m.fo.bo.mapper.BoBdPblnMapper.getBobdUpdateHistroy 입찰공고수정이력*/
         SELECT
               BID_UPDT_HST_SN                                                               /*입찰수정이력순번*/
             , BID_PBLANC_ID                                                                 /*입찰공고아이디*/
@@ -130,7 +130,7 @@
 	</select>
 	<select id="getBoCommCdList" resultType="com.m2m.fo.bo.model.BoCoCommCdVO">
 		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
-        /* com.m2m.fo.bo.mapper.BoBdPblnMapper.getBoCommCdList */
+        /* com.m2m.fo.bo.mapper.BoBdPblnMapper.getBoCommCdList 공통코드*/
         SELECT　
 		   MAIN_CODE
 		  ,SUB_CODE
@@ -283,7 +283,6 @@
     </select>
     <update id="updateBoBdPblnDtl" parameterType="com.m2m.fo.bo.model.BoBdPblnVO">
 		/* com.m2m.fo.bd.mapper.BoBdPblnMapper.updateBoBdPblnDtl 공고수정저장*/
-		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 		UPDATE BD_BID_BAS
 		SET 
 			BID_STTUS_CODE               = #{bidSttusCode}             /*입찰상태코드*/
@@ -316,7 +315,6 @@
 	</update>
 	<update id="cancelBoBdPbln" parameterType="com.m2m.fo.bo.model.BoBdPblnVO">
 	/* com.m2m.fo.bd.mapper.BoBdPblnMapper.cancelBoBdPbln 공고취소처리 */
-		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 		UPDATE BD_BID_BAS
 		SET 
 			BID_STTUS_CODE               = '33'                        /*입찰상태코드*/
@@ -326,7 +324,6 @@
 	</update>
 	<update id="failBoBdPbln" parameterType="com.m2m.fo.bo.model.BoBdPblnVO">
 	/* com.m2m.fo.bd.mapper.BoBdPblnMapper.failBoBdPbln 공고유찰처리 */
-		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 		UPDATE BD_BID_BAS
 		SET 
 			BID_STTUS_CODE               = '32'                        /*입찰상태코드*/
@@ -337,7 +334,6 @@
 	</update>
 	<update id="deleteBoBdPbln" parameterType="com.m2m.fo.bo.model.BoBdPblnVO">
 	/* com.m2m.fo.bd.mapper.BoBdPblnMapper.deleteBoBdPbln 공고삭제처리 */
-		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 		UPDATE BD_BID_BAS
 		SET 
 		    BID_STTUS_CODE         = '33'                     /*입찰상태코드*/
