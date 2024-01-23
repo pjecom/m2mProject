@@ -62,13 +62,11 @@
             , BBD.BDDPR_BEGIN_DT                                                                /*투찰시작일시*/
             , BBD.BDDPR_END_DT                                                                  /*투찰종료일시*/
             , BBD.BDDPR_CANCL_LMTT_DE                                                           /*투찰취소제한일자*/            
-            <!-- , BBUH.BID_UPDT_CN                                                                 /*입찰수정내용*/ -->
-            <!-- , BBUH.BID_UPDT_RESN                                                               /*입찰수정사유*/ -->
             , BBD.DSPY_AT                                                                       /*전시여부*/
+            , BBD.REJECT_BID_RESN                                                               /*유찰사유*/
+            , BBD.REJECT_BID_RESN_DT                                                            /*유찰일시*/
+            
       FROM BD_BID_BAS AS BBD 
-      <!-- INNER JOIN BD_BID_UPDT_HST AS BBUH                                
-      ON BBD.BID_PBLANC_ID = BBUH.BID_PBLANC_ID
- -->      
       
       WHERE 1=1
          AND BBD.BID_PBLANC_ID          =   #{bidPblancId}                                      /*입찰공고아이디*/        
@@ -284,7 +282,7 @@
         AND DELETE_AT = 'N'
     </select>
     <update id="updateBoBdPblnDtl" parameterType="com.m2m.fo.bo.model.BoBdPblnVO">
-		/* com.m2m.fo.bd.mapper.BoBdPblnMapper.updateBoBdPblnDtl */
+		/* com.m2m.fo.bd.mapper.BoBdPblnMapper.updateBoBdPblnDtl 공고수정저장*/
 		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 		UPDATE BD_BID_BAS
 		SET 
@@ -313,7 +311,7 @@
 		   ,LAST_CHANGER_ID              = #{lastChangerId}            /*최종변경자아이디*/
            ,LAST_CHANGE_DT               = GETDATE()                   /*최종변경일시*/
 		   ,DSPY_AT                      = #{dspyAt}                   /*전시여부*/
-
+		
 		WHERE BID_PBLANC_ID = #{bidPblancId} 
 	</update>
 	<update id="cancelBoBdPbln" parameterType="com.m2m.fo.bo.model.BoBdPblnVO">
@@ -332,6 +330,20 @@
 		UPDATE BD_BID_BAS
 		SET 
 			BID_STTUS_CODE               = '32'                        /*입찰상태코드*/
+		   ,REJECT_BID_RESN              = #{rejectBidResn}            /*유찰사유*/
+		   ,REJECT_BID_RESN_DT           = CONVERT(NVARCHAR(14), GETDATE(), 112) + REPLACE(CONVERT(NVARCHAR(8), GETDATE(), 108), ':', '')                   /*유찰일시*/
+		
+		WHERE BID_PBLANC_ID = #{bidPblancId} 
+	</update>
+	<update id="deleteBoBdPbln" parameterType="com.m2m.fo.bo.model.BoBdPblnVO">
+	/* com.m2m.fo.bd.mapper.BoBdPblnMapper.deleteBoBdPbln 공고삭제처리 */
+		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+		UPDATE BD_BID_BAS
+		SET 
+		    BID_STTUS_CODE         = '33'                     /*입찰상태코드*/
+		   ,DSPY_AT                = 'N'                      /*전시여부*/
+		   ,DELETE_AT              = 'Y'                      /*삭제여부*/
+		   ,DELETE_DT           = GETDATE()                   /*삭제일시*/
 		
 		WHERE BID_PBLANC_ID = #{bidPblancId} 
 	</update>

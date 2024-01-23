@@ -87,6 +87,9 @@ public class BoBdPblnVO extends BoCoCommCdVO{
 	private Date frstRegistDt; // 최초등록일시
 	private String lastChangerId; // 최종변경자ID
 	private Date lastChangeDt; // 최종변경일시
-
+	
+	private String rejectBidResn;// 유찰사유 
+	private String rejectBidResnDt;// 유찰일시 
+	
 	private PagingVO pagingVO = new PagingVO();
 }

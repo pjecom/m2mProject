@@ -605,7 +605,7 @@ function initModal() {
         }
     });
 }
-
+//공고수정내용 저장 ajax 
 function updateBoBdPblnDtl(params) {
 	setBidSttus('');
 	$.ajax({
@@ -667,8 +667,7 @@ function saveBdData() {
 	var pcAppnEndDe = $("#pcAppnEndDe").val().replace(/-/g, '')
 	var delyBeginDe = $("#delyBeginDe").val().replace(/-/g, '')
 	var delyEndDe = $("#delyEndDe").val().replace(/-/g, '')
-	var dspyAt = $("input[name='dspyYn']:checked").val(); 
-	var preDspyAt = "${boBdPblnDtl.dspyAt}" 
+	var dspyAt = $("input[name='dspyYn']:checked").val();  
 		var params = {
 		"bidPblancId" : "${boBdPblnDtl.bidPblancId}",           // 입찰 공고아이디 
 		"bidSttusCode": "${boBdPblnDtl.bidSttusCode}",          // 입찰 상태코드
@@ -700,35 +699,19 @@ function saveBdData() {
   		"bidUpdtCn" :  bidUpdtCn,								// 공고수정내용 
   		"bidUpdtResn" : addBidUpdtResn							// 공고수정사유 
 	}
-	console.log($('#dspyAt').val());
-    console.log("params:>>>>>" + JSON.stringify(params));
+	//console.log($('#dspyAt').val());
+    //console.log("params:>>>>>" + JSON.stringify(params));
     	
    	const date = formatDate(bddprBeginDt)			
 	const [datePart, timePart] = date.split(' ');
 	const [year, month, day] = datePart.split('-');
 	const [hour, minute, second] = timePart.split(':');			
 	const parsedbddprBeginDt = new Date(year, month - 1, day, hour, minute, second);
-	const bidYear = parsedbddprBeginDt.getFullYear();
-	const bidMonth = parsedbddprBeginDt.getMonth();
-	const bidDay = parsedbddprBeginDt.getDate();
 
-	var now = new Date();
-	const nowYear = now.getFullYear();
-	const nowMonth = now.getMonth();
-	const nowDay = now.getDate();
-	
-	if(parsedbddprBeginDt >= now) {
-		//debugger;
-	} else if (parsedbddprBeginDt < now){
-		//debugger;
-	}
-	console.log(bidYear, bidMonth, bidDay);
-	console.log(nowYear, nowMonth, nowDay);
+	var now = new Now();
 
 	var bidDspyAt = '${boBdPblnDtl.dspyAt}';
 	
-	console.log("preDspyAt ::: ", preDspyAt);
-
 	// 입찰 기간 미래이면서, 활성 -> 비활성화로 수정인 경우
 	//debugger;
 	if (bidDspyAt === 'Y' && dspyAt === 'N' && parsedbddprBeginDt >= now && params.bidSttusCode != '13') {
@@ -744,7 +727,7 @@ function saveBdData() {
 	}
 	else if (dspyAt === 'Y' && (bidYear === nowYear && bidMonth === nowMonth && bidDay === nowDay) && params.bidSttusCode == '12')
 	{
-		// 날짜 기준으로 하는 것이 이상하다. 시간으로는 투찰 시간이 안 되었는데, 투찰 날짜가 되는 경우가 모순적이다.
+		//입찰 당일, 입찰예정 -> 투찰중으로 전환된 경우 
 		if (confirm("시작일이 당일이며 상태가 활성입니다. \n해당 정보로 저장 시 투찰이 시작됩니다.\n진행하시겠습니까?"))
 		{
 			params.bidSttusCode = '13';
@@ -826,60 +809,6 @@ function saveBdData() {
 		getBidNoticeList();
 	};
 };
-
-//공고수정내용 취소 
-$(function() {
- $("#cancelBtn").click(function(event) {
-     var bidSttusCode = '${boBdPblnDtl.bidSttusCode}';
-     var params = {
-         "bidPblancId": bidPblancId,                // 입찰 공고아이디 
-         "bidSttusCode" : $('#bidSttusCode').val()  // 입찰 상태코드 
-     };
-
-     // bidSttusCode에 따라 다른 확인 메시지 출력
-     if (bidSttusCode === '12') {
-         // bidSttusCode가 12인 경우의 확인 메시지
-         if (confirm('예정 상태로 노출 된 입찰 건을 비활성으로 전환 시 노출되지 않습니다.?')) {
-             sendCancelRequest(params);
-         }
-     } else if (bidSttusCode === '13') {
-         // bidSttusCode가 13인 경우의 확인 메시지
-         if (confirm('다른 상태에 대한 메시지를 여기에 입력하세요.')) {
-             sendCancelRequest(params);
-         }
-     } else {
-         // 기타 상황에 대한 확인 메시지
-         if (confirm('일반적인 메시지를 여기에 입력하세요.')) {
-             sendCancelRequest(params);
-         }
-     }
- });
-
- function sendCancelRequest(params) {
-     $.ajax({
-         type: "POST",
-         url: modifyPageUrl,
-         data: JSON.stringify(params),
-         contentType: "application/json",
-         dataType: "html",
-         success: function(data) {
-             console.log('데이터 정상', data);
-             
-             // 공고취소확인
-             if (confirm('공고 건이 수정되었습니다.')) {
-                 // 사용자가 확인 버튼을 누른 경우 modalClose 함수 호출
-                 getBidNoticeList();
-                 modalClose();
-             }
-         },
-         error: function(error) {
-             // 에러 발생 시의 처리
-             console.error('서버 요청 중 에러 발생:', error);
-         }
-     });
- }
-});
-
 </script>
 	
 

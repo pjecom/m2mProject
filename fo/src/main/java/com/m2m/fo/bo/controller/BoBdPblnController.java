@@ -318,4 +318,26 @@ public class BoBdPblnController {
 			return new ResponseEntity<>("Error.", HttpStatus.BAD_REQUEST);
 		}
 	}
+    @RequestMapping("/deleteBoBdPbln")    
+    @ResponseBody
+	public ResponseEntity<?> deleteBoBdPbln(@RequestBody BoBdPblnVO boBdPblnVO) throws Exception {
+    	Map<String, Object> map = new HashMap<String, Object>();
+
+		try {
+			//공고삭제
+			boBdPblnService.deleteBoBdPbln(boBdPblnVO);
+			
+			map.put("result", "success");
+
+			//넣은데이터 조회
+			//boBdPblnVO = boBdPblnService.getBoBdPblnDtl(boBdPblnVO);
+
+			return new ResponseEntity<>(map, HttpStatus.OK); // ajax success 데이터 전달
+
+		} catch (Exception e) {
+
+			log.error(e.getMessage());
+			return new ResponseEntity<>("Error.", HttpStatus.BAD_REQUEST);
+		}
+	}
 }

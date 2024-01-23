@@ -111,4 +111,10 @@ public class BoBdPblnServiceImpl implements BoBdPblnService{
 	public void insertBobdUptHist(BoBdPblnVO boBdPblnVO) {
 		boBdPblnMapper.insertBobdUptHist(boBdPblnVO);	
 	}
+
+	@Override
+	public void deleteBoBdPbln(BoBdPblnVO boBdPblnVO) {
+		boBdPblnMapper.deleteBoBdPbln(boBdPblnVO);
+		
+	}
 }

@@ -37,4 +37,6 @@ public interface BoBdPblnService {
 
 	void insertBobdUptHist(BoBdPblnVO boBdPblnVO);
 
+	void deleteBoBdPbln(BoBdPblnVO boBdPblnVO);
+
 }

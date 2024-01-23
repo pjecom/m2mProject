@@ -132,38 +132,106 @@
         		}
     		});
 	}
-	// 공고취소처리
+	// 공고취소 ajax
+	function cancelBoBdPbln(params){
+		setBidSttus('');
+		$.ajax({
+            url: '/bo/cancelBoBdPbln',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(params),
+            dataType: 'json',
+            success: function (data) {
+                console.log('데이터 정상', data);
+                // 삭제 처리 후 팝업 표시
+                alert('공고 건이 취소되었습니다.');
+                getBidNoticeList();
+                modalClose();
+                location.reload();
+            },
+            error: function (error) {
+                // 에러 발생 시의 처리
+                console.error('서버 요청 중 에러 발생:', error);
+            }
+        });
+	}
+	// 공고취소삭제 ajax
+	function deleteBoBdPbln(params){
+		setBidSttus('');
+		$.ajax({
+            url: '/bo/deleteBoBdPbln',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(params),
+            dataType: 'json',
+            success: function (data) {
+                console.log('데이터 정상', data);
+                // 삭제 처리 후 팝업 표시
+                alert('공고 건이 삭제되었습니다.');
+                getBidNoticeList();
+                modalClose();
+                location.reload();
+            },
+            error: function (error) {
+                // 에러 발생 시의 처리
+                console.error('서버 요청 중 에러 발생:', error);
+            }
+        });
+	}
+	// 공고취소삭제처리
 	function cancleBtnClick() {
-	    var result; 
+		var result;
 	    var bidSttusCode = '${boBdPblnDtl.bidSttusCode}';
-	    var dspyAt = '${boBdPblnDtl.dspyAt}';
 	    
+	    var params = {
+	            "bidPblancId": $("#bidPblancId").val(),     // 입찰 공고아이디 
+
+	        }
+	    debugger;
 	    // 입찰 상태에 따라 다른 메시지의 confirm 창을 표시
 	    if (bidSttusCode === '12') {
 	        result = confirm('해당 공고 건은 입찰 예정 건입니다.\n 공고 취소 시 노출되지 않습니다.\n 취소하시겠습니다.?');
+	        if(result){
+	        	deleteBoBdPbln(params);
+	        }else {
+	        	
+	        }
+	        
 	    } else if (bidSttusCode === '13') {
 	        result = confirm('해당 공고 건은 투찰 진행 중입니다.\n 공고 취소 시 비활성 상태로 전환되며\n회원의 공고 목록에서 삭제 처리됩니다.\n 공고 취소하시겠습니까?');
-	    } else {
-	        result = false;
-	    }
-	    // 확인을 눌렀을 때만 쿼리를 실행
-	    if (result) {
-	        var params = {
-	            "bidPblancId": $("#bidPblancId").val(),     // 입찰 공고아이디 
-	            "bidSttusCode" : $('#bidSttusCode').val(),  // 입찰 상태코드
-	            "dspyAt": (bidSttusCode === '13') ? 'N' : '${boBdPblnDtl.dspyAt}' // 입찰 상태가 '13'일 때만 'N', 그 외에는 기존 값 사용
+	        if(result){
+		        cancelBoBdPbln(params);
+	        }else{
+	        	
 	        }
 
+	    }
+
+	}
+
+	// 공고유찰처리
+	function failBdBtnClick() {
+	    var reason = prompt('유찰할 경우, 유찰처리하기 클릭 시\n모든 과정이 무효처리됩니다. 정말로 유찰처리 하시겠습니까?.');
+	    var bidSttusCode = '${boBdPblnDtl.bidSttusCode}';
+	    
+	    if (reason != null) {
+	        var params = {
+	            "bidPblancId": $("#bidPblancId").val(),        // 입찰 공고 아이디 
+	            "rejectBidResn": reason                       // 유찰사유 
+	        };
+	        debugger;
+	        //console.log("params:>>>>>" + JSON.stringify(params));
+	        console.log("params:", params);
 	        $.ajax({
-	            url: '/bo/cancelBoBdPbln',
+	            url: '/bo/failBoBdPbln',
 	            method: 'POST',
 	            contentType: 'application/json',
 	            data: JSON.stringify(params),
 	            dataType: 'json',
 	            success: function (data) {
 	                console.log('데이터 정상', data);
-	                // 삭제 처리 후 팝업 표시
-	                alert('공고 건이 취소되었습니다.');
+	                alert('유찰 처리 되었습니다.');
+
 	                getBidNoticeList();
 	                modalClose();
 	            },
@@ -173,43 +241,10 @@
 	            }
 	        });
 	    } else {
-	        // 취소를 선택한 경우 아무 작업 없이 현재 페이지에 머무름	
-            getBidNoticeList();
-            modalClose();
+	        // 사용자가 "취소"를 선택한 경우 아무 작업 없이 현재 페이지에 머무름
 	    }
 	}
 
-	//공고유찰처리
-	function failBdBtnClick() {
-		var result = confirm('유찰할 경우, 유찰처리하기 클릭시\n모든 과정이 무효처리됩니다. 정말로 유찰처리 하시겠습니까?.');
-
-        var params = {
-            "bidPblancId": $("#bidPblancId").val(),     // 입찰 공고아이디 
-        };
-        $.ajax({
-    		url: '/bo/failBoBdPbln',
-    		method: 'POST', 
-    		contentType: 'application/json',
-    		data: JSON.stringify(params),
-    		dataType: 'json', 
-    		success: function(data) {
-    			console.log('데이터 정상', data);
-		    if (result) {
-		      // 삭제 처리 후 팝업 표시
-		      alert('유찰 처리 되었습니다.');
-		      // 여기에 실제 삭제 처리를 추가할 수 있습니다.
-		    } else {
-		      // 닫기를 선택한 경우 아무 작업 없이 현재 페이지에 머무름	
-		    }
-		    getBidNoticeList();
-            modalClose();
-    	},
-    	error: function(error) {
-			// 에러 발생 시의 처리
-			console.error('서버 요청 중 에러 발생:', error);
-		}
-    	});
-	}
 	function modalClose() {
 		clearInterval(timer);
 		$('#bdNoticeDetailModal').modal('hide');
@@ -225,7 +260,7 @@
         var params = {
             "bidPblancId": bidPblancId
         };
-
+        console.log("params:>>>>>" + JSON.stringify(params));
         $.ajax({
             type: "POST",
             url: modifyPageUrl,
@@ -533,33 +568,63 @@
 								</tbody>
 							</table>
 						</div>
-
-						<div class="sub-title">
-							<h3 class="">공고 수정 이력</h3>
-						</div>
-						<div class="table table-view">
-							<table>
-								<colgroup>
-									<col width="20%" />
-									<col width="*" />
-									<col width="40%" />
-								</colgroup>
-								<tbody>
-									<tr>
-										<th scope="row">수정일시</th>
-										<th scope="row">수정 내용</th>
-										<th scope="row">수정 사유</th>
-									</tr>
-									<c:forEach var="updateHistory" items="${bobdUptHist}">
+						<c:if test="${boBdPblnDtl.bidSttusCode ne '32'}">
+							<div class="sub-title">
+								<h3 class="">공고 수정 이력</h3>
+							</div>
+							<div class="table table-view">
+								<table>
+									<colgroup>
+										<col width="20%" />
+										<col width="*" />
+										<col width="40%" />
+									</colgroup>
+									<tbody>
 										<tr>
-											<td>${updateHistory.lastChangeDtString}</td>
-											<td>${updateHistory.bidUpdtCn}</td>
-											<td>${updateHistory.bidUpdtResn}</td>
+											<th scope="row">수정일시</th>
+											<th scope="row">수정 내용</th>
+											<th scope="row">수정 사유</th>
 										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-						</div>
+										<c:forEach var="updateHistory" items="${bobdUptHist}">
+											<tr>
+												<td>${updateHistory.lastChangeDtString}</td>
+												<td>${updateHistory.bidUpdtCn}</td>
+												<td>${updateHistory.bidUpdtResn}</td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+						</c:if>
+						<c:if test="${boBdPblnDtl.bidSttusCode eq '32'}">
+	 						<div class="sub-title">
+								<h3 class="">유찰 사유 </h3>
+							</div>
+							<div class="table table-view">
+								<table>
+									<colgroup>
+										<col width="20%" />
+										<col width="*" />
+										<col width="40%" />
+									</colgroup>
+									<tbody>
+										<tr>
+											<th scope="row" colspan="1">유찰일시</th>
+											<th scope="row" colspan="3">유찰 사유</th>
+										</tr>
+										<tr>
+											<td>
+												<fmt:parseDate value="${boBdPblnDtl.rejectBidResnDt}" var="rejectBidResnDt" pattern="yyyyMMddHHmmss"/>
+												<fmt:formatDate value="${rejectBidResnDt}" var="formattedBidResnDt" pattern="yyyy.MM.dd HH:mm:ss"/>
+												${formattedBidResnDt}
+											</td>
+											<%-- <td>${boBdPblnDtl.rejectBidResnDt}</td> --%>
+											<td colspan="3">${boBdPblnDtl.rejectBidResn}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</c:if>
 						<!-- 입찰 상태 코드에 따라 버튼 표시 Start -->
 						<!-- 11.공고대기, 12.입찰예정,13.투찰중인 경우 -> 공구수정,취소 버튼 노출
                              20.심사중, 21.개찰중, 22.서류접수중, 23.서류심사중, 30.마감인 경우 -> 유찰 처리버튼  -->

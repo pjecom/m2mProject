@@ -36,4 +36,6 @@ public interface BoBdPblnMapper {
 	void failBoBdPbln(BoBdPblnVO boBdPblnVO);
 	
 	void insertBobdUptHist(BoBdPblnVO boBdPblnVO);
+
+	void deleteBoBdPbln(BoBdPblnVO boBdPblnVO);
 }
