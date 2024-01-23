@@ -21,6 +21,52 @@
             ) AS CODE_LT
         FROM CO_CMMN_CD
     </select>
+    <select id="getMberCnt" parameterType="com.m2m.fo.bo.model.BoMberVO" resultType="int">
+        SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+        /* com.m2m.fo.bo.mapper.BoMberMngMapper.getMberCnt */
+        SELECT
+            count(*)
+        FROM BD_ENTRPS_INFO_BAS beib
+        where DELETE_AT = 'N'
+        <choose>
+            <when test='bidMberSttusCode == null || bidMberSttusCode.equals("")'>
+                AND beib.BID_MBER_STTUS_CODE != '03'
+            </when>
+            <otherwise>
+                AND beib.BID_MBER_STTUS_CODE = #{bidMberSttusCode}
+            </otherwise>
+        </choose>
+        <if test="schGubun != null">
+            <choose>
+                <when test='schGubun.equals("entrpsNm")'>
+                    AND ENTRPS_NM LIKE '%' + #{schData} + '%'
+                </when>
+                <when test='schGubun.equals("bsnmRegistNo")'>
+                    AND BSNM_REGIST_NO LIKE '%' + #{schData} + '%'
+                </when>
+                <when test='schGubun.equals("bidMberId")'>
+                    AND BID_MBER_ID LIKE '%' + #{schData} + '%'
+                </when>
+                <otherwise>
+                    AND (
+                    ENTRPS_NM LIKE '%' + #{schData} + '%'
+                    OR BSNM_REGIST_NO LIKE '%' + #{schData} + '%'
+                    OR BID_MBER_ID LIKE '%' + #{schData} + '%'
+                    )
+                </otherwise>
+            </choose>
+        </if>
+        <if test="etrConfmRequstDt != null">
+            <![CDATA[
+                AND ETR_CONFM_REQUST_DT >= #{etrConfmRequstDt}
+            ]]>
+        </if>
+        <if test="etrConfmProcessDt != null">
+            <![CDATA[
+                AND ETR_CONFM_REQUST_DT <= #{etrConfmProcessDt}
+            ]]>
+        </if>
+    </select>
     <select id="getMberList" parameterType="com.m2m.fo.bo.model.BoMberVO" resultType="com.m2m.fo.bo.model.BoMberVO">
         SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
         /* com.m2m.fo.bo.mapper.BoMberMngMapper.getMberList */
@@ -121,6 +167,8 @@
             ]]>
         </if>
         ORDER BY ETR_CONFM_REQUST_DT DESC
+        OFFSET #{pagingVO.startNo} ROWS
+        FETCH NEXT #{pagingVO.pageSize} ROWS ONLY
     </select>
     <select id="getMberDtl" parameterType="String" resultType="com.m2m.fo.bo.model.BoMberVO">
         SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED

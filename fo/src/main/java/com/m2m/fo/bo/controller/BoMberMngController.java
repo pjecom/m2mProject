@@ -44,6 +44,12 @@ public class BoMberMngController {
         //공통코드리스트
         List<BoCoCommCdVO> boCommCdList = mberMngService.getBoCommCdList();
 
+        // 회원 목록 총 갯수
+        int mberTotalCnt = mberMngService.getMberCnt(vo);
+
+        // 페이징 계산
+        vo.getPagingVO().calPaging(mberTotalCnt);
+
         // 회원 목록
         List<BoMberVO> mberList = mberMngService.getMberList(vo);
 

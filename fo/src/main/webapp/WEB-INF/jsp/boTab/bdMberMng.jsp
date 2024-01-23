@@ -9,9 +9,21 @@
 	.bid-amount {
 		background-color: #fff;
 	}
-
 	.search-control {
 		margin-top: 10px;
+	}
+	.paging .active {
+		background: #38466c;
+		color: white !important;
+	}
+	.realgrid-wrap {
+		min-height: calc(100% - 500px);
+	}
+	.mt-5 {
+		margin-top: 5px;
+	}
+	.table {
+		text-wrap: nowrap;
 	}
 </style>
 
@@ -221,12 +233,59 @@
 				</table>
 			</div>
 		</div>
+
+		<!-- paging -->
 		<div class="paging-row">
 			<div class="paging">
-				<div id="mberListPaging"></div>
+				<div id="paging">
+					<table class="pagebutton" align="center" border="0" cellpadding="0" cellspacing="0" height="30">
+						<tr>
+							<td>
+								<button type="button" onclick="setCrtPage(1)"
+										<c:if test="${mberVO.pagingVO.currentPage == 1 }">disabled</c:if>
+								>
+									<img src="/bo_images/lg/paging-first.png" class="mt-5" />
+								</button>
+							</td>
+
+							<td>
+								<button type="button" onclick="minusCrtPage(1)"
+										<c:if test="${mberVO.pagingVO.currentPage <= 1}">disabled</c:if>
+								>
+									<img src="/bo_images/lg/paging-prev.png" class="mt-5" />
+								</button>
+							</td>
+
+							<c:forEach var="i" begin="${mberVO.pagingVO.startPage}" end="${mberVO.pagingVO.totalPage}">
+								<td><a onclick="setCrtPage(${i})"
+										<c:if test="${i == mberVO.pagingVO.currentPage}">
+											class="active"
+										</c:if>
+								>${i}</a></td>
+							</c:forEach>
+
+							<td>
+								<button type="button" onclick="plusCrtPage(1)"
+										<c:if test="${mberVO.pagingVO.currentPage >= mberVO.pagingVO.totalPage}">disabled</c:if>
+								>
+									<img src="/bo_images/lg/paging-next.png" class="mt-5" />
+								</button>
+							</td>
+
+							<td>
+								<button type="button" onclick="setCrtPage(${mberVO.pagingVO.totalPage})"
+										<c:if test="${mberVO.pagingVO.currentPage == mberVO.pagingVO.totalPage}">disabled</c:if>
+								>
+									<img src="/bo_images/lg/paging-last.png" class="mt-5" />
+
+								</button>
+							</td>
+						</tr>
+
+					</table>
+				</div>
 			</div>
 		</div>
-		<div id="realgridForExcel" class="realgrid-wrap" style="display: none"></div>
 	</div>
 </div>
 <%--<!-- 입찰 회원 상세 -->--%>
@@ -248,7 +307,8 @@
 		schGubun: null,
 		schData: null,
 		etrConfmRequstDt: null,
-		etrConfmProcessDt: null
+		etrConfmProcessDt: null,
+		pagingVO: {}
 	}
 
 	function searchFunc() {
@@ -260,7 +320,8 @@
 				"schGubun": ($(this).find("#bid-mber-sch-gubun").val()),
 				"schData": ($(this).find("#bid-mber-sch-data").val()),
 				"etrConfmRequstDt" : ($(this).find("#mber-etr-confm-requst-dt").val()),
-				"etrConfmProcessDt": ($(this).find("#mber-etr-confm-process-dt").val())
+				"etrConfmProcessDt": ($(this).find("#mber-etr-confm-process-dt").val()),
+				"pagingVO": {}
 			}
 		})
 
@@ -269,6 +330,7 @@
 
 	function returnBeforeSearch() {
 		bdMberVO = {...tempBdMberVO};
+		bdMberVO.pagingVO = {}
 
 		getBidMberList()
 	}
@@ -284,6 +346,7 @@
 			inputRedendering("#mber-etr-confm-requst-dt", res)
 			inputRedendering("#mber-etr-confm-process-dt", res)
 			eleRedendering("#realgrid", res)
+			eleRedendering('#paging', res)
 
 			if (bdMberVO.bidMberSttusCode === '03') {
 				$('.templeteRegister button:eq(0)').removeClass("active");
@@ -299,8 +362,27 @@
 
 	function setBidSttus(data) {
 		bdMberVO = {
-			"bidMberSttusCode" : data
+			"bidMberSttusCode" : data,
+			"pagingVO" : {}
 		}
+
+		getBidMberList()
+	}
+
+	function setCrtPage(pageNum) {
+		bdMberVO.pagingVO.currentPage = pageNum
+
+		getBidMberList()
+	}
+
+	function plusCrtPage(num) {
+		bdMberVO.pagingVO.currentPage = Number($('#paging .active').eq(0).text()) + num
+
+		getBidMberList()
+	}
+
+	function minusCrtPage(num) {
+		bdMberVO.pagingVO.currentPage = Number($('#paging .active').eq(0).text()) - num
 
 		getBidMberList()
 	}

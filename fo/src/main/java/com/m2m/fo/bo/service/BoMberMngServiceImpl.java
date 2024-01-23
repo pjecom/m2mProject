@@ -22,6 +22,11 @@ public class BoMberMngServiceImpl implements BoMberMngService{
 	}
 
 	@Override
+	public int getMberCnt(BoMberVO vo) {
+		return boMberMngMapper.getMberCnt(vo);
+	}
+
+	@Override
 	public List<BoMberVO> getMberList(BoMberVO vo) {
 		return boMberMngMapper.getMberList(vo);
 	}

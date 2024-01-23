@@ -9,6 +9,8 @@ public interface BoMberMngService {
 
     List<BoCoCommCdVO> getBoCommCdList();
 
+    int getMberCnt(BoMberVO vo);
+
     List<BoMberVO> getMberList(BoMberVO vo);
 
     BoMberVO getMberDtl(String bidEntrpsNo);

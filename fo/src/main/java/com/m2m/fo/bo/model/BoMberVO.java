@@ -129,4 +129,8 @@ public class BoMberVO {
 
     // 최종 변경 일시
     private Date lastChangeDt;
+
+    // 페이징
+    private PagingVO pagingVO = new PagingVO();
+    
 }
