@@ -60,6 +60,7 @@ public class BdMypageController {
 		List<BdListVO> list = bdMainService.mypageLikeList(bdListVO);
         BdListVO favoritesCnt = bdMainService.bdMypageLikeCnt(bdListVO);
         //BdListVO bdCnt = bdMainService.bdMypageCount(bdListVO);
+        model.addAttribute("tabNo", "5");
 		model.addAttribute("favoritesCnt", favoritesCnt.getFavoritesCnt());
         log.info("favoritesCnt22222"+favoritesCnt.getFavoritesCnt());
 		model.addAttribute("likeList", list);

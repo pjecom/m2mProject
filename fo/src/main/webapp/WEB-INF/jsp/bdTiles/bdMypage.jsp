@@ -107,7 +107,7 @@
 				                </div>
 				                <ul class="list t2 myPageData">
 									<c:if test="${empty bdList}">
-										<div class="no-data empty-content">Could not find any matches.</div>
+										<div class="no-data empty-content">참여한 투찰 내역이 없습니다.</div>
 									</c:if>
 									<c:forEach items="${bdList}" var="vo">
 				                    <!-- item 1 투찰건 :: START -->
@@ -167,7 +167,7 @@
 				                </div>
 				                <ul class="list t2 myPageData">
 									<c:if test="${empty bdList}">
-										<div class="no-data empty-content">Could not find any matches.</div>
+										<div class="no-data empty-content">참여한 낙찰 내역이 없습니다.</div>
 									</c:if>
 									<c:forEach items="${bdList}" var="vo">
 				                    <!-- item 1 투찰건 :: START -->
@@ -226,7 +226,7 @@
 				                </div>
 				                <ul class="list t2 myPageData">
 									<c:if test="${empty bdList}">
-										<div class="no-data empty-content">Could not find any matches.</div>
+										<div class="no-data empty-content">참여한 패찰 내역이 없습니다.</div>
 									</c:if>
 									<c:forEach items="${bdList}" var="vo">
 				                    <!-- item 1 투찰건 :: START -->
@@ -285,7 +285,7 @@
 				                </div>
 				                <ul class="list t2 myPageData">
 									<c:if test="${empty bdList}">
-										<div class="no-data empty-content">Could not find any matches.</div>
+										<div class="no-data empty-content">참여한 유찰 내역이 없습니다.</div>
 									</c:if>
 									<c:forEach items="${bdList}" var="vo">
 				                    <!-- item 1 투찰건 :: START -->
@@ -351,11 +351,11 @@
 			                </div>
 				            <div class="tab-content type2">
 				                <div class="cont-sub-tit">
-									All <span class="fc-red">${favoritesCnt}</span>개
+									All <span class="fc-red favoritesCnt">${favoritesCnt}</span>개
 				                </div>
 				                <ul class="list t2 likeData">
 									<c:if test="${empty likeList}">
-										<div class="no-data empty-content">Could not find any matches. 왜비었어 </div>
+										<div class="no-data empty-content">관심 추가한 공고 내역이 없습니다.</div>
 									</c:if>
 									<c:forEach items="${likeList}" var="vo">
 				                    <!-- item 1 관심공고 :: START -->
@@ -395,7 +395,8 @@
 																	<span>관심기업</span>
 																	<span class="intrstEntrpsQy" value="${vo.intrstEntrpsQy}">${vo.intrstEntrpsQy}</span>
 																</li>
-															</ul>
+															</ul><!-- dbmetal id : -->
+															<!-- 관심에서 상세 보기 -->
 															<a href="javascript:;" class="ico like active"  id="${vo.bidPblancId}">
 																<span class="material-symbols-outlined">favorite</span>
 																<span class="tit">관심해제</span>
@@ -420,14 +421,13 @@
 				                            <div class="btns moveList" id="moveList" value="${vo.bidPblancId}" style="margin-top:1.5rem">
 												<c:choose>
 													<c:when test="${vo.bidSttusCode == 13}">
-														<div class="btn-bid-blue">투찰중</div>
+														<a href="javascript:;" class="btn-bid-blue"  name="selectBid" id="${vo.bidPblancId}">투찰중</a>
 													</c:when>
-													<c:when test="${vo.bidSttusCode == 30}">
-														<div class="btn-bid-black">마감</div>
-														<span class="t-info abs-info">개찰완료</span>
+													<c:when test="${vo.bidSttusCode == 12}">
+														<a href="javascript:;"  class="btn-bid-stroke"  name="selectBid" id="${vo.bidPblancId}" >입찰예정</a>
 													</c:when>
 													<c:otherwise>
-														<div class="btn-bid-stroke">입찰예정</div>
+														<a href="javascript:;" class="btn-bid-black"  name="selectBid" id="${vo.bidPblancId}" >마감</a>
 													</c:otherwise>
 												</c:choose>
 											</div>
@@ -502,8 +502,11 @@
 				case '4':
                 getMyPageList4('32', '');
                     break;
+                case '5':
+                $("#tabLike").click();
+                    break;
                 case '':
-				$("#tabLike").click();
+				getMyPageList1('13', '');
                     break;
             }
 		});
@@ -541,7 +544,7 @@
 		var params = {
 		         "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
                  "bidSttusCode" : bidSttusCode,
-                 "pblancCanclAt" : scsbidAt,
+                 "bddprCanclPossAt" : scsbidAt,
 				"filter" : $('#filter').val(),
 				"searchDateFrom" : $('#searchDateFrom').val().replaceAll("-", ""),
 				"searchDateTo" : $('#searchDateTo').val().replaceAll("-", ""),
@@ -864,6 +867,7 @@ $(".btn-period > .radio-btn").click(function() {
             pageMove( "/detail/bdDetail", JSON.stringify(params), 'application/json');
 	   		
     });
+	
 
 	function selectBdMainInfoList() {
 		var bidSttusCode1 = $(".item1.on").val();
@@ -905,49 +909,24 @@ $(".btn-period > .radio-btn").click(function() {
         //     }
 	}
 	$(document).on( 'click', ".ico.like", function(e) {
-        // var interestCount = '';
-        // var intrstEntrpsQy = $(".intrstEntrpsQy").val();
-
-        // console.log("intrstEntrpsQy :::::::::"+intrstEntrpsQy)
         e.preventDefault(); // 기본 동작을 막음
-        // 현재 버튼에 active 클래스가 있는지 확인
-        var isActive = $(this).hasClass("active");
         var likeYn = '';
         var likeCnt = 1;
         var intrstEntrpsQyElement = $(this).closest('li').find('.intrstEntrpsQy');
-        // 만약 active 클래스가 있으면 제거, 없으면 추가
-        if (isActive) {
+
             // 이미 활성화된 경우, 비활성화로 변경
             $(this).removeClass("active");
             likeYn = 'Y';
              // 초기 관심 기업 수 증가
-            var interestCount = parseInt("${vo.intrstEntrpsQy}");
-            interestCount = Math.max(0, interestCount - 1);
-            $("#interestCount").text(interestCount);
-            console.log("몇개"+interestCount);
             likeCnt = -1;
-            
+
             var currentCount = parseInt(intrstEntrpsQyElement.text());
 		    intrstEntrpsQyElement.text(currentCount - 1);
-
-        } else {
-            // 비활성화된 경우, 활성화로 변경
-            $(this).addClass("active");
-            likeYn = 'N';
-            // 초기 관심 기업 수 증가
-            var interestCount = parseInt("${vo.intrstEntrpsQy}");
-            interestCount ++;
-            $("#interestCount").text(interestCount);
-            console.log("몇개++"+interestCount);
-            
-            var currentCount = parseInt(intrstEntrpsQyElement.text());
-		    intrstEntrpsQyElement.text(currentCount + 1);
-        }
 
         var params = {
             "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
             "bidPblancId" : this.id,
-            "likeYn" : likeYn,
+            "likeYn" : 'N',
             "likeCnt" : likeCnt
 		}
         $.ajax({
@@ -956,7 +935,7 @@ $(".btn-period > .radio-btn").click(function() {
                 contentType: 'application/json', 
                 data: JSON.stringify(params),
                 success: function(data) {
-                    
+                    bdMypageLikeList();
                 }
         });
     });
@@ -972,6 +951,7 @@ $(".btn-period > .radio-btn").click(function() {
                 contentType: 'application/json', 
                 data: JSON.stringify(params),
                 success: function(res) {
+					//$("#favoritesCnt").text($(favoritesCnt)); //관심
 					// $(".favoritesCnt").text(favoritesCnt); //관심
 					updateLikeTable($(res).find(".likeData").html());
     	        },

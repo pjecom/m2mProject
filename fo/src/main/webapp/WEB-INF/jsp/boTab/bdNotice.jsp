@@ -84,18 +84,20 @@
                 <select class="form-select" id="bid-sub-code-select">
                     <option value="">전체</option>
                     <c:forEach var="vo" items="${bidSttusList}">
-                        <option value="${vo.subCode}"
-                            <c:if test="${vo.subCode eq BdPblnVO.bidSttusCode}">
-                                selected
-                            </c:if>
-                        >${vo.codeDctwo}</option>
+                        <c:if test="${vo.subCode ne '10'}">
+                            <option value="${vo.subCode}"
+                                <c:if test="${vo.subCode eq BdPblnVO.bidSttusCode}">
+                                    selected
+                                </c:if>
+                            >${vo.codeDctwo}</option>
+                        </c:if>
                     </c:forEach>
                 </select>
             </div>
 
             <div class="form-set">
                 <span class="label">입찰 공고 번호</span>
-                <input type="text" class="input" id="bid-pblanc-id" value="${BdPblnVO.bidPblancId}">
+                <input type="text" class="input" id="bid-pblanc-id" value="${BdPblnVO.bidPblancId}" onkeyup="if(event.keyCode==13) {searchFunc()}">
             </div>
 
             <div class="form-set form-expand">
