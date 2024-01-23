@@ -421,14 +421,14 @@
 				                            <div class="btns moveList" id="moveList" value="${vo.bidPblancId}" style="margin-top:1.5rem">
 												<c:choose>
 													<c:when test="${vo.bidSttusCode == 13}">
-														<div class="btn-bid-blue">투찰중</div>
+														<a href="javascript:;" class="btn-bid-blue"  name="selectBid" id="${vo.bidPblancId}">투찰중</a>
 													</c:when>
 													<c:when test="${vo.bidSttusCode == 30}">
-														<div class="btn-bid-black">마감</div>
-														<span class="t-info abs-info">개찰완료</span>
+														<a href="javascript:;" class="btn-bid-black"  name="selectBid" id="${vo.bidPblancId}" >마감</a>
+														<a href="javascript:;"  class="t-info abs-info"  name="selectBid" id="${vo.bidPblancId}" >개찰완료</a>
 													</c:when>
 													<c:otherwise>
-														<div class="btn-bid-stroke">입찰예정</div>
+														<a href="javascript:;"  class="btn-bid-stroke"  name="selectBid" id="${vo.bidPblancId}" >입찰예정</a>
 													</c:otherwise>
 												</c:choose>
 											</div>
@@ -868,6 +868,7 @@ $(".btn-period > .radio-btn").click(function() {
             pageMove( "/detail/bdDetail", JSON.stringify(params), 'application/json');
 	   		
     });
+	
 
 	function selectBdMainInfoList() {
 		var bidSttusCode1 = $(".item1.on").val();
