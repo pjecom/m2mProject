@@ -47,6 +47,7 @@
             <h2>입찰 공고 관리</h2>
         </div>
 
+        <!-- 대시 보드 -->
         <div class="dashboard2-column">
             <section class="dashboard2">
                 <div class="main-title">
@@ -56,24 +57,26 @@
                 <div class="amount-list row" id="bid-notice-amount">
                     <div class="amount-item">
                         <p class="title">전체 등록 공고 건</p>
-                        <p class="desc"><span class="amount">${cntByBidSttus.get("")}</span></p>
+                        <p class="desc"><span class="amount">${totalCntByBidSttus.get("10")}</span></p>
                     </div>
                     <div class="amount-item">
                         <p class="title">입찰 예정</p>
-                        <p class="desc"><span class="amount">${cntByBidSttus.get("12")}</span></p>
+                        <p class="desc"><span class="amount">${totalCntByBidSttus.get("12")}</span></p>
                     </div>
                     <div class="amount-item">
                         <p class="title">입찰 중</p>
-                        <p class="desc"><span class="amount">${cntByBidSttus.get("13")}</span></p>
+                        <p class="desc"><span class="amount">${totalCntByBidSttus.get("13")}</span></p>
                     </div>
                     <div class="amount-item">
                         <p class="title">입찰 마감</p>
-                        <p class="desc"><span class="amount">${cntByBidSttus.get("30")}</span></p>
+                        <p class="desc"><span class="amount">${totalCntByBidSttus.get("30")}</span></p>
                     </div>
                 </div>
             </section>
         </div>
+        <!-- 대시 보드 -->
 
+        <!-- 검색 구역 -->
         <div class="search-control mt-24" id="bid-notice-search-form">
 
             <div class="form-set">
@@ -131,21 +134,27 @@
                 </div>
             </div>
         </div>
+        <!-- 검색 구역 -->
 
+        <!-- 상태 전환 탭 -->
         <div class="table-control">
             <div class="form-set">
                 <div class="tab-button" id="bid-sttus-tab-div">
-                    <a class="btn bid-sttus-tab active" id="bid-sttus-tab-" onclick="setBidSttus('')">전체(${cntByBidSttus.get("")})</a>
+                    <a class="btn bid-sttus-tab active" id="bid-sttus-tab-" onclick="setBidSttus('')">전체(${cntByBidSttus["10"]})</a>
                     <c:forEach var="vo" items="${bidSttusList}">
-                        <a class="btn bid-sttus-tab" id="bid-sttus-tab-${vo.subCode}" onclick="setBidSttus(${vo.subCode})">${vo.codeDctwo}(${cntByBidSttus[vo.subCode]})</a>
+                        <c:if test="${vo.subCode ne '10'}">
+                            <a class="btn bid-sttus-tab" id="bid-sttus-tab-${vo.subCode}" onclick="setBidSttus(${vo.subCode})">${vo.codeDctwo}(${cntByBidSttus[vo.subCode]})</a>
+                        </c:if>
                     </c:forEach>
                 </div>
             </div>
         </div>
-        <!-- realGrid -->
+        <!-- 상태 전환 탭 -->
+
+        <!-- 입찰 공고 목록 테이블 -->
         <div id="realgrid" class="realgrid-wrap mt-24">
-            <div class="table table-list">
-                <table>
+            <div class="table table-list table-responsive">
+                <table class="table">
                     <colgroup>
                         <col width="130">
                         <col width="110">
@@ -221,11 +230,12 @@
                 </table>
             </div>
         </div>
+        <!-- 입찰 공고 목록 테이블 -->
+
         <!-- paging -->
         <div class="paging-row">
             <div class="paging">
                 <div id="paging">
-
                 </div>
             </div>
         </div>
@@ -248,13 +258,10 @@
 </div>
 
 <script>
-    let tempBdBidBas = {
-        bidSttusCode: '',
-        bidPblancId: '',
-        bddprBeginDt: '',
-        bddprEndDt: ''
-    }
+    // 검색 이전 항목
+    let tempBdBidBas = { }
 
+    // 검색 항목
     let bdBidBas = {
         bidSttusCode: '',
         bidPblancId: '',

@@ -30,7 +30,7 @@ public class BoBdPblnController {
 
     @RequestMapping(value ="/bidNotice")
     public String boDetail(@RequestBody(required = false) BoBdPblnVO vo, ModelMap model) throws Exception {
-        List<String> showBidSttusList = Arrays.asList("11", "12", "13", "30", "33");
+        List<String> showBidSttusList = Arrays.asList("10", "11", "12", "13", "30", "33");
 
         String tempBeginDt = null;
         String tempEndDt = null;
@@ -61,15 +61,27 @@ public class BoBdPblnController {
                 .collect(Collectors.toList());
 
 
-        // 상태 별 카운트
+        // 상태 별 카운트 (검색 내용 O)
+        BoBdPblnVO searchVo = vo;
         Map<String, Integer> cntByBidSttus = bidSttusList.stream()
                 .collect(Collectors.toMap(
                         CoCommCdVO::getSubCode,
-                        cdVO -> boBdPblnService.getCntByBidSttus(cdVO.getSubCode())
+                        cdVO -> {
+                            searchVo.setSubCode(cdVO.getSubCode());
+                            return boBdPblnService.getCntByBidSttus(searchVo);
+                        }
                 ));
-        cntByBidSttus.put("", cntByBidSttus.values().stream()
-                        .mapToInt(Integer::intValue)
-                        .sum());
+
+        // 상태 별 카운트 (검색 내용 X)
+        BoBdPblnVO noSearchVo = new BoBdPblnVO();
+        Map<String, Integer> totalCntByBidSttus = bidSttusList.stream()
+                .collect(Collectors.toMap(
+                        CoCommCdVO::getSubCode,
+                        cdVO -> {
+                            noSearchVo.setSubCode(cdVO.getSubCode());
+                            return boBdPblnService.getCntByBidSttus(noSearchVo);
+                        }
+                ));
 
 //        vo.getPagingVO().calPaging(list.size());
 //        System.out.println(vo.getPagingVO());
@@ -100,6 +112,7 @@ public class BoBdPblnController {
         model.addAttribute("bdList", list);
         model.addAttribute("bidSttusList", bidSttusList);
         model.addAttribute("cntByBidSttus", cntByBidSttus);
+        model.addAttribute("totalCntByBidSttus", totalCntByBidSttus);
 
         return "boTab/bdNotice";
 

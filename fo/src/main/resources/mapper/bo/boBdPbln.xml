@@ -267,22 +267,40 @@
             AND DELETE_AT = 'N'
         ORDER BY CODE_ORDR ASC
     </select>
-    <select id="getCntByBidSttus" parameterType="String" resultType="int">
+    <select id="getCntByBidSttus" parameterType="com.m2m.fo.bo.model.BoBdPblnVO" resultType="int">
         SELECT count(*)
         FROM BD_BID_BAS
         WHERE
         <choose>
-            <when test='_parameter.equals("30")'>
+            <when test='subCode.equals("10")'>
+                1 = 1
+            </when>
+            <when test='subCode.equals("30")'>
                 BID_STTUS_CODE in ('30','31','32')
             </when>
             <otherwise>
-                BID_STTUS_CODE = #{_parameter}
+                BID_STTUS_CODE = #{subCode}
             </otherwise>
         </choose>
         AND DELETE_AT = 'N'
+        <!-- 공고 번호 검색 -->
+        <if test="bidPblancId != null and bidPblancId != ''">
+            AND BID_PBLANC_ID LIKE '%' + #{bidPblancId} + '%'
+        </if>
+        <!-- 날짜 검색 -->
+        <if test="bddprBeginDt != null and bddprBeginDt != ''">
+            <![CDATA[
+                AND (
+                    (BDDPR_BEGIN_DT >= #{bddprBeginDt} AND BDDPR_BEGIN_DT <= #{bddprEndDt})
+                    OR (BDDPR_END_DT >= #{bddprBeginDt} AND BDDPR_END_DT <= #{bddprEndDt})
+                    OR (BDDPR_BEGIN_DT <= #{bddprBeginDt} AND BDDPR_END_DT >= #{bddprEndDt})
+                )
+            ]]>
+        </if>
     </select>
     <update id="updateBoBdPblnDtl" parameterType="com.m2m.fo.bo.model.BoBdPblnVO">
 		/* com.m2m.fo.bd.mapper.BoBdPblnMapper.updateBoBdPblnDtl 공고수정저장*/
+		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 		UPDATE BD_BID_BAS
 		SET 
 			BID_STTUS_CODE               = #{bidSttusCode}             /*입찰상태코드*/

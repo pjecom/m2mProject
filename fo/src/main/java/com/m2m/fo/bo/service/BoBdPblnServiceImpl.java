@@ -1,6 +1,5 @@
 package com.m2m.fo.bo.service;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -65,8 +64,8 @@ public class BoBdPblnServiceImpl implements BoBdPblnService{
 	}
 
 	@Override
-	public int getCntByBidSttus(String subCode) {
-		return boBdPblnMapper.getCntByBidSttus(subCode);
+	public int getCntByBidSttus(BoBdPblnVO boBdPblnVO) {
+		return boBdPblnMapper.getCntByBidSttus(boBdPblnVO);
 	}
 
 	@Override
