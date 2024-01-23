@@ -417,7 +417,7 @@
 													</div>
 				                                </div>
 				                            </div>
-				                            <div class="btns moveList" id="moveList" value="${vo.bidPblancId}">
+				                            <div class="btns moveList" id="moveList" value="${vo.bidPblancId}" style="margin-top:1.5rem">
 												<c:choose>
 													<c:when test="${vo.bidSttusCode == 13}">
 														<div class="btn-bid-blue">투찰중</div>

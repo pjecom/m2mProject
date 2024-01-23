@@ -296,7 +296,9 @@ $(".tab_btn_group > .item").click(function(){
     });
     
 $(function() {
-
+	if($("#bidEntrpsNo").val() == "") {
+		sessionStorage.clear();
+	}
     // =============== DATEPICKER ==================
 	$("#searchDateFrom").datepicker({
 		dateFormat: 'yy-mm-dd' //달력 날짜 형태
@@ -730,6 +732,7 @@ var params = {
 <!-- 공지사항 & FAQ :: START -->
 <div class="section notice-wrap type2 bid">
     <div class="inwrap">
+    	<input type="hidden" value="${member.bidEntrpsNo}" id="bidEntrpsNo" />
         <!-- 공지사항 :: START -->
         <div class="notice-area type2">
             <div class="tit">
