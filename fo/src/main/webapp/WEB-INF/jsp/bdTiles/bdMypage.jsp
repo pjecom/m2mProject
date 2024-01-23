@@ -423,12 +423,11 @@
 													<c:when test="${vo.bidSttusCode == 13}">
 														<a href="javascript:;" class="btn-bid-blue"  name="selectBid" id="${vo.bidPblancId}">투찰중</a>
 													</c:when>
-													<c:when test="${vo.bidSttusCode == 30}">
-														<a href="javascript:;" class="btn-bid-black"  name="selectBid" id="${vo.bidPblancId}" >마감</a>
-														<a href="javascript:;"  class="t-info abs-info"  name="selectBid" id="${vo.bidPblancId}" >개찰완료</a>
+													<c:when test="${vo.bidSttusCode == 12}">
+														<a href="javascript:;"  class="btn-bid-stroke"  name="selectBid" id="${vo.bidPblancId}" >입찰예정</a>
 													</c:when>
 													<c:otherwise>
-														<a href="javascript:;"  class="btn-bid-stroke"  name="selectBid" id="${vo.bidPblancId}" >입찰예정</a>
+														<a href="javascript:;" class="btn-bid-black"  name="selectBid" id="${vo.bidPblancId}" >마감</a>
 													</c:otherwise>
 												</c:choose>
 											</div>
