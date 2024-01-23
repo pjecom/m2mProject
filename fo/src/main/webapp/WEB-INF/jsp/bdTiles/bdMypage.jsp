@@ -107,7 +107,7 @@
 				                </div>
 				                <ul class="list t2 myPageData">
 									<c:if test="${empty bdList}">
-										<div class="no-data empty-content">Could not find any matches.</div>
+										<div class="no-data empty-content">참여한 투찰 내역이 없습니다.</div>
 									</c:if>
 									<c:forEach items="${bdList}" var="vo">
 				                    <!-- item 1 투찰건 :: START -->
@@ -167,7 +167,7 @@
 				                </div>
 				                <ul class="list t2 myPageData">
 									<c:if test="${empty bdList}">
-										<div class="no-data empty-content">Could not find any matches.</div>
+										<div class="no-data empty-content">참여한 낙찰 내역이 없습니다.</div>
 									</c:if>
 									<c:forEach items="${bdList}" var="vo">
 				                    <!-- item 1 투찰건 :: START -->
@@ -226,7 +226,7 @@
 				                </div>
 				                <ul class="list t2 myPageData">
 									<c:if test="${empty bdList}">
-										<div class="no-data empty-content">Could not find any matches.</div>
+										<div class="no-data empty-content">참여한 패찰 내역이 없습니다.</div>
 									</c:if>
 									<c:forEach items="${bdList}" var="vo">
 				                    <!-- item 1 투찰건 :: START -->
@@ -285,7 +285,7 @@
 				                </div>
 				                <ul class="list t2 myPageData">
 									<c:if test="${empty bdList}">
-										<div class="no-data empty-content">Could not find any matches.</div>
+										<div class="no-data empty-content">참여한 유찰 내역이 없습니다.</div>
 									</c:if>
 									<c:forEach items="${bdList}" var="vo">
 				                    <!-- item 1 투찰건 :: START -->
@@ -351,11 +351,11 @@
 			                </div>
 				            <div class="tab-content type2">
 				                <div class="cont-sub-tit">
-									All <span class="fc-red">${favoritesCnt}</span>개
+									All <span class="fc-red favoritesCnt">${favoritesCnt}</span>개
 				                </div>
 				                <ul class="list t2 likeData">
 									<c:if test="${empty likeList}">
-										<div class="no-data empty-content">Could not find any matches. 왜비었어 </div>
+										<div class="no-data empty-content">관심 추가한 공고 내역이 없습니다.</div>
 									</c:if>
 									<c:forEach items="${likeList}" var="vo">
 				                    <!-- item 1 관심공고 :: START -->
@@ -395,7 +395,8 @@
 																	<span>관심기업</span>
 																	<span class="intrstEntrpsQy" value="${vo.intrstEntrpsQy}">${vo.intrstEntrpsQy}</span>
 																</li>
-															</ul>
+															</ul><!-- dbmetal id : -->
+															<!-- 관심에서 상세 보기 -->
 															<a href="javascript:;" class="ico like active"  id="${vo.bidPblancId}">
 																<span class="material-symbols-outlined">favorite</span>
 																<span class="tit">관심해제</span>
@@ -544,7 +545,7 @@
 		var params = {
 		         "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
                  "bidSttusCode" : bidSttusCode,
-                 "pblancCanclAt" : scsbidAt,
+                 "bddprCanclPossAt" : scsbidAt,
 				"filter" : $('#filter').val(),
 				"searchDateFrom" : $('#searchDateFrom').val().replaceAll("-", ""),
 				"searchDateTo" : $('#searchDateTo').val().replaceAll("-", ""),
@@ -975,6 +976,7 @@ $(".btn-period > .radio-btn").click(function() {
                 contentType: 'application/json', 
                 data: JSON.stringify(params),
                 success: function(res) {
+					$("#favoritesCnt").text($(favoritesCnt)); //관심
 					// $(".favoritesCnt").text(favoritesCnt); //관심
 					updateLikeTable($(res).find(".likeData").html());
     	        },

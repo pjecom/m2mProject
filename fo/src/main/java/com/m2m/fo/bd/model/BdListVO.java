@@ -35,6 +35,7 @@ public class BdListVO {
 	private String	itmPrdlstEng;                 //아이템 품목 영문
 	private String	goodsNm;                      //상품 명
 	private int bidWt;                            //수량
+	private String bddprCanclPossAt;             //투찰취소가능여부
 
 	// 입찰 전체 건수 
 	private int totalCnt;                         //입찰 전체 목록

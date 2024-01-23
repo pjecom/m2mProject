@@ -140,8 +140,12 @@
             WHERE BBD.BID_ENTRPS_NO = #{bidEntrpsNo}
                 AND BB.DELETE_AT ='N'                                                                                                                       /* 삭제 여부 */
             	AND BB.BID_STTUS_CODE = #{bidSttusCode} -- 13: 투찰중, 31: 낙찰, 32: 유찰
-             <if test="pblancCanclAt != null and pblancCanclAt != ''">
-                AND PBLANC_CANCL_AT = #{pblancCanclAt} -- Y: 낙찰, N: 패찰
+                AND PBLANC_CANCL_AT = 'N' /* 공고 취소 여부 */
+             <if test="bddprCanclPossAt != null and bddprCanclPossAt != ''">
+                AND BDDPR_CANCL_POSS_AT = #{bddprCanclPossAt} -- Y:투찰취소, N: 투찰
+            </if>
+            <if test="bddprCanclPossAt == null and bddprCanclPossAt == ''">
+				AND BDDPR_CANCL_POSS_AT = 'N' -- Y: 투찰취소, N: 투찰
             </if>
             <if test="scsbidAt != null and scsbidAt != ''">
                 AND BBD.SCSBID_AT = #{scsbidAt} -- Y: 낙찰, N: 패찰
@@ -169,8 +173,12 @@
           ON BB.BID_PBLANC_ID= BBD.BID_PBLANC_ID 
        WHERE BBD.BID_ENTRPS_NO = #{bidEntrpsNo}
              AND BB.DELETE_AT ='N'         
-            <if test="pblancCanclAt != null and pblancCanclAt != ''">
-                AND PBLANC_CANCL_AT = #{pblancCanclAt} -- Y: 낙찰, N: 패찰
+             AND PBLANC_CANCL_AT = 'N' /* 공고 취소 여부 */
+             <if test="bddprCanclPossAt != null and bddprCanclPossAt != ''">
+                AND BDDPR_CANCL_POSS_AT = #{bddprCanclPossAt} -- Y:투찰취소, N: 투찰
+            </if>
+            <if test="bddprCanclPossAt == null and bddprCanclPossAt == ''">
+				AND BDDPR_CANCL_POSS_AT = 'N' -- Y: 투찰취소, N: 투찰
             </if>
              <if test="filter == '01' and searchDateFrom != null and searchDateFrom != '' and searchDateTo != null and searchDateTo != ''">
               AND BDDPR_BEGIN_DT between ${searchDateFrom}000000 and ${searchDateTo}235959                                                                 /* 공고(마감) 날짜 */
