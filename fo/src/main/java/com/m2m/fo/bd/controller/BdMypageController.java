@@ -66,7 +66,40 @@ public class BdMypageController {
 		model.addAttribute("likeList", list);
         return "bdTiles/bdMypage";
     }
-    
-
+	
+	@RequestMapping(value = "/bdMypageLikeListAjax", method = RequestMethod.POST)
+    public String bdMypageLikeListAjax(@RequestBody(required = false) BdListVO bdListVO , ModelMap model, HttpServletRequest request) throws Exception {
+		List<BdListVO> list = bdMainService.mypageList(bdListVO);
+		List<BdListVO> list2 = bdMainService.mypageLikeList(bdListVO);
+        BdListVO favoritesCnt = bdMainService.bdMypageLikeCnt(bdListVO);
+      
+		BdListVO bdCnt = bdMainService.bdMypageCount(bdListVO);
+        log.info("탭탭탭"+bdListVO.getTabNo());
+        log.info("favoritesCnt22222"+favoritesCnt.getFavoritesCnt());
+        model.addAttribute("favoritesCnt", favoritesCnt.getFavoritesCnt());
+        model.addAttribute("tabNo", bdListVO.getTabNo());
+        model.addAttribute("bdCnt", bdCnt);
+		model.addAttribute("bdList", list);
+		model.addAttribute("likeList", list2);
+        return "bdTiles/bdMypage";
+    }
+	
+//	@RequestMapping(value = "/bdMypageLikeListAjax")
+//    public  ResponseEntity<?> bdMypageLikeListAjax(@RequestBody(required = false) BdListVO bdListVO , ModelMap model) throws Exception {
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		try {
+//		List<BdListVO> list = bdMainService.mypageLikeList(bdListVO);
+//			map.put("tabNo", "5");
+//			map.put("likeList", list);
+//	        BdListVO favoritesCnt = bdMainService.bdMypageLikeCnt(bdListVO);
+//	        log.info("favoritesCnt1111"+favoritesCnt.getFavoritesCnt());
+//			map.put("favoritesCnt", favoritesCnt.getFavoritesCnt());
+//			return new ResponseEntity<>(map, HttpStatus.OK);
+//	
+//		} catch (Exception e) {
+//			log.error(e.getMessage());
+//			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+//		}
+//	}
 
 }

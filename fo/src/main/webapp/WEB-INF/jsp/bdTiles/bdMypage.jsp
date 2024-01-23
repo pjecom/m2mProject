@@ -42,8 +42,8 @@
 			        	<!-- LEFT WING :: START -->
 			        	<div class="left-wing">
 			        		<ul>
-			        			<li class="item active" data-tab="nav-1" onclick="selectBdMainInfoList();"><a href="javascript:;">투찰 목록</a></li>
-			        			<li class="item" data-tab="nav-2" onclick="bdMypageLikeList();" id="tabLike"><a href="javascript:;">관심 공고</a></li>
+			        			<li class="item active" data-tab="nav-1" onclick="getMyPageList(1);"><a href="javascript:;">투찰 목록</a></li>
+			        			<li class="item" data-tab="nav-2" onclick="getMyPageList(5);" id="tabLike"><a href="javascript:;">관심 공고</a></li>
 			        		</ul>
 			        	</div>
 			        	<!-- LEFT WING :: END -->
@@ -79,21 +79,21 @@
 				                    <label class="radio-btn" id="threeMonth"><input name="bdPeriod" type="radio" value="3"><span>최근 3개월</span></label>
 				                    <label class="radio-btn" id="sixMonth"><input name="bdPeriod" type="radio" value="6"><span>최근 6개월</span></label>
 				                </div>
-				                <button class="btn-blue" onclick=selectBdMainInfoList(); >조회</button>
+				                <button class="btn-blue" onclick=getMyPageList(); >조회</button>
 				            </div>
 				            <!-- FILTER AREA :: END -->
 							<!-- TAB BUTTON :: START -->
 							<ul class="tab_btn_group">
-								<li class="item1 on" data-tab="tab-1" id="tab1" value="1" onclick="getMyPageList1('13', '');">
+								<li class="item on" data-tab="tab-1" id="tab1" value="1" onclick="getMyPageList(1);">
 									<a href="javascript:;">투찰 건 (<span class="totalCnt">${bdCnt.biddingCnt}</span>) </a>
 								</li>
-								<li class="item2" data-tab="tab-2" id="tab2" value="2" onclick="getMyPageList2('31', 'Y');">
+								<li class="item" data-tab="tab-2" id="tab2" value="2" onclick="getMyPageList(2);">
 									<a href="javascript:;">낙찰 건 (<span id="expectCnt">${bdCnt.approvedCnt}</span>)</a>
 								</li>
-								<li class="item3" data-tab="tab-3"  id="tab3" value="3"  onclick="getMyPageList3('31', 'N');">
+								<li class="item" data-tab="tab-3"  id="tab3" value="3"  onclick="getMyPageList(3);">
 									<a href="javascript:;">패찰 건 (<span id="bidingCnt">${bdCnt.rejectedCnt}</span>)</a>
 								</li>
-								<li class="item4" data-tab="tab-4" id="tab4" value="4"  onclick="getMyPageList4('32', '');">
+								<li class="item" data-tab="tab-4" id="tab4" value="4"  onclick="getMyPageList(4);">
 									<a href="javascript:;">유찰 건 (<span id="endCnt">${bdCnt.auctionCnt}</span>) </a>
 								</li>
 							</ul>
@@ -101,9 +101,9 @@
 				            <!-- TAB-1 :: START -->
 				            <div id="tab-1" class="tab-content on">
 				                <div class="custom_radio">
-								  <input type="radio" id="featured-1" value="" name="featuredGroup1" checked><label for="featured-1">전체</label>
-								  <input type="radio" id="featured-2" value="N" name="featuredGroup1"><label for="featured-2">투찰 중건</label>
-								  <input type="radio" id="featured-3" value="Y" name="featuredGroup1"><label for="featured-3">투찰접수 취소건</label>
+								  <input type="radio" id="featured-1" onclick="getMyPageList(1);" name="featuredGroup1" checked><label for="featured-1">전체</label>
+								  <input type="radio" id="featured-2" onclick="getMyPageList(1,'N');" name="featuredGroup1"><label for="featured-2">투찰 중건</label>
+								  <input type="radio" id="featured-3" onclick="getMyPageList(1,'Y');" name="featuredGroup1"><label for="featured-3">투찰접수 취소건</label>
 				                </div>
 				                <ul class="list t2 myPageData">
 									<c:if test="${empty bdList}">
@@ -488,207 +488,73 @@
 		$(function() {
 			debugger;
 			var tab = "${tabNo}";
-			
-			switch(tab){
-                case '1':
-				getMyPageList1('13', '');
-				break;
-                case '2':
-				getMyPageList2('31', 'Y');
-                    break;
-                case '3':
-                getMyPageList3('31', 'N');
-                    break;
-				case '4':
-                getMyPageList4('32', '');
-                    break;
-                case '5':
-                $("#tabLike").click();
-                    break;
-                case '':
-				getMyPageList1('13', '');
-                    break;
-            }
+			if( tab == 5){
+				$("#tabLike").click();
+			}else{
+				getMyPageList(tab);
+			}
 		});
 
-		function setBidSttus(code) {
-			bdBidBas.bidSttusCode = code
-
+	function getMyPageList(data,data2) {
+		debugger;
+		var bddprCanclPossAt ='';
+		var tabNo = data
+		if(tabNo == '' || tabNo == null || tabNo == undefined){
+			tabNo = $(".item.on").val(); 
+			if(tabNo == '' || tabNo == null || tabNo == undefined){
+				tabNo == "1"
+			}
 		}
-
-		function comAjaxMyPage(_type, _url, _data, _dataType, _contentType, _processData, _isAsync, callback) {
-		if(!validationIsEmpty(_type) && !validationIsEmpty(_url)) {
-			$.ajax({
-					type : _type,
-					url : _url,
-					data : _data,
-					dataType : _dataType,
-					contentType : _contentType,
-					processData : _processData,
-					async: _isAsync,
-					success : function(data) {
-						callback(data);
+		if(tabNo == "1"){
+			bidSttusCode = '13'
+			bddprCanclPossAt = data2
+		}
+		else if(tabNo == "2") {
+			bidSttusCode = '31'
+			scsbidAt = 'Y'
+		}
+		else if(tabNo == "3") {
+			bidSttusCode = '31'
+			scsbidAt = 'N'
+		}
+		else if(tabNo == "4") {
+			bidSttusCode = '32'
+			scsbidAt = ''
+		} else {
+			bidSttusCode = '13'
+			scsbidAt = ''
+		}
+		
+        const url = "/bdMypageLikeListAjax"
+		var params = {
+		         "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
+                 "bidSttusCode" : bidSttusCode,
+                 "scsbidAt" : scsbidAt,
+				"filter" : $('#filter').val(),
+				"bddprCanclPossAt" : bddprCanclPossAt,
+				"searchDateFrom" : $('#searchDateFrom').val().replaceAll("-", ""),
+				"searchDateTo" : $('#searchDateTo').val().replaceAll("-", "")
+		}
+		$.ajax({
+					url: url, 
+					method: 'POST', 
+					contentType: 'application/json', 
+					data: JSON.stringify(params), 
+					dataType: 'html', 
+					success: function(res) {
+						debugger;
+						$('.tab_btn_group li').removeClass('on');
+						$('.tab-content').removeClass('on');
+						$('.item#tab'+tabNo).addClass('on');
+						$('.tab-content#tab-'+tabNo).addClass('on');
+						updateTable("#tab-"+tabNo, $(res).find("#tab-"+tabNo+" .myPageData").html());
+						updateLikeTable($(res).find(".likeData").html());
 					},
-					error : function(request, status, error) {
-						var url = "/bo";
-						
+					error: function(error) {
+						// 에러 발생 시의 처리
+						console.log('에러');
 					}
 				});
-		}
-}
-
-	// 입찰 공고 목록 axios 요청
-	function getMyPageList1(bidSttusCode, scsbidAt) {
-        const url = "/bdMypageAjax"
-
-		var params = {
-		         "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
-                 "bidSttusCode" : bidSttusCode,
-                 "bddprCanclPossAt" : scsbidAt,
-				"filter" : $('#filter').val(),
-				"searchDateFrom" : $('#searchDateFrom').val().replaceAll("-", ""),
-				"searchDateTo" : $('#searchDateTo').val().replaceAll("-", ""),
-				"bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo")
-		}
-
-		$.ajax({
-						url: url, 
-						method: 'POST', 
-						contentType: 'application/json', 
-						data: JSON.stringify(params), 
-						dataType: 'html', 
-						success: function(res) {
-							//console.log('데이터 정상', data);
-							$('.tab_btn_group li').removeClass('on');
-                            $('.tab-content').removeClass('on');
-                            $('.item1').addClass('on');
-                            $('#tab-1').addClass('on');
-							updateTable("#tab-1", $(res).find("#tab-1 .myPageData").html());
-						},
-						error: function(error) {
-							// 에러 발생 시의 처리
-							console.log('에러');
-						}
-					});
-
-        // comAjaxMyPage('POST', url, JSON.stringify(params), "html", true, (res) => {
-		// 	debugger;
-        //     updateTable($(res).find("#mypageData").html())
-        // })
-    }
-	function getMyPageList2(bidSttusCode, scsbidAt) {
-        const url = "/bdMypageAjax"
-
-		var params = {
-		         "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
-                 "bidSttusCode" : bidSttusCode,
-                 "scsbidAt" : scsbidAt,
-				"filter" : $('#filter').val(),
-				"searchDateFrom" : $('#searchDateFrom').val().replaceAll("-", ""),
-				"searchDateTo" : $('#searchDateTo').val().replaceAll("-", "")
-		}
-
-
-		$.ajax({
-						url: url, 
-						method: 'POST', 
-						contentType: 'application/json', 
-						data: JSON.stringify(params), 
-						dataType: 'html', 
-						success: function(res) {
-							//console.log('데이터 정상', data);
-							$('.tab_btn_group li').removeClass('on');
-                            $('.tab-content').removeClass('on');
-                            $('.item2').addClass('on');
-                            $('#tab-2').addClass('on');
-							updateTable("#tab-2", $(res).find("#tab-2 .myPageData").html());
-						},
-						error: function(error) {
-							// 에러 발생 시의 처리
-							console.log('에러');
-						}
-					});
-
-        // comAjaxMyPage('POST', url, JSON.stringify(params), "html", true, (res) => {
-		// 	debugger;
-        //     updateTable($(res).find("#mypageData").html())
-        // })
-    }
-	function getMyPageList3(bidSttusCode, scsbidAt) {
-        const url = "/bdMypageAjax"
-
-		var params = {
-		         "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
-                 "bidSttusCode" : bidSttusCode,
-                 "scsbidAt" : scsbidAt,
-				"filter" : $('#filter').val(),
-				"searchDateFrom" : $('#searchDateFrom').val().replaceAll("-", ""),
-				"searchDateTo" : $('#searchDateTo').val().replaceAll("-", "")
-		}
-
-
-		$.ajax({
-						url: url, 
-						method: 'POST', 
-						contentType: 'application/json', 
-						data: JSON.stringify(params), 
-						dataType: 'html', 
-						success: function(res) {
-							//console.log('데이터 정상', data);
-							$('.tab_btn_group li').removeClass('on');
-                            $('.tab-content').removeClass('on');
-                            $('.item3').addClass('on');
-                            $('#tab-3').addClass('on');
-							updateTable("#tab-3", $(res).find("#tab-3 .myPageData").html());
-						},
-						error: function(error) {
-							// 에러 발생 시의 처리
-							console.log('에러');
-						}
-					});
-
-        // comAjaxMyPage('POST', url, JSON.stringify(params), "html", true, (res) => {
-		// 	debugger;
-        //     updateTable($(res).find("#mypageData").html())
-        // })
-    }
-	function getMyPageList4(bidSttusCode, scsbidAt) {
-        const url = "/bdMypageAjax"
-
-		var params = {
-		         "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
-                 "bidSttusCode" : bidSttusCode,
-                 "scsbidAt" : scsbidAt,
-				"filter" : $('#filter').val(),
-				"searchDateFrom" : $('#searchDateFrom').val().replaceAll("-", ""),
-				"searchDateTo" : $('#searchDateTo').val().replaceAll("-", "")
-		}
-
-
-		$.ajax({
-						url: url, 
-						method: 'POST', 
-						contentType: 'application/json', 
-						data: JSON.stringify(params), 
-						dataType: 'html', 
-						success: function(res) {
-							//console.log('데이터 정상', data);
-							$('.tab_btn_group li').removeClass('on');
-                            $('.tab-content').removeClass('on');
-                            $('.item4').addClass('on');
-                            $('#tab-4').addClass('on');
-							updateTable("#tab-4", $(res).find("#tab-4 .myPageData").html());
-						},
-						error: function(error) {
-							// 에러 발생 시의 처리
-							console.log('에러');
-						}
-					});
-
-        // comAjaxMyPage('POST', url, JSON.stringify(params), "html", true, (res) => {
-		// 	debugger;
-        //     updateTable($(res).find("#mypageData").html())
-        // })
     }
 
 	function updateTable(tabId, htmlContent) {
@@ -708,47 +574,11 @@
         tbody.html('');
         tbody.html(htmlContent);
     }
-	// let tempBdBidBas = {}
-    // let bdBidBas = {
-    //     bidSttusCode: '',
-    //     bidPblancId: '',
-    //     bddprBeginDt: '',
-    //     bddprEndDt: ''
-    // }
 
-    // bdBidBas.bidSttusCode 값 변경 감지
-    // Object.defineProperty(bdBidBas, 'bidSttusCode', {
-    //     get: function() {
-    //         return this._bidSttusCode;
-    //     },
-    //     set: function(newValue) {
-    //         this._bidSttusCode = newValue;
-
-    //         $(".bid-sttus-tab").removeClass("active")
-    //         $("#bid-sttus-tab-" + newValue).addClass("active")
-    //     }
-    // });
 	// =============== SELECT BOX ==================
-	$('.brand').select2({
-	    width: 'element',
-	    minimumResultsForSearch: Infinity,
-	    placeholder: '브랜드',
-	    selectOnClose: true
-	});
-	$('.area').select2({
-	    width: 'element',
-	    minimumResultsForSearch: Infinity,
-	    placeholder: '권역',
-	    selectOnClose: true
-	});
 	$('.filter').select2({
 	    width: 'element',
 	    placeholder: '공고일',
-	    minimumResultsForSearch: Infinity,
-	    selectOnClose: true
-	});
-	$('#shippingAddr').select2({
-	    width: 'element',
 	    minimumResultsForSearch: Infinity,
 	    selectOnClose: true
 	});
@@ -869,49 +699,11 @@ $(".btn-period > .radio-btn").click(function() {
     });
 	
 
-	function selectBdMainInfoList() {
-		var bidSttusCode1 = $(".item1.on").val();
-		var bidSttusCode2 = $(".item2.on").val();
-		var bidSttusCode3 = $(".item3.on").val();
-		var bidSttusCode4 = $(".item4.on").val();
 
-		if(bidSttusCode1 !== undefined){
-			getMyPageList1('13', '');
-		}
-		else if(bidSttusCode2 !== undefined) {
-			getMyPageList2('31', 'Y');
-		}
-		else if(bidSttusCode3 !== undefined) {
-			getMyPageList3('31', 'N');
-		}
-		else if(bidSttusCode4 !== undefined) {
-			getMyPageList4('32', '');
-		} else {
-			getMyPageList1('13', '');
-		}
-
-		// switch(bidSttusCode){
-        //         case '1':
-		// 		getMyPageList1('13', '');
-		// 		break;
-        //         case '2':
-		// 		getMyPageList2('31', 'Y');
-        //             break;
-        //         case '3':
-        //         getMyPageList3('31', 'N');
-        //             break;
-		// 		case '4':
-        //         getMyPageList4('32', '');
-        //             break;
-        //         case '':
-		// 		getMyPageList1('13', '');
-        //             break;
-        //     }
-	}
 	$(document).on( 'click', ".ico.like", function(e) {
         e.preventDefault(); // 기본 동작을 막음
         var likeYn = '';
-        var likeCnt = 1;
+        var likeCnt = 1; 
         var intrstEntrpsQyElement = $(this).closest('li').find('.intrstEntrpsQy');
 
             // 이미 활성화된 경우, 비활성화로 변경
@@ -926,7 +718,7 @@ $(".btn-period > .radio-btn").click(function() {
         var params = {
             "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
             "bidPblancId" : this.id,
-            "likeYn" : 'N',
+            "likeYn" : 'Y',
             "likeCnt" : likeCnt
 		}
         $.ajax({
@@ -935,33 +727,10 @@ $(".btn-period > .radio-btn").click(function() {
                 contentType: 'application/json', 
                 data: JSON.stringify(params),
                 success: function(data) {
-                    bdMypageLikeList();
+                    getMyPageList(5)
                 }
         });
     });
-
-	function bdMypageLikeList(){
-		var params = {
-            "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo")
-		}
-		
-		$.ajax({
-				type: 'POST',
-                url: '/bdMypageLikeList',
-                contentType: 'application/json', 
-                data: JSON.stringify(params),
-                success: function(res) {
-					//$("#favoritesCnt").text($(favoritesCnt)); //관심
-					// $(".favoritesCnt").text(favoritesCnt); //관심
-					updateLikeTable($(res).find(".likeData").html());
-    	        },
-    	});
-	}
-
-	$(document).on( 'click', "[name='featuredGroup1']", function(e) {
-		var scsbidAt = $(this).attr('value');
-		getMyPageList1('13',scsbidAt);
-	});
 	
 	</script>
 </body>

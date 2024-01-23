@@ -40,28 +40,28 @@
 			<c:choose>                                                                                                                                                                 
                 <c:when test="${member.entrpsNm != null}">
                     <div class="login_container log_on">
-                        <a href="javascript:;"  class="btn_nav" onclick="moveMyPage('13', '',1)"><span class="bold">${member.entrpsNm}</span>님 입찰현황</a>
+                        <a href="javascript:;"  class="btn_nav" onclick="moveMyPage(1);"><span class="bold">${member.entrpsNm}</span>님 입찰현황</a>
                         <div class="dashboard">
                                 <div class="item mypage">
-                                    <a href="javascript:;" onclick="moveMyPage('13', '',1);" >
+                                    <a href="javascript:;" onclick="moveMyPage(1);" >
                                         <h4>투찰건</h4>
                                         <p class="bid bddprCnt biddingCnt"></p>						   	 	
                                     </a>
                                 </div>
                                 <div class="item mypage">
-                                    <a href="javascript:;" onclick="moveMyPage('31', 'Y',2);" > 
+                                    <a href="javascript:;" onclick="moveMyPage(2);" > 
                                         <h4>낙찰건</h4>
                                         <p class="lose defeatCnt approvedCnt"></p>
                                 </a> 	
                                 </div>		
                                 <div class="item mypage">
-                                    <a href="javascript:;" onclick="moveMyPage('31', 'N',3);" >						   	 
+                                    <a href="javascript:;" onclick="moveMyPage(3);" >						   	 
                                         <h4>패찰건</h4>
                                         <p class="lose defeatCnt rejectedCnt"></p>
                                 </a> 								   	 	
                                 </div>		
                                 <div class="item mypage">
-                                    <a href="javascript:;" onclick="bdMypageLikeList();" >
+                                    <a href="javascript:;" onclick="moveMyPage(5);" >
                                         <h4>관심건</h4>
                                         <p class="lose defeatCnt favoritesCnt"></p>
                                     </a> 								   	 	
@@ -362,22 +362,44 @@ function getMypageInfo(bidEntrpsNo)
             }
         });
  }
-function moveMyPage(bidSttusCode, scsbidAt,tabNo) {
+function moveMyPage(tabNo) {
+    if(tabNo == "1"){
+			bidSttusCode = '13'
+			scsbidAt = ''
+		}
+		else if(tabNo == "2") {
+			bidSttusCode = '31'
+			scsbidAt = 'Y'
+		}
+		else if(tabNo == "3") {
+			bidSttusCode = '31'
+			scsbidAt = 'N'
+		}
+		else if(tabNo == "4") {
+			bidSttusCode = '32'
+			scsbidAt = ''
+		} else if(tabNo == "5") {
+			bidSttusCode = ''
+			scsbidAt = ''
+		}else {
+			bidSttusCode = '13'
+			scsbidAt = ''
+		}
     var params = {
-        "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
+                 "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
                  "bidSttusCode" : bidSttusCode,
                  "scsbidAt" : scsbidAt,
                  "tabNo" : tabNo
 		}
-    pageMove( "/bdMypageAjax", JSON.stringify(params), 'application/json');
+    pageMove( "/bdMypageLikeListAjax", JSON.stringify(params), 'application/json');
 }
-function bdMypageLikeList(tabNo) {
-    var params = {
-            "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
-            "tabNo" : tabNo
-        }
-    pageMove( "/bdMypageLikeList", JSON.stringify(params), 'application/json');
-}
+// function bdMypageLikeList(tabNo) {
+//     var params = {
+//             "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
+//             "tabNo" : tabNo
+//         }
+//     pageMove( "/bdMypageLikeList", JSON.stringify(params), 'application/json');
+// }
 
 function dateviewfmt(date){
 	return date.substring(2,4) + '.' +date.substring(4,6)+ '.' +date.substring(6,8)+ ' ' +date.substring(8,10)+ ':' +date.substring(10,12)+ ':' +date.substring(12,14);
