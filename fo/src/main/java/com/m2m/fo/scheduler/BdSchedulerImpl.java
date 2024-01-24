@@ -83,6 +83,7 @@ public class BdSchedulerImpl implements BdScheduler {
 							
 							//첫번쨰 회사 낙찰로 업데이트
 							if(cnt == 0) {
+								log.info("######낙찰######");
 								// 입찰기본, 입찰상테 update
 								bdSchedulerMapper.updateFirstCom(cmpVO);
 								// 낙찰상세 insert
@@ -91,8 +92,8 @@ public class BdSchedulerImpl implements BdScheduler {
 								// 카운트 1증가
 								cnt ++;
 							}else {
+								log.info("######패찰######");
 								//두번째 회사부턴 패찰로 업데이트
-								// 낙찰상세 insert
 								bdSchedulerMapper.updateOtherCom(cmpVO);
 							}
 						}	

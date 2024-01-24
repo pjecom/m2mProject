@@ -117,7 +117,7 @@
                                                    	<td>
 			                                            <select class="form-select select-sm" id="bid-wt-select">
 			                                                <c:forEach var="count" begin="100" end="2000" step="100">
-			                                                    <option value="${count}">${count}</option>
+			                                                    <option value="${count}" <c:if test="${boBdPblnDtl.bidWt eq count}">selected</c:if>>${count}</option>
 			                                                </c:forEach>
 			                                            </select>
 			                                        </td>
@@ -125,7 +125,7 @@
                                                     <td>
 		                                            <select class="form-select select-sm" id="perm-wt-select">
 		                                                <c:forEach var="count" begin="1" end="10">
-		                                                    <option value="${count}">${count}%</option>
+		                                                    <option value="${count}" <c:if test="${boBdPblnDtl.permWtRate eq count}">selected</c:if>>${count}</option>
 		                                                </c:forEach>
 		                                            </select>
 		                                        </td>

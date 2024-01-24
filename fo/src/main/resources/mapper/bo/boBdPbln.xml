@@ -59,6 +59,9 @@
             	FROM CO_CMMN_CD 
             	WHERE MAIN_CODE = 'PC_APPN_MTH_CODE' 
             	 AND SUB_CODE = BBB.PC_APPN_MTH_CODE) AS PC_APPN_MTH_CODE_NM                    /*가격지정방법*/
+            ,BBB.SETLE_CRNCY_CODE                                                               /*결제통화코드*/
+            ,BBB.SETLE_MTH_CODE                                                                 /*결제방법코드*/
+            ,BBB.SETLE_PD_CODE                                                                  /*결제기간코드*/
             ,CONCAT(
             COALESCE((SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'SETLE_CRNCY_CODE' AND SUB_CODE = BBB.SETLE_CRNCY_CODE), 'N/A'),' ',
             COALESCE((SELECT CODE_DCTWO FROM CO_CMMN_CD WHERE MAIN_CODE = 'SETLE_MTH_CODE' AND SUB_CODE = BBB.SETLE_MTH_CODE), 'N/A'),' ',
