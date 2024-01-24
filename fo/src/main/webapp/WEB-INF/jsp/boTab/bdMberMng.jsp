@@ -376,10 +376,12 @@
 			eleRedendering('#paging', res)
 
 			if (bdMberVO.bidMberSttusCode === '03') {
-				tab('#mber-sttus-tab-div', 1)
+				$('#mber-sttus-tab-div button:eq(0)').removeClass("active");
+				$('#mber-sttus-tab-div button:eq(1)').addClass("active");
 				$('#bid-mber-sttus-select').attr("disabled", true)
 			} else {
-				tab('#mber-sttus-tab-div', 0)
+				$('#mber-sttus-tab-div button:eq(1)').removeClass("active");
+				$('#mber-sttus-tab-div button:eq(0)').addClass("active");
 				$('#bid-mber-sttus-select').attr("disabled", false)
 			}
 		})
