@@ -550,6 +550,7 @@
     }
 
     function modalClose() {
+        $("#bdNoticeCreateModal .modal2").html('');
         $('#bdNoticeCreateModal').modal('hide');
     }
 
