@@ -702,7 +702,7 @@
 												</td>
 												<c:choose> 
 													<c:when test="${boBdPblnDtl.bidSttusCode eq '30'}">
-														<td>유찰</td>
+														<td>마감</td>
 													</c:when>
 													<c:otherwise>
 														<td>-</td>

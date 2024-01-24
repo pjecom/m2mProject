@@ -750,6 +750,37 @@ function saveBdData() {
     } else if (parsedbddprBeginDt < now){
         //debugger;
     }
+
+    var startMinutesInput = $('#bddprBeginM').val();	
+    var startSecondsInput = $('#bddprBeginS').val();
+
+    var endMinutesInput = $('#bddprEndM').val();		
+	var endSecondsInput = $('#bddprEndS').val();		
+
+	if(bddprBeginH == ''){
+		alert("투찰시작일 시간을 확인해주세요.");
+		return;
+	}
+	if(startMinutesInput == ''){
+		alert("투찰시작일 분을 확인해주세요.");
+		return;
+	}
+	if(startSecondsInput == ''){
+		alert("투찰시작일 초를 확인해주세요.");
+		return;
+	}
+	if(bddprEndH == ''){
+		alert("투찰종료 시간을 확인해주세요.");
+		return;
+	}
+	if(endMinutesInput == ''){
+		alert("투찰종료 분을 확인해주세요.");
+		return;
+	}
+	if(endSecondsInput == ''){
+		alert("투찰종료 초를 확인해주세요.");
+		return;
+	}
     //console.log(bidYear, bidMonth, bidDay);
     //console.log(nowYear, nowMonth, nowDay);
 	//console.log("parsedbddprBeginDt >>> ::: {}", parsedbddprBeginDt);
