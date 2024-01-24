@@ -406,11 +406,11 @@
                                         <td>
                                             <div class="radio-group">
                                                 <div class="form-radio">
-                                                    <input type="radio" id="dspy-yn-01" name="dspyYn" value="Y" checked="checked" />
+                                                    <input type="radio" id="dspy-yn-01" name="dspy-yn" value="Y" checked="checked" />
                                                     <label for="dspy-yn-01"><span>활성</span></label>
                                                 </div>
                                                 <div class="form-radio">
-                                                    <input type="radio" id="dspy-yn-02" name="dspyYn" value="N"/>
+                                                    <input type="radio" id="dspy-yn-02" name="dspy-yn" value="N"/>
                                                     <label for="dspy-yn-02"><span>비활성</span></label>
                                                 </div>
                                             </div>
@@ -488,9 +488,9 @@
         const bddprCanclS = $('.create-bddpr-cancl-dt .sec').val();
         boBdPbln.bddprCanclLmttDe = formatDateTime(bddprCanclDt, bddprCanclPOD, bddprCanclH, bddprCanclM, bddprCanclS);
 
-        boBdPbln.dspyAt = $('input[name="dspyYn"]:checked').val();
+        boBdPbln.dspyAt = $('input[name="dspy-yn"]:checked').val();
 
-        const excludedProperties = ['delyPdCn', 'etcCn']
+        const excludedProperties = ['delyPdCn', 'etcCn']/**/
         if (boBdPbln.bddprCanclPossAt === 'N') {
             excludedProperties.push('bddprCanclLmttDe')
         }
@@ -503,10 +503,22 @@
         ){
             alert('필수 항목을 모두 작성해주세요');
         } else if (boBdPbln.delyCnd01ApplcAt === 'N' && boBdPbln.delyCnd02ApplcAt === 'N' && boBdPbln.delyCnd03ApplcAt === 'N') {
-            alert('필수 항목을 모두 작성해주세요');
+            alert('프리미엄 가격을 하나 이상 선택해주세요.');
+        } else if (boBdPbln.delyBeginDe > boBdPbln.delyEndDe) {
+            alert('인도 기한을 확인해주세요.');
+            $('#create-dely-end-de').focus()
+        } else if (boBdPbln.pcAppnBeginDe > boBdPbln.pcAppnEndDe) {
+            alert('가격 지정 기간을 확인해주세요.');
+            $('#create-pc-appn-end-de').focus()
+        } else if (boBdPbln.bddprBeginDt > boBdPbln.bddprEndDt) {
+            alert('투찰 기간을 확인해주세요.');
+            $('#create-bddpr-end-dt').focus()
+        } else if (boBdPbln.bddprCanclPossAt === 'Y' && (boBdPbln.bddprCanclLmttDe < boBdPbln.bddprBeginDt || boBdPbln.bddprCanclLmttDe > boBdPbln.bddprEndDt)) {
+            alert('투찰 취소 기한을 확인해주세요.');
+            $('#create-bddpr-cancl-dt').focus()
         }
         else {
-            createBidNotice()
+            // createBidNotice()
         }
     }
 
