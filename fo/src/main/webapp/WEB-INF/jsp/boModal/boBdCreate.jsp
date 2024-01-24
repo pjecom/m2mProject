@@ -339,9 +339,9 @@
                                                     <option value="am">am</option>
                                                     <option value="pm">pm</option>
                                                 </select>
-                                                <input type="number" class="input hour" min="0" max="12" value="" style="width:50px;">&nbsp;시
-                                                <input type="number" class="input min" min="0" max="59" style="width:50px;">&nbsp;분
-                                                <input type="number" class="input sec" min="0" max="59" style="width:50px;">&nbsp;초
+                                                <input type="text" class="input hour" max="12" style="width:50px;" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');">&nbsp;시
+                                                <input type="text" class="input min" max="59" style="width:50px;" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');">&nbsp;분
+                                                <input type="text" class="input sec" max="59" style="width:50px;" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');">&nbsp;초
                                             </div>
                                         </td>
                                         <th scope="row">투찰 마감일<i class="icon icon-required"></i></th>
@@ -355,9 +355,9 @@
                                                     <option value="am">am</option>
                                                     <option value="pm">pm</option>
                                                 </select>
-                                                <input type="number" class="input hour" min="0" max="12" value="" style="width:50px;">&nbsp;시
-                                                <input type="number" class="input min" min="0" max="59" style="width:50px;">&nbsp;분
-                                                <input type="number" class="input sec" min="0" max="59" style="width:50px;">&nbsp;초
+                                                <input type="text" class="input hour" max="12" style="width:50px;" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');">&nbsp;시
+                                                <input type="text" class="input min" max="59" style="width:50px;" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');">&nbsp;분
+                                                <input type="text" class="input sec" max="59" style="width:50px;" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');">&nbsp;초
                                             </div>
                                     </tr>
                                     <tr>
@@ -381,9 +381,9 @@
                                                     <option value="am">am</option>
                                                     <option value="pm">pm</option>
                                                 </select>
-                                                <input type="number" class="input hour" min="0" max="12" value="" style="width:50px;">&nbsp;시
-                                                <input type="number" class="input min" min="0" max="59" style="width:50px;">&nbsp;분
-                                                <input type="number" class="input sec" min="0" max="59" style="width:50px;">&nbsp;초 까지 투찰 취소 가능함.
+                                                <input type="text" class="input hour" max="12" style="width:50px;" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');">&nbsp;시
+                                                <input type="text" class="input min" max="59" style="width:50px;" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');">&nbsp;분
+                                                <input type="text" class="input sec" max="59" style="width:50px;" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');">&nbsp;초 까지 투찰 취소 가능함.
                                             </div>
                                         </td>
                                     </tr>
@@ -524,13 +524,10 @@
 
     document.querySelectorAll('.create-bddpr-begin-dt input, .create-bddpr-end-dt input, .create-bddpr-cancl-dt input').forEach(function(input) {
         input.addEventListener('input', function() {
-            var minValue = parseInt(this.min, 10);
             var maxValue = parseInt(this.max, 10);
             var currentValue = parseInt(this.value, 10);
 
-            if (isNaN(currentValue) || currentValue < minValue) {
-                this.value = minValue;
-            } else if (currentValue > maxValue) {
+            if (currentValue > maxValue) {
                 this.value = maxValue;
             }
         });
