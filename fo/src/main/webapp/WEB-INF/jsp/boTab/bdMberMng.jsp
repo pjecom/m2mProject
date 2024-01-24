@@ -17,7 +17,7 @@
 		color: white !important;
 	}
 	.realgrid-wrap {
-		min-height: calc(100% - 500px);
+		min-height: calc(100% - 100px);
 	}
 	.mt-5 {
 		margin-top: 5px;
