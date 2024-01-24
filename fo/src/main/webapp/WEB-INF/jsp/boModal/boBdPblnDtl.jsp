@@ -187,7 +187,6 @@
 	            "bidPblancId": $("#bidPblancId").val(),     // 입찰 공고아이디 
 
 	        }
-	    debugger;
 	    // 입찰 상태에 따라 다른 메시지의 confirm 창을 표시
 	    if (bidSttusCode === '12') {
 	        result = confirm('해당 공고 건은 입찰 예정 건입니다.\n 공고 취소 시 노출되지 않습니다.\n 취소하시겠습니다.?');
@@ -198,7 +197,7 @@
 	        }
 	        
 	    } else if (bidSttusCode === '13') {
-	        result = confirm('해당 공고 건은 투찰 진행 중입니다.\n 공고 취소 시 비활성 상태로 전환되며\n회원의 공고 목록에서 삭제 처리됩니다.\n 공고 취소하시겠습니까?');
+	        result = confirm('해당 공고 건은 투찰 진행 중입니다.\n 공고 취소 시 비활성 상태로 전환되며\n공고 취소 처리됩니다.\n 공고 취소하시겠습니까?');
 	        if(result){
 		        cancelBoBdPbln(params);
 	        }else{
@@ -219,7 +218,6 @@
 	            "bidPblancId": $("#bidPblancId").val(),        // 입찰 공고 아이디 
 	            "rejectBidResn": reason                       // 유찰사유 
 	        };
-	        debugger;
 	        //console.log("params:>>>>>" + JSON.stringify(params));
 	        console.log("params:", params);
 	        $.ajax({
@@ -403,30 +401,36 @@
 														</tr>
 													</thead>
 													<tbody>
+													<c:if test="${boBdPblnDtl.delyCnd01ApplcAt eq 'Y'}">
 														<tr>
 															<td class="text-center"><b>1</b></td>
 															<td>서린상사 지정 보세창고 도착도(FCA 서린상사 지정 보세창고)</td>
 															<td>
-																<input type="text" value="0" class="input" style="width: 50%; background-color: #fafafa;" readonly="readonly"> &nbsp;&nbsp; 
-																<span>${boBdPblnDtl.delyCnd01premiumPc}</span>
+																<input type="text" value="${boBdPblnDtl.delyCnd01premiumPc}" class="input" style="width: 50%; background-color: #fafafa;" readonly="readonly"> &nbsp;&nbsp; 
+																<span>${boBdPblnDtl.delyCnd01StdrPc}</span>
 															</td>
 														</tr>
+													</c:if>
+													<c:if test="${boBdPblnDtl.delyCnd01ApplcAt eq 'Y'}">
 														<tr>
 															<td class="text-center"><b>2</b></td>
 															<td>기타 부산/인천 보세창고 상차도(FCA BUSAN/INCHEON)</td>
 															<td>
-																<input type="text" value="100" class="input" style="width: 50%; background-color: #fafafa;" readonly="readonly"> &nbsp;&nbsp; 
-																<span>${boBdPblnDtl.delyCnd02premiumPc}</span>
+																<input type="text" value="${boBdPblnDtl.delyCnd02premiumPc}" class="input" style="width: 50%; background-color: #fafafa;" readonly="readonly"> &nbsp;&nbsp; 
+																<span>${boBdPblnDtl.delyCnd02StdrPc}</span>
 															</td>
 														</tr>
+													</c:if>
+													<c:if test="${boBdPblnDtl.delyCnd01ApplcAt eq 'Y'}">
 														<tr>
 															<td class="text-center"><b>3</b></td>
 															<td>CIF INCHEON / CIF BUSAN</td>
 															<td>
-																<input type="text" value="200" class="input" style="width: 50%; background-color: #fafafa;" readonly="readonly"> &nbsp;&nbsp; 
-																<span>${boBdPblnDtl.delyCnd03premiumPc}</span>
+																<input type="text" value="${boBdPblnDtl.delyCnd03premiumPc}" class="input" style="width: 50%; background-color: #fafafa;" readonly="readonly"> &nbsp;&nbsp; 
+																<span>${boBdPblnDtl.delyCnd03StdrPc}</span>
 															</td>
 														</tr>
+													</c:if>
 													</tbody>
 												</table>
 											</div>

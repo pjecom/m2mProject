@@ -31,18 +31,18 @@ public class BoBdPblnVO extends BoCoCommCdVO implements Cloneable{
 	private String dstrctLclsfCode; // 권역대분류코드
 	private String dstrctNm; // 권역이름
 	private int bidWt; // 입찰중량
-	private float permWtRate; // 허용중량비율
+	private int permWtRate; // 허용중량비율
 	private int minPremiumPc; // 최저프리미엄가
 	
 	private String delyCnd01ApplcAt; //인도조건 01 적용여부 
-	private float delyCnd01StdrPc; //인도조건 01 기준가격
-	private float delyCnd01premiumPc; //인도조건 01프리미엄가격 
+	private int delyCnd01StdrPc; //인도조건 01 기준가격
+	private int delyCnd01premiumPc; //인도조건 01프리미엄가격 
 	private String delyCnd02ApplcAt; //인도조건 02 적용여부 
-	private float delyCnd02StdrPc; //인도조건 02 기준가격
-	private float delyCnd02premiumPc; //인도조건 02프리미엄가격 
+	private int delyCnd02StdrPc; //인도조건 02 기준가격
+	private int delyCnd02premiumPc; //인도조건 02프리미엄가격 
 	private String delyCnd03ApplcAt; //인도조건 03 적용여부 
-	private float delyCnd03StdrPc; //인도조건 03 기준가격
-	private float delyCnd03premiumPc; //인도조건 03프리미엄가격
+	private int delyCnd03StdrPc; //인도조건 03 기준가격
+	private int delyCnd03premiumPc; //인도조건 03프리미엄가격
 	private String delyBeginDe; // 인도시작일자
 	private String delyEndDe; // 인도종료일자
 	private String delyPdCn; // 인도기간내용
