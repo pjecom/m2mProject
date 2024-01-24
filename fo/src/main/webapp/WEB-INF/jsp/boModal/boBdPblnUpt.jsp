@@ -520,13 +520,15 @@ $("#delyBeginDate, #delyEndDeDate, #pcAppnBegindate, #pcAppnEnddate, #bddprBegin
 
 $(function(){
     $('#metal-select').on('change', () => {
-        boBdPbln.metalCode = $('#metal-select').val()
+        boBdPbln = {
+            "metalCode": $('#metal-select').val()
+        }
         initModal()
     })
 
     $('#brand-group-select').on('change', () => {
         boBdPbln.brandGroupCode = $('#brand-group-select').val()
-        initModal()
+        initModal('brdGrp')
     })
     
 	//투찰 시작일
@@ -596,11 +598,13 @@ function modalClose() {
 	clearInterval(timer);
 	$('#bdNoticeDetailModal').modal('hide');
 }
-function initModal() {
+function initModal(flag) {
     var url = "/bo/initBdCrtModal";
     postSetDataTypeBo(url, JSON.stringify(boBdPbln), "html", true, function(result) {
         if(!sorin.validation.isNull(result)) {
-            eleRedendering("#brand-group-select", result)
+            if (flag !== 'brdGrp') {
+                eleRedendering("#brand-group-select", result)
+            }
             eleRedendering("#brand-select", result)
             eleRedendering("#item-select", result)
         }
