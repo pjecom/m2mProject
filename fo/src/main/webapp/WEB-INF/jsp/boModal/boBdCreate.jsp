@@ -563,7 +563,6 @@
     }
 
     function modalClose() {
-	    clearInterval(timer);
         $("#bdNoticeCreateModal .modal2").html('');
         $('#bdNoticeCreateModal').modal('hide');
     }
