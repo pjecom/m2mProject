@@ -53,6 +53,7 @@ public class BoMberMngController {
         // 회원 목록
         List<BoMberVO> mberList = mberMngService.getMberList(vo);
 
+        // 사업자 등록 번호 및 전화번호 포맷 변경
         mberList.forEach(mberVO -> {
             mberVO.setBsnmRegistNo(formatBsnmRegistNo(mberVO.getBsnmRegistNo()));
             mberVO.setMoblphonNo2(formatPhoneNumber(mberVO.getMoblphonNo2()));
@@ -66,6 +67,7 @@ public class BoMberMngController {
 
     }
 
+    /** 입찰 회원 상세 모달 데이터 초기화 */
     @RequestMapping(value = "/mberDtlModal", method = RequestMethod.POST)
     public String mberDtlModal(@RequestBody BoMberVO mberVO, ModelMap model) throws Exception {
 
@@ -89,6 +91,7 @@ public class BoMberMngController {
         return "boModal/boBdMberDtl";
     }
 
+    /** 회원 차단 전 입찰 상태 체크 */
     @RequestMapping(value = "/beforeIntrcpMber", method = RequestMethod.POST)
     public ResponseEntity<?> beforeIntrcpMber(@RequestBody BoMberVO mberVO, ModelMap model) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -102,6 +105,7 @@ public class BoMberMngController {
         }
     }
 
+    /** 회원 차단 */
     @RequestMapping(value = "/intrcpMber", method = RequestMethod.POST)
     public ResponseEntity<?> intrcpMber(@RequestBody BoMberVO mberVO, ModelMap model) throws Exception {
 
@@ -114,6 +118,7 @@ public class BoMberMngController {
 
     }
 
+    /** 회원 차단 해제 */
     @RequestMapping(value = "/unlockMber", method = RequestMethod.POST)
     public ResponseEntity<?> unlockMber(@RequestBody BoMberVO mberVO, ModelMap model) throws Exception {
 
@@ -125,6 +130,7 @@ public class BoMberMngController {
         }
     }
 
+    /** 가입 요청 거절 */
     @RequestMapping(value = "/rejectMber", method = RequestMethod.POST)
     public ResponseEntity<?> rejectMber(@RequestBody BoMberVO mberVO, ModelMap model) throws Exception {
 
@@ -136,6 +142,7 @@ public class BoMberMngController {
         }
     }
 
+    /** 가입 요청 승인 */
     @RequestMapping(value = "/confmMber", method = RequestMethod.POST)
     public ResponseEntity<?> confmMber(@RequestBody BoMberVO mberVO, ModelMap model) throws Exception {
 

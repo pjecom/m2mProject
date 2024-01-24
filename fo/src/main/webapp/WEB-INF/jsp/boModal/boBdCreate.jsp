@@ -494,6 +494,10 @@
         if (boBdPbln.bddprCanclPossAt === 'N') {
             excludedProperties.push('bddprCanclLmttDe')
         }
+
+        const date = new Date();
+        const currtTime = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0')
+
         if (Object.keys(boBdPbln)
             .filter(property => !excludedProperties.includes(property))
             .some(property => {
@@ -510,7 +514,7 @@
         } else if (boBdPbln.pcAppnBeginDe > boBdPbln.pcAppnEndDe) {
             alert('가격 지정 기간을 확인해주세요.');
             $('#create-pc-appn-end-de').focus()
-        } else if (boBdPbln.bddprBeginDt > boBdPbln.bddprEndDt) {
+        } else if (boBdPbln.bddprBeginDt > boBdPbln.bddprEndDt || currtTime > bddprEndDt) {
             alert('투찰 기간을 확인해주세요.');
             $('#create-bddpr-end-dt').focus()
         } else if (boBdPbln.bddprCanclPossAt === 'Y' && (boBdPbln.bddprCanclLmttDe < boBdPbln.bddprBeginDt || boBdPbln.bddprCanclLmttDe > boBdPbln.bddprEndDt)) {

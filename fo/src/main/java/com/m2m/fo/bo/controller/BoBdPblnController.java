@@ -189,12 +189,12 @@ public class BoBdPblnController {
 
         Date bddprBeginDt = dateTimeFm.parse(bdPblnVO.getBddprBeginDt());
 
-        if(bdPblnVO.getDspyAt().equals("N")) {
-            bdPblnVO.setBidSttusCode("11");
-        } else if (currentDateTime.before(bddprBeginDt)) {
-            bdPblnVO.setBidSttusCode("12");
+        if(bdPblnVO.getDspyAt().equals("N")) { // 전시여부 비활성 시
+            bdPblnVO.setBidSttusCode("11"); // 공고 대기
+        } else if (currentDateTime.before(bddprBeginDt)) { // 현재 날짜가 투찰 시작일 이전일 시
+            bdPblnVO.setBidSttusCode("12"); // 입찰예정
         } else {
-            bdPblnVO.setBidSttusCode("13");
+            bdPblnVO.setBidSttusCode("13"); // 투찰중
         }
 
         bdPblnVO.setBidPblancId("BID" + currentDateStr);

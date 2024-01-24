@@ -220,12 +220,6 @@
                                             </c:choose>
                                         </td>
                                     </tr>
-                                    <c:if test="${mberDtl.bidMberSttusCode eq '02' && mberDtl.bidMberIntrcpCn ne null}">
-                                        <tr>
-                                            <th scope="row">비고</th>
-                                            <td colspan="5">${mberDtl.bidMberIntrcpCn}</td>
-                                        </tr>
-                                    </c:if>
                                 </tbody>
                             </table>
                         </div>

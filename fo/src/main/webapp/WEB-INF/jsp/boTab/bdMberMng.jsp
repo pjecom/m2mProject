@@ -24,12 +24,16 @@
 		height: unset;
 		min-height: calc(100% - 305px);
 		overflow-x: auto;
+		border-bottom: none;
 	}
 	.realgrid-wrap table {
 		border-top: 2px solid #273457;
 	}
 	.mt-5 {
 		margin-top: 5px;
+	}
+	.paging-row {
+		border: none;
 	}
 </style>
 

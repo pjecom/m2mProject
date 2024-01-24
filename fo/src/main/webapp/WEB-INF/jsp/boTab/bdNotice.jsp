@@ -15,8 +15,9 @@
     }
     .realgrid-wrap {
         height: unset;
-        min-height: 532px;
+        min-height: 542px;
         overflow-x: auto;
+        border-bottom: none;
     }
     .realgrid-wrap table {
         border-top: 2px solid #273457;
@@ -26,6 +27,9 @@
     }
     .amount {
         font-size: 17px !important;
+    }
+    .paging-row {
+        border: none;
     }
 </style>
 <script>
