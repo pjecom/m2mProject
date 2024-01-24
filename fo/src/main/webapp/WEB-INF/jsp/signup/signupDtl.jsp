@@ -212,7 +212,14 @@
 <script src="/guide/js/sorin.js"></script>
 <!-- embedded -->
 <script>
+var isloaded = false;
 $(function() {
+	//console.log('-----------document reedy-----------')
+	if (isloaded) {
+	//console.log('두번은안댐');
+	return;
+	
+	}
 	//checkFlag
 	var checkIdFlag = false;
 	var checkPwFlag = false;
@@ -428,10 +435,12 @@ $(function() {
 			alert('아이디를 다시 입력해주세요');
 			$("#bidMberId").focus();
 			return false;
+			//console.log('아이디를다시입력해주세요 alert---------------------');
         }
 		if(checkPwFlag == false){
         	alert('비밀번호를 다시 입력해주세요');
 			$("#bidMberSecretNo").focus();
+			//console.log('비번 밸리대이션 alert 조건문 탄다면---------------------')
 			return false;
         } 
 		if(checkPwChkFlag == false){
@@ -486,7 +495,7 @@ $(function() {
 		
        	//기본정보
     	if(checkIdFlag == true && checkEmailFlag == true && checkPwFlag == true){
-    	    var bidMberId = $("#bidMberId").val();											//id
+    		var bidMberId = $("#bidMberId").val();											//id
     	    var bidMberSecretNo = $("#bidMberSecretNo").val();								//pw
     	    var entrpsNm = $("#entrpsNm").val();											//회사명
     	    var bsnmRegistNo = $("#bsnmRegistNo").val().replace(/-/g, ''); 					//사업자번호
@@ -544,13 +553,14 @@ $(function() {
         	            console.error("AJAX 오류: " + textStatus, errorThrown);
         	        }
         	    });
-    		}
+   			}
     	} else {
     		alertPopup('다시 입력해주세요', function () {
                 return true;
             });
         }
 	});
+	isloaded = true;
 });
 function isValidEmail(email) {
     // 이메일 정규식
