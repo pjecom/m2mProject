@@ -739,7 +739,7 @@ function saveBdData() {
         // 사용자가 확인 버튼을 누른 경우 modalClose 함수 호출	                 
         
 	}
-	else if (dspyAt === 'Y' && parsedbddprBeginDt < now && params.bidSttusCode == '12')
+	else if (dspyAt === 'Y' && parsedbddprBeginDt <= now && params.bidSttusCode == '12')
 	{
 		//입찰 당일, 입찰예정 -> 투찰중으로 전환된 경우 
 		if (confirm("시작일이 당일이며 상태가 활성입니다. \n해당 정보로 저장 시 투찰이 시작됩니다.\n진행하시겠습니까?"))
