@@ -672,42 +672,56 @@
 										<th scope="row" class="text-center">상태</th>
 										<th scope="row" class="text-center">처리단계</th>
 									</tr>
-									<c:forEach var="item" items="${bdEntrpsList}">
-										<tr>
-											<td>${item.entrpsRank}</td>
-											<td>${item.entrpsNm}</td>
-												<fmt:parseDate value="${item.bddprDt}" var="bddprDt" pattern="yyyyMMddHHmmss"/>
-												<fmt:formatDate value="${bddprDt}" var="formattedprDt" pattern="yyyy.MM.dd. HH:mm:ss"/>
-											<td>${formattedprDt}</td>
-											<td>${item.delyCndCnt}</td>
-											<td>${item.bddprTotalPc}</td>
-											<td>
-												<c:choose>
-													<c:when test="${boBdPblnDtl.bidSttusCode ne '31'}">
-														${boBdPblnDtl.bidSttus}
+									<c:choose>
+									<c:when test="${not empty bdEntrpsList}">
+										<c:forEach var="item" items="${bdEntrpsList}">
+											<tr>
+												<td>${item.entrpsRank}</td>
+												<td>${item.entrpsNm}</td>
+													<fmt:parseDate value="${item.bddprDt}" var="bddprDt" pattern="yyyyMMddHHmmss"/>
+													<fmt:formatDate value="${bddprDt}" var="formattedprDt" pattern="yyyy.MM.dd. HH:mm:ss"/>
+												<td>${formattedprDt}</td>
+												<td>${item.delyCndCnt}</td>
+												<td>${item.bddprTotalPc}</td>
+												<td>
+													<c:choose>
+														<c:when test="${boBdPblnDtl.bidSttusCode ne '31'}">
+															${boBdPblnDtl.bidSttus}
+														</c:when>
+														<c:otherwise>
+															<c:choose>
+																<c:when test="${item.scsbidAt eq 'N'}">
+																	패찰
+																</c:when>
+																<c:otherwise>
+																	낙찰
+																</c:otherwise>
+															</c:choose>
+														</c:otherwise>
+													</c:choose>
+												</td>
+												<c:choose> 
+													<c:when test="${boBdPblnDtl.bidSttusCode eq '30'}">
+														<td>유찰</td>
 													</c:when>
 													<c:otherwise>
-														<c:choose>
-															<c:when test="${item.scsbidAt eq 'N'}">
-																패찰
-															</c:when>
-															<c:otherwise>
-																낙찰
-															</c:otherwise>
-														</c:choose>
+														<td>-</td>
 													</c:otherwise>
 												</c:choose>
-											</td>
-											<c:choose> 
-												<c:when test="${boBdPblnDtl.bidSttusCode eq '30'}">
-													<td>유찰</td>
-												</c:when>
-												<c:otherwise>
-													<td>-</td>
-												</c:otherwise>
-											</c:choose>
+											</tr>
+										</c:forEach>
+									</c:when>
+									<c:when test="${boBdPblnDtl.bidSttusCode eq '12'}">
+										<tr>
+											<td colspan="7" style="text-align: center;">투찰 시작전입니다</td>
 										</tr>
-									</c:forEach>
+									</c:when>
+										<c:otherwise>
+											<tr>
+												<td colspan="7" style="text-align: center;"> - </td>
+											</tr>
+										</c:otherwise>
+									</c:choose>
 								</tbody>
 							</table>
 						</div>
