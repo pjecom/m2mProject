@@ -46,6 +46,7 @@
             dataType: "html",
             success: function(result) {
                 if (!sorin.validation.isNull(result)) {
+                    $(".modal2").html('');
                     $("#bdNoticeDetailModal .modal2").html(result);
                     $('#bdNoticeDetailModal').modal('show');
                     
@@ -457,7 +458,7 @@
         postSetDataTypeBo(url, JSON.stringify(params), "html", true, function(result) {
             if(!sorin.validation.isNull(result)) {
                 boBdPbln = {}
-                $("#bdNoticeCreateModal .modal2").html('');
+                $(".modal2").html('');
                 $("#bdNoticeCreateModal .modal2").html(result);
                 $('#bdNoticeCreateModal').modal('show');
             }
