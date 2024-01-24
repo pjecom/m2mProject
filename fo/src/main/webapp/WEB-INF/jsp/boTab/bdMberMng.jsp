@@ -211,24 +211,42 @@
 								<td align="center">${vo.rowNum}</td>
 								<td>${vo.entrpsNm}</td>
 								<td>${vo.bidMberId}</td>
-								<c:choose>
-									<c:when test="${vo.bsnmRegistNo eq ''}"><td align="center">-</td></c:when>
-									<c:otherwise><td>${vo.bsnmRegistNo}</td></c:otherwise>
-								</c:choose>
+								<td align="center">
+									<c:choose>
+										<c:when test="${vo.bsnmRegistNo eq ''}">-</c:when>
+										<c:otherwise>${vo.bsnmRegistNo}</c:otherwise>
+									</c:choose>
+								</td>
 								<td>${vo.bidMberEmail}</td>
 								<td>${vo.moblphonNo2}
 								</td>
-								<c:choose>
-									<c:when test="${vo.frntnEntrpsAt eq 'Y'}"><td align="center">O</td></c:when>
-									<c:when test="${vo.frntnEntrpsAt eq 'N'}"><td align="center">-</td></c:when>
-									<c:otherwise><td></td></c:otherwise>
-								</c:choose>
-								<td><fmt:formatDate value="${vo.etrConfmRequstDt}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-								<td><fmt:formatDate value="${vo.etrConfmProcessDt}" pattern = "yyyy-MM-dd HH:mm:ss"/></td>
-								<td><fmt:formatDate value="${vo.bidMberIntrcpDt}" pattern = "yyyy-MM-dd HH:mm:ss"/></td>
-								<td>${vo.bdScsCnt}</td>
-								<td>${vo.bdfailCnt}</td>
-								<td>
+								<td align="center">
+									<c:choose>
+										<c:when test="${vo.frntnEntrpsAt eq 'Y'}">O</c:when>
+										<c:when test="${vo.frntnEntrpsAt eq 'N'}">-</c:when>
+									</c:choose>
+								</td>
+								<td align="center">
+									<c:choose>
+										<c:when test="${vo.etrConfmRequstDt eq '' || vo.etrConfmRequstDt == null}">-</c:when>
+										<c:otherwise><fmt:formatDate value="${vo.etrConfmRequstDt}" pattern="yyyy-MM-dd HH:mm:ss" /></c:otherwise>
+									</c:choose>
+								</td>
+								<td align="center">
+									<c:choose>
+										<c:when test="${vo.etrConfmProcessDt eq '' || vo.etrConfmProcessDt == null}">-</c:when>
+										<c:otherwise><fmt:formatDate value="${vo.etrConfmProcessDt}" pattern="yyyy-MM-dd HH:mm:ss" /></c:otherwise>
+									</c:choose>
+								</td>
+								<td align="center">
+									<c:choose>
+										<c:when test="${vo.bidMberIntrcpDt eq '' || vo.bidMberIntrcpDt == null}">-</c:when>
+										<c:otherwise><fmt:formatDate value="${vo.bidMberIntrcpDt}" pattern="yyyy-MM-dd HH:mm:ss" /></c:otherwise>
+									</c:choose>
+								</td>
+								<td align="center">${vo.bdScsCnt}</td>
+								<td align="center">${vo.bdfailCnt}</td>
+								<td align="center">
 									<c:choose>
 										<c:when test="${vo.bidMberSttusCode eq '03'}">${vo.bidConfmSttus}</c:when>
 										<c:otherwise>${vo.bidMberSttus}</c:otherwise>
