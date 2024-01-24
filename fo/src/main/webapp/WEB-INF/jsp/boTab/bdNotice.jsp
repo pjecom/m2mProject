@@ -332,9 +332,6 @@
 </div>
 
 <script>
-    // 검색 이전 항목
-    let tempBdBidBas = { }
-
     // 검색 항목
     let bdBidBas = {
         bidSttusCode: '',
@@ -434,8 +431,6 @@
     }
 
     function searchFunc() {
-        tempBdBidBas = {...bdBidBas};
-
         $("#bid-notice-search-form").each(function() {
             bdBidBas.bidSttusCode = ($(this).find("#bid-sub-code-select").val())
             bdBidBas.bidPblancId = ($(this).find("#bid-pblanc-id").val())
@@ -448,8 +443,9 @@
     }
 
     function returnBeforeSearch() {
-        bdBidBas = {...tempBdBidBas};
-        bdBidBas.pagingVO = {}
+        bdBidBas = {
+            "pagingVO": {}
+        }
 
         getBidNoticeList()
     }

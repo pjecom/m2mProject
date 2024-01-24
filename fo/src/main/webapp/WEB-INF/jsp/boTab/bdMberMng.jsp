@@ -331,8 +331,6 @@
 <script type="text/javascript" src="/js/jquery.validationEngine-ko.js"></script>
 
 <script>
-	let tempBdMberVO = {}
-
 	let bdMberVO = {
 		bidMberSttusCode: null,
 		schGubun: null,
@@ -343,8 +341,6 @@
 	}
 
 	function searchFunc() {
-		tempBdMberVO = {...bdMberVO};
-
 		$("#bid-mber-search-form").each(function() {
 			bdMberVO = {
 				"bidMberSttusCode" : ($(this).find("#bid-mber-sttus-select").val()),
@@ -360,8 +356,9 @@
 	}
 
 	function returnBeforeSearch() {
-		bdMberVO = {...tempBdMberVO};
-		bdMberVO.pagingVO = {}
+		bdMberVO = {
+			"pagingVO": {}
+		};
 
 		getBidMberList()
 	}
