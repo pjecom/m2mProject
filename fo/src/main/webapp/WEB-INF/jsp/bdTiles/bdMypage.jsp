@@ -349,11 +349,11 @@
 			                        <h2 class="h2">관심 공고</h2>
 			                    </div>
 			                </div>
-				            <div class="tab-content type2">
+				            <div class="tab-content type2 likeData">
 				                <div class="cont-sub-tit">
 									All <span class="fc-red favoritesCnt">${favoritesCnt}</span>개
 				                </div>
-				                <ul class="list t2 likeData">
+				                <ul class="list t2">
 									<c:if test="${empty likeList}">
 										<div class="no-data empty-content">관심 추가한 공고 내역이 없습니다.</div>
 									</c:if>
