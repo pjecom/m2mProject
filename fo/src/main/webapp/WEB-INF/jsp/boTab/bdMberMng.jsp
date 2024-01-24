@@ -16,20 +16,25 @@
 		background: #38466c;
 		color: white !important;
 	}
+	.table {
+		border-top: none;
+		text-wrap: nowrap;
+	}
 	.realgrid-wrap {
 		min-height: calc(100% - 100px);
+		overflow-x: auto;
+	}
+	.realgrid-wrap table {
+		border-top: 2px solid #273457;
 	}
 	.mt-5 {
 		margin-top: 5px;
-	}
-	.table {
-		text-wrap: nowrap;
 	}
 </style>
 
 <div class="main-content">
 	<div class="inner">
-		<!-- 입찰 회원 대시보드 시작 -->
+		<!-- 입찰 회원 대시보드 -->
 		<div class="main-title">
 			<h2 class="lt">입찰 회원 관리</h2>
 			<div class="rt amount-list bid-amount" id="bid-mber-amount">
@@ -71,17 +76,16 @@
 				</dl>
 			</div>
 		</div>
-		<!-- // 입찰 회원 대시보드 끝 -->
-		<div class="tab-button templeteRegister tab-expand" id="menuList">
+		<!-- // 입찰 회원 대시보드 -->
+
+		<!-- 회원 상태 전환 탭 -->
+		<div class="tab-button templeteRegister tab-expand" id="mber-sttus-tab-div">
 			<button type="button" class="btn active" id="m" onclick="setBidSttus('')">입찰회원목록</button>
 			<button type="button" class="btn" onclick="setBidSttus('03')">가입승인대기</button>
 		</div>
-		<script type="text/javascript">
-		$(function() {
-			//탭 기능
-			tab(".templeteRegister", 0);
-		});
-		</script>
+		<!-- // 회원 상태 전환 탭 -->
+
+		<!-- 검색 구역 -->
 		<div class="search-control" id="bid-mber-search-form">
 			<form id="searchForm" name="searchForm" action="/bo/bd/selectBidMberList" method="post" onsubmit="return false">
 				<div class="form-set">
@@ -153,6 +157,9 @@
 				</div>
 			</form>
 		</div>
+		<!-- // 검색 구역 -->
+
+		<!-- 입찰 회원 목록 테이블 -->
 		<div id="realgrid" class="realgrid-wrap">
 			<div class="table table-list">
 				<table>
@@ -233,6 +240,7 @@
 				</table>
 			</div>
 		</div>
+		<!-- // 입찰 회원 목록 테이블 -->
 
 		<!-- paging -->
 		<div class="paging-row">
@@ -349,12 +357,10 @@
 			eleRedendering('#paging', res)
 
 			if (bdMberVO.bidMberSttusCode === '03') {
-				$('.templeteRegister button:eq(0)').removeClass("active");
-				$('.templeteRegister button:eq(1)').addClass("active");
+				tab('#mber-sttus-tab-div', 1)
 				$('#bid-mber-sttus-select').attr("disabled", true)
 			} else {
-				$('.templeteRegister button:eq(1)').removeClass("active");
-				$('.templeteRegister button:eq(0)').addClass("active");
+				tab('#mber-sttus-tab-div', 0)
 				$('#bid-mber-sttus-select').attr("disabled", false)
 			}
 		})
@@ -447,7 +453,13 @@
 		})
     }
 
+	function tab(e, num) {
+		var menu = $(e).children()
+		$(menu).removeClass('active')
+		$(menu).eq(num).addClass('active')
+	}
+
 	function closeModal() {
-		$('#bd-mber-detail-modal').modal('hide');
+		$('#bd-mber-detail-modal').modal('hide')
 	}
 </script>

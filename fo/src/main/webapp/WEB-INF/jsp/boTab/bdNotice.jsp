@@ -9,14 +9,19 @@
         background: #38466c;
         color: white !important;
     }
+    .table {
+        border-top: none;
+        text-wrap: nowrap;
+    }
     .realgrid-wrap {
         min-height: calc(100% - 100px);
+        overflow-x: auto;
+    }
+    .realgrid-wrap table {
+        border-top: 2px solid #273457;
     }
     .mt-5 {
         margin-top: 5px;
-    }
-    .table {
-        text-wrap: nowrap;
     }
     .amount {
         font-size: 17px !important;
