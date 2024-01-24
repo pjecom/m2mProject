@@ -248,6 +248,12 @@
 		WHERE 1=1
 		AND BID_ENTRPS_NO = #{bidEntrpsNo}
 		AND BID_PBLANC_ID = #{bidPblancId}
+		
+		UPDATE BD_BID_BAS
+		SET
+			PARTCPTN_ENTRPS_QY = #{partcptnEntrpsQy}-1
+		WHERE 1=1
+		AND BID_PBLANC_ID = #{bidPblancId}
 	</update>
 	
 	<select id="getHashedPasswordFromDB" parameterType="com.m2m.fo.bd.model.BdDetailVO" resultType="String">

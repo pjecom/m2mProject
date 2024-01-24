@@ -42,5 +42,5 @@ public class BdBddprVO {
 	private long totalCost;						 //투찰총금액
 	private String maskedTotalCost;				 //투찰총금액(*)
 	private String scsbidResult;				 //결과
-	
+	private int partcptnEntrpsQy;                //참여업체수량
 }

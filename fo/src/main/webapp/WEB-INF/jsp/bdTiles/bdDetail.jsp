@@ -995,7 +995,8 @@
 					var params = {
 						"bidEntrpsNo" : "${bdDetailVO.bidEntrpsNo}",	// 업체번호(세션값)
 						"bidPblancId" : "${bdDetailVO.bidPblancId}",	// 입찰 공고아이디 
-						"bidMberId" : sessionStorage.getItem("bidMberId")
+						"bidMberId" : sessionStorage.getItem("bidMberId"),
+						"partcptnEntrpsQy" : "${bdDetailVO.partcptnEntrpsQy}"	//참여기업수
 					}
 
 					$.ajax({
