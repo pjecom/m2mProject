@@ -43,7 +43,7 @@ function moveMyPage() {
                  "bidSttusCode" : '13',
                  "tabNo" : '1'
 		}
-    pageMove( "/bdMypageAjax", JSON.stringify(params), 'application/json');
+    pageMove( "/bdMypageLikeListAjax", JSON.stringify(params), 'application/json');
 }
 
 function logout() {

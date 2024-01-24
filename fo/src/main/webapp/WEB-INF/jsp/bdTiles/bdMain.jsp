@@ -10,11 +10,6 @@
     text-decoration: underline;
 }
 </style>
-<meta name="title" content="서린상사">
-<link rel="shortcut icon" href="/guide/images/favicon.ico">
-<meta name="keywords" content="서린상사, 서린상사(주), 비철금속전문기업, 아연, 황산">
-<meta name="description" content="세계를 선도하는 종합비철무역상사 - 서린상사">
-<title>구매입찰시스템 | SORIN e-Commerce</title>
     
 <!-- script core :: START -->
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -32,7 +27,7 @@
 	<div class="inwrap">
 		<!-- main visual > left :: START -->
 		<div>
-            <p class="banner_st">서린닷컴 입찰 회원 전용</p>
+            <p class="banner_st">M2M GLOBAL 입찰 회원 전용</p>
             <h2 class="banner_tt">구매입찰 시스템</h2>
             <p class="banner_ft">공고 확인부터 투찰, 낙찰까지 스마트하게 참여하세요.</p>
             <div class="btn_cont left">
@@ -76,7 +71,7 @@
                 </c:when>
                 <c:otherwise>
                 <div class="login_container" id="formId1">
-                    <p>서린닷컴에 오신것을 환영합니다.</p>
+                    <p>M2M GLOBAL 오신것을 환영합니다.</p>
                     <input type="text" title="아이디" placeholder="아이디 입력" id="id" name="id" class="validate[required]" desc="아이디" onkeyup="enterkey(this)">
                     <input type="password" title="비밀번호" placeholder="패스워드 입력" id="password" name="password" class="validate[required]" desc="비밀번호" onkeyup="enterkey(this)">
                     <button type="button" class="btn primary_bg">로그인 하기</button>
@@ -301,7 +296,7 @@ $(".tab_btn_group > .item").click(function(){
     });
     
 $(function() {
-    debugger;
+	
 	if($("#bidEntrpsNo").val() == "") {
 		sessionStorage.clear();
 	} else if($("#bidEntrpsNo").val() != "" && $("#bidEntrpsNo").val() != null &&
@@ -476,7 +471,7 @@ var params = {
 			var html = '';
 			for (let i = 0; i < result.mainBdList.length; i++) {
 				html += '		<li>';
-				if (result.mainBdList[i].bidSttusCode == "31" || result.mainBdList[i].bidSttusCode == "22" || result.mainBdList[i].bidSttusCode == "23" || result.mainBdList[i].bidSttusCode == "32" ) {
+				if (result.mainBdList[i].bidSttusCode == "30" || result.mainBdList[i].bidSttusCode == "31" || result.mainBdList[i].bidSttusCode == "22" || result.mainBdList[i].bidSttusCode == "23" || result.mainBdList[i].bidSttusCode == "32" ) {
 					html += '			<div class="cart-item-wrap type4 finish">';
 				}else{
 					html += '			<div class="cart-item-wrap type4">';
@@ -652,6 +647,7 @@ var params = {
             if (isActive) {
                 // 이미 활성화된 경우, 비활성화로 변경
                 $(this).removeClass("active");
+				$(this).find('span:last-child').text("관심추가");
                 likeYn = 'Y';
                 // 초기 관심 기업 수 증가
                 var interestCount = parseInt("${vo.intrstEntrpsQy}");
@@ -662,10 +658,10 @@ var params = {
                 
                 var currentCount = parseInt(intrstEntrpsQyElement.text());
                 intrstEntrpsQyElement.text(currentCount - 1);
-
             } else {
                 // 비활성화된 경우, 활성화로 변경
                 $(this).addClass("active");
+				$(this).find('span:last-child').text("관심해제");
                 likeYn = 'N';
                 // 초기 관심 기업 수 증가
                 var interestCount = parseInt("${vo.intrstEntrpsQy}");
@@ -778,8 +774,8 @@ var params = {
                                 <a href="/guide/html/bid/SOREC-SC-BID-026.html" class="more">더보기</a>
 			                </div>
 			                <ul class="cont">
-			                    <li><a href="#">서린닷컴에서 구매입찰 시스템을 런칭하였습니다.</a></li>
-			                    <li><a href="#">서린닷컴 10월 19일 긴급점검 안내</a></li>
+			                    <li><a href="#">엠투엠글로벌에서 구매입찰 시스템을 런칭하였습니다.</a></li>
+			                    <li><a href="#">엠투엠글로벌 10월 19일 긴급점검 안내</a></li>
 			                    <li><a href="#">8월 29일 휴무 안내 -SUMMER BANK HOLIDAY</a></li>
 			                    <li><a href="#">부산 지역 VEDANTA / HINDALCO AD 비서구산 입고</a></li>
 			                </ul>
@@ -795,7 +791,7 @@ var params = {
 			                    <li><a href="#">구매입찰 시스템이란?</a></li>
 			                    <li><a href="#">구매입찰 시스템 참여자격 안내</a></li>
 			                    <li><a href="#">7월부터 로그인 후 실시간 가격 및 차트를 확인 가능</a></li>
-			                    <li><a href="#">서린닷컴 기업회원 가입 절차 안내</a></li>
+			                    <li><a href="#">엠투엠글로벌 기업회원 가입 절차 안내</a></li>
 			                </ul>
 			            </div>
 			            <!-- FAQ :: END -->

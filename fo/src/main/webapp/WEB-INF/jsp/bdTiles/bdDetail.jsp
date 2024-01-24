@@ -686,7 +686,7 @@
 					"bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
 					"bidSttusCode" : "${bdDetailVO.bidSttusCode}"
 			}
-		pageMove( "/bdMypage", JSON.stringify(params), 'application/json');
+		pageMove( "/bdMypageLikeListAjax", JSON.stringify(params), 'application/json');
 	}
 
 	// =============== 투찰 마감까지 타이머 ==================
