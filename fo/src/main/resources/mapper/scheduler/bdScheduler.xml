@@ -31,7 +31,6 @@
 	
 	<update id="updateFirstCom" parameterType="com.m2m.fo.scheduler.BdSchedulerVO">
 		/* com.m2m.fo.scheduler.mapper.updateFirstCom */
-		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 		UPDATE BD_BID_BAS 
 		SET 
 			BID_STTUS_CODE = '31'	/*입찰 상태코드 : 낙찰*/
@@ -53,7 +52,6 @@
 	
 	<insert id="insetScsbidDtl" parameterType="com.m2m.fo.scheduler.BdSchedulerVO" >
 	  /* com.m2m.fo.scheduler.mapper.insetScsbidDtl */
-	  SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 		INSERT INTO BD_SCSBID_DTL                            /* 낙찰　상세          	*/
 		     ( 
 		       BID_ENTRPS_NO									   /* 입찰 업체 번호               		*/
@@ -80,7 +78,6 @@
 	
 	<update id="updateOtherCom" parameterType="com.m2m.fo.scheduler.BdSchedulerVO">
 		/* com.m2m.fo.scheduler.mapper.updateOtherCom */
-		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED		
 		UPDATE BD_BDDPR_DTL
 		SET 
 			SCSBID_AT = 'N'	/*낙찰여부-'Y', 패찰여부-'N*/
@@ -104,7 +101,6 @@
 	
 	<update id="updateBidPlan" parameterType="com.m2m.fo.scheduler.BdSchedulerVO">
 		/* com.m2m.fo.scheduler.mapper.updateBidPlan */
-		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 		UPDATE BD_BID_BAS 
 		SET 
 			BID_STTUS_CODE = '13'	/*입찰 상태코드 : 투찰중*/
@@ -116,7 +112,6 @@
 	
 	<update id="updateNonCom" parameterType="com.m2m.fo.scheduler.BdSchedulerVO">
 		/* com.m2m.fo.scheduler.mapper.updateNonCom */
-		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 		UPDATE BD_BID_BAS 
 		SET 
 			BID_STTUS_CODE = '30'	/*입찰 상태코드 : 마감*/

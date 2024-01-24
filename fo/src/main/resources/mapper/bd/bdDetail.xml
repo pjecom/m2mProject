@@ -171,7 +171,6 @@
     
     <insert id="insertBdBddpr" parameterType="com.m2m.fo.bd.model.BdBddprVO" >
 	  /* com.m2m.fo.bd.mapper.BdDetailMapper.insertBdBddpr */
-	  SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 		INSERT INTO BD_BDDPR_DTL                            /* 입찰 공고 등록 기본           	*/
 		     ( 
 		       BID_ENTRPS_NO									   /* 입찰 업체 번호               		*/
@@ -231,7 +230,6 @@
     
 	<update id="updatePartEntQy" parameterType="com.m2m.fo.bd.model.BdBddprVO">
 		/* com.m2m.fo.bd.mapper.BdDetailMapper.updatePartEntQy */
-		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 		UPDATE BD_BID_BAS
 		SET
 			PARTCPTN_ENTRPS_QY = #{partEntQy}
@@ -241,7 +239,6 @@
 	
 	<update id="updateBdBddpr" parameterType="com.m2m.fo.bd.model.BdBddprVO">
 		/* com.m2m.fo.bd.mapper.BdDetailMapper.updatePartEntQy */
-		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 		UPDATE BD_BDDPR_DTL 
 		SET 
 			 CANCL_AT = 'Y'
