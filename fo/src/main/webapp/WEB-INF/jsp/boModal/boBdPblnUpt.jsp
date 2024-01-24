@@ -374,8 +374,8 @@
                                                     <th scope="row">수정 사유</th>
                                                 </tr>
 												<tr>
-													<td><input type="text"  id="addBidUpdtCn" placeholder="수정내용을 입력해주세요"/></td>
-													<td><input type="text"  id="addBidUpdtResn" placeholder="사유를 입력해주세요"/></td>
+													<td><input type="text" style="width:100%" id="addBidUpdtCn" placeholder="수정내용을 입력해주세요"/></td>
+													<td><input type="text" style="width:100%" id="addBidUpdtResn" placeholder="사유를 입력해주세요"/></td>
 												</tr>
                                             </tbody>
                                         </table>
@@ -787,7 +787,7 @@ function saveBdData() {
 		}
 	}
 	//공고대기 + 당일 + (비활성상태 -> 활성상태)
-	else if ((bidYear === nowYear && bidMonth === nowMonth && bidDay === nowDay) && params.bidSttusCode == '11' && preDspyAt === 'N' && dspyAt === 'Y')
+	else if (parsedbddprBeginDt <= now && params.bidSttusCode == '11' && preDspyAt === 'N' && dspyAt === 'Y')
 	{
 		
 		if (confirm("시작일이 당일이며 상태가 활성입니다. \n해당 정보로 수정 저장 시, 입찰 시작됩\n니다. 진행하시겠습니까?"))
@@ -802,7 +802,7 @@ function saveBdData() {
 		}
 	}
 	//공고대기 + 미래 + (비활성상태 -> 활성상태)
-	else if (params.bidSttusCode == '11' && preDspyAt === 'N' && dspyAt === 'Y' && (bidYear >= nowYear && bidMonth >= nowMonth && bidDay > nowDay))
+	else if (params.bidSttusCode == '11' && preDspyAt === 'N' && dspyAt === 'Y' && parsedbddprBeginDt >= now)
 	{
 		
 		if (confirm("시작일이 미래이며, 상태가 활성입니다. \n해당 정보로 수정 저장 시, 입찰예정으로\n노출됩니다. 진행하시겠습니까?"))
