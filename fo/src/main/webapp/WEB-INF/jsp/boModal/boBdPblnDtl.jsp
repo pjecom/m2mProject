@@ -406,8 +406,8 @@
 															<td class="text-center"><b>1</b></td>
 															<td>서린상사 지정 보세창고 도착도(FCA 서린상사 지정 보세창고)</td>
 															<td>
-																<input type="text" value="${boBdPblnDtl.delyCnd01premiumPc}" class="input" style="width: 50%; background-color: #fafafa;" readonly="readonly"> &nbsp;&nbsp; 
-																<span>${boBdPblnDtl.delyCnd01StdrPc}</span>
+																<input type="text" value="${boBdPblnDtl.delyCnd01StdrPc}" class="input" style="width: 50%; background-color: #fafafa;" readonly="readonly"> &nbsp;&nbsp; 
+																<span>${boBdPblnDtl.delyCnd01premiumPc}</span>
 															</td>
 														</tr>
 													</c:if>
@@ -416,8 +416,8 @@
 															<td class="text-center"><b>2</b></td>
 															<td>기타 부산/인천 보세창고 상차도(FCA BUSAN/INCHEON)</td>
 															<td>
-																<input type="text" value="${boBdPblnDtl.delyCnd02premiumPc}" class="input" style="width: 50%; background-color: #fafafa;" readonly="readonly"> &nbsp;&nbsp; 
-																<span>${boBdPblnDtl.delyCnd02StdrPc}</span>
+																<input type="text" value="${boBdPblnDtl.delyCnd02StdrPc}" class="input" style="width: 50%; background-color: #fafafa;" readonly="readonly"> &nbsp;&nbsp; 
+																<span>${boBdPblnDtl.delyCnd02premiumPc}</span>
 															</td>
 														</tr>
 													</c:if>
@@ -426,8 +426,8 @@
 															<td class="text-center"><b>3</b></td>
 															<td>CIF INCHEON / CIF BUSAN</td>
 															<td>
-																<input type="text" value="${boBdPblnDtl.delyCnd03premiumPc}" class="input" style="width: 50%; background-color: #fafafa;" readonly="readonly"> &nbsp;&nbsp; 
-																<span>${boBdPblnDtl.delyCnd03StdrPc}</span>
+																<input type="text" value="${boBdPblnDtl.delyCnd03StdrPc}" class="input" style="width: 50%; background-color: #fafafa;" readonly="readonly"> &nbsp;&nbsp; 
+																<span>${boBdPblnDtl.delyCnd03premiumPc}</span>
 															</td>
 														</tr>
 													</c:if>
