@@ -85,16 +85,16 @@
 							<!-- TAB BUTTON :: START -->
 							<ul class="tab_btn_group">
 								<li class="item on" data-tab="tab-1" id="tab1" value="1" onclick="getMyPageList(1);">
-									<a href="javascript:;">투찰 건 (<span class="totalCnt">${bdCnt.biddingCnt}</span>) </a>
+									<a href="javascript:;">투찰 건 (<span class="biddingCnt">${bdCnt.biddingCnt}</span>) </a>
 								</li>
 								<li class="item" data-tab="tab-2" id="tab2" value="2" onclick="getMyPageList(2);">
-									<a href="javascript:;">낙찰 건 (<span id="expectCnt">${bdCnt.approvedCnt}</span>)</a>
+									<a href="javascript:;">낙찰 건 (<span id="approvedCnt">${bdCnt.approvedCnt}</span>)</a>
 								</li>
 								<li class="item" data-tab="tab-3"  id="tab3" value="3"  onclick="getMyPageList(3);">
-									<a href="javascript:;">패찰 건 (<span id="bidingCnt">${bdCnt.rejectedCnt}</span>)</a>
+									<a href="javascript:;">패찰 건 (<span id="rejectedCnt">${bdCnt.rejectedCnt}</span>)</a>
 								</li>
 								<li class="item" data-tab="tab-4" id="tab4" value="4"  onclick="getMyPageList(4);">
-									<a href="javascript:;">유찰 건 (<span id="endCnt">${bdCnt.auctionCnt}</span>) </a>
+									<a href="javascript:;">유찰 건 (<span id="auctionCnt">${bdCnt.auctionCnt}</span>) </a>
 								</li>
 							</ul>
                             <!-- TAB BUTTON :: END -->
@@ -498,11 +498,15 @@
 		debugger;
 		var bddprCanclPossAt ='';
 		var tabNo = data
+		var scsbidAt = '';
 		if(tabNo == '' || tabNo == null || tabNo == undefined){
 			tabNo = $(".item.on").val(); 
 			if(tabNo == '' || tabNo == null || tabNo == undefined){
 				tabNo == "1"
 			}
+		}
+		if(data2 == undefined){
+			data2 = ''
 		}
 		if(tabNo == "1"){
 			bidSttusCode = '13'
