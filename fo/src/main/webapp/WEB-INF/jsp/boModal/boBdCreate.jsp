@@ -520,7 +520,7 @@
             alert('투찰 취소 기한을 확인해주세요.');
         }
         else {
-            // createBidNotice()
+            createBidNotice()
         }
     }
 
