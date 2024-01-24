@@ -803,7 +803,7 @@ function saveBdData() {
 	// 투찰중 + 비활성화상태
 	else if (params.bidSttusCode == '13' && params.dspyAt == 'N')
 	{
-		if (confirm("투찰 중인 건입니다. \n비활성 전화 시, 공고 취소가 됩니다. \n공고 내용을 수정하시겠습니까?"))
+		if (confirm("투찰 중인 건입니다. \n비활성 전환 시, 공고 대기 상태가 됩니다. \n공고 내용을 수정하시겠습니까?"))
 		{
 			params.bidSttusCode = '11';
 			params.dspyAt == 'N';
