@@ -18,6 +18,9 @@
     .table {
         text-wrap: nowrap;
     }
+    .amount {
+        font-size: 17px !important;
+    }
 </style>
 <script>
     function redirectToDetailPage(bidPblancId, clickedElement) {
