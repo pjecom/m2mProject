@@ -94,7 +94,7 @@ public class BoBdPblnController {
             String end = bbpVo.getBddprEndDt();
 
             SimpleDateFormat originalFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-            SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
             try {
                 Date beginDate = originalFormat.parse(begin);
