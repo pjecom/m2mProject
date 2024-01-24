@@ -14,7 +14,8 @@
         text-wrap: nowrap;
     }
     .realgrid-wrap {
-        min-height: calc(100% - 100px);
+        height: unset;
+        min-height: 532px;
         overflow-x: auto;
     }
     .realgrid-wrap table {
@@ -96,7 +97,7 @@
                 </div>
             </section>
         </div>
-        <!-- 대시 보드 -->
+        <!-- // 대시 보드 -->
 
         <!-- 검색 구역 -->
         <div class="search-control mt-24" id="bid-notice-search-form">
@@ -158,26 +159,22 @@
                 </div>
             </div>
         </div>
-        <!-- 검색 구역 -->
+        <!-- // 검색 구역 -->
 
         <!-- 상태 전환 탭 -->
-        <div class="table-control">
-            <div class="form-set">
-                <div class="tab-button" id="bid-sttus-tab-div">
-                    <a class="btn bid-sttus-tab active" id="bid-sttus-tab-" onclick="setBidSttus('')">전체(${cntByBidSttus["10"]})</a>
-                    <c:forEach var="vo" items="${bidSttusList}">
-                        <c:if test="${vo.subCode ne '10'}">
-                            <a class="btn bid-sttus-tab" id="bid-sttus-tab-${vo.subCode}" onclick="setBidSttus(${vo.subCode})">${vo.codeDctwo}(${cntByBidSttus[vo.subCode]})</a>
-                        </c:if>
-                    </c:forEach>
-                </div>
-            </div>
+        <div class="tab-button" id="bid-sttus-tab-div">
+            <a class="btn bid-sttus-tab active" id="bid-sttus-tab-" onclick="setBidSttus('')">전체(${cntByBidSttus["10"]})</a>
+            <c:forEach var="vo" items="${bidSttusList}">
+                <c:if test="${vo.subCode ne '10'}">
+                    <a class="btn bid-sttus-tab" id="bid-sttus-tab-${vo.subCode}" onclick="setBidSttus(${vo.subCode})">${vo.codeDctwo}(${cntByBidSttus[vo.subCode]})</a>
+                </c:if>
+            </c:forEach>
         </div>
-        <!-- 상태 전환 탭 -->
+        <!-- // 상태 전환 탭 -->
 
         <!-- 입찰 공고 목록 테이블 -->
-        <div id="realgrid" class="realgrid-wrap mt-24">
-            <div class="table table-list table-responsive">
+        <div id="realgrid" class="realgrid-wrap">
+            <div class="table table-list">
                 <table class="table">
                     <colgroup>
                         <col width="130">
@@ -254,7 +251,7 @@
                 </table>
             </div>
         </div>
-        <!-- 입찰 공고 목록 테이블 -->
+        <!-- // 입찰 공고 목록 테이블 -->
 
         <!-- paging -->
         <div class="paging-row">
@@ -308,6 +305,8 @@
                 </div>
             </div>
         </div>
+        <!-- // paging -->
+
     </div>
 </div>
 

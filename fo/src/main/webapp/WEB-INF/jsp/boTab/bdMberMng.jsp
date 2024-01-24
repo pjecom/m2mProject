@@ -21,7 +21,8 @@
 		text-wrap: nowrap;
 	}
 	.realgrid-wrap {
-		min-height: calc(100% - 100px);
+		height: unset;
+		min-height: calc(100% - 305px);
 		overflow-x: auto;
 	}
 	.realgrid-wrap table {
@@ -79,8 +80,8 @@
 		<!-- // 입찰 회원 대시보드 -->
 
 		<!-- 회원 상태 전환 탭 -->
-		<div class="tab-button templeteRegister tab-expand" id="mber-sttus-tab-div">
-			<button type="button" class="btn active" id="m" onclick="setBidSttus('')">입찰회원목록</button>
+		<div class="tab-button tab-expand" id="mber-sttus-tab-div">
+			<button type="button" class="btn active" onclick="setBidSttus('')">입찰회원목록</button>
 			<button type="button" class="btn" onclick="setBidSttus('03')">가입승인대기</button>
 		</div>
 		<!-- // 회원 상태 전환 탭 -->
