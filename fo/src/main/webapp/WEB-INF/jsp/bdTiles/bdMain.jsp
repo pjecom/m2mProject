@@ -38,7 +38,7 @@
 		<!-- main visual > left :: END -->
 		<!-- main visual > right :: START -->
 			<c:choose>                                                                                                                                                                 
-                <c:when test="${member.entrpsNm != null}">
+                <c:when test="${member.entrpsNm != '' && member.entrpsNm != null}">
                     <div class="login_container log_on">
                         <a href="javascript:;"  class="btn_nav" onclick="moveMyPage(1);"><span class="bold">${member.entrpsNm}</span>님 입찰현황</a>
                         <div class="dashboard">
@@ -296,9 +296,15 @@ $(".tab_btn_group > .item").click(function(){
     });
     
 $(function() {
+    debugger;
 	if($("#bidEntrpsNo").val() == "") {
 		sessionStorage.clear();
-	}
+	} else if($("#bidEntrpsNo").val() != "" && $("#bidEntrpsNo").val() != null &&
+                (sessionStorage.getItem("bidEntrpsNo") == "" || sessionStorage.getItem("bidEntrpsNo") == null)) {
+        sessionStorage.setItem("bidEntrpsNo", $("#bidEntrpsNo").val());
+        sessionStorage.setItem("bidMberId", $("#bidMberId").val());
+        sessionStorage.setItem("entrpsNm", $("#entrpsNm").val());
+    }
     // =============== DATEPICKER ==================
 	$("#searchDateFrom").datepicker({
 		dateFormat: 'yy-mm-dd' //달력 날짜 형태
@@ -757,6 +763,8 @@ var params = {
 <div class="section notice-wrap type2 bid">
     <div class="inwrap">
     	<input type="hidden" value="${member.bidEntrpsNo}" id="bidEntrpsNo" />
+        <input type="hidden" value="${member.bidMberId}" id="bidMberId" />
+        <input type="hidden" value="${member.entrpsNm}" id="entrpsNm" />
         <!-- 공지사항 :: START -->
         <div class="notice-area type2">
             <div class="tit">
