@@ -514,15 +514,13 @@
         } else if (boBdPbln.pcAppnBeginDe > boBdPbln.pcAppnEndDe) {
             alert('가격 지정 기간을 확인해주세요.');
             $('#create-pc-appn-end-de').focus()
-        } else if (boBdPbln.bddprBeginDt > boBdPbln.bddprEndDt || currtTime > bddprEndDt) {
+        } else if (isNaN(boBdPbln.bddprBeginDt) || isNaN(boBdPbln.bddprEndDt) || boBdPbln.bddprBeginDt > boBdPbln.bddprEndDt || currtTime > bddprEndDt) {
             alert('투찰 기간을 확인해주세요.');
-            $('#create-bddpr-end-dt').focus()
-        } else if (boBdPbln.bddprCanclPossAt === 'Y' && (boBdPbln.bddprCanclLmttDe < boBdPbln.bddprBeginDt || boBdPbln.bddprCanclLmttDe > boBdPbln.bddprEndDt)) {
+        } else if (boBdPbln.bddprCanclPossAt === 'Y' && (isNaN(boBdPbln.bddprCanclLmttDe) || boBdPbln.bddprCanclLmttDe < boBdPbln.bddprBeginDt || boBdPbln.bddprCanclLmttDe > boBdPbln.bddprEndDt)) {
             alert('투찰 취소 기한을 확인해주세요.');
-            $('#create-bddpr-cancl-dt').focus()
         }
         else {
-            createBidNotice()
+            // createBidNotice()
         }
     }
 
