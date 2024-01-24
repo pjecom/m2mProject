@@ -3,8 +3,9 @@
 <header id="header" class="inwrap">
 	<!-- logo :: START -->
 	<h1 class="logo">
-		<a href="/"> <span class="hidden">SORIN CORPORATION</span> <span
-			class="mark">Online Tender System</span>
+		<a href="/"> 
+		    <span class="hidden">SORIN CORPORATION</span>
+    		<span class="mark">구매입찰 시스템</span>
 		</a>
 	</h1>
 	<!-- logo :: END -->
@@ -13,8 +14,8 @@
             <c:if test="${member.entrpsNm != null}">
 			<ul id="login-header">
 				<li><a href="javascript:;"><p class="username topUserName" id="myInfo">${member.entrpsNm}님</p></a></li>
-				<li><a href="javascript:;" class="mypage" onclick="moveMyPage()" >My Page</a></li>
-				<li><a class="fc-lgray header-logout bdLogout" href="javascript:;" id="btnLogout" onclick="logout()">Logout</a></li>
+				<li><a href="javascript:;" class="mypage" onclick="moveMyPage()" >마이페이지</a></li>
+				<li><a class="fc-lgray header-logout bdLogout" href="javascript:;" id="btnLogout" onclick="logout()">로그아웃</a></li>
 			</ul>
             </c:if>
 		</div>
