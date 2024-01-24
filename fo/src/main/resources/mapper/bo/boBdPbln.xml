@@ -67,6 +67,7 @@
             , BBB.ETC_CN                                                                        /*기타코멘트*/
             , BBB.BDDPR_BEGIN_DT                                                                /*투찰시작일시*/
             , BBB.BDDPR_END_DT                                                                  /*투찰종료일시*/
+            , BBB.BDDPR_CANCL_POSS_AT                                                           /*투찰취소가능여부*/
             , BBB.BDDPR_CANCL_LMTT_DE                                                           /*투찰취소제한일자*/            
             , BBB.DSPY_AT                                                                       /*전시여부*/
             , BBB.REJECT_BID_RESN                                                               /*유찰사유*/
@@ -124,7 +125,7 @@
 		    ,BBD.FRST_REGIST_DT                                                                /*최초등록 일시*/
 		    ,BBD.LAST_CHANGER_ID                                                               /*최종변경자아이디*/
 		    ,BBD.LAST_CHANGE_DT                                                                /*최종변경일시*/
-		    ,DENSE_RANK() OVER (ORDER BY BBD.BDDPR_PREMIUM_PC) AS ENTRPSRANK                   /*투찰기업순위*/
+		    ,ROW_NUMBER() OVER (ORDER BY (ISNULL(DELY_CND_STDR_PC, 0) + ISNULL(CNVRS_PREMIUM_AMOUNT,0) + ISNULL(BDDPR_PREMIUM_PC,0)) ASC, BBD.BDDPR_DT　ASC) AS ENTRPSRANK   /*투찰기업순위*/
 		FROM BD_BDDPR_DTL AS BBD                                                               /*입찰투찰상세*/
 			INNER JOIN BD_ENTRPS_INFO_BAS AS BEIB                                              /*회원업체정보기본*/
 			ON BBD.BID_ENTRPS_NO = BEIB.BID_ENTRPS_NO 		
@@ -134,6 +135,7 @@
 			 AND BID_PBLANC_ID          =   #{bidPblancId}                                     /*입찰공고아이디*/
 			 AND BBD.DELETE_AT              =    'N'                                           /*삭제여부*/
 			 AND BBD.CANCL_AT               =    'N'                                           /*취소여부*/
+		ORDER BY (ISNULL(DELY_CND_STDR_PC, 0) + ISNULL(CNVRS_PREMIUM_AMOUNT,0) + ISNULL(BDDPR_PREMIUM_PC,0)) ASC, BBD.BDDPR_DT ASC;
 	</select>
 	<select id="getBoCommCdList" resultType="com.m2m.fo.bo.model.BoCoCommCdVO">
 		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED

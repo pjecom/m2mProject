@@ -11,9 +11,9 @@ public class BoBdBddprVO {
 	private String entrpsNm;                     //참여업체명
 	private String bidPblancId;                  //입찰공고아이디
 	private String delyCndCode;                  //인도조건코드	
-	private float delyCndStdrPc;                 //인도조건 기준가격
-	private float cnvrsPremiumAmount;            //인도프리미엄 금액
-	private float bddprPremiumPc;                //투찰프리미엄 가격
+	private int delyCndStdrPc;                 //인도조건 기준가격
+	private int cnvrsPremiumAmount;            //인도프리미엄 금액
+	private int bddprPremiumPc;                //투찰프리미엄 가격
 	private int bddprWt;                         //투찰중량
 	private String partcptnAgreAt;               //참여동의여부
 	private String bddprDt;                      //투찰일시
