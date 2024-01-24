@@ -444,9 +444,11 @@
 
     function returnBeforeSearch() {
         bdBidBas = {
+            "bidSttusCode": '',
             "pagingVO": {}
         }
 
+        $('.set-date-picker').removeClass('active')
         getBidNoticeList()
     }
 

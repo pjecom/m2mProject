@@ -359,7 +359,7 @@
 		bdMberVO = {
 			"pagingVO": {}
 		};
-
+		$('.set-date-picker').removeClass('active')
 		getBidMberList()
 	}
 	
