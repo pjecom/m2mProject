@@ -468,7 +468,7 @@
                                  <div class="modal-footer">
                                      <div class="btn-box">
                                          <button type="button" class="btn" onclick="saveBdData()">저장</button>
-                                         <button type="button" class="btn" data-dismiss="modal">취소</button>
+                                         <button type="button" class="btn" data-dismiss="modal" onclick="modalClose()">취소</button>
                                      </div>
                                  </div>
 <!--                      <div class="btn-box btn-box-lg">
@@ -593,6 +593,7 @@ $(function(){
 });
 
 function modalClose() {
+	clearInterval(timer);
 	$('#bdNoticeDetailModal').modal('hide');
 }
 function initModal() {
@@ -817,8 +818,6 @@ function saveBdData() {
 	else 
 	{
 		updateBoBdPblnDtl(params);
-		modalClose();
-		getBidNoticeList();
 	};
 };
 </script>
