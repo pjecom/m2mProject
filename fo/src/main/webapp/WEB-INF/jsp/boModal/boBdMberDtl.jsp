@@ -130,7 +130,12 @@
                                 <tbody>
                                     <tr>
                                         <th scope="row">기업명</th>
-                                        <td>${mberDtl.vrscEntrpsNm}</td>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${mberDtl.vrscEntrpsNm eq ''}">-</c:when>
+                                                <c:otherwise>${mberDtl.vrscEntrpsNm}</c:otherwise>
+                                            </c:choose>
+                                        </td>
                                         <th scope="row">사업자등록번호</th>
                                         <c:choose>
                                             <c:when test="${mberDtl.vrscBsnmRegistNo eq ''}"><td>-</td></c:when>
@@ -139,9 +144,19 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">이메일</th>
-                                        <td>${mberDtl.vrscBidMberEmail}</td>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${mberDtl.vrscBidMberEmail eq ''}">-</c:when>
+                                                <c:otherwise>${mberDtl.vrscBidMberEmail}</c:otherwise>
+                                            </c:choose>
+                                        </td>
                                         <th scope="row">휴대전화번호</th>
-                                        <td>${mberDtl.vrscMoblphonNo}</td>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${mberDtl.vrscMoblphonNo eq ''}">-</c:when>
+                                                <c:otherwise>${mberDtl.vrscMoblphonNo}</c:otherwise>
+                                            </c:choose>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -183,7 +198,10 @@
                                             </c:if>
                                         </th>
                                         <td>
-                                            <fmt:formatDate value="${mberDtl.etrConfmProcessDt}" pattern = "yyyy-MM-dd HH:mm:ss"/>
+                                            <c:choose>
+                                                <c:when test="${mberDtl.etrConfmProcessDt eq ''}">-</c:when>
+                                                <c:otherwise><fmt:formatDate value="${mberDtl.etrConfmProcessDt}" pattern = "yyyy-MM-dd HH:mm:ss"/></c:otherwise>
+                                            </c:choose>
                                             <c:if test="${mberDtl.bidMberSttusCode eq '02'}">
                                                 <p class="ps-text">
                                                     (<fmt:formatDate value="${mberDtl.bidMberIntrcpDt}" pattern = "yyyy-MM-dd HH:mm:ss"/>)
