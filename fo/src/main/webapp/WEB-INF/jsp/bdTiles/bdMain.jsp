@@ -10,7 +10,12 @@
     text-decoration: underline;
 }
 </style>
-
+<meta name="title" content="서린상사">
+<link rel="shortcut icon" href="/guide/images/favicon.ico">
+<meta name="keywords" content="서린상사, 서린상사(주), 비철금속전문기업, 아연, 황산">
+<meta name="description" content="세계를 선도하는 종합비철무역상사 - 서린상사">
+<title>구매입찰시스템 | SORIN e-Commerce</title>
+    
 <!-- script core :: START -->
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/guide/css/common.css">
@@ -27,13 +32,13 @@
 	<div class="inwrap">
 		<!-- main visual > left :: START -->
 		<div>
-			<p class="banner_st">M2M Global's Member Exclusive</p>
-			<h2 class="banner_tt">Online Tender System</h2>
-			<p class="banner_ft">Explore the Wholesome Process from Bidding to Contracting at our Smart Platform.</p>
-			<div class="btn_cont left">
-				<a class="btn" href="javascript:;" onclick="pageMove('/bid/info');">Service Intro</a>
-				<a class="btn" href="/Common/commonDownLoad?jobSeCode=op&amp;docFileRealCours=https://sorincorp.blob.core.windows.net/secs-pr-t/op/%5B구매입찰시스템%5D이용_메뉴얼_Ver1.1_231020_1698038980391.pptx">User Manual</a>
-			</div>
+            <p class="banner_st">서린닷컴 입찰 회원 전용</p>
+            <h2 class="banner_tt">구매입찰 시스템</h2>
+            <p class="banner_ft">공고 확인부터 투찰, 낙찰까지 스마트하게 참여하세요.</p>
+            <div class="btn_cont left">
+                <a class="btn" href="javascript:;" onclick="pageMove('/bid/info');">서비스 소개</a>
+                <a class="btn"  href="/Common/commonDownLoad?jobSeCode=op&amp;docFileRealCours=https://sorincorp.blob.core.windows.net/secs-pr-t/op/%5B구매입찰시스템%5D이용_메뉴얼_Ver1.1_231020_1698038980391.pptx">매뉴얼 보기</a>
+            </div>
 		</div>
 		<!-- main visual > left :: END -->
 		<!-- main visual > right :: START -->
@@ -71,27 +76,27 @@
                 </c:when>
                 <c:otherwise>
                 <div class="login_container" id="formId1">
-                    <p>Welcome to Sorin.com</p>
-                    <input type="text" title="아이디" placeholder="Enter your ID" id="id" name="id" class="validate[required]" desc="아이디" onkeyup="enterkey(this)">
-                    <input type="password" title="비밀번호" placeholder="Enter your password" id="password" name="password" class="validate[required]" desc="비밀번호" onkeyup="enterkey(this)">
-                    <button type="button" class="btn primary_bg">Login</button>
+                    <p>서린닷컴에 오신것을 환영합니다.</p>
+                    <input type="text" title="아이디" placeholder="아이디 입력" id="id" name="id" class="validate[required]" desc="아이디" onkeyup="enterkey(this)">
+                    <input type="password" title="비밀번호" placeholder="패스워드 입력" id="password" name="password" class="validate[required]" desc="비밀번호" onkeyup="enterkey(this)">
+                    <button type="button" class="btn primary_bg">로그인 하기</button>
                     <div class="sub_area">
                         <div class="checkbox-container" >
                             <label class="checkbox-label" for="save_id">
                                 <input type="checkbox" name="save_id" id="save_id">
                                 <span class="checkbox-custom rectangular"></span>
                             </label>
-                            <div class="input-title">Remember ID</div>
+                            <div class="input-title">아이디 저장</div>
                         </div>
                         <div>
-                            <a href="javascript:;" onclick="pageMove('/bid/id');">Find ID</a>
-                            <a href="javascript:;" onclick="pageMove('/bid/pw');">Find PW</a>
+                            <a href="javascript:;" onclick="pageMove('/bid/id');">아이디찾기</a>
+                            <a href="javascript:;" onclick="pageMove('/bid/pw');">비밀번호 찾기</a>
                         </div>
                     </div>
                     <!--                               <hr> -->
                     <a href="javascript:;" onclick="pageMove('/signup/signup');" class="btn text ico"> 
                         <span class="material-symbols-outlined">person</span>
-                        <span>Become a member</span>
+                        <span>입찰 시스템 가입하기</span>
                     </a>
                 </div>
                 </c:otherwise>
@@ -759,74 +764,74 @@ var params = {
     
 </script>
 
-<!-- 공지사항 & FAQ :: START -->
-<div class="section notice-wrap type2 bid">
-    <div class="inwrap">
-    	<input type="hidden" value="${member.bidEntrpsNo}" id="bidEntrpsNo" />
-        <input type="hidden" value="${member.bidMberId}" id="bidMberId" />
-        <input type="hidden" value="${member.entrpsNm}" id="entrpsNm" />
-        <!-- 공지사항 :: START -->
-        <div class="notice-area type2">
-            <div class="tit">
-                <h5>Notices</h5>
-                <div>
-                    <a class="more" name="scftab02">More</a>
-                </div>
-            </div>
-            <ul class="cont">
-                <!-- 공지사항 제목 넣기 -->
-            </ul>
-        </div>
-        <!-- 공지사항 :: END -->
-        <!-- FAQ :: START -->
-        <div class="faq">
-            <div class="tit">
-                <h5>Frequently Asked Questions</h5>
-                <div>
-                    <a class="more" name="scftab01">More</a>
-                </div>
-            </div>
-            <ul class="cont">
-                <!-- faq 제목 넣기 -->
-            </ul>
-        </div>
-        <!-- FAQ :: END -->
-    </div>
-</div>
-<!-- 공지사항 & FAQ :: END -->
+			    <!-- 공지사항 & FAQ :: START -->
+			    <div class="section notice-wrap type2">
+			        <div class="inwrap">
+                        <input type="hidden" value="${member.bidEntrpsNo}" id="bidEntrpsNo" />
+                        <input type="hidden" value="${member.bidMberId}" id="bidMberId" />
+                        <input type="hidden" value="${member.entrpsNm}" id="entrpsNm" />
+			            <!-- 공지사항 :: START -->
+			            <div class="notice-area type2">
+			                <div class="tit">
+			                    <h5>공지사항</h5>
+                                <!--class="more" name="scftab02"-->
+                                <a href="/guide/html/bid/SOREC-SC-BID-026.html" class="more">더보기</a>
+			                </div>
+			                <ul class="cont">
+			                    <li><a href="#">서린닷컴에서 구매입찰 시스템을 런칭하였습니다.</a></li>
+			                    <li><a href="#">서린닷컴 10월 19일 긴급점검 안내</a></li>
+			                    <li><a href="#">8월 29일 휴무 안내 -SUMMER BANK HOLIDAY</a></li>
+			                    <li><a href="#">부산 지역 VEDANTA / HINDALCO AD 비서구산 입고</a></li>
+			                </ul>
+			            </div>
+			            <!-- 공지사항 :: END -->
+			            <!-- FAQ :: START -->
+			            <div class="faq">
+			                <div class="tit">
+			                    <h5>자주하는 질문</h5>
+			                    <a href="/guide/html/bid/SOREC-SC-BID-025.html" class="more">더보기</a>
+			                </div>
+			                <ul class="cont">
+			                    <li><a href="#">구매입찰 시스템이란?</a></li>
+			                    <li><a href="#">구매입찰 시스템 참여자격 안내</a></li>
+			                    <li><a href="#">7월부터 로그인 후 실시간 가격 및 차트를 확인 가능</a></li>
+			                    <li><a href="#">서린닷컴 기업회원 가입 절차 안내</a></li>
+			                </ul>
+			            </div>
+			            <!-- FAQ :: END -->
+			        </div>
+			    </div>
+			    <!-- 공지사항 & FAQ :: END -->
 
-<!-- 서비스 소개 :: START -->
-<div class="section services-wrap type2">
-    <div class="inwrap">
-        <div class="intro">
-            <a href="javascript:;" onclick="pageMove('/bid/info');" class="wrap">
-                <div class="cont">
-                    <h5>Service Introduction</h5>
-                    <p>We present you our smart e-Bidding system.</p>
-                </div>
-                <div class="arrow next"></div>
-            </a> <a href="/Common/commonDownLoad?jobSeCode=op&amp;docFileRealCours=https://sorincorp.blob.core.windows.net/secs-pr-t/op/%5B구매입찰시스템%5D이용_메뉴얼_Ver1.1_231020_1698038980391.pptx" class="wrap">
-                <div class="cont">
-                    <h5>User Manual</h5>
-                    <p>Learn how to partake in bidding.</p>
-                </div>
-                <div class="arrow next"></div>
-            </a>
-        </div>
-        <div class="estimate">
-            <div class="services-con">
-                <h2 class="h2">Inquiries & Customer Service</h2>
-                <p class="cs-number">
-                    <span>02</span><span>6952</span><span>5095</span>
-                </p>
-                <p class="cs-email">
-                    <a href="mailto:webmasters@metalsorin.com">webmasters@metalsorin.com</a>
-                </p>
-                <p class="cs-p">
-                    Mon - Fri : 09:00~17:00<br> Lunch Break : 12:30~13:30
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- 서비스 소개 :: END -->
+			    <!-- 서비스 소개 :: START -->
+			    <div class="section services-wrap type2">
+		            <div class="inwrap">
+		                <div class="intro">
+		                    <a href="#" class="wrap">
+		                        <div class="cont">
+		                            <h5>서비스 소개</h5>
+		                            <p>스마트한 입찰시스템을 소개합니다.</p>
+		                        </div>
+		                        <div class="arrow next"></div>
+		                    </a>
+		                    <a href="#" class="wrap">
+		                        <div class="cont">
+		                            <h5>매뉴얼 보기</h5>
+		                            <p>입찰 참여 과정을 알아보세요.</p>
+		                        </div>
+		                        <div class="arrow next">
+		                        </div>
+		                    </a>
+		                </div>
+		                <div class="estimate">
+		                    <div class="services-con">
+		                        <h2 class="h2">견적문의 및 상담</h2>
+		                        <p class="cs-number"><span>02</span><span>6952</span><span>5095</span></p>
+		                        <p class="cs-email"><a href="mailto:webmasters@metalsorin.com">webmasters@metalsorin.com</a></p>
+		                        <p class="cs-p">평일 : 09:00~17:00<br>
+		                                        점심 : 12:30~13:30(주말/공휴일 휴무)</p>
+		                    </div>
+		                </div>
+		            </div>
+			    </div>
+			    <!-- 서비스 소개 :: END -->

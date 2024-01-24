@@ -486,7 +486,6 @@
 	<!-- script custom :: END -->
 	<script type="text/javascript">
 		$(function() {
-			debugger;
 			var tab = "${tabNo}";
 			if( tab == 5){
 				$("#tabLike").click();

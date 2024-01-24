@@ -300,14 +300,14 @@ function cmmPopup(dataTarget, dataPopup, msg){
             <div class="popup modal alert" id="alertPopup" style="z-index:9999">
                 <div class="modal-content w490px">
                     <div class="modal-header">
-                        <h1>Alert</h1>
+                        <h1>알림메세지</h1>
                         <div class="modal-close"><button type="button" class="modal-x"><span class="hidden">Close Popup</span></button></div>
                     </div>
                     <div class="max-width">
                         <div class="alert-con">Invalid Access.</div>
                     </div>
                     <div class="modal-btns">
-                        <button type="button" class="btn-blue-big modal-ok">Confirm</button>
+                        <button type="button" class="btn-blue-big modal-ok">확인</button>
                     </div>
                 </div>
             </div>
@@ -315,7 +315,7 @@ function cmmPopup(dataTarget, dataPopup, msg){
             <div class="popup modal confirm" id="confirmPopup" style="z-index:9998">
                 <div class="modal-content w490px">
                     <div class="modal-header">
-                        <h1>Alert</h1>
+                        <h1>알림메세지</h1>
                         <div class="modal-close"><button type="button" class="modal-x"><span class="hidden">Close Popup</span></button></div>
                     </div>
                     <div class="max-width">
@@ -323,7 +323,7 @@ function cmmPopup(dataTarget, dataPopup, msg){
                     </div><!--// .max-width -->
                     <div class="modal-btns">
                         <button type="button" class="btn-gray-big modal-cancel">Cancel</button>
-                        <button type="button" class="btn-blue-big modal-ok">Confirm</button>
+                        <button type="button" class="btn-blue-big modal-ok">확인</button>
                     </div>
                 </div>
             </div>
