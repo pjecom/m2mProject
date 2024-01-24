@@ -518,7 +518,7 @@
             $('#create-bddpr-cancl-dt').focus()
         }
         else {
-            // createBidNotice()
+            createBidNotice()
         }
     }
 
