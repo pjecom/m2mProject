@@ -683,7 +683,7 @@
 											<td>${item.bddprTotalPc}</td>
 											<td>
 												<c:choose>
-													<c:when test="${Integer.parseInt(boBdPblnDtl.bidSttusCode) < 30}">
+													<c:when test="${boBdPblnDtl.bidSttusCode ne '31'}">
 														${boBdPblnDtl.bidSttus}
 													</c:when>
 													<c:otherwise>
