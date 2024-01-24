@@ -189,7 +189,7 @@
 	        }
 	    // 입찰 상태에 따라 다른 메시지의 confirm 창을 표시
 	    if (bidSttusCode === '12') {
-	        result = confirm('해당 공고 건은 입찰 예정 건입니다.\n 공고 취소 시 노출되지 않습니다.\n 취소하시겠습니다.?');
+	        result = confirm('해당 공고 건은 입찰 예정 건입니다.\n공고 취소 시 노출되지 않습니다.\n취소하시겠습니다.?');
 	        if(result){
 	        	deleteBoBdPbln(params);
 	        }else {
@@ -197,7 +197,7 @@
 	        }
 	        
 	    } else if (bidSttusCode === '13') {
-	        result = confirm('해당 공고 건은 투찰 진행 중입니다.\n 공고 취소 시 비활성 상태로 전환되며\n공고 취소 처리됩니다.\n 공고 취소하시겠습니까?');
+	        result = confirm('해당 공고 건은 투찰 진행 중입니다.\n공고 취소 시 비활성 상태로 전환되며\n공고 취소 처리됩니다.\n공고 취소하시겠습니까?');
 	        if(result){
 		        cancelBoBdPbln(params);
 	        }else{
