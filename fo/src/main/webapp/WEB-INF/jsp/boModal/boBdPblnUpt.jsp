@@ -158,7 +158,7 @@
 				                                                                <input type="text" class="input stdr-pc" value="0" readonly="readonly">
 				                                                                <select class="form-select select-sm premium-pc" id="optionDelyCnd01premiumPc">
 				                                                                    <c:forEach var="count" begin="1000" end="3000" step="1000">
-				                                                                        <option value="${count}">${count}</option>
+				                                                                        <option value="${count}" <c:if test="${boBdPblnDtl.delyCnd01premiumPc eq count}">selected</c:if>>${count}</option>
 				                                                                    </c:forEach>
 				                                                                </select>
 				                                                            </div>
@@ -174,7 +174,7 @@
 				                                                                <input type="text" class="input stdr-pc" value="10000" readonly="readonly">
 				                                                                <select class="form-select select-sm premium-pc" id="optionDelyCnd02premiumPc">
 				                                                                    <c:forEach var="count" begin="1000" end="3000" step="1000">
-				                                                                        <option value="${count}">${count}</option>
+				                                                                        <option value="${count}" <c:if test="${boBdPblnDtl.delyCnd02premiumPc eq count}">selected</c:if>>${count}</option>
 				                                                                    </c:forEach>
 				                                                                </select>
 				                                                            </div>
@@ -190,7 +190,7 @@
 				                                                                <input type="text" class="input stdr-pc" value="20000" readonly="readonly">
 				                                                                <select class="form-select select-sm premium-pc" id="optionDelyCnd03premiumPc">
 				                                                                    <c:forEach var="count" begin="1000" end="3000" step="1000">
-				                                                                        <option value="${count}">${count}</option>
+				                                                                        <option value="${count}" <c:if test="${boBdPblnDtl.delyCnd03premiumPc eq count}">selected</c:if>>${count}</option>
 				                                                                    </c:forEach>
 				                                                                </select>
 				                                                            </div>
