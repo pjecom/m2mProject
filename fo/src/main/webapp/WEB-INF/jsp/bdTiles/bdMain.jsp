@@ -71,7 +71,7 @@
                 </c:when>
                 <c:otherwise>
                 <div class="login_container" id="formId1">
-                    <p>M2M GLOBAL 오신것을 환영합니다.</p>
+                    <p>M2M GLOBAL에 오신것을 환영합니다.</p>
                     <input type="text" title="아이디" placeholder="아이디 입력" id="id" name="id" class="validate[required]" desc="아이디" onkeyup="enterkey(this)">
                     <input type="password" title="비밀번호" placeholder="패스워드 입력" id="password" name="password" class="validate[required]" desc="비밀번호" onkeyup="enterkey(this)">
                     <button type="button" class="btn primary_bg">로그인 하기</button>
