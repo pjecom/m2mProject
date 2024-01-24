@@ -72,7 +72,7 @@
             , BBB.DSPY_AT                                                                       /*전시여부*/
             , BBB.REJECT_BID_RESN                                                               /*유찰사유*/
             , BBB.REJECT_BID_RESN_DT                                                            /*유찰일시*/
-            
+
       FROM BD_BID_BAS AS BBB 
       
       WHERE 1=1
@@ -339,6 +339,7 @@
 		   ,LAST_CHANGER_ID              = #{lastChangerId}            /*최종변경자아이디*/
            ,LAST_CHANGE_DT               = GETDATE()                   /*최종변경일시*/
 		   ,DSPY_AT                      = #{dspyAt}                   /*전시여부*/
+		   ,BDDPR_CANCL_POSS_AT			 = #{bddprCanclPossAt}
 		
 		WHERE BID_PBLANC_ID = #{bidPblancId} 
 	</update>

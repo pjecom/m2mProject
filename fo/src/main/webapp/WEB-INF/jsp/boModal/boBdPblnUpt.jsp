@@ -442,7 +442,7 @@
 							                            </div>
 							                        </th>
                                                     <td colspan="3">
-														<span style="font-weight: 500; font-size: 0.80rem;">투찰 취소 불가</span>&nbsp;<input type="checkbox" class ="" name="" value="N" id="" />
+														<span style="font-weight: 500; font-size: 0.80rem;">투찰 취소 불가</span>&nbsp;<input type="checkbox" class ="" name="bddprCanclPossAt" value="N" id="bidCancleBt" />
                                                         <div class="form-set" style="margin-top:5px;">
 															<div class="input-group date form-date" id="bddprCancldate" >
 																<fmt:parseDate value="${boBdPblnDtl.bddprCanclLmttDe}" var="bddprCanclLmttDe" pattern="yyyyMMddHHmmss"/>
@@ -505,6 +505,26 @@ $(function(){
 	setInterval(function() {
 		$("#addLastChangeDt").text(getCurrentDateTime());
 	}, 1000);
+
+	//투찰 취소 불가
+	var bddprCanclPossAt = "${boBdPblnDtl.bddprCanclPossAt}"
+	//console.log("bddprCanclPossAt >>> ::: {}", bddprCanclPossAt);
+
+	// 값이 'N'이면 체크박스를 체크
+	if (bddprCanclPossAt === 'N') {
+      $('#bidCancleBt').prop('checked', true);
+	  $('#bddprCancldateInput, #bddprCancldateAmPm, #bddprCanclH, #bddprCanclM, #bddprCanclS')
+        .prop('disabled', true)
+		.val(''); 
+    }
+
+	// 투찰취소불가 버튼이 체크되어있을경우,
+	$('#bidCancleBt').change(function() {
+      var isDisabled = $(this).prop('checked');
+      $('#bddprCancldateInput, #bddprCancldateAmPm, #bddprCanclH, #bddprCanclM, #bddprCanclS')
+        .prop('disabled', isDisabled)
+		.val(''); // 각 입력 필드의 값을 빈 문자열로 설정
+    });
 })
 // END : 현재 시간을 가져오는 함수
 
@@ -672,7 +692,10 @@ function saveBdData() {
 	var pcAppnEndDe = $("#pcAppnEndDe").val().replace(/-/g, '')
 	var delyBeginDe = $("#delyBeginDe").val().replace(/-/g, '')
 	var delyEndDe = $("#delyEndDe").val().replace(/-/g, '')
-	var dspyAt = $("input[name='dspyYn']:checked").val();  
+	var dspyAt = $("input[name='dspyYn']:checked").val();
+	var bddprCanclPossAt = $("input[name='bddprCanclPossAt']:checked").val();   
+	bddprCanclPossAt = bddprCanclPossAt === undefined ? 'Y' : 'N';
+
 		var params = {
 		"bidPblancId" : "${boBdPblnDtl.bidPblancId}",           // 입찰 공고아이디 
 		"bidSttusCode": "${boBdPblnDtl.bidSttusCode}",          // 입찰 상태코드
@@ -702,7 +725,8 @@ function saveBdData() {
   		"bddprCanclLmttDe" : bddprCanclLmttDe,   				// 투찰취소제한일자 
   		"dspyAt" :  dspyAt,           							// 전시여부
   		"bidUpdtCn" :  bidUpdtCn,								// 공고수정내용 
-  		"bidUpdtResn" : addBidUpdtResn							// 공고수정사유 
+  		"bidUpdtResn" : addBidUpdtResn,							// 공고수정사유 
+		"bddprCanclPossAt" : bddprCanclPossAt					// 투찰취소가능여부
 	}
 	//console.log($('#dspyAt').val());
     //console.log("params:>>>>>" + JSON.stringify(params));
@@ -729,6 +753,7 @@ function saveBdData() {
     //console.log(bidYear, bidMonth, bidDay);
     //console.log(nowYear, nowMonth, nowDay);
 	//console.log("parsedbddprBeginDt >>> ::: {}", parsedbddprBeginDt);
+	//console.log("bddprCanclPossAt11 >>> ::: {}", params.bddprCanclPossAt );
 
 	var preDspyAt = '${boBdPblnDtl.dspyAt}';
 	
