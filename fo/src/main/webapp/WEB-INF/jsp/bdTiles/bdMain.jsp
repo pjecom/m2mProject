@@ -657,7 +657,7 @@ var params = {
                 likeCnt = -1;
                 
                 var currentCount = parseInt(intrstEntrpsQyElement.text());
-                intrstEntrpsQyElement.text(currentCount - 1);
+                intrstEntrpsQyElement.text(Math.max(0, currentCount - 1));
             } else {
                 // 비활성화된 경우, 활성화로 변경
                 $(this).addClass("active");

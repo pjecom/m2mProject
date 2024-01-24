@@ -630,7 +630,7 @@
 			conCheck = 'Y';
 
             var currentCount = parseInt(intrstEntrpsQyElement.text());
-		    intrstEntrpsQyElement.text(currentCount - 1);
+			intrstEntrpsQyElement.text(Math.max(0, currentCount - 1));
 
             likeCnt = -1;    
 

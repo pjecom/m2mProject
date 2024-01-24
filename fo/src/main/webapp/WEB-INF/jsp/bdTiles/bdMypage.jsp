@@ -716,7 +716,7 @@ $(".btn-period > .radio-btn").click(function() {
             likeCnt = -1;
 
             var currentCount = parseInt(intrstEntrpsQyElement.text());
-		    intrstEntrpsQyElement.text(currentCount - 1);
+			intrstEntrpsQyElement.text(Math.max(0, currentCount - 1));
 
         var params = {
             "bidEntrpsNo" : sessionStorage.getItem("bidEntrpsNo"),
