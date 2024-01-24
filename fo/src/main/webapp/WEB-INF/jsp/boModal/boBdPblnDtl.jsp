@@ -681,7 +681,23 @@
 											<td>${formattedprDt}</td>
 											<td>${item.delyCndCnt}</td>
 											<td>${item.bddprTotalPc}</td>
-											<td>${boBdPblnDtl.bidSttus}</td>
+											<td>
+												<c:choose>
+													<c:when test="${Integer.parseInt(boBdPblnDtl.bidSttusCode) < 30}">
+														${boBdPblnDtl.bidSttus}
+													</c:when>
+													<c:otherwise>
+														<c:choose>
+															<c:when test="${item.scsbidAt eq 'N'}">
+																패찰
+															</c:when>
+															<c:otherwise>
+																낙찰
+															</c:otherwise>
+														</c:choose>
+													</c:otherwise>
+												</c:choose>
+											</td>
 											<c:choose> 
 												<c:when test="${boBdPblnDtl.bidSttusCode eq '30'}">
 													<td>유찰</td>
