@@ -546,18 +546,29 @@
 					dataType: 'html', 
 					success: function(res) {
 						debugger;
+						updateTable("#tab-"+tabNo, $(res).find("#tab-"+tabNo+" .myPageData").html());
+						updateLikeTable($(res).find(".likeData").html());
+						updateBtn($(res).find(".tab_btn_group").html());
 						$('.tab_btn_group li').removeClass('on');
 						$('.tab-content').removeClass('on');
 						$('.item#tab'+tabNo).addClass('on');
 						$('.tab-content#tab-'+tabNo).addClass('on');
-						updateTable("#tab-"+tabNo, $(res).find("#tab-"+tabNo+" .myPageData").html());
-						updateLikeTable($(res).find(".likeData").html());
+						
 					},
 					error: function(error) {
 						// 에러 발생 시의 처리
 						console.log('에러');
 					}
 				});
+    }
+
+	function updateBtn(htmlContent) {
+        // Find the table body element
+        const tbody = $(".tab_btn_group");
+
+        // Replace the content of the table body with the new HTML
+        tbody.html('');
+        tbody.html(htmlContent);
     }
 
 	function updateTable(tabId, htmlContent) {
