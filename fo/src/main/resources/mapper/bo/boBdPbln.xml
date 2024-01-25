@@ -371,7 +371,7 @@
 		SET 
 		    BID_STTUS_CODE         = '33'                     /*입찰상태코드*/
 		   ,DSPY_AT                = 'N'                      /*전시여부*/
-		   ,DELETE_AT              = 'Y'                      /*삭제여부*/
+		   ,DELETE_AT              = 'N'                      /*삭제여부*/
 		   ,DELETE_DT           = GETDATE()                   /*삭제일시*/
 		
 		WHERE BID_PBLANC_ID = #{bidPblancId} 

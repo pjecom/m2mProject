@@ -668,7 +668,7 @@
 										<th scope="row" class="text-center">기업명</th>
 										<th scope="row" class="text-center">투찰 일시</th>
 										<th scope="row" class="text-center">인도조건</th>
-										<th scope="row" class="text-center">투찰 가격(USD)</th>
+										<th scope="row" class="text-center">투찰 가격</th>
 										<th scope="row" class="text-center">상태</th>
 										<th scope="row" class="text-center">처리단계</th>
 									</tr>
@@ -682,7 +682,7 @@
 													<fmt:formatDate value="${bddprDt}" var="formattedprDt" pattern="yyyy.MM.dd. HH:mm:ss"/>
 												<td>${formattedprDt}</td>
 												<td>${item.delyCndCnt}</td>
-												<td>${item.bddprTotalPc}</td>
+												<td><fmt:formatNumber value="${item.bddprTotalPc}" pattern="###,###,###,##0 원" /></td>
 												<td>
 													<c:choose>
 														<c:when test="${boBdPblnDtl.bidSttusCode ne '31'}">
@@ -700,14 +700,35 @@
 														</c:otherwise>
 													</c:choose>
 												</td>
-												<c:choose> 
-													<c:when test="${boBdPblnDtl.bidSttusCode eq '30'}">
-														<td>마감</td>
-													</c:when>
-													<c:otherwise>
-														<td>-</td>
-													</c:otherwise>
-												</c:choose>
+													<c:choose> 
+														<c:when test="${boBdPblnDtl.bidSttusCode eq '11'}">
+															<td>공고대기</td>
+														</c:when>
+														<c:when test="${boBdPblnDtl.bidSttusCode eq '12'}">
+															<td>입찰예정</td>
+														</c:when>
+														<c:when test="${boBdPblnDtl.bidSttusCode eq '13'}">
+															<td>투찰중</td>
+														</c:when>
+														<c:when test="${boBdPblnDtl.bidSttusCode eq '30'}">
+															<td>마감</td>
+														</c:when>
+														<c:when test="${boBdPblnDtl.bidSttusCode eq '31'&& item.scsbidAt eq 'Y'}">
+															<td>낙찰</td>
+														</c:when>
+														<c:when test="${boBdPblnDtl.bidSttusCode eq '32'}">
+															<td>유찰</td>
+														</c:when>
+														<c:when test="${boBdPblnDtl.bidSttusCode eq '33'}">
+															<td>공고취소</td>
+														</c:when>
+														<c:when test="${boBdPblnDtl.bidSttusCode eq '31' && item.scsbidAt eq 'N'}">
+															<td>패찰</td>
+														</c:when>
+														<c:otherwise>
+															<td>-</td>
+														</c:otherwise>
+													</c:choose>
 											</tr>
 										</c:forEach>
 									</c:when>
