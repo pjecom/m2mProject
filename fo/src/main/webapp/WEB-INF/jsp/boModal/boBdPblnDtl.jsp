@@ -167,7 +167,7 @@
             success: function (data) {
                 console.log('데이터 정상', data);
                 // 삭제 처리 후 팝업 표시
-                alert('공고 건이 삭제되었습니다.');
+                alert('공고 건이 취소되었습니다.');
                 getBidNoticeList();
                 modalClose();
                 location.reload();
