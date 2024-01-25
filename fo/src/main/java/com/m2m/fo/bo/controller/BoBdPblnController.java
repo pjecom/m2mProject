@@ -261,7 +261,10 @@ public class BoBdPblnController {
 		//아이템상품명
 		List<BoBdPblnVO> boBdItemList = boBdPblnService.getBoBdItemList();
 		model.addAttribute("boBdItemList", boBdItemList);
-		
+        
+		//수정이력
+        List<BoBdPblnUpdtVO> bobdUptHist = boBdPblnService.getBobdUptHist(boBdPblnVO); 
+        model.addAttribute("bobdUptHist", bobdUptHist);
         return "boModal/boBdPblnUpt";
     }
 
