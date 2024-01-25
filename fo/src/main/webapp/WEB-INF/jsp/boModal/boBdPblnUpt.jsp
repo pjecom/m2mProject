@@ -373,12 +373,10 @@
                                                     <th scope="row">수정 내용</th>
                                                     <th scope="row">수정 사유</th>
                                                 </tr>
-												<c:forEach var="updateHistory" items="${bobdUptHist}">
 													<tr>
-														<td><input type="text" style="width:100%" id="addBidUpdtCn" placeholder="수정내용을 입력해주세요" value = "${updateHistory.bidUpdtCn}"/></td>
-														<td><input type="text" style="width:100%" id="addBidUpdtResn" placeholder="사유를 입력해주세요" value="${updateHistory.bidUpdtResn}"/> </td>
+														<td><input type="text" style="width:100%" id="addBidUpdtCn" placeholder="수정내용을 입력해주세요" /></td>
+														<td><input type="text" style="width:100%" id="addBidUpdtResn" placeholder="사유를 입력해주세요" /> </td>
 													</tr>
-												</c:forEach>
                                             </tbody>
                                         </table>
                                     </div>
